@@ -1,7 +1,9 @@
+import Login from "../ui/login";
+
 export default function Board() {
   return (
     <>
-      <h1>게시판</h1>
+      <Login />
     </>
   );
 }

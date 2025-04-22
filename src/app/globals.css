@@ -19,6 +19,34 @@
   }
 }
 
+@layer utilities {
+  @keyframes letterSpacing {
+    0% {
+      letter-spacing: 0;
+      transform: scale(1);
+    }
+    30% {
+      letter-spacing: -0.2em;
+    }
+    50% {
+      letter-spacing: -0.3em;
+      transform: scale(0.8);
+    }
+    70% {
+      letter-spacing: 0.2em;
+      transform: scale(1.1);
+    }
+    100% {
+      letter-spacing: 0.1em;
+      transform: scale(1);
+    }
+  }
+
+  .animate-letter-spacing {
+    animation: letterSpacing 0.5s ease-in-out forwards;
+    animation-delay: 0.3s;
+  }
+}
 body {
   background: var(--background);
   color: var(--foreground);

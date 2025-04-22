@@ -13,7 +13,9 @@ export default function About() {
         <h1>윤정호</h1>
         <h1>Yoon, Jeong Ho</h1>
       </div>
-      <div></div>
+      <div>
+        <p>자기소개 자기소개</p>
+      </div>
     </>
   );
 }
