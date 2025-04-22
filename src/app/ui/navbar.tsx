@@ -11,9 +11,28 @@ export default function Navbar() {
             bg-green-600
             mt-8 text-2xl"
       >
-        <Link href="/">home</Link>
-        <Link href="/about">about</Link>
-        <Link href="/board">board</Link>
+        <Link
+          href="/"
+          className="flex 
+          justify-center items-center h-full w-1/4
+          hover:bg-green-500 transition-color duration-500 rounded-3xl"
+        >
+          home
+        </Link>
+        <Link
+          href="/about"
+          className="flex justify-center items-center h-full w-1/4
+          hover:bg-green-500 transition-colors duration-500 rounded-3xl"
+        >
+          about
+        </Link>
+        <Link
+          href="/board"
+          className="flex justify-center items-center h-full w-1/4
+          hover:bg-green-500 transition-colors duration-500 rounded-3xl"
+        >
+          board
+        </Link>
       </nav>
     </>
   );
