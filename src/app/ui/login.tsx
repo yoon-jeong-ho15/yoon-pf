@@ -10,7 +10,8 @@ export default function Login() {
             w-2/3 pt-7 pb-4
             mt-10
             items-center
-            bg-cyan-500
+            bg-linear-to-r 
+            from-cyan-500 to-indigo-500
             rounded-2xl
             min-h-72"
       >

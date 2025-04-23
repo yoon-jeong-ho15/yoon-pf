@@ -8,10 +8,12 @@ export default function About() {
       px-20 mt-6
       w-full h-44
       bg-gray-50
+      text-shadow-sm
+      text-shadow-gray-500
       "
       >
         <h1>윤정호</h1>
-        <h1>Yoon, Jeong Ho</h1>
+        <h1>Yoon Jeong Ho</h1>
       </div>
       <div>
         <p>자기소개 자기소개</p>

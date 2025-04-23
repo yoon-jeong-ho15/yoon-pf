@@ -23,13 +23,13 @@ export default function Navbar() {
     //div 크기,위치 설정
     if (currentRef && currentRef.current) {
       const rect = currentRef.current.getBoundingClientRect();
-
+      const navRect = currentRef.current.parentElement?.getBoundingClientRect();
       console.log("currentRef : ", currentRef);
       console.log("rect : ", rect);
 
-      if (rect) {
+      if (rect && navRect) {
         setActivePosition({
-          left: rect.left,
+          left: rect.left - navRect.left,
           width: rect.width,
         });
       }
@@ -41,11 +41,14 @@ export default function Navbar() {
       <nav
         className="
             flex justify-around
-            items-center 
-            w-full h-14
-            bg-green-600
-            mt-8 text-2xl
-            relative"
+            items-center h-14
+            bg-linear-to-b
+            from-green-500 to-green-600
+            mt-8 mx-10 text-2xl
+            rounded-3xl
+            font-[500]
+            relative
+            text-shadow-xs/10"
       >
         <Link
           href="/"
