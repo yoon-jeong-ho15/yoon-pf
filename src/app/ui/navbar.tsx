@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
+import { robotoMono } from "./fonts";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -37,63 +38,68 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <>
-      <nav
+    <nav
+      className={`
+          ${robotoMono.className}
+          flex justify-around
+          items-center h-14
+          mt-8 mx-10 text-2xl
+          shadow-lg
+          border-gray-400 border-1
+          bg-gray-100
+          rounded-3xl
+          font-[500]
+          relative
+          overflow-hidden
+          text-shadow-xs/10
+          `}
+    >
+      <Link
+        href="/"
+        ref={homeRef}
         className="
-            flex justify-around
-            items-center h-14
-            bg-linear-to-b
-            from-green-500 to-green-600
-            mt-8 mx-10 text-2xl
-            rounded-3xl
-            font-[500]
-            relative
-            text-shadow-xs/10"
+        flex justify-center items-center 
+        h-full w-35 my-3
+        z-10"
       >
-        <Link
-          href="/"
-          ref={homeRef}
-          className="flex 
+        home
+      </Link>
+      <Link
+        href="/about"
+        ref={aboutRef}
+        className="flex 
           justify-center items-center 
-          h-full min-w-40
+          h-full w-35 my-3
           z-10"
-        >
-          home
-        </Link>
-        <Link
-          href="/about"
-          ref={aboutRef}
-          className="flex 
+      >
+        about
+      </Link>
+      <Link
+        href="/board"
+        ref={boardRef}
+        className="flex 
           justify-center items-center 
-          h-full min-w-40
+          h-full w-35 my-3
           z-10"
-        >
-          about
-        </Link>
-        <Link
-          href="/board"
-          ref={boardRef}
-          className="flex 
-          justify-center items-center 
-          h-full min-w-40
-          z-10"
-        >
-          board
-        </Link>
-        <div
-          className="
-            absolute bg-lime-400
-            h-full
-            rounded-4xl
+      >
+        board
+      </Link>
+      <div
+        className="
+            absolute h-full my-3
             transition-all
-            duration-300"
-          style={{
-            left: `${activePosition.left}px`,
-            width: `${activePosition.width}px`,
-            transitionTimingFunction: "cubic-bezier(0.34, 1.2, 0.64, 1)",
-          }}
-        ></div>
-      </nav>
-    </>
+            duration-300
+            flex items-center justify-between"
+        style={{
+          left: `${activePosition.left}px`,
+          width: `${activePosition.width}px`,
+          transitionTimingFunction: "cubic-bezier(0.34, 1.2, 0.64, 1)",
+        }}
+      >
+        <span>(</span>
+        <span className="hidden md:block absolute -left-19">print</span>
+        <span>)</span>
+      </div>
+    </nav>
   );
 }

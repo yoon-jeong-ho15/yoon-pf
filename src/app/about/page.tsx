@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Card from "./ui/card";
 
 export default function About() {
   const [height, setHeight] = useState<string>("9rem");
@@ -22,9 +23,10 @@ export default function About() {
       className="
       relative flex flex-col 
       px-20 py-8 mt-6 w-full 
-      text-shadow-sm
+      text-shadow-sm rounded-3xl
       shadow-lg
-      bg-gradient-to-r from-sky-400/40 from-5% via-blue-400/40 via-35% to-gray-100/70 to-60%"
+      bg-gradient-to-r
+      from-sky-200/50 from-5% via-indigo-200/50 via-45% to-gray-200/70 to-60%"
       style={{
         height: height,
         backgroundSize: "250% 100%",
@@ -40,6 +42,7 @@ export default function About() {
         >
           Yoon Jeong Ho
         </h2>
+        <Card />
       </div>
     </div>
   );

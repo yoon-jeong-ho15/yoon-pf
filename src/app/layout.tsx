@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={`${nanumGothic.className} antialiased`}>
+      <body
+        className={`${nanumGothic.className} antialiased overflow-y-scroll`}
+      >
         <Navbar />
         {children}
       </body>
