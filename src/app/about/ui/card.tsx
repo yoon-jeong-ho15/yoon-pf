@@ -11,6 +11,7 @@ const Row = ({ title, logo }: { title: string; logo: string }) => {
           p-5
           "
     >
+      {logo}
       <span className="text-lg text-shadow-sm">{title}</span>
     </div>
   );
