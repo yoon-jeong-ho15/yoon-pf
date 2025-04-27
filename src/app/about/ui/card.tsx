@@ -30,21 +30,30 @@ const rowDataMap: Record<string, RowData> = {
 
 const Row = ({ title }: { title: string }) => {
   const data = rowDataMap[title];
+
   return (
     <div
       className="
           overflow-hidden
           flex flex-col justify-center
-          p-5 hover:bg-white/20 transition-colors 
+          p-5 hover:bg-white/20 transition-colors
           "
     >
-      <div className="flex">
+      <div
+        className={`flex opacity-0 animate-fade-in`}
+        style={{ "--delay": "3.7s" } as React.CSSProperties}
+      >
         <span className="text-3xl">{data.logo}</span>
         <span className="text-lg text-shadow-sm">{title}</span>
       </div>
-      <span className="text-sm text-slate-600">{data.period}</span>
-      <span className="text-white">{data.etc}</span>
-      <span>{data.description}</span>
+      <div
+        className={`flex opacity-0 flex-col animate-fade-in`}
+        style={{ "--delay": "4s" } as React.CSSProperties}
+      >
+        <span className="text-sm text-slate-600">{data.period}</span>
+        <span className="text-white">{data.etc}</span>
+        <span>{data.description}</span>
+      </div>
     </div>
   );
 };
@@ -63,13 +72,13 @@ export default function Card() {
       className="
         bg-blue-400/60
         rounded-3xl p2 mt-14
-        shadow-lg
-        overflow-hidden
-        flex-col divide-y
+        shadow-lg h-102
+        overflow-y-hidden
+        flex-col divide-y divide-blue-800
         "
       style={{
         width: width,
-        transition: "width 0.3s ease-out",
+        transition: "width 0.2s ease-out",
       }}
     >
       <Row title="KH 정보교육원" />

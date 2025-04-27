@@ -13,6 +13,8 @@ export default function LoginForm() {
     setPassword(numberOnly);
   };
 
+  const login = () => {};
+
   return (
     <div className="flex w-full justify-center items-center">
       <div
@@ -70,11 +72,13 @@ export default function LoginForm() {
           className="
               w-20 h-14 rounded-md 
               font-normal
-              bg-gray-300 
+              bg-gray-100 
               hover:bg-gray-200 
-              active:bg-gray-300
+              active:bg-gray-100
               absolute -right-26 top-8
+              inset-shadow-[0_0_3px_indigo]
               "
+          onClick={login}
         >
           접속
         </button>
