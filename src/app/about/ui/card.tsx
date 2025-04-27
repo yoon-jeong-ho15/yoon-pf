@@ -2,17 +2,49 @@
 
 import { useEffect, useState } from "react";
 
-const Row = ({ title, logo }: { title: string; logo: string }) => {
+interface RowData {
+  logo: string;
+  period: string;
+  description: string;
+  etc?: string;
+}
+
+const rowDataMap: Record<string, RowData> = {
+  "KH 정보교육원": {
+    logo: "🖥️",
+    period: "2025.03 수료",
+    description: "자바, SQL, HTML, CSS, JavaScript, React",
+    etc: "*성적우수자 선정",
+  },
+  가톨릭대학교: {
+    logo: "🎓",
+    period: "2023.03 졸업",
+    description: "철학",
+  },
+  독학학위제: {
+    logo: "📚",
+    period: "2021.01 졸업",
+    description: "영어영문학",
+  },
+};
+
+const Row = ({ title }: { title: string }) => {
+  const data = rowDataMap[title];
   return (
     <div
       className="
           overflow-hidden
-          flex items-center
-          p-5
+          flex flex-col justify-center
+          p-5 hover:bg-white/20 transition-colors 
           "
     >
-      {logo}
-      <span className="text-lg text-shadow-sm">{title}</span>
+      <div className="flex">
+        <span className="text-3xl">{data.logo}</span>
+        <span className="text-lg text-shadow-sm">{title}</span>
+      </div>
+      <span className="text-sm text-slate-600">{data.period}</span>
+      <span className="text-white">{data.etc}</span>
+      <span>{data.description}</span>
     </div>
   );
 };
@@ -29,18 +61,20 @@ export default function Card() {
   return (
     <div
       className="
-        bg-blue-400/60 h-110
+        bg-blue-400/60
         rounded-3xl p2 mt-14
         shadow-lg
         overflow-hidden
-        flex-col divide-y-2
+        flex-col divide-y
         "
       style={{
         width: width,
         transition: "width 0.3s ease-out",
       }}
     >
-      <Row title="가톨릭대학교 철학과" logo="" />
+      <Row title="KH 정보교육원" />
+      <Row title="가톨릭대학교" />
+      <Row title="독학학위제" />
     </div>
   );
 }
