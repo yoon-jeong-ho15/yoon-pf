@@ -11,21 +11,16 @@ const sql = createClient(
 );
 
 async function getUser(username: string): Promise<User | undefined> {
-  try {
-    const { data: user, error } = await sql
-      .from("user")
-      .select("*")
-      .eq("username", username);
+  const { data: user, error } = await sql
+    .from("user")
+    .select("*")
+    .eq("username", username);
 
-    if (error) {
-      console.error("Failed to fetch user", error);
-      throw new Error("Failed to fetch user.");
-    }
-    return user[0];
-  } catch (error) {
+  if (error) {
     console.error("Failed to fetch user", error);
     throw new Error("Failed to fetch user.");
   }
+  return user[0];
 }
 
 export const { auth, signIn, signOut } = NextAuth({

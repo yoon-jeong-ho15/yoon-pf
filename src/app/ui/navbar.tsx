@@ -9,16 +9,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const homeRef = useRef<HTMLAnchorElement>(null);
   const aboutRef = useRef<HTMLAnchorElement>(null);
-  const boardRef = useRef<HTMLAnchorElement>(null);
+  const moreRef = useRef<HTMLAnchorElement>(null);
   const [activePosition, setActivePosition] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
     //현재 주소로 ref 지정해주기
     let currentRef = homeRef;
-    if (pathname === "/about") {
+    if (pathname.startsWith("/about")) {
       currentRef = aboutRef;
-    } else if (pathname === "/board" || pathname === "/login") {
-      currentRef = boardRef;
+    } else if (pathname.startsWith("/more") || pathname.startsWith("/login")) {
+      currentRef = moreRef;
     }
 
     //div 크기,위치 설정
@@ -41,9 +41,8 @@ export default function Navbar() {
     <nav
       className={`
           ${robotoMono.className}
-          flex justify-around
-          items-center h-14
-          mt-8 mx-10 text-2xl
+          flex justify-around items-center 
+          h-14 mt-8 mx-10 text-2xl 
           shadow-lg
           border-gray-400 border-1
           bg-gray-100
@@ -75,14 +74,14 @@ export default function Navbar() {
         about
       </Link>
       <Link
-        href="/board"
-        ref={boardRef}
+        href="/more"
+        ref={moreRef}
         className="flex 
           justify-center items-center 
           h-full w-35 my-3
           z-10"
       >
-        board
+        more
       </Link>
       <div
         className="
@@ -96,8 +95,8 @@ export default function Navbar() {
           transitionTimingFunction: "cubic-bezier(0.34, 1.2, 0.64, 1)",
         }}
       >
-        <span>(</span>
         <span className="hidden md:block absolute -left-19">print</span>
+        <span>(</span>
         <span>)</span>
       </div>
     </nav>
