@@ -9,11 +9,8 @@ export default function LoginForm() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/board";
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined
-  );
+  //const callbackUrl = searchParams.get("callbackUrl") || "/board";
+  const [errorMessage, formAction] = useActionState(authenticate, undefined);
 
   const passwordHandler = (input: string) => {
     const numberOnly = input.replace(/[^0-9]/g, "");
