@@ -1,0 +1,17 @@
+import UserProfile from "./ui/user-profile";
+import UserInfo from "./ui/user-info";
+
+export default function Page() {
+  return (
+    <div
+      className="
+      w-[90%] h-140 flex mt-3 p-8
+      rounded-xl bg-linear-to-r
+      from-indigo-500/50 to-blue-400/60
+      "
+    >
+      <UserProfile />
+      <UserInfo />
+    </div>
+  );
+}

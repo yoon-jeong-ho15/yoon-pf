@@ -1,4 +1,4 @@
-import type { User } from "@/app/lib/definitions";
+import type { User } from "@/lib/definitions";
 import NextAuth from "next-auth";
 import { createClient } from "@supabase/supabase-js";
 import { authConfig } from "./auth.config";

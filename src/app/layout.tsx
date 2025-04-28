@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { nanumGothic } from "@/app/ui/fonts";
 import Navbar from "./ui/navbar";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "윤정호",
