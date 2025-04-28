@@ -1,4 +1,4 @@
-export default function UserProfile() {
+export default function UserProfile({ user }: { user: any }) {
   return (
     <div
       className="
@@ -23,7 +23,7 @@ export default function UserProfile() {
       <ul className="flex flex-col mx-10 items-center h-full text-2xl">
         <li>
           <span>이름 : </span>
-          <span>게스트</span>
+          <span>{user.username}</span>
         </li>
         <li>
           <span>생일 : </span>

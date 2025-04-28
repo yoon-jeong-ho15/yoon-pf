@@ -25,6 +25,7 @@ async function getUser(username: string): Promise<User | undefined> {
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  //세션 토큰은 기본적으로 30일 유지
   providers: [
     Credentials({
       async authorize(credentials) {
