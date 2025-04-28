@@ -1,13 +1,13 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { createClient } from "@supabase/supabase-js";
+// import { createClient } from "@supabase/supabase-js";
 import AuthError from "next-auth";
 
-const sql = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+// const sql = createClient(
+//   process.env.SUPABASE_URL!,
+//   process.env.SUPABASE_ANON_KEY!
+// );
 
 export async function authenticate(
   prevState: string | undefined,

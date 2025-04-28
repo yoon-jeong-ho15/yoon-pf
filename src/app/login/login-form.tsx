@@ -1,6 +1,6 @@
 "use client";
 import { useActionState, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+//import { useSearchParams } from "next/navigation";
 import { authenticate } from "../lib/actions";
 
 export default function LoginForm() {
@@ -8,7 +8,7 @@ export default function LoginForm() {
   const [password, setPassword] = useState<string>("");
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
   //const callbackUrl = searchParams.get("callbackUrl") || "/board";
   const [errorMessage, formAction] = useActionState(authenticate, undefined);
 
