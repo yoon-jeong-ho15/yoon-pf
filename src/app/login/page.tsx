@@ -1,7 +1,7 @@
-import { notoSansKr } from "@/app/ui/fonts";
 import LoginForm from "./login-form";
+import { notoSansKr } from "@/app/ui/fonts";
 
-export default function Login() {
+export default function Page() {
   return (
     <div className={`flex justify-center`}>
       <div

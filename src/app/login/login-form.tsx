@@ -1,11 +1,19 @@
 "use client";
-import { useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { authenticate } from "../lib/actions";
 
 export default function LoginForm() {
-  const [username, setUsername] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/board";
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
 
   const passwordHandler = (input: string) => {
     const numberOnly = input.replace(/[^0-9]/g, "");
@@ -13,10 +21,11 @@ export default function LoginForm() {
     setPassword(numberOnly);
   };
 
-  const login = () => {};
-
   return (
-    <div className="flex w-full justify-center items-center">
+    <form
+      action={formAction}
+      className="flex w-full justify-center items-center"
+    >
       <div
         className="
             mt-6 mb-3 w-56 
@@ -27,13 +36,14 @@ export default function LoginForm() {
         <div className="w-full">
           <label>이름</label>
           <input
+            id="username"
             name="username"
             placeholder="게스트"
             value={username}
             ref={usernameRef}
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key == "Enter" || e.key === "ArrowDown") {
+              if (e.key === "ArrowDown") {
                 passwordRef.current?.focus();
               }
             }}
@@ -44,12 +54,14 @@ export default function LoginForm() {
                 focus:text-xl
                 transition-all
                 font-normal"
+            required
           ></input>
         </div>
         <div className="w-full">
           <label>생년월일</label>
           <input
-            name="pwd"
+            id="password"
+            name="password"
             placeholder="999999"
             value={password}
             ref={passwordRef}
@@ -66,6 +78,7 @@ export default function LoginForm() {
                 focus:text-xl
                 transition-all
                 font-normal"
+            required
           ></input>
         </div>
         <button
@@ -78,11 +91,17 @@ export default function LoginForm() {
               absolute -right-26 top-8
               inset-shadow-[0_0_3px_indigo]
               "
-          onClick={login}
         >
           접속
         </button>
+        <div className="flex h-8 items-end space-x-1">
+          {errorMessage && (
+            <>
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </form>
   );
 }

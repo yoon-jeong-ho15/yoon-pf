@@ -17,7 +17,7 @@ export default function Navbar() {
     let currentRef = homeRef;
     if (pathname === "/about") {
       currentRef = aboutRef;
-    } else if (pathname === "/board") {
+    } else if (pathname === "/board" || pathname === "/login") {
       currentRef = boardRef;
     }
 
