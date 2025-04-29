@@ -1,4 +1,4 @@
-import type { User } from "@/app/lib/definitions";
+import type { User } from "@/lib/definitions";
 import NextAuth from "next-auth";
 import { createClient } from "@supabase/supabase-js";
 import { authConfig } from "./auth.config";
@@ -25,6 +25,27 @@ async function getUser(username: string): Promise<User | undefined> {
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  //세션 토큰은 기본적으로 30일 유지
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          username: token.username as string,
+          from: token.from as number,
+        },
+      };
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.username = (user as User).username;
+        token.from = (user as User).from;
+      }
+      return token;
+    },
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -38,6 +59,7 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
           const user = await getUser(username);
+
           if (!user) return null;
           const passwordsMatch = user.password == password ? true : false;
 

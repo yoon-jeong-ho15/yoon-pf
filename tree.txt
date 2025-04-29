@@ -1,0 +1,40 @@
+.
+├── app
+│   ├── about
+│   │   ├── page.tsx
+│   │   └── ui
+│   │       └── card.tsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── login
+│   │   ├── login-form.tsx
+│   │   └── page.tsx
+│   ├── more
+│   │   ├── (profile)
+│   │   │   ├── page.tsx
+│   │   │   └── ui
+│   │   │       ├── user-info.tsx
+│   │   │       └── user-profile.tsx
+│   │   ├── board
+│   │   │   └── page.tsx
+│   │   ├── chat
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── ui
+│   │       ├── alert.tsx
+│   │       ├── board-nav.tsx
+│   │       └── logout.tsx
+│   ├── page.tsx
+│   └── ui
+│       ├── fonts.ts
+│       ├── navbar.tsx
+│       └── svg
+├── auth.config.ts
+├── auth.ts
+├── lib
+│   ├── actions.ts
+│   ├── data.ts
+│   └── definitions.ts
+└── middleware.ts
+
+14 directories, 24 files
