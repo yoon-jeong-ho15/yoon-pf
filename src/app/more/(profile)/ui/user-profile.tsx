@@ -27,7 +27,6 @@ export default function UserProfile({ user }: { user: User }) {
           <span>{user.from}</span>
         </li>
         <li>
-          <span>이름 : </span>
           <span>{user.username}</span>
         </li>
       </ul>
