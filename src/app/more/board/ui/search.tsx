@@ -27,9 +27,11 @@ export default function Search() {
       <input
         ref={searchRef}
         className="
-        w-full rounded-md border border-gray-200 
-        py-2 pl-6 text-md outline-2 outline-gray-600
+        w-full rounded-md border-2 border-gray-400 
+        py-2 pl-6 pr-12 text-md outline-gray-600
+        overflow-hidden
         "
+        placeholder="검색"
         onChange={(e) => {
           setTerm(e.target.value);
         }}

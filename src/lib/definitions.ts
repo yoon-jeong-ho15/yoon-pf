@@ -4,3 +4,11 @@ export type User = {
   password: string;
   from: number;
 };
+
+export type Board = {
+  id: string;
+  createdAt: string;
+  writer: string;
+  title: string;
+  content: string;
+};
