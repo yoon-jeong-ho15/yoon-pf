@@ -19,7 +19,7 @@ export default async function BoardList({
       </thead>
       <tbody>
         {boards?.map((board) => (
-          <tr>
+          <tr key={board.id}>
             <td>
               {board.createdAt.substring(0, board.createdAt.indexOf("T"))}
             </td>

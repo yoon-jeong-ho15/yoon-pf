@@ -7,7 +7,7 @@ const sql = createClient(
 );
 
 export async function fetchBoards(query: string, currentPage: number) {
-  const offset = (currentPage - 1) * 5;
+  //const offset = (currentPage - 1) * 5;
   const { data, error } = await sql
     .from("board")
     .select("*")
@@ -18,14 +18,12 @@ export async function fetchBoards(query: string, currentPage: number) {
     console.error("Error fetching data:", error);
   } else {
     console.log("data:", data);
-    return data.map(
-      (item: any): Board => ({
-        id: item.id,
-        createdAt: item.created_at,
-        writer: item.writer,
-        title: item.title,
-        content: item.content,
-      })
-    );
+    return data.map((item) => ({
+      id: item.id,
+      createdAt: item.created_at,
+      writer: item.writer,
+      title: item.title,
+      content: item.content,
+    }));
   }
 }
