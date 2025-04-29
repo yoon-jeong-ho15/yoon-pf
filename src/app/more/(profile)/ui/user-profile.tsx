@@ -22,16 +22,11 @@ export default function UserProfile({ user }: { user: any }) {
       </div>
       <ul className="flex flex-col mx-10 items-center h-full text-2xl">
         <li>
+          <span>{user.from}</span>
+        </li>
+        <li>
           <span>이름 : </span>
           <span>{user.username}</span>
-        </li>
-        <li>
-          <span>생일 : </span>
-          <span>99.99.99</span>
-        </li>
-        <li>
-          <span>from : </span>
-          <span>2018</span>
         </li>
       </ul>
     </div>

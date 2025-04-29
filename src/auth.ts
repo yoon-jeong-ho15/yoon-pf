@@ -26,6 +26,24 @@ async function getUser(username: string): Promise<User | undefined> {
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   //세션 토큰은 기본적으로 30일 유지
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          username: token.username as string,
+        },
+      };
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.username = (user as User).username;
+      }
+      return token;
+    },
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -39,6 +57,7 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
           const user = await getUser(username);
+
           if (!user) return null;
           const passwordsMatch = user.password == password ? true : false;
 

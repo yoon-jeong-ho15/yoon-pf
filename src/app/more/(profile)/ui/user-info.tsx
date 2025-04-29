@@ -1,7 +1,7 @@
 export default function UserInfo({ user }: { user: any }) {
   return (
     <div>
-      <h1>user info</h1>
+      <h1>{Object.keys(user)}</h1>
     </div>
   );
 }
