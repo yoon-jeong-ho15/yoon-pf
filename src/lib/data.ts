@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Board } from "./definitions";
+// import { Board } from "./definitions";
 
 const sql = createClient(
   process.env.SUPABASE_URL!,
@@ -7,13 +7,14 @@ const sql = createClient(
 );
 
 export async function fetchBoards(query: string, currentPage: number) {
-  //const offset = (currentPage - 1) * 5;
+  const offset = (currentPage - 1) * 5;
   const { data, error } = await sql
     .from("board")
     .select("*")
     .or(
       `title.ilike.%${query},writer.ilike.%${query}%,content.ilike.%${query}%`
-    );
+    )
+    .range(offset, offset + 4);
   if (error) {
     console.error("Error fetching data:", error);
   } else {
