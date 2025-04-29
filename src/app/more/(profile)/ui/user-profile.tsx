@@ -1,4 +1,6 @@
-export default function UserProfile({ user }: { user: any }) {
+import { User } from "@/lib/definitions";
+
+export default function UserProfile({ user }: { user: User }) {
   return (
     <div
       className="

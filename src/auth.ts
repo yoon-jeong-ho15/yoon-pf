@@ -34,12 +34,14 @@ export const { auth, signIn, signOut } = NextAuth({
           ...session.user,
           id: token.sub,
           username: token.username as string,
+          from: token.from as number,
         },
       };
     },
     jwt: ({ token, user }) => {
       if (user) {
         token.username = (user as User).username;
+        token.from = (user as User).from;
       }
       return token;
     },

@@ -1,6 +1,7 @@
 import UserProfile from "./ui/user-profile";
 import UserInfo from "./ui/user-info";
 import { auth } from "@/auth";
+import { User } from "@/lib/definitions";
 
 export default async function Page() {
   const session = await auth();
@@ -10,7 +11,8 @@ export default async function Page() {
     return <div>no session</div>;
   }
 
-  const user = session.user;
+  const user: User | null = (session?.user as User) || null;
+
   console.log("User data:", JSON.stringify(user, null, 2));
 
   return (
@@ -21,8 +23,14 @@ export default async function Page() {
       from-indigo-500/50 to-blue-400/60
       "
     >
-      <UserProfile user={user} />
-      <UserInfo user={user} />
+      {user ? (
+        <>
+          <UserProfile user={user} />
+          <UserInfo user={user} />
+        </>
+      ) : (
+        <div>no user</div>
+      )}
     </div>
   );
 }
