@@ -16,7 +16,13 @@
 │   │   │       ├── user-info.tsx
 │   │   │       └── user-profile.tsx
 │   │   ├── board
-│   │   │   └── page.tsx
+│   │   │   ├── create
+│   │   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── ui
+│   │   │       ├── board-list.tsx
+│   │   │       ├── search.tsx
+│   │   │       └── write.tsx
 │   │   ├── chat
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
@@ -27,8 +33,7 @@
 │   ├── page.tsx
 │   └── ui
 │       ├── fonts.ts
-│       ├── navbar.tsx
-│       └── svg
+│       └── navbar.tsx
 ├── auth.config.ts
 ├── auth.ts
 ├── lib
@@ -37,4 +42,4 @@
 │   └── definitions.ts
 └── middleware.ts
 
-14 directories, 24 files
+15 directories, 28 files

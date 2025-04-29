@@ -5,15 +5,12 @@ import { User } from "@/lib/definitions";
 
 export default async function Page() {
   const session = await auth();
-  console.log("Session data:", JSON.stringify(session, null, 2));
 
   if (!session) {
     return <div>no session</div>;
   }
 
   const user: User | null = (session?.user as User) || null;
-
-  console.log("User data:", JSON.stringify(user, null, 2));
 
   return (
     <div
