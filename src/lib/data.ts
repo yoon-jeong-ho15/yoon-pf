@@ -18,13 +18,21 @@ export async function fetchBoards(query: string, currentPage: number) {
   if (error) {
     console.error("Error fetching data:", error);
   } else {
-    console.log("data:", data);
-    return data.map((item) => ({
-      id: item.id,
-      createdAt: item.created_at,
-      writer: item.writer,
-      title: item.title,
-      content: item.content,
-    }));
+    return data;
+  }
+}
+
+export async function fetchBoardById(id: string) {
+  const { data, error } = await sql
+    .from("board")
+    .select("*")
+    .eq("id", id)
+    .limit(1)
+    .single();
+  if (error) {
+    console.error("Error fetching data:", error);
+  } else {
+    console.log(data);
+    return data;
   }
 }

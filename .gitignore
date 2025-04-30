@@ -43,3 +43,5 @@ next-env.d.ts
 # idx
 .vscode
 .idx
+
+code-backup
