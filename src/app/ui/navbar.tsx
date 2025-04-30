@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
-import { robotoMono } from "./fonts";
+import { robotoMono } from "../fonts";
 
 export default function Navbar() {
   const pathname = usePathname();
