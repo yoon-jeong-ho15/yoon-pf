@@ -1,40 +1,51 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Editor from "./editor";
+import Quill, { Delta } from "quill";
+import type { Board } from "@/lib/definitions";
+import { auth } from "@/auth";
+import { createBoard } from "@/lib/actions";
 
-export default function Board() {
-  const [content, setContent] = useState<string>("");
-
-  // useCallback으로 함수 안정화
-  const handleTextChange = useCallback((newContent: string) => {
-    setContent(newContent);
-  }, []);
+export default function Page() {
+  const quillRef = useRef<Quill | null>(null);
+  const [title, setTitle] = useState("");
 
   const handleSave = () => {
-    console.log("저장할 내용:", content);
+    const delta: Delta | null = quillRef.current?.getContents() || null;
+    const content = JSON.stringify(delta);
+    console.log("content : ", content);
+    if (title && content) {
+      createBoard(title, content);
+    }
   };
 
   return (
     <div className="container mx-auto px-4 py-8 mt-4 bg-gray-200">
-      <div className="w-full px-10 flex text-3xl items-center">
-        <span className="">제목:</span>
-        <input
-          className="mx-2 bg-gray-50 rounded-md
-          focus:outline-0 text-center"
-        ></input>
+      <div className="w-full px-10 flex text-3xl items-center relative">
+        <div>
+          <span>제목</span>
+          <input
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            className="mx-2 bg-gray-50 rounded-sm py-2
+          focus:outline-0 text-center border border-gray-300 shadow"
+          ></input>
+        </div>
+        <div className="flex justify-end gap-2 absolute right-3">
+          <button
+            onClick={handleSave}
+            className="bg-blue-500 hover:bg-blue-600 
+            text-white font-medium px-6 py-2 rounded-lg
+            text-lg shadow-md"
+          >
+            작성하기
+          </button>
+        </div>
       </div>
-      <div className="my-4">
-        <Editor onTextChange={handleTextChange} />
-      </div>
-
-      <div className="flex justify-end gap-2">
-        <button
-          onClick={handleSave}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2 rounded-lg"
-        >
-          저장
-        </button>
+      <div className="my-4 bg-white shadow h-190">
+        <Editor ref={quillRef} />
       </div>
     </div>
   );

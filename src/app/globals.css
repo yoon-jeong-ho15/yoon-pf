@@ -26,6 +26,11 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
+.ql-editor {
+  font-size: 1.3rem;
+  font-family: inherit;
+}
+
 @layer utilities {
   @keyframes letterSpacing {
     0% {
