@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 import Editor from "./editor";
 import Quill, { Delta } from "quill";
-import type { Board } from "@/lib/definitions";
-import { auth } from "@/auth";
 import { createBoard } from "@/lib/actions";
 
 export default function Page() {

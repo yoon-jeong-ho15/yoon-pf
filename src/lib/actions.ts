@@ -4,8 +4,6 @@ import { auth, signIn } from "@/auth";
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
-import { Delta } from "quill";
-import { NextURL } from "next/dist/server/web/next-url";
 import { redirect } from "next/navigation";
 
 const sql = createClient(
