@@ -11,20 +11,22 @@ export async function fetchBoards(query: string, currentPage: number) {
   const { data, error } = await sql
     .from("board")
     .select("*")
-    .or(
-      `title.ilike.%${query},writer.ilike.%${query}%,content.ilike.%${query}%`
-    )
+    .or(`title.ilike.%${query},writer.ilike.%${query}%`)
     .range(offset, offset + 4);
   if (error) {
     console.error("Error fetching data:", error);
   } else {
-    console.log("data:", data);
-    return data.map((item) => ({
-      id: item.id,
-      createdAt: item.created_at,
-      writer: item.writer,
-      title: item.title,
-      content: item.content,
-    }));
+    return data;
+  }
+}
+
+export async function fetchBoardById(id: string) {
+  const { data, error } = await sql.from("board").select("*").eq("id", id);
+
+  if (error) {
+    console.error("Error fetching data:", error);
+  } else {
+    console.log(data);
+    return data[0];
   }
 }

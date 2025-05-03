@@ -1,5 +1,5 @@
 import LoginForm from "./login-form";
-import { notoSansKr } from "@/app/ui/fonts";
+import { notoSansKr } from "@/app/fonts";
 
 export default function Page() {
   return (

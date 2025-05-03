@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { nanumGothic } from "@/app/ui/fonts";
+import { nanumGothic } from "@/app/fonts";
 import Navbar from "./ui/navbar";
 
 export const metadata: Metadata = {
