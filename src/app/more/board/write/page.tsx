@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useRef } from "react";
+import dynamic from "next/dynamic";
+
+const DynamicEditor = dynamic(() => import("./editor"), {
+  ssr: false,
+  loading: () => <div className="h-190 bg-gray-100 animate-pulse"></div>,
+});
+
 import Editor from "./editor";
 import Quill, { Delta } from "quill";
 import { createBoard } from "@/lib/actions";
