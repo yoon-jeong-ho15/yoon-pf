@@ -9,8 +9,7 @@ const DynamicEditor = dynamic(() => import("./editor"), {
   loading: () => <div className="h-190 bg-gray-100 animate-pulse"></div>,
 });
 
-import Editor from "./editor";
-import Quill, { Delta } from "quill";
+import Quill from "quill";
 
 export default function Page() {
   const quillRef = useRef<Quill | null>(null);
@@ -52,7 +51,7 @@ export default function Page() {
         </div>
       </div>
       <div className="my-4 bg-white shadow h-190">
-        <Editor ref={quillRef} />
+        <DynamicEditor ref={quillRef} />
       </div>
     </div>
   );
