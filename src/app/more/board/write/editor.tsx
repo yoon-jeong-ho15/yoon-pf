@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, forwardRef, ForwardedRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.bubble.css";
 
-export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
+const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -15,10 +15,20 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
       );
       const quill = new Quill(editorContainer, { theme: "bubble" });
 
-      ref.current = quill;
+      // Set the forwarded ref to the Quill instance
+      if (typeof ref === "function") {
+        ref(quill);
+      } else if (ref) {
+        ref.current = quill;
+      }
 
       return () => {
-        ref.current = null;
+        // Clean up
+        if (typeof ref === "function") {
+          ref(null);
+        } else if (ref) {
+          ref.current = null;
+        }
         container.innerHTML = "";
       };
     }
@@ -28,4 +38,9 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
       <div ref={containerRef} className="ml-20 mt-8 mr-30" />
     </div>
   );
-}
+});
+
+// Add display name for better debugging
+Editor.displayName = "Editor";
+
+export default Editor;
