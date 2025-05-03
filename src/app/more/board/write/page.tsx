@@ -9,7 +9,7 @@ const DynamicEditor = dynamic(() => import("./editor"), {
   loading: () => <div className="h-190 bg-gray-100 animate-pulse"></div>,
 });
 
-import Quill from "quill";
+import type Quill from "quill";
 
 export default function Page() {
   const quillRef = useRef<Quill | null>(null);

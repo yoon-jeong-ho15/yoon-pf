@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useRef, forwardRef, ForwardedRef, useState } from "react";
-// Import Quill types for TypeScript
 import type Quill from "quill";
-
-// Don't import Quill directly, we'll load it dynamically
 import "quill/dist/quill.bubble.css";
 
 const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
@@ -67,13 +64,11 @@ const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
   }, [ref, isClient]);
 
   return (
-    <div className="h-full overflow-auto">
-      <div ref={containerRef} className="ml-20 mt-8 mr-30" />
+    <div className="pt-8 pb-10 overflow-auto h-full">
+      <div ref={containerRef} className="ml-20 mr-30 h-full" />
     </div>
   );
 });
 
-// Add display name for better debugging
 Editor.displayName = "Editor";
-
 export default Editor;
