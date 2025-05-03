@@ -27,6 +27,6 @@ export async function fetchBoardById(id: string) {
     console.error("Error fetching data:", error);
   } else {
     console.log(data);
-    return data;
+    return data[0];
   }
 }
