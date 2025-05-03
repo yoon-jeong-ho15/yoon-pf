@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
+import { createBoard } from "@/lib/actions";
 
 const DynamicEditor = dynamic(() => import("./editor"), {
   ssr: false,
@@ -10,18 +11,19 @@ const DynamicEditor = dynamic(() => import("./editor"), {
 
 import Editor from "./editor";
 import Quill, { Delta } from "quill";
-import { createBoard } from "@/lib/actions";
 
 export default function Page() {
   const quillRef = useRef<Quill | null>(null);
   const [title, setTitle] = useState("");
 
   const handleSave = () => {
-    const delta: Delta | null = quillRef.current?.getContents() || null;
-    const content = JSON.stringify(delta);
-    console.log("content : ", content);
-    if (title && content) {
-      createBoard(title, content);
+    if (quillRef.current && quillRef.current.getContents) {
+      const delta = quillRef.current.getContents();
+      const content = JSON.stringify(delta);
+      console.log("content : ", content);
+      if (title && content) {
+        createBoard(title, content);
+      }
     }
   };
 

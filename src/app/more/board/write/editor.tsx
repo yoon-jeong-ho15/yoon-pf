@@ -7,7 +7,7 @@ import type Quill from "quill";
 // Don't import Quill directly, we'll load it dynamically
 import "quill/dist/quill.bubble.css";
 
-const Editor = forwardRef((_props, ref: ForwardedRef<any | null>) => {
+const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isClient, setIsClient] = useState(false);
 
@@ -20,7 +20,7 @@ const Editor = forwardRef((_props, ref: ForwardedRef<any | null>) => {
     // Only run this effect on the client and after the component has mounted
     if (!isClient || !containerRef.current) return;
 
-    let quill: any = null;
+    let quill: Quill | null = null;
 
     // Dynamically import Quill
     const loadQuill = async () => {
