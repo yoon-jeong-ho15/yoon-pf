@@ -9,7 +9,7 @@ export type User = {
 
 export type Board = {
   id: string;
-  createdAt: string;
+  created_at: string;
   writer: string;
   title: string;
   content: Delta;

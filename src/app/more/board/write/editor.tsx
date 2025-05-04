@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, RefObject } from "react";
-import type Quill from "quill";
+import Quill from "quill";
 import "quill/dist/quill.bubble.css";
 
 export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
@@ -17,29 +17,11 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
     let quill: Quill | null = null;
     let container: HTMLDivElement | null = null;
 
-    const loadQuill = async () => {
-      try {
-        const QuillModule = await import("quill");
-        const Quill = QuillModule.default;
-
-        container = containerRef.current;
-        if (!container) return;
-
-        const editorContainer = container.appendChild(
-          document.createElement("div")
-        );
-
-        quill = new Quill(editorContainer, { theme: "bubble" });
-
-        if (typeof ref !== "function") {
-          ref.current = quill;
-        }
-      } catch (error) {
-        console.error("Error initializing Quill:", error);
-      }
-    };
-
-    loadQuill();
+    container = containerRef.current;
+    const editorContainer = container.appendChild(
+      document.createElement("div")
+    );
+    quill = new Quill(editorContainer, { theme: "bubble" });
 
     return () => {
       if (quill && container) {

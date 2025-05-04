@@ -1,4 +1,5 @@
-export default function Delete() {
+export default function Delete({ id }: { id: string }) {
+  console.log("deleting : ", id);
   return (
     <button
       className="bg-red-400 px-3 py-2 rounded cursor-pointer

@@ -1,14 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
-// import { Board } from "./definitions";
+import { Board } from "./definitions";
 
-const sql = createClient(
+const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
 export async function fetchBoards(query: string, currentPage: number) {
   const offset = (currentPage - 1) * 5;
-  const { data, error } = await sql
+  const { data, error } = await supabase
     .from("board")
     .select("*")
     .or(`title.ilike.%${query},writer.ilike.%${query}%`)
@@ -22,12 +22,11 @@ export async function fetchBoards(query: string, currentPage: number) {
 }
 
 export async function fetchBoardById(id: string) {
-  const { data, error } = await sql.from("board").select("*").eq("id", id);
+  const { data, error } = await supabase.from("board").select("*").eq("id", id);
 
   if (error) {
     console.error("Error fetching data:", error);
   } else {
-    console.log(data[0].content);
-    return data[0];
+    return data[0] as Board;
   }
 }
