@@ -1,46 +1,37 @@
 "use client";
 
-import { useEffect, useRef, forwardRef, ForwardedRef, useState } from "react";
+import { useEffect, useRef, RefObject } from "react";
 import type Quill from "quill";
 import "quill/dist/quill.bubble.css";
 
-const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
+export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isClient, setIsClient] = useState(false);
+  // const [isClient, setIsClient] = useState(false);
+
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
   useEffect(() => {
-    // Mark that we're now on the client
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    // Only run this effect on the client and after the component has mounted
-    if (!isClient || !containerRef.current) return;
-
+    if (!containerRef.current) return;
     let quill: Quill | null = null;
+    let container: HTMLDivElement | null = null;
 
-    // Dynamically import Quill
     const loadQuill = async () => {
       try {
-        // Dynamic import of the Quill library
         const QuillModule = await import("quill");
         const Quill = QuillModule.default;
 
-        const container = containerRef.current;
+        container = containerRef.current;
         if (!container) return;
 
-        // Create the editor container
         const editorContainer = container.appendChild(
           document.createElement("div")
         );
 
-        // Initialize Quill
         quill = new Quill(editorContainer, { theme: "bubble" });
 
-        // Set the forwarded ref to the Quill instance
-        if (typeof ref === "function") {
-          ref(quill);
-        } else if (ref) {
+        if (typeof ref !== "function") {
           ref.current = quill;
         }
       } catch (error) {
@@ -50,25 +41,19 @@ const Editor = forwardRef((_props, ref: ForwardedRef<Quill | null>) => {
 
     loadQuill();
 
-    // Cleanup function
     return () => {
-      if (quill && containerRef.current) {
-        if (typeof ref === "function") {
-          ref(null);
-        } else if (ref) {
+      if (quill && container) {
+        if (typeof ref !== "function") {
           ref.current = null;
         }
-        containerRef.current.innerHTML = "";
+        container.innerHTML = "";
       }
     };
-  }, [ref, isClient]);
+  }, [ref]);
 
   return (
     <div className="pt-8 pb-10 overflow-auto h-full">
       <div ref={containerRef} className="ml-20 mr-30 h-full" />
     </div>
   );
-});
-
-Editor.displayName = "Editor";
-export default Editor;
+}
