@@ -15,6 +15,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   //null 처리
   if (!board) return;
+  console.log("[page.tsx] board.content :", board.content);
 
   const timestamp = new Date(board.created_at);
   const date = `${timestamp.getFullYear()}년 

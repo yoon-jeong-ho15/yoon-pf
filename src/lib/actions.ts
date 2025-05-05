@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
+import { Delta } from "quill";
 
 const sql = createClient(
   process.env.SUPABASE_URL!,
@@ -33,10 +34,10 @@ export async function authenticate(
 }
 
 export async function createBoard(title: string, content: string) {
+  console.log("createBoard : ", title);
   const session = await auth();
   const user: User | null = (session?.user as User) || null;
-  console.log("content : ", content);
-  console.log("user : ", user);
+
   const { error } = await sql.from("board").insert({
     writer: user?.username,
     title: title,

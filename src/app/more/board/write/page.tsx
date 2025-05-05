@@ -15,10 +15,11 @@ export default function Page() {
   const [title, setTitle] = useState("");
 
   const handleSave = () => {
-    if (quillRef.current && quillRef.current.getContents) {
+    console.log("quillRef.current", quillRef.current);
+    if (quillRef.current) {
       const delta = quillRef.current.getContents();
       const content = JSON.stringify(delta);
-      // console.log("content : ", content);
+
       if (title && content) {
         createBoard(title, content);
       }

@@ -7,13 +7,13 @@ const supabase = createClient(
 );
 
 export async function fetchBoards(query: string, currentPage: number) {
-  const offset = (currentPage - 1) * 5;
+  const offset = (currentPage - 1) * 25;
   const { data, error } = await supabase
     .from("board")
     .select("*")
     .or(`title.ilike.%${query},writer.ilike.%${query}%`)
     .order("created_at", { ascending: false })
-    .range(offset, offset + 4);
+    .range(offset, offset + 24);
   if (error) {
     console.error("Error fetching data:", error);
   } else {

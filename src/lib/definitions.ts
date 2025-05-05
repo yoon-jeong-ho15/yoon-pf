@@ -1,5 +1,3 @@
-import { Delta } from "quill";
-
 export type User = {
   id: string;
   username: string;
@@ -12,5 +10,5 @@ export type Board = {
   created_at: string;
   writer: string;
   title: string;
-  content: Delta;
+  content: string;
 };

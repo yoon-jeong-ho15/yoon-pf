@@ -22,12 +22,11 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
       document.createElement("div")
     );
     quill = new Quill(editorContainer, { theme: "bubble" });
-
+    ref.current = quill;
+    console.log("quill : ", quill);
     return () => {
       if (quill && container) {
-        if (typeof ref !== "function") {
-          ref.current = null;
-        }
+        ref.current = null;
         container.innerHTML = "";
       }
     };

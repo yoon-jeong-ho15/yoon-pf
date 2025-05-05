@@ -7,9 +7,9 @@ import { robotoMono } from "../fonts";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const homeRef = useRef<HTMLAnchorElement>(null);
-  const aboutRef = useRef<HTMLAnchorElement>(null);
-  const moreRef = useRef<HTMLAnchorElement>(null);
+  const homeRef = useRef<HTMLAnchorElement | null>(null);
+  const aboutRef = useRef<HTMLAnchorElement | null>(null);
+  const moreRef = useRef<HTMLAnchorElement | null>(null);
   const [activePosition, setActivePosition] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
@@ -25,8 +25,6 @@ export default function Navbar() {
     if (currentRef && currentRef.current) {
       const rect = currentRef.current.getBoundingClientRect();
       const navRect = currentRef.current.parentElement?.getBoundingClientRect();
-      console.log("currentRef : ", currentRef);
-      console.log("rect : ", rect);
 
       if (rect && navRect) {
         setActivePosition({
