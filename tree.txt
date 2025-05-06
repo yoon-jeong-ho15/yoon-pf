@@ -4,6 +4,7 @@
 │   │   ├── page.tsx
 │   │   └── ui
 │   │       └── card.tsx
+│   ├── fonts.ts
 │   ├── globals.css
 │   ├── layout.tsx
 │   ├── login
@@ -16,13 +17,22 @@
 │   │   │       ├── user-info.tsx
 │   │   │       └── user-profile.tsx
 │   │   ├── board
-│   │   │   ├── create
-│   │   │   │   └── page.tsx
+│   │   │   ├── [id]
+│   │   │   │   ├── edit
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── ui
+│   │   │   │   │   ├── delete.tsx
+│   │   │   │   │   └── edit.tsx
+│   │   │   │   └── viewer.tsx
 │   │   │   ├── page.tsx
-│   │   │   └── ui
-│   │   │       ├── board-list.tsx
-│   │   │       ├── search.tsx
-│   │   │       └── write.tsx
+│   │   │   ├── ui
+│   │   │   │   ├── board-list.tsx
+│   │   │   │   ├── search.tsx
+│   │   │   │   └── write.tsx
+│   │   │   └── write
+│   │   │       ├── editor.tsx
+│   │   │       └── page.tsx
 │   │   ├── chat
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
@@ -32,7 +42,6 @@
 │   │       └── logout.tsx
 │   ├── page.tsx
 │   └── ui
-│       ├── fonts.ts
 │       └── navbar.tsx
 ├── auth.config.ts
 ├── auth.ts
@@ -42,4 +51,4 @@
 │   └── definitions.ts
 └── middleware.ts
 
-15 directories, 28 files
+18 directories, 34 files

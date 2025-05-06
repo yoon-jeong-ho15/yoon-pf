@@ -7,7 +7,7 @@ import AuthError from "next-auth";
 import { redirect } from "next/navigation";
 import { Delta } from "quill";
 
-const sql = createClient(
+const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
@@ -38,7 +38,7 @@ export async function createBoard(title: string, content: string) {
   const session = await auth();
   const user: User | null = (session?.user as User) || null;
 
-  const { error } = await sql.from("board").insert({
+  const { error } = await supabase.from("board").insert({
     writer: user?.username,
     title: title,
     content: content,
@@ -47,4 +47,8 @@ export async function createBoard(title: string, content: string) {
     console.error("Error inserting Data : ", error);
   }
   return redirect("/more/board");
+}
+
+export async function updateBoard(formData: FormData) {
+  console.log("formData : ", formData);
 }
