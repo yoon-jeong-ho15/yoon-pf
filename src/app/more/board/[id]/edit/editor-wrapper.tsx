@@ -2,11 +2,11 @@
 import type Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 import Editor from "@/app/more/board/write/editor";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
-const DynamicEditor = dynamic(() => import("@/app/more/board/write/editor"), {
-  ssr: false,
-});
+// const DynamicEditor = dynamic(() => import("@/app/more/board/write/editor"), {
+//   ssr: false,
+// });
 
 export default function EditorWrapper({
   initialValue,

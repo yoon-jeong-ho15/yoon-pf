@@ -5,7 +5,6 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
-import { Delta } from "quill";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,

@@ -22,15 +22,12 @@ export async function fetchBoards(query: string, currentPage: number) {
 }
 
 export async function fetchBoardById(id: string) {
-  const { data, error } = (await supabase
-    .from("board")
-    .select("*")
-    .eq("id", id)) as { data: Board[]; error: any };
+  const { data, error } = await supabase.from("board").select("*").eq("id", id);
 
   if (error) {
     console.error("Error fetching data:", error);
     throw new Error("Failed to fetch the board");
   } else {
-    return data[0];
+    return data[0] as Board;
   }
 }
