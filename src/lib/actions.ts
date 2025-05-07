@@ -66,3 +66,13 @@ export async function updateBoard(formData: FormData) {
     return redirect("/more/board");
   }
 }
+
+export async function deleteBoard(id: string) {
+  console.log("deleting : ", id);
+  const { error } = await supabase
+    .from("board")
+    .update({
+      status: false,
+    })
+    .eq("id", id);
+}

@@ -12,6 +12,7 @@ export async function fetchBoards(query: string, currentPage: number) {
     .from("board")
     .select("*")
     .or(`title.ilike.%${query},writer.ilike.%${query}%`)
+    .eq("status", true)
     .order("created_at", { ascending: false })
     .range(offset, offset + 24);
   if (error) {

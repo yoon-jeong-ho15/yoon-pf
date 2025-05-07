@@ -1,9 +1,18 @@
+"use client";
+
+import { deleteBoard } from "@/lib/actions";
+
 export default function Delete({ id }: { id: string }) {
-  console.log("deleting : ", id);
+  const handleDelete = () => {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+      deleteBoard(id);
+    }
+  };
   return (
     <button
       className="bg-red-400 px-3 py-2 rounded cursor-pointer
         hover:bg-red-500"
+      onClick={handleDelete}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
