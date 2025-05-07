@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
+import type Quill from "quill";
 import { createBoard } from "@/lib/actions";
 
 const DynamicEditor = dynamic(() => import("./editor"), {
@@ -9,17 +10,16 @@ const DynamicEditor = dynamic(() => import("./editor"), {
   loading: () => <div className="h-190 bg-gray-100 animate-pulse"></div>,
 });
 
-import Quill from "quill";
-
 export default function Page() {
   const quillRef = useRef<Quill | null>(null);
   const [title, setTitle] = useState("");
 
   const handleSave = () => {
-    if (quillRef.current && quillRef.current.getContents) {
+    console.log("quillRef.current", quillRef.current);
+    if (quillRef.current) {
       const delta = quillRef.current.getContents();
       const content = JSON.stringify(delta);
-      console.log("content : ", content);
+
       if (title && content) {
         createBoard(title, content);
       }
