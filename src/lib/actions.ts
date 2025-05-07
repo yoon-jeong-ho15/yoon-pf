@@ -49,5 +49,20 @@ export async function createBoard(title: string, content: string) {
 }
 
 export async function updateBoard(formData: FormData) {
-  console.log("formData : ", formData);
+  console.log(formData.get("id"));
+  console.log(formData.get("title"));
+  console.log(formData.get("content"));
+  const { error } = await supabase
+    .from("board")
+    .update({
+      title: formData.get("title"),
+      content: formData.get("content"),
+      updated_at: "now()",
+    })
+    .eq("id", formData.get("id"));
+  if (error) {
+    console.error("Error updating Board", error);
+  } else {
+    return redirect("/more/board");
+  }
 }
