@@ -1,4 +1,5 @@
 "use client";
+
 import Quill from "quill";
 import { useRef, useEffect } from "react";
 import "quill/dist/quill.bubble.css";
@@ -8,31 +9,36 @@ export default function Viewer({ content }: { content: string }) {
   const quillRef = useRef<Quill | null>(null);
 
   useEffect(() => {
-    console.log("useEffect()");
     console.log("content:", typeof content, content);
-    let quill: Quill | null = null;
-    let container: HTMLDivElement | null = null;
+
+    if (quillRef.current) {
+      console.log("Quill already initialized, skipping");
+      return;
+    }
 
     const loadQuill = async () => {
-      console.log("loadQuill()");
       if (!containerRef.current) return;
+
       const QuillModule = await import("quill");
       const Quill = QuillModule.default;
 
-      container = containerRef.current;
+      const container = containerRef.current;
       const editorContainer = container.appendChild(
         document.createElement("div")
       );
-      quill = new Quill(editorContainer, {
+
+      const quill = new Quill(editorContainer, {
         theme: "bubble",
       });
+
       quill.enable(false);
       quillRef.current = quill;
       const delta = JSON.parse(content);
       quill.setContents(delta);
     };
+
     loadQuill();
-  });
+  }, [content]);
 
   return (
     <div className="h-full overflow-auto">
