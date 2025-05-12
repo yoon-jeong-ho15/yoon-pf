@@ -75,4 +75,7 @@ export async function deleteBoard(id: string) {
       status: false,
     })
     .eq("id", id);
+  if (error) {
+    console.error("Error deleteing Board", error);
+  }
 }
