@@ -5,13 +5,13 @@ import { authConfig } from "./auth.config";
 import { z } from "zod";
 import Credentials from "next-auth/providers/credentials";
 
-const sql = createClient(
+const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
 async function getUser(username: string): Promise<User | undefined> {
-  const { data: user, error } = await sql
+  const { data: user, error } = await supabase
     .from("user")
     .select("*")
     .eq("username", username);

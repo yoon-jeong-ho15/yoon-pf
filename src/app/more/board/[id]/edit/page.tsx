@@ -2,6 +2,7 @@ import { fetchBoardById } from "@/lib/data";
 import { Board } from "@/lib/definitions";
 import { updateBoard } from "@/lib/actions";
 import EditorWrapper from "./editor-wrapper";
+import Cancle from "./cancle";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -31,14 +32,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           >
             수정하기
           </button>
-          <button
-            type="button"
-            className="bg-red-500 hover:bg-red-600 
-          text-white font-medium px-6 py-2 rounded-lg
-          text-lg shadow-md"
-          >
-            취소하기
-          </button>
+          <Cancle />
         </div>
       </div>
       <div className="my-4 bg-white shadow h-190">
