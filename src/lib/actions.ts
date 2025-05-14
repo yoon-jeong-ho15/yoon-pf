@@ -16,7 +16,7 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    console.log("formData : ", formData);
+    console.log("authenticate() formData : ", formData);
     await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
@@ -49,6 +49,7 @@ export async function createBoard(title: string, content: string) {
 }
 
 export async function updateBoard(formData: FormData) {
+  console.log("updateBoard()");
   console.log(formData.get("id"));
   console.log(formData.get("title"));
   console.log(formData.get("content"));

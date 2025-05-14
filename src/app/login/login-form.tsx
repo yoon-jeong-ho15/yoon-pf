@@ -1,7 +1,8 @@
 "use client";
-import { useActionState, useRef, useState } from "react";
+import { useRef, useState } from "react";
 //import { useSearchParams } from "next/navigation";
-import { authenticate } from "../../lib/actions";
+// import { authenticate } from "../../lib/actions";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
   const [username, setUsername] = useState<string>("");
@@ -10,7 +11,14 @@ export default function LoginForm() {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   //const searchParams = useSearchParams();
   //const callbackUrl = searchParams.get("callbackUrl") || "/board";
-  const [errorMessage, formAction] = useActionState(authenticate, undefined);
+  // const [errorMessage, formAction] = useActionState(authenticate, undefined);
+
+  const credentialsAction = (formData: FormData) => {
+    signIn("credentials", {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    });
+  };
 
   const passwordHandler = (input: string) => {
     const numberOnly = input.replace(/[^0-9]/g, "");
@@ -20,7 +28,7 @@ export default function LoginForm() {
 
   return (
     <form
-      action={formAction}
+      action={credentialsAction}
       className="flex w-full justify-center items-center"
     >
       <div
@@ -91,13 +99,13 @@ export default function LoginForm() {
         >
           접속
         </button>
-        <div className="flex h-8 items-end space-x-1">
+        {/* <div className="flex h-8 items-end space-x-1">
           {errorMessage && (
             <>
               <p className="text-sm text-red-500">{errorMessage}</p>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </form>
   );
