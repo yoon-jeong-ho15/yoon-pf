@@ -1,7 +1,17 @@
+"use client";
+
 import { User } from "@/lib/definitions";
+import { useSession } from "next-auth/react";
 import NoProfile from "public/no-profile";
 
-export default function UserProfile({ user }: { user: User }) {
+export default function UserProfile() {
+  const { data: session, status } = useSession();
+  console.log("user-profile > session : ", session);
+  if (!session || !session.user) {
+    return <div>no session</div>;
+  }
+  const user = session.user as User;
+
   return (
     <div
       className="

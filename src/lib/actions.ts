@@ -2,7 +2,7 @@
 
 import { auth, signIn } from "@/auth";
 import { createClient } from "@supabase/supabase-js";
-import type { User } from "@/lib/definitions";
+import type { AuthUser, User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -16,7 +16,7 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    console.log("formData : ", formData);
+    console.log("authenticate() formData : ", formData);
     await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
@@ -49,6 +49,7 @@ export async function createBoard(title: string, content: string) {
 }
 
 export async function updateBoard(formData: FormData) {
+  console.log("updateBoard()");
   console.log(formData.get("id"));
   console.log(formData.get("title"));
   console.log(formData.get("content"));

@@ -1,16 +1,16 @@
-import type { User } from "@/lib/definitions";
+import type { AuthUser } from "@/lib/definitions";
 import NextAuth from "next-auth";
 import { createClient } from "@supabase/supabase-js";
 import { authConfig } from "./auth.config";
-import { z } from "zod";
 import Credentials from "next-auth/providers/credentials";
+import { signInSchema } from "./lib/zod";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
-async function getUser(username: string): Promise<User | undefined> {
+async function getUser(username: string): Promise<AuthUser> {
   const { data: user, error } = await supabase
     .from("user")
     .select("*")
@@ -23,11 +23,12 @@ async function getUser(username: string): Promise<User | undefined> {
   return user[0];
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   //세션 토큰은 기본적으로 30일 유지
   callbacks: {
     session: ({ session, token }) => {
+      // console.log("session() token: ", token);
       return {
         ...session,
         user: {
@@ -35,38 +36,51 @@ export const { auth, signIn, signOut } = NextAuth({
           id: token.sub,
           username: token.username as string,
           from: token.from as number,
+          pic: token.pic as string,
         },
       };
     },
     jwt: ({ token, user }) => {
       if (user) {
-        token.username = (user as User).username;
-        token.from = (user as User).from;
+        // console.log("jwt() user : ", user);
+        token.username = (user as AuthUser).username;
+        token.from = (user as AuthUser).from;
+        token.pic = (user as AuthUser).profile_pic;
       }
       return token;
     },
   },
   providers: [
     Credentials({
-      async authorize(credentials) {
-        const parsedCredentials = z
-          .object({
-            username: z.string(),
-            password: z.string(),
-          })
-          .safeParse(credentials);
+      credentials: {
+        username: {
+          label: "이름",
+          placeholder: "게스트",
+        },
+        password: {
+          label: "password",
+          placeholder: "999999",
+        },
+      },
+      authorize: async (credentials) => {
+        let user = null;
 
-        if (parsedCredentials.success) {
-          const { username, password } = parsedCredentials.data;
-          const user = await getUser(username);
+        const { username, password } = await signInSchema.parseAsync(
+          credentials
+        );
 
-          if (!user) return null;
-          const passwordsMatch = user.password == password ? true : false;
+        user = await getUser(username);
+        const passwordsMatch = user.password == password ? true : false;
 
-          if (passwordsMatch) return user;
+        if (!user) {
+          throw new Error("no user");
         }
-        console.log("Invalid credentials");
-        return null;
+
+        if (!passwordsMatch) {
+          throw new Error("Invalid credentials.");
+        }
+
+        return user;
       },
     }),
   ],

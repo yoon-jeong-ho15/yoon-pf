@@ -2,6 +2,7 @@ import UserProfile from "./ui/user-profile";
 import UserInfo from "./ui/user-info";
 import { auth } from "@/auth";
 import { User } from "@/lib/definitions";
+import { SessionProvider } from "next-auth/react";
 
 export default async function Page() {
   const session = await auth();
@@ -9,8 +10,6 @@ export default async function Page() {
   if (!session) {
     return <div>no session</div>;
   }
-
-  const user: User | null = (session?.user as User) || null;
 
   return (
     <div
@@ -20,11 +19,11 @@ export default async function Page() {
       from-indigo-500/50 to-blue-400/60
       "
     >
-      {user ? (
-        <>
-          <UserProfile user={user} />
-          <UserInfo user={user} />
-        </>
+      {session.user ? (
+        <SessionProvider session={session}>
+          <UserProfile />
+          <UserInfo />
+        </SessionProvider>
       ) : (
         <div>no user</div>
       )}
