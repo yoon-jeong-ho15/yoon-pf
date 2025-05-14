@@ -1,7 +1,6 @@
 import UserProfile from "./ui/user-profile";
 import UserInfo from "./ui/user-info";
 import { auth } from "@/auth";
-import { User } from "@/lib/definitions";
 import { SessionProvider } from "next-auth/react";
 
 export default async function Page() {

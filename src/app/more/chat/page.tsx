@@ -1,6 +1,4 @@
-import { auth } from "@/auth";
 import ChatBox from "./chat-box";
-import { User } from "@/lib/definitions";
 import { SessionProvider } from "next-auth/react";
 
 export default async function Page() {

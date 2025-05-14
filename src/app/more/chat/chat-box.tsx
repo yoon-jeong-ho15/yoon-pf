@@ -1,11 +1,13 @@
 "use client";
 
-import { User } from "@/lib/definitions";
 import { useSession } from "next-auth/react";
 
 export default function ChatBox() {
   const { data: session, status } = useSession();
   // console.log("chat-box > session : ", session);
+  if (status === "loading") {
+    return <div>loading</div>;
+  }
   if (!session || !session.user) {
     return <div>no session</div>;
   }
