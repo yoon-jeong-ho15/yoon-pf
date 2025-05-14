@@ -5,19 +5,12 @@ export default function UserProfile({ user }: { user: User }) {
   return (
     <div
       className="
-        flex flex-row h-full w-2/3"
+        flex flex-col h-full w-1/2 justify-center items-center py-6"
     >
-      <div className="bg-white/60 rounded-[15%] border-8 border-white h-full w-auto">
+      <div className="bg-white/60 rounded-[15%] border-8 border-white h-full w-120 flex justify-center items-center">
         <NoProfile size="full" />
       </div>
-      <ul className="flex flex-col mx-10 items-center h-full text-2xl">
-        <li>
-          <span>{user.from}</span>
-        </li>
-        <li>
-          <span>{user.username}</span>
-        </li>
-      </ul>
+      <span className="text-6xl pt-3">{user.username}</span>
     </div>
   );
 }
