@@ -2,7 +2,7 @@
 
 import { auth, signIn } from "@/auth";
 import { createClient } from "@supabase/supabase-js";
-import type { AuthUser, User } from "@/lib/definitions";
+import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
 
