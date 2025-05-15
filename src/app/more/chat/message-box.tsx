@@ -1,0 +1,48 @@
+export default function MessageBox() {
+  return (
+    <div className="grow overflow-y-scroll">
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+      <div>hello</div>
+      <div>world</div>
+    </div>
+  );
+}

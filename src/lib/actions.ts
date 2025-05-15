@@ -80,3 +80,7 @@ export async function deleteBoard(id: string) {
     console.error("Error deleteing Board", error);
   }
 }
+
+export async function sendMessage(formData: FormData) {
+  console.log("sendMessage() formData : ", formData);
+}
