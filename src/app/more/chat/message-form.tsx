@@ -1,13 +1,24 @@
 "use client";
 
 import { sendMessage } from "@/lib/actions";
-import { User } from "@/lib/definitions";
+import { Chatroom, User } from "@/lib/definitions";
 import { useRef, useState, useEffect } from "react";
+import { useChatroom } from "./chatroom-provider";
 
-export default function MessageForm({ user }: { user: User }) {
+export default function MessageForm({
+  user,
+  chatroom,
+}: {
+  user: User;
+  chatroom: Chatroom;
+}) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
+  let selectedChatroom = useChatroom()?.selectedChatroom ?? null;
+  if (user.username !== "윤정호") {
+    selectedChatroom = chatroom?.id ?? null;
+  }
 
   //이렇게 안하고 그냥 버튼의 css로 할 수 있지만, 정확히 가운데에 위치시키고 싶었다.
   useEffect(() => {
@@ -41,6 +52,8 @@ export default function MessageForm({ user }: { user: User }) {
     setIsEmpty(isZero);
   };
 
+  if (!selectedChatroom) return <div>no selected chatroom</div>;
+
   return (
     <div className="mt-auto">
       <form
@@ -48,7 +61,7 @@ export default function MessageForm({ user }: { user: User }) {
         className="bg-gray-200 w-full pt-1 p-0.5 relative rounded-b-md"
       >
         <textarea
-          name="chat"
+          name="message"
           ref={textareaRef}
           className="
               bg-gray-100 w-full px-4 py-2 resize-none
@@ -70,7 +83,8 @@ export default function MessageForm({ user }: { user: User }) {
             }
           }}
         />
-        <input type="hidden" name="username" value={user.username} />
+        <input type="hidden" name="sent" value={user.username} />
+        <input type="hidden" name="chatroom" value={selectedChatroom} />
         <button
           type="submit"
           ref={buttonRef}

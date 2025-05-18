@@ -3,7 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { User } from "@/lib/definitions";
 import ChatList from "./chat-list";
 import ChatroomProvider from "./chatroom-provider";
-import { fetchChatrooms } from "@/lib/data";
+import { fetchChatrooms, fetchOneChatroom } from "@/lib/data";
 import MessageBox from "./message-box";
 import MessageForm from "./message-form";
 
@@ -15,8 +15,11 @@ export default async function Page() {
   }
   const user = session.user as User;
   let chatrooms = null;
+  let chatroom = null;
   if (user.username === "윤정호") {
     chatrooms = await fetchChatrooms(user.username);
+  } else {
+    chatroom = await fetchOneChatroom(user.username);
   }
 
   return (
@@ -32,8 +35,8 @@ export default async function Page() {
               className="w-full h-full bg-white rounded container 
               flex flex-col justify-between shadow"
             >
-              <MessageBox />
-              <MessageForm user={user} />
+              <MessageBox user={user} chatroom={chatroom} />
+              <MessageForm user={user} chatroom={chatroom} />
             </div>
           </div>
           {user.username === "윤정호" && <ChatList chatrooms={chatrooms} />}

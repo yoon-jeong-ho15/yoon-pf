@@ -1,6 +1,7 @@
-export default function NoProfile({ sizeprop }: { sizeprop?: "full" | "sm" }) {
-  const size = {
+export default function NoProfile({ size }: { size?: "full" | "sm" | "md" }) {
+  const sizeprop = {
     sm: "size-6",
+    md: "size-12",
     full: "size-full",
   };
 
@@ -11,7 +12,7 @@ export default function NoProfile({ sizeprop }: { sizeprop?: "full" | "sm" }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`${size[sizeprop ? sizeprop : "full"]}`}
+      className={`${sizeprop[size ? size : "full"]}`}
     >
       <path
         strokeLinecap="round"

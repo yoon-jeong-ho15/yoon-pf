@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Board, Chatroom, User } from "./definitions";
+import { Board, ChatMessage, Chatroom, User } from "./definitions";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -80,5 +80,20 @@ export async function fetchUserByUsername(username: string) {
       pic: data[0].profile_pic,
     };
     return user;
+  }
+}
+
+export async function fetchChatsByChatroomId(id: string) {
+  console.log("getChatsByChatroomId id : ", id);
+  const { data, error } = await supabase
+    .from("chat_message")
+    .select("*, user(profile_pic)")
+    .eq("chatroom", id);
+
+  if (error) {
+    console.error("Error fetching Chats", error);
+    throw new Error("Failed to fetch Chats by chatroom id");
+  } else {
+    return data as ChatMessage[];
   }
 }
