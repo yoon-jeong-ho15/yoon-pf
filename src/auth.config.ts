@@ -1,5 +1,5 @@
 import { NextAuthConfig } from "next-auth";
-import { User } from "@/lib/definitions";
+// import { User } from "@/lib/definitions";
 
 export const authConfig = {
   pages: {
@@ -26,6 +26,7 @@ export const authConfig = {
       //   if (isAdmin) return true;
       //   return false;
       // }
+      return true;
     },
   },
   providers: [],

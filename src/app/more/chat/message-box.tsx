@@ -1,48 +1,15 @@
+"use client";
+import { useEffect } from "react";
+import { useChatroom } from "./chatroom-provider";
+
 export default function MessageBox() {
-  return (
-    <div className="grow overflow-y-scroll">
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-      <div>hello</div>
-      <div>world</div>
-    </div>
-  );
+  const selectedChatroom = useChatroom()?.selectedChatroom;
+
+  useEffect(() => {
+    if (selectedChatroom) {
+      console.log("selectedChatroom : ", selectedChatroom);
+    }
+  }, [selectedChatroom]);
+
+  return <div className="grow overflow-y-scroll">{selectedChatroom}</div>;
 }

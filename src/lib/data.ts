@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Board, User } from "./definitions";
+import { Board, Chatroom, User } from "./definitions";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -34,7 +34,7 @@ export async function fetchBoardById(id: string) {
 }
 
 export async function fetchChatrooms(username: string) {
-  console.log("fetchChats username : ", username);
+  console.log("fetchChatrooms username : ", username);
   const { data, error } = await supabase
     .from("chatroom")
     .select("*")
@@ -44,7 +44,22 @@ export async function fetchChatrooms(username: string) {
     console.error("Error fetching data : ", error);
     throw new Error("Failed to fetch Chatrooms");
   } else {
-    return data;
+    return data as Chatroom[];
+  }
+}
+
+export async function fetchOneChatroom(username: string) {
+  console.log("fetchOneChatroom username : ", username);
+  const { data, error } = await supabase
+    .from("chatroom")
+    .select("*")
+    .eq("user2", username);
+
+  if (error) {
+    console.error("Error fetching data : ", error);
+    throw new Error("Failed to fetch one Chatroom");
+  } else {
+    return data[0];
   }
 }
 

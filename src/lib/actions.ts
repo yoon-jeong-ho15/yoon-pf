@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
+import { fetchUserByUsername } from "./data";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -83,4 +84,8 @@ export async function deleteBoard(id: string) {
 
 export async function sendMessage(formData: FormData) {
   console.log("sendMessage() formData : ", formData);
+}
+
+export async function getUser(username: string) {
+  return fetchUserByUsername(username);
 }
