@@ -1,4 +1,10 @@
-export default function NoProfile({ size }: { size: string }) {
+export default function NoProfile({ size }: { size?: "full" | "sm" | "md" }) {
+  const sizeprop = {
+    sm: "size-6",
+    md: "size-12",
+    full: "size-full",
+  };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +12,7 @@ export default function NoProfile({ size }: { size: string }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`size-${size}`}
+      className={`${sizeprop[size ? size : "full"]}`}
     >
       <path
         strokeLinecap="round"

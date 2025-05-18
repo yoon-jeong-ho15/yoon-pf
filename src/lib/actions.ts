@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
+import { fetchChatsByChatroomId, fetchUserByUsername } from "./data";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -79,4 +80,24 @@ export async function deleteBoard(id: string) {
   if (error) {
     console.error("Error deleteing Board", error);
   }
+}
+
+export async function sendMessage(formData: FormData) {
+  console.log("sendMessage() formData : ", formData);
+  const { error } = await supabase.from("chat_message").insert({
+    chatroom: formData.get("chatroom"),
+    sent: formData.get("sent"),
+    message: formData.get("message"),
+  });
+  if (error) {
+    console.error("Error inserting chat message", error);
+  }
+}
+
+export async function getUser(username: string) {
+  return fetchUserByUsername(username);
+}
+
+export async function getChatsByChatroomId(id: string) {
+  return fetchChatsByChatroomId(id);
 }

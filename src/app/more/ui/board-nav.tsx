@@ -2,7 +2,7 @@ import Link from "next/link";
 import Logout from "./logout";
 import Alert from "./alert";
 
-export default function BoardNav() {
+export default function MoreNav() {
   return (
     <nav
       className="

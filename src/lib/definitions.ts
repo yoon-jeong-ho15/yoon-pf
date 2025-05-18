@@ -20,3 +20,18 @@ export type Board = {
   title: string;
   content: string;
 };
+
+export type Chatroom = {
+  id: string;
+  user1: string;
+  user2: string;
+};
+
+export type ChatMessage = {
+  id: string;
+  created_at: string;
+  sent: string;
+  profile_pic: string;
+  message: string;
+  chatroom: string;
+};
