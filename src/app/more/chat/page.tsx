@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { SessionProvider } from "next-auth/react";
 import { User } from "@/lib/definitions";
 import ChatList from "./chat-list";
 import ChatroomProvider from "./chatroom-provider";
@@ -25,23 +24,21 @@ export default async function Page() {
   return (
     <div className="w-[90%]">
       <h1>chat</h1>
-      <SessionProvider>
-        <ChatroomProvider>
-          <div
-            className="h-180 flex rounded shadowp-1 container p-1
+      <ChatroomProvider>
+        <div
+          className="h-180 flex rounded shadowp-1 container p-1
             bg-gradient-to-r from-blue-400 to-indigo-400"
-          >
-            <div
-              className="w-full h-full bg-white rounded container 
+        >
+          <div
+            className="w-full h-full bg-white rounded container 
               flex flex-col justify-between shadow"
-            >
-              <MessageBox user={user} chatroom={chatroom} />
-              <MessageForm user={user} chatroom={chatroom} />
-            </div>
+          >
+            <MessageBox user={user} chatroom={chatroom} />
+            <MessageForm user={user} chatroom={chatroom} />
           </div>
-          {user.username === "윤정호" && <ChatList chatrooms={chatrooms} />}
-        </ChatroomProvider>
-      </SessionProvider>
+        </div>
+        {user.username === "윤정호" && <ChatList chatrooms={chatrooms} />}
+      </ChatroomProvider>
     </div>
   );
 }
