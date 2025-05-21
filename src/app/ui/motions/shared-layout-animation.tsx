@@ -27,6 +27,12 @@ export default function SharedLayoutAnimation() {
                   style={underline}
                   layoutId="underline"
                   id="underline"
+                  className="bg-blue-400"
+                  transition={{
+                    type: "spring",
+                    duration: 0.3,
+                    bounce: 0.5,
+                  }}
                 />
               ) : null}
             </motion.li>
@@ -118,7 +124,7 @@ const underline: React.CSSProperties = {
   left: 0,
   right: 0,
   height: 2,
-  background: "var(--accent)",
+  // background: "var(--accent)",
 };
 
 const iconContainer: React.CSSProperties = {
@@ -146,5 +152,5 @@ const allIngredients = [
   { icon: "🥂", label: "Champers?" },
 ];
 
-const [tomato, lettuce, cheese] = allIngredients;
-const tabs = [tomato, lettuce, cheese];
+const [tomato, lettuce, cheese, carrot] = allIngredients;
+const tabs = [...allIngredients];

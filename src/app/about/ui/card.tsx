@@ -14,7 +14,6 @@ const rowDataMap: Record<string, RowData> = {
     logo: "🖥️",
     period: "2025.03 수료",
     description: "자바, SQL, HTML, CSS, JavaScript, React",
-    etc: "*성적우수자 선정",
   },
   가톨릭대학교: {
     logo: "🎓",

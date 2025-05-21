@@ -10,10 +10,11 @@ export default function LayoutAnimation() {
 
   return (
     <button
-      className="toggle-container"
+      className="toggle-container bg-blue-400"
       style={{
         ...container,
-        justifyContent: "flex-" + (isOn ? "start" : "end"),
+        justifyContent: isOn ? "flex-start" : "flex-end",
+        alignItems: "center",
       }}
       onClick={toggleSwitch}
     >
@@ -38,16 +39,16 @@ export default function LayoutAnimation() {
 const container = {
   width: 100,
   height: 50,
-  backgroundColor: "var(--hue-3-transparent)",
+  // backgroundColor: "var(--hue-3-transparent)",
   borderRadius: 50,
   cursor: "pointer",
-  display: "flex",
+  display: "flex", // 추가
   padding: 10,
 };
 
 const handle = {
-  width: 50,
-  height: 50,
+  width: 40, //50->40
+  height: 40, //50->40
   backgroundColor: "#9911ff",
   borderRadius: "50%",
 };
