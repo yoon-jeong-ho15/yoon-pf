@@ -8,9 +8,9 @@ export default function SharedLayoutAnimation() {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
-    <div style={container}>
-      <nav style={nav}>
-        <ul style={tabsContainer}>
+    <div className="w-[480px] h-[60vh] max-h-[360px] rounded-lg bg-white overflow-hidden shadow-2xl flex flex-col">
+      <nav className="bg-[#fdfdfd] p-[5px_5px_0] rounded-t-lg border-b border-[#eeeeee] h-11">
+        <ul className="list-none p-0 m-0 font-medium text-sm flex w-full">
           {tabs.map((item) => (
             <motion.li
               key={item.label}
@@ -18,16 +18,15 @@ export default function SharedLayoutAnimation() {
               animate={{
                 backgroundColor: item === selectedTab ? "#eee" : "#eee0",
               }}
-              style={tab}
+              className="list-none p-0 m-0 font-medium text-sm rounded-t-md w-full px-[15px] py-[10px] relative bg-white cursor-pointer h-6 flex justify-between items-center flex-1 min-w-0 select-none text-[#0f1115]"
               onClick={() => setSelectedTab(item)}
             >
               {`${item.icon} ${item.label}`}
               {item === selectedTab ? (
                 <motion.div
-                  style={underline}
                   layoutId="underline"
                   id="underline"
-                  className="bg-blue-400"
+                  className="absolute -bottom-[2px] left-0 right-0 h-[2px] bg-blue-400"
                   transition={{
                     type: "spring",
                     duration: 0.3,
@@ -39,7 +38,7 @@ export default function SharedLayoutAnimation() {
           ))}
         </ul>
       </nav>
-      <main style={iconContainer}>
+      <main className="flex justify-center items-center flex-1">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedTab ? selectedTab.label : "empty"}
@@ -47,7 +46,7 @@ export default function SharedLayoutAnimation() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            style={icon}
+            className="text-[128px]"
           >
             {selectedTab ? selectedTab.icon : "😋"}
           </motion.div>
@@ -56,87 +55,6 @@ export default function SharedLayoutAnimation() {
     </div>
   );
 }
-
-/**
- * ==============   Styles   ================
- */
-
-const container: React.CSSProperties = {
-  width: 480,
-  height: "60vh",
-  maxHeight: 360,
-  borderRadius: 10,
-  background: "white",
-  overflow: "hidden",
-  boxShadow:
-    "0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075)",
-  display: "flex",
-  flexDirection: "column",
-};
-
-const nav: React.CSSProperties = {
-  background: "#fdfdfd",
-  padding: "5px 5px 0",
-  borderRadius: "10px",
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  borderBottom: "1px solid #eeeeee",
-  height: 44,
-};
-
-const tabsStyles: React.CSSProperties = {
-  listStyle: "none",
-  padding: 0,
-  margin: 0,
-  fontWeight: 500,
-  fontSize: 14,
-};
-
-const tabsContainer: React.CSSProperties = {
-  ...tabsStyles,
-  display: "flex",
-  width: "100%",
-};
-
-const tab: React.CSSProperties = {
-  ...tabsStyles,
-  borderRadius: 5,
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  width: "100%",
-  padding: "10px 15px",
-  position: "relative",
-  background: "white",
-  cursor: "pointer",
-  height: 24,
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  flex: 1,
-  minWidth: 0,
-  userSelect: "none",
-  color: "#0f1115",
-};
-
-const underline: React.CSSProperties = {
-  position: "absolute",
-  bottom: -2,
-  left: 0,
-  right: 0,
-  height: 2,
-  // background: "var(--accent)",
-};
-
-const iconContainer: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flex: 1,
-};
-
-const icon: React.CSSProperties = {
-  fontSize: 128,
-};
 
 /**
  * ==============   Data   ================
@@ -152,5 +70,5 @@ const allIngredients = [
   { icon: "🥂", label: "Champers?" },
 ];
 
-// const [tomato, lettuce, cheese, carrot] = allIngredients;
-const tabs = [...allIngredients];
+const [tomato, lettuce, cheese] = allIngredients;
+const tabs = [tomato, lettuce, cheese];
