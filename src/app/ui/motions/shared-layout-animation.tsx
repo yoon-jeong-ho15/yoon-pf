@@ -152,5 +152,5 @@ const allIngredients = [
   { icon: "🥂", label: "Champers?" },
 ];
 
-const [tomato, lettuce, cheese, carrot] = allIngredients;
+// const [tomato, lettuce, cheese, carrot] = allIngredients;
 const tabs = [...allIngredients];
