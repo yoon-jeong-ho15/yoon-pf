@@ -14,7 +14,6 @@ const rowDataMap: Record<string, RowData> = {
     logo: "🖥️",
     period: "2025.03 수료",
     description: "자바, SQL, HTML, CSS, JavaScript, React",
-    etc: "*성적우수자 선정",
   },
   가톨릭대학교: {
     logo: "🎓",
@@ -51,7 +50,6 @@ const Row = ({ title }: { title: string }) => {
         style={{ "--delay": "4s" } as React.CSSProperties}
       >
         <span className="text-sm text-slate-600">{data.period}</span>
-        <span className="text-white">{data.etc}</span>
         <span>{data.description}</span>
       </div>
     </div>
