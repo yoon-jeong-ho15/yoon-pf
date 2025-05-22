@@ -4,6 +4,10 @@
 │   │   ├── page.tsx
 │   │   └── ui
 │   │       └── card.tsx
+│   ├── api
+│   │   └── auth
+│   │       └── [...nextauth]
+│   │           └── route.ts
 │   ├── fonts.ts
 │   ├── globals.css
 │   ├── layout.tsx
@@ -19,6 +23,8 @@
 │   │   ├── board
 │   │   │   ├── [id]
 │   │   │   │   ├── edit
+│   │   │   │   │   ├── cancle.tsx
+│   │   │   │   │   ├── editor-wrapper.tsx
 │   │   │   │   │   └── page.tsx
 │   │   │   │   ├── page.tsx
 │   │   │   │   ├── ui
@@ -34,6 +40,10 @@
 │   │   │       ├── editor.tsx
 │   │   │       └── page.tsx
 │   │   ├── chat
+│   │   │   ├── chat-list.tsx
+│   │   │   ├── chatroom-provider.tsx
+│   │   │   ├── message-box.tsx
+│   │   │   ├── message-form.tsx
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
 │   │   └── ui
@@ -42,13 +52,20 @@
 │   │       └── logout.tsx
 │   ├── page.tsx
 │   └── ui
+│       ├── motions
+│       │   ├── exit-animation.tsx
+│       │   ├── layout-animation.tsx
+│       │   ├── motion.tsx
+│       │   ├── scroll-triggered.tsx
+│       │   └── shared-layout-animation.tsx
 │       └── navbar.tsx
 ├── auth.config.ts
 ├── auth.ts
 ├── lib
 │   ├── actions.ts
 │   ├── data.ts
-│   └── definitions.ts
+│   ├── definitions.ts
+│   └── zod.ts
 └── middleware.ts
 
-18 directories, 34 files
+22 directories, 47 files
