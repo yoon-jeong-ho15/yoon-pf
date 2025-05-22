@@ -9,11 +9,11 @@ export default function Education() {
     <div
       className="
       border border-gray-400 rounded 
-      shadow w-150 flex flex-col
+      shadow flex flex-col
       overflow-hidden bg-white
       "
     >
-      <nav className="flex list-none w-full">
+      <nav className="flex list-none">
         {tabs.map((item) => (
           <motion.li
             key={item.title}
@@ -37,17 +37,29 @@ export default function Education() {
         ))}
       </nav>
       <div className="flex flex-1">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <motion.div
-            className="flex flex-col "
+            className="flex flex-col p-3 h-60"
             key={selectedTab ? selectedTab.title : "empty"}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <span>{selectedTab.title}</span>
-            <span>{selectedTab.description}</span>
+            <span className="text-lg text-blue-600">{selectedTab.title}</span>
+            <span className="text-xs text-gray-500">{selectedTab.period}</span>
+            <span className="mt-2">{selectedTab.description}</span>
+            {selectedTab.more && (
+              <>
+                <span className="mt-3 text-lg  text-blue-600">
+                  {selectedTab.more.title}
+                </span>
+                <span className="text-xs text-gray-500">
+                  {selectedTab.more.period}
+                </span>
+                <span className="mt-2">{selectedTab.more.description}</span>
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -61,7 +73,7 @@ const tabs = [
     logo: "🖥️",
     type: "교육기관",
     period: "2025.03 수료",
-    description: "자바, SQL, HTML, CSS, JavaScript, React",
+    description: "Java / Oracle DB / Spring-Boot / HTML / CSS / JavaScript",
   },
   {
     title: "가톨릭대학교",
@@ -69,12 +81,10 @@ const tabs = [
     type: "학위",
     period: "2023.03 졸업",
     description: "철학",
-  },
-  {
-    title: "독학학위제",
-    logo: "📚",
-    type: "학위",
-    period: "2021.01 졸업",
-    description: "영어영문학",
+    more: {
+      title: "독학학위제",
+      period: "2021.01 졸업",
+      description: "영어영문학",
+    },
   },
 ];
