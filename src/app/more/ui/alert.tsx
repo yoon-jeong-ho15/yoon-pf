@@ -9,26 +9,26 @@ export default function Alert() {
   const user = session?.user as User;
   // const [count, setCount] = useState<number>(0);
 
-  useEffect(() => {
-    console.log("userId : ", user?.id);
+  // useEffect(() => {
+  //   console.log("userId : ", user?.id);
 
-    const connection = new EventSource(`/api/alert/connect?id=${user?.id}`);
+  //   const connection = new EventSource(`/api/alert/connect?id=${user?.id}`);
 
-    connection.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("Received alert:", data);
-      // Handle the alert data here (show notification, update UI, etc.)
-    };
+  //   connection.onmessage = (event) => {
+  //     const data = JSON.parse(event.data);
+  //     console.log("Received alert:", data);
+  //     // Handle the alert data here (show notification, update UI, etc.)
+  //   };
 
-    connection.onerror = (error) => {
-      console.error("SSE Error:", error);
-      connection.close();
-    };
+  //   connection.onerror = (error) => {
+  //     console.error("SSE Error:", error);
+  //     connection.close();
+  //   };
 
-    return () => {
-      connection.close();
-    };
-  }, [user?.id]);
+  //   return () => {
+  //     connection.close();
+  //   };
+  // }, [user?.id]);
 
   if (status === "loading") return <div>loading</div>;
   if (!session || !session.user) return <div>no session</div>;

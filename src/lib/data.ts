@@ -84,7 +84,7 @@ export async function fetchUserByUsername(username: string) {
 }
 
 export async function fetchChatsByChatroomId(id: string) {
-  console.log("getChatsByChatroomId id : ", id);
+  console.log("fetchChatsByChatroomId id : ", id);
   const { data, error } = await supabase
     .from("chat_message")
     .select("*, user(profile_pic)")

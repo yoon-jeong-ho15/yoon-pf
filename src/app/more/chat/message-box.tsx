@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useChatroom } from "./chatroom-provider";
 import { Chatroom, User } from "@/lib/definitions";
 import NoProfile from "public/no-profile";
-import { getChatsByChatroomId } from "@/lib/actions";
 import { ChatMessage } from "@/lib/definitions";
 import { useSession } from "next-auth/react";
 
@@ -43,23 +42,55 @@ export default function MessageBox({
   if (user.username !== "윤정호") {
     selectedChatroom = chatroom?.id ?? null;
   }
-  const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
+  const [prevMessages, setPrevMessages] = useState<ChatMessage[] | null>(null);
+  const [newMessage, setNewMessages] = useState<ChatMessage | null>(null);
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const messageDivRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (selectedChatroom) {
-      async function loadChats() {
-        const data = await getChatsByChatroomId(selectedChatroom as string);
-        setChatMessages(data);
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
       }
-      loadChats();
+      const sse = new EventSource(
+        `/api/sse/chat?ch=${selectedChatroom}&u=${user.username}`
+      );
+
+      sse.onopen = () => {
+        console.log("sse connection opened");
+      };
+
+      sse.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          switch (data.type) {
+            case "previous":
+              console.log(data);
+              setPrevMessages([...data.data]);
+              break;
+            case "new-message":
+              console.log(data);
+              break;
+            case "connected":
+              console.log(data);
+              break;
+          }
+        } catch (error) {
+          console.error("Error parsing SSE message : ", error);
+        }
+      };
+
+      sse.onerror = (error) => {
+        console.error("sse error : ", error);
+      };
     }
   }, [selectedChatroom]);
 
   if (!selectedChatroom) return <div>no selected chat room</div>;
   return (
-    <div className="grow overflow-y-scroll">
+    <div className="grow overflow-y-scroll" ref={messageDivRef}>
       {selectedChatroom}
-      {chatMessages?.map((chatMessage) => (
+      {prevMessages?.map((chatMessage) => (
         <Message key={chatMessage.id} {...chatMessage} />
       ))}
     </div>
