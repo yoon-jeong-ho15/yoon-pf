@@ -4,11 +4,14 @@ import { useChatroom } from "./chatroom-provider";
 import { Chatroom, User } from "@/lib/definitions";
 import NoProfile from "public/no-profile";
 import { ChatMessage } from "@/lib/definitions";
-import { useSession } from "next-auth/react";
 
-export function Message({ sent, message, created_at }: ChatMessage) {
-  const { data: session } = useSession();
-  const isMe = sent === (session?.user as User)?.username;
+export function Message({
+  sent,
+  message,
+  created_at,
+  user,
+}: ChatMessage & { user: User }) {
+  const isMe = sent === user.username;
 
   return (
     <div className={`px-5 pb-6 flex ${isMe ? "flex-row-reverse" : "flex-row"}`}>
@@ -57,10 +60,13 @@ export default function MessageBox({
     if (selectedChatroom) {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
+        eventSourceRef.current = null;
       }
+
       const sse = new EventSource(
         `/api/sse/chat?ch=${selectedChatroom}&u=${user.username}`
       );
+      eventSourceRef.current = sse;
 
       sse.onopen = () => {
         console.log("sse connection opened");
@@ -97,15 +103,31 @@ export default function MessageBox({
           eventSourceRef.current = null;
         }
       };
+    } else {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
+      }
+      setChatMessages(null);
     }
-  }, [selectedChatroom]);
+  }, [selectedChatroom, user.username]);
+
+  // 컴포넌트 언마운트 시 정리
+  useEffect(() => {
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
+      }
+    };
+  }, []);
 
   if (!selectedChatroom) return <div>no selected chat room</div>;
   return (
     <div className="grow overflow-y-scroll" ref={messageDivRef}>
       {selectedChatroom}
       {chatMessages?.map((chatMessage) => (
-        <Message key={chatMessage.id} {...chatMessage} />
+        <Message key={chatMessage.id} {...chatMessage} user={user} />
       ))}
     </div>
   );

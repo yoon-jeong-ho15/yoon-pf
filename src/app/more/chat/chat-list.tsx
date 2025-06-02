@@ -16,7 +16,7 @@ export function Chat({ chatroom }: { chatroom: Chatroom }) {
       setUser(user);
     }
     loadUser();
-  }, []);
+  }, [chatroom.user2]);
 
   if (!user) return <div>no user</div>;
 

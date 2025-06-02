@@ -1,7 +1,6 @@
 import UserProfile from "./ui/user-profile";
 import UserInfo from "./ui/user-info";
 import { auth } from "@/auth";
-import { SessionProvider } from "next-auth/react";
 
 export default async function Page() {
   const session = await auth();
@@ -18,14 +17,8 @@ export default async function Page() {
       from-indigo-500/50 to-blue-400/60
       "
     >
-      {session.user ? (
-        <SessionProvider session={session}>
-          <UserProfile />
-          <UserInfo />
-        </SessionProvider>
-      ) : (
-        <div>no user</div>
-      )}
+      <UserProfile />
+      <UserInfo />
     </div>
   );
 }
