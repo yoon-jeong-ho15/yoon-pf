@@ -8,7 +8,7 @@ import MessageForm from "./message-form";
 
 export default async function Page() {
   const session = await auth();
-  console.log("chat/page.tsx > session : ", session);
+  // console.log("chat/page.tsx > session : ", session);
   if (!session || !session.user) {
     return <div>no session</div>;
   }

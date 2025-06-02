@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 
 export default function UserInfo() {
   const { data: session, status } = useSession();
-  console.log("user-info > session : ", session);
+  // console.log("user-info > session : ", session);
   if (status === "loading") {
     return <div>loading</div>;
   }

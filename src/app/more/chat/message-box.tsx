@@ -6,12 +6,13 @@ import NoProfile from "public/no-profile";
 import { ChatMessage } from "@/lib/definitions";
 import { useSession } from "next-auth/react";
 
-export function Message({ sent, profile_pic, message }: ChatMessage) {
+export function Message({ sent, message, created_at }: ChatMessage) {
   const { data: session } = useSession();
-  const isMe = sent == (session?.user as User)?.username ? true : false;
+  const isMe = sent === (session?.user as User)?.username;
 
   return (
-    <div className={`px-5 pb-6 flex ${isMe ? "flex-row-reverse" : ""}`}>
+    <div className={`px-5 pb-6 flex ${isMe ? "flex-row-reverse" : "flex-row"}`}>
+      <div className="hidden">{created_at}</div>
       <div
         className={`flex h-fit w-fit rounded-2xl py-3 px-6 max-w-180 bg-linear-to-r
           shadow-lg
@@ -20,7 +21,7 @@ export function Message({ sent, profile_pic, message }: ChatMessage) {
           }`}
       >
         <div className="flex flex-col justify-center items-center">
-          {profile_pic ? <div>{profile_pic}</div> : <NoProfile size="md" />}
+          <NoProfile size="md" />
           <span>{sent}</span>
         </div>
         <div className="ml-6 text-xl whitespace-normal wrap-anywhere text-shadow-sm">
@@ -42,10 +43,15 @@ export default function MessageBox({
   if (user.username !== "윤정호") {
     selectedChatroom = chatroom?.id ?? null;
   }
-  const [prevMessages, setPrevMessages] = useState<ChatMessage[] | null>(null);
-  const [newMessage, setNewMessages] = useState<ChatMessage | null>(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
   const messageDivRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messageDivRef.current) {
+      messageDivRef.current.scrollTop = messageDivRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
 
   useEffect(() => {
     if (selectedChatroom) {
@@ -66,10 +72,11 @@ export default function MessageBox({
           switch (data.type) {
             case "previous":
               console.log(data);
-              setPrevMessages([...data.data]);
+              setChatMessages([...data.data]);
               break;
             case "new-message":
               console.log(data);
+              setChatMessages((prev) => [...(prev ?? []), data.data]);
               break;
             case "connected":
               console.log(data);
@@ -83,6 +90,13 @@ export default function MessageBox({
       sse.onerror = (error) => {
         console.error("sse error : ", error);
       };
+
+      return () => {
+        if (eventSourceRef.current) {
+          eventSourceRef.current.close();
+          eventSourceRef.current = null;
+        }
+      };
     }
   }, [selectedChatroom]);
 
@@ -90,7 +104,7 @@ export default function MessageBox({
   return (
     <div className="grow overflow-y-scroll" ref={messageDivRef}>
       {selectedChatroom}
-      {prevMessages?.map((chatMessage) => (
+      {chatMessages?.map((chatMessage) => (
         <Message key={chatMessage.id} {...chatMessage} />
       ))}
     </div>

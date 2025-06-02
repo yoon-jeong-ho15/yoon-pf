@@ -1,11 +1,11 @@
 import { EventEmitter } from "stream";
 
 export const connectedClients = new Map<
-  String,
+  string,
   {
     controller: ReadableStreamDefaultController;
-    chatroomId: string;
-    sendMessage: (data: any) => void;
+    chatroom: string;
+    sendMessage: (data: Record<string, unknown>) => void;
   }
 >();
 

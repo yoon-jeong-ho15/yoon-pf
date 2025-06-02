@@ -31,7 +31,6 @@ export type ChatMessage = {
   id: string;
   created_at: string;
   sent: string;
-  profile_pic: string;
   message: string;
   chatroom: string;
 };
