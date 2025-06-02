@@ -25,6 +25,13 @@ export default function Project() {
           >
             <span className="text-3xl">{item.logo}</span>
             <span className="ml-0.5">{item.title}</span>
+            {selectedTab === item && (
+              <motion.div
+                layoutId="underline"
+                className="bg-blue-700 h-[2px] bottom-0 right-0 left-0 absolute"
+                transition={{ type: "spring", duration: 0.4, bouncd: 0.2 }}
+              />
+            )}
           </motion.li>
         ))}
       </nav>
@@ -58,7 +65,7 @@ export default function Project() {
                     link
                   </a>
                 )}
-                <span className="ml-1">{[...project.stack]}</span>
+                <span className="ml-2">{[...project.stack].join(" ")}</span>
               </div>
             ))}
           </motion.div>
@@ -77,13 +84,13 @@ const tabs = [
         title: "GiveHub",
         github: "https://github.com/shpark47/GiveHub",
         link: "",
-        stack: ["Oracle", "TinyMce", ""],
+        stack: ["Oracle", "MyBatis", "Thymeleaf", "JavaScript"],
       },
       {
         title: "RealMan",
         github: "https://github.com/JuHyeong2/RealMan",
         link: "",
-        stack: [],
+        stack: ["Oracle", "Firebase", "MyBatis", "Thymeleaf", "JavaScript"],
       },
     ],
   },
@@ -95,7 +102,7 @@ const tabs = [
         title: "yoon-pf",
         github: "https://github.com/yoon-jeong-ho15/yoon-pf",
         link: "https://yoon-pf.vercel.app",
-        stack: [],
+        stack: ["PostgreSQL", "TypeScript"],
       },
     ],
   },
