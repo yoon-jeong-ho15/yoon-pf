@@ -1,4 +1,37 @@
+"use client";
+
+import { User } from "@/lib/definitions";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+
 export default function Alert() {
+  const { data: session, status } = useSession();
+  const user = session?.user as User;
+  // const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    console.log("userId : ", user?.id);
+
+    const connection = new EventSource(`/api/sse/alert?id=${user?.id}`);
+
+    connection.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Received alert:", data);
+      // Handle the alert data here (show notification, update UI, etc.)
+    };
+
+    connection.onerror = (error) => {
+      console.error("SSE Error:", error);
+      connection.close();
+    };
+
+    return () => {
+      connection.close();
+    };
+  }, [user?.id]);
+
+  if (status === "loading") return <div>loading</div>;
+  if (!session || !session.user) return <div>no session</div>;
   return (
     <form>
       <button className="hover:bg-indigo-200 p-1.5 rounded-md transition-colors flex items-center">

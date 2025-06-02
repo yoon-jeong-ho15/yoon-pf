@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import AuthError from "next-auth";
 import { redirect } from "next/navigation";
-import { fetchChatsByChatroomId, fetchUserByUsername } from "./data";
+import { fetchUserByUsername } from "./data";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -96,8 +96,4 @@ export async function sendMessage(formData: FormData) {
 
 export async function getUser(username: string) {
   return fetchUserByUsername(username);
-}
-
-export async function getChatsByChatroomId(id: string) {
-  return fetchChatsByChatroomId(id);
 }

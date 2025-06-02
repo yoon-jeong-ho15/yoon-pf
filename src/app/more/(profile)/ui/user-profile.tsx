@@ -6,7 +6,7 @@ import NoProfile from "public/no-profile";
 
 export default function UserProfile() {
   const { data: session, status } = useSession();
-  console.log("user-profile > session : ", session);
+  // console.log("user-profile > session : ", session);
   if (status === "loading") {
     return <div>loading</div>;
   }

@@ -34,7 +34,7 @@ export async function fetchBoardById(id: string) {
 }
 
 export async function fetchChatrooms(username: string) {
-  console.log("fetchChatrooms username : ", username);
+  // console.log("fetchChatrooms username : ", username);
   const { data, error } = await supabase
     .from("chatroom")
     .select("*")
@@ -49,7 +49,7 @@ export async function fetchChatrooms(username: string) {
 }
 
 export async function fetchOneChatroom(username: string) {
-  console.log("fetchOneChatroom username : ", username);
+  // console.log("fetchOneChatroom username : ", username);
   const { data, error } = await supabase
     .from("chatroom")
     .select("*")
@@ -64,7 +64,7 @@ export async function fetchOneChatroom(username: string) {
 }
 
 export async function fetchUserByUsername(username: string) {
-  console.log("fetchUserByUsername username : ", username);
+  // console.log("fetchUserByUsername username : ", username);
   const { data, error } = await supabase
     .from("user")
     .select("*")
@@ -84,7 +84,7 @@ export async function fetchUserByUsername(username: string) {
 }
 
 export async function fetchChatsByChatroomId(id: string) {
-  console.log("getChatsByChatroomId id : ", id);
+  // console.log("fetchChatsByChatroomId id : ", id);
   const { data, error } = await supabase
     .from("chat_message")
     .select("*, user(profile_pic)")
@@ -95,5 +95,21 @@ export async function fetchChatsByChatroomId(id: string) {
     throw new Error("Failed to fetch Chats by chatroom id");
   } else {
     return data as ChatMessage[];
+  }
+}
+
+export async function insertChat(formData: FormData) {
+  const { data, error } = await supabase
+    .from("chat_message")
+    .insert({
+      chatroom: formData.get("chatroom"),
+      sent: formData.get("sent"),
+      message: formData.get("message"),
+    })
+    .select();
+  if (error) {
+    console.error("Error inserting chat message", error);
+  } else {
+    return data[0] as ChatMessage;
   }
 }
