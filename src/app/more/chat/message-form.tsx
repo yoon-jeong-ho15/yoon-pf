@@ -51,7 +51,9 @@ export default function MessageForm({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (isSubmitting || isEmpty) {
+      return;
+    }
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
