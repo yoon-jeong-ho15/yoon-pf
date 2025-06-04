@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       message: newMessage,
     });
 
-    return NextResponse.json({ success: true, message: newMessage });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error sending message", error);
     return NextResponse.json({ status: 500 });

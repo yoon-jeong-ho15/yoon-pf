@@ -1,14 +1,14 @@
 import UserProfile from "./ui/user-profile";
 import UserInfo from "./ui/user-info";
 import { auth } from "@/auth";
+import { User } from "@/lib/definitions";
 
 export default async function Page() {
   const session = await auth();
-
+  const user = session?.user as User;
   if (!session) {
     return <div>no session</div>;
   }
-
   return (
     <div
       className="
@@ -17,8 +17,8 @@ export default async function Page() {
       from-indigo-500/50 to-blue-400/60
       "
     >
-      <UserProfile />
-      <UserInfo />
+      <UserProfile user={user} />
+      <UserInfo user={user} />
     </div>
   );
 }

@@ -1,40 +1,38 @@
 "use server";
 
-import { auth, signIn } from "@/auth";
+import { auth } from "@/auth";
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
-import AuthError from "next-auth";
 import { redirect } from "next/navigation";
-import { fetchUserByUsername } from "./data";
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  try {
-    console.log("authenticate() formData : ", formData);
-    await signIn("credentials", formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      const authError = error as { type?: string };
-      switch (authError.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
-    }
-    throw error;
-  }
-}
+// export async function authenticate(
+//   prevState: string | undefined,
+//   formData: FormData
+// ) {
+//   try {
+//     console.log("authenticate() formData : ", formData);
+//     await signIn("credentials", formData);
+//   } catch (error) {
+//     if (error instanceof AuthError) {
+//       const authError = error as { type?: string };
+//       switch (authError.type) {
+//         case "CredentialsSignin":
+//           return "Invalid credentials.";
+//         default:
+//           return "Something went wrong.";
+//       }
+//     }
+//     throw error;
+//   }
+// }
 
 export async function createBoard(title: string, content: string) {
-  console.log("createBoard : ", title);
+  // console.log("createBoard : ", title);
   const session = await auth();
   const user: User | null = (session?.user as User) || null;
 
@@ -50,10 +48,10 @@ export async function createBoard(title: string, content: string) {
 }
 
 export async function updateBoard(formData: FormData) {
-  console.log("updateBoard()");
-  console.log(formData.get("id"));
-  console.log(formData.get("title"));
-  console.log(formData.get("content"));
+  // console.log("updateBoard()");
+  // console.log(formData.get("id"));
+  // console.log(formData.get("title"));
+  // console.log(formData.get("content"));
   const { error } = await supabase
     .from("board")
     .update({
@@ -70,7 +68,7 @@ export async function updateBoard(formData: FormData) {
 }
 
 export async function deleteBoard(id: string) {
-  console.log("deleting : ", id);
+  // console.log("deleting : ", id);
   const { error } = await supabase
     .from("board")
     .update({
@@ -80,20 +78,4 @@ export async function deleteBoard(id: string) {
   if (error) {
     console.error("Error deleteing Board", error);
   }
-}
-
-export async function sendMessage(formData: FormData) {
-  console.log("sendMessage() formData : ", formData);
-  const { error } = await supabase.from("chat_message").insert({
-    chatroom: formData.get("chatroom"),
-    sent: formData.get("sent"),
-    message: formData.get("message"),
-  });
-  if (error) {
-    console.error("Error inserting chat message", error);
-  }
-}
-
-export async function getUser(username: string) {
-  return fetchUserByUsername(username);
 }
