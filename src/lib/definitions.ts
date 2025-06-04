@@ -23,8 +23,9 @@ export type Board = {
 
 export type Chatroom = {
   id: string;
-  user1: string;
-  user2: string;
+  me: string;
+  other: string;
+  profile_pic: string;
 };
 
 export type ChatMessage = {
@@ -33,4 +34,5 @@ export type ChatMessage = {
   sent: string;
   message: string;
   chatroom: string;
+  profile_pic: string;
 };

@@ -8,7 +8,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  console.log("more/layout.tsx > session : ", session);
+  // console.log("more/layout.tsx > session : ", session);
   if (!session || !session.user) {
     return <div>no session</div>;
   }

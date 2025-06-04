@@ -1,25 +1,17 @@
 "use client";
 
-import { Chatroom, User } from "@/lib/definitions";
+import { User } from "@/lib/definitions";
 import { useRef, useState } from "react";
 import { useChatroom } from "./chatroom-provider";
 
-export default function MessageForm({
-  user,
-  chatroom,
-}: {
-  user: User;
-  chatroom: Chatroom;
-}) {
+export default function MessageForm({ user }: { user: User }) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  let selectedChatroom = useChatroom()?.selectedChatroom ?? null;
-  if (user.username !== "윤정호") {
-    selectedChatroom = chatroom?.id ?? null;
-  }
+  const chatroomContext = useChatroom()!;
+  const isSubmitting = chatroomContext.isSubmitting;
+  const setIsSubmitting = chatroomContext.setIsSubmitting;
+  const selectedChatroom = chatroomContext.selectedChatroom;
 
   // useEffect(() => {
   //   if (textareaRef.current && buttonRef.current) {
@@ -57,12 +49,10 @@ export default function MessageForm({
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-
     const response = await fetch("/api/sse/chat", {
       method: "post",
       body: formData,
     });
-
     if (response.ok) {
       if (textareaRef.current) {
         textareaRef.current.value = "";
@@ -71,11 +61,7 @@ export default function MessageForm({
     } else {
       console.error("!response.ok");
     }
-
-    setIsSubmitting(false);
   };
-
-  if (!selectedChatroom) return <div>no selected chatroom</div>;
 
   return (
     <div className="mt-auto">
@@ -87,7 +73,7 @@ export default function MessageForm({
           name="message"
           ref={textareaRef}
           className="
-              bg-gray-100 w-full px-4 py-2 resize-none
+              bg-gray-100 w-full px-4 py-3 resize-none
               min-h-10 max-h-40 focus:outline-1 outline-sky-400 -outline-offset-1
               shadow rounded-lg
               "
@@ -105,19 +91,29 @@ export default function MessageForm({
             }
           }}
         />
-        <input type="hidden" name="sent" value={user.username} />
-        <input type="hidden" name="chatroom" value={selectedChatroom} />
-        <button
-          type="submit"
-          ref={buttonRef}
-          disabled={isEmpty || isSubmitting}
-          className="h-full max-h-8 px-2 drop-shadow-2xl rounded-2xl 
-              bg-blue-600 hover:bg-blue-500
-              absolute right-4 bottom-2.5 text-white disabled:bg-gray-300
-              "
-        >
-          전송
-        </button>
+        {selectedChatroom && (
+          <>
+            <input type="hidden" name="sent" value={user.username} />
+            <input type="hidden" name="chatroom" value={selectedChatroom} />
+            <button
+              type="submit"
+              ref={buttonRef}
+              disabled={isEmpty || isSubmitting}
+              className={`h-full max-h-8 rounded-2xl shadow w-20 
+                  absolute right-4 bottom-3.5 text-white
+                  ${
+                    isSubmitting
+                      ? "bg-blue-400"
+                      : isEmpty
+                      ? "bg-gray-200 hover:bg-gray-200"
+                      : "bg-blue-600 hover:bg-blue-500 cursor-pointer"
+                  }
+                  `}
+            >
+              {isSubmitting ? "전송중" : "전송"}
+            </button>
+          </>
+        )}
       </form>
     </div>
   );
