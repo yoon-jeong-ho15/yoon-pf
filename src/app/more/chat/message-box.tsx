@@ -4,14 +4,21 @@ import { useChatroom } from "./chatroom-provider";
 import { User } from "@/lib/definitions";
 import NoProfile from "public/no-profile";
 import { ChatMessage } from "@/lib/definitions";
+import { supabase } from "@/lib/supabase";
+import { fetchChatsByChatroomId } from "@/lib/data";
 
 export default function MessageBox({ user }: { user: User }) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
-  const eventSourceRef = useRef<EventSource | null>(null);
   const messageDivRef = useRef<HTMLDivElement | null>(null);
   const chatroomContext = useChatroom()!;
-  const setIsSubmitting = chatroomContext.setIsSubmitting;
-  const selectedChatroom = chatroomContext.selectedChatroom;
+  const { setIsSubmitting, selectedChatroom } = chatroomContext;
+
+  const loadPrevChats = async () => {
+    if (selectedChatroom) {
+      const previousChats = await fetchChatsByChatroomId(selectedChatroom);
+      setChatMessages(previousChats);
+    }
+  };
 
   useEffect(() => {
     if (messageDivRef.current) {
@@ -20,71 +27,26 @@ export default function MessageBox({ user }: { user: User }) {
   }, [chatMessages]);
 
   useEffect(() => {
-    if (selectedChatroom) {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        eventSourceRef.current = null;
+    if (!selectedChatroom) return;
+
+    loadPrevChats();
+
+    const channel = supabase.channel(`ch${selectedChatroom}`);
+    channel.on("broadcast", { event: "new-message" }, (data) => {
+      const message = data.payload;
+
+      setChatMessages((prev) => [...(prev ?? []), message]);
+
+      if (message.sent === user.username) {
+        setIsSubmitting(false);
       }
+    });
+    channel.subscribe();
 
-      const sse = new EventSource(
-        `/api/sse/chat?ch=${selectedChatroom}&u=${user.username}`
-      );
-      eventSourceRef.current = sse;
-
-      sse.onopen = () => {
-        console.log("sse connection opened");
-      };
-
-      sse.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          switch (data.type) {
-            case "previous":
-              console.log(data);
-              setChatMessages([...data.data]);
-              break;
-            case "new-message":
-              console.log(data);
-              setChatMessages((prev) => [...(prev ?? []), data.data]);
-              if (data.data.sent === user.username) setIsSubmitting(false);
-              break;
-            case "connected":
-              console.log(data);
-              break;
-          }
-        } catch (error) {
-          console.error("Error parsing SSE message : ", error);
-        }
-      };
-
-      sse.onerror = (error) => {
-        console.error("sse error : ", error);
-      };
-
-      return () => {
-        if (eventSourceRef.current) {
-          eventSourceRef.current.close();
-          eventSourceRef.current = null;
-        }
-      };
-    } else {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        eventSourceRef.current = null;
-      }
-      setChatMessages(null);
-    }
-  }, [selectedChatroom, user.username]);
-
-  // 컴포넌트 언마운트 시 정리
-  useEffect(() => {
     return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        eventSourceRef.current = null;
-      }
+      supabase.removeChannel(channel);
     };
-  }, []);
+  }, [selectedChatroom]);
 
   if (!selectedChatroom)
     return (

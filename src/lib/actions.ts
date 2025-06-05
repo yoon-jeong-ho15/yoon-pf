@@ -1,14 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/lib/definitions";
 import { redirect } from "next/navigation";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+import { supabase } from "./supabase";
+import { insertChat } from "./data";
 
 // export async function authenticate(
 //   prevState: string | undefined,
@@ -78,4 +74,19 @@ export async function deleteBoard(id: string) {
   if (error) {
     console.error("Error deleteing Board", error);
   }
+}
+
+export async function sendChatMessage(formData: FormData) {
+  const chatroom = formData.get("chatroom");
+
+  const newMessage = await insertChat(formData);
+  const channel = supabase.channel(`ch${chatroom}`);
+  const result = await channel.send({
+    type: "broadcast",
+    event: "new-message",
+    payload: newMessage,
+  });
+
+  console.log("sendChatMessage()  result : ", result);
+  return result;
 }
