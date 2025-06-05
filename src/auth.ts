@@ -1,14 +1,9 @@
 import type { AuthUser } from "@/lib/definitions";
 import NextAuth from "next-auth";
-import { createClient } from "@supabase/supabase-js";
 import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "./lib/zod";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+import { supabase } from "./lib/supabase";
 
 async function getUser(username: string): Promise<AuthUser> {
   const { data: user, error } = await supabase

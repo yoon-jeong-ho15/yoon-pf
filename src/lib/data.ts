@@ -1,10 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { Board, ChatMessage, User } from "./definitions";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
+import { supabase } from "./supabase";
 
 export async function fetchBoards(query: string, currentPage: number) {
   const offset = (currentPage - 1) * 25;

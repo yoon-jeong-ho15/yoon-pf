@@ -3,7 +3,6 @@
 import { User } from "@/lib/definitions";
 import { useRef, useState } from "react";
 import { useChatroom } from "./chatroom-provider";
-import { sendChatMessage } from "@/lib/actions";
 
 export default function MessageForm({ user }: { user: User }) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -50,13 +49,17 @@ export default function MessageForm({ user }: { user: User }) {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    const result = await sendChatMessage(formData);
-
-    if (result === "ok") {
+    const response = await fetch("/api/sse/chat", {
+      method: "post",
+      body: formData,
+    });
+    if (response.ok) {
       if (textareaRef.current) {
         textareaRef.current.value = "";
         setIsEmpty(true);
       }
+    } else {
+      console.error("!response.ok");
     }
   };
 
