@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/lib/definitions";
-import NoProfile from "public/no-profile";
+import { NoProfile } from "public/icon";
 
 export default function UserProfile({ user }: { user: User }) {
   return (

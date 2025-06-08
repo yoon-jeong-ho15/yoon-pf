@@ -1,4 +1,4 @@
-import { Board, ChatMessage, User } from "./definitions";
+import { Board, ChatMessage, ChatroomMap, User } from "./definitions";
 import { supabase } from "./supabase";
 
 export async function fetchBoards(query: string, currentPage: number) {
@@ -33,12 +33,49 @@ export async function fetchChatrooms(username: string) {
   const { data, error } = await supabase.rpc("get_chatroom_data", {
     p_username: username,
   });
+  const chatrooms: ChatroomMap = new Map();
+  data.map((obj: Record<string, unknown>) => {
+    // console.log("obj", obj);
 
+    const roomId = obj.id as string;
+    const roomtitle = obj.title as string;
+
+    //채팅방
+    let room = null;
+    for (const [existingRoom] of chatrooms) {
+      if (existingRoom.id === roomId) {
+        room = existingRoom;
+        break;
+      }
+    }
+
+    if (!room) {
+      room = {
+        id: roomId,
+        title: roomtitle,
+      };
+    }
+
+    //유저
+    const user = {
+      username: obj.username as string,
+      id: obj.uid as string,
+      profilePic: obj.profile_pic as string,
+    };
+
+    if (chatrooms.has(room)) {
+      chatrooms.get(room)?.push(user);
+    } else {
+      chatrooms.set(room, [user]);
+    }
+  });
+
+  // console.log(chatrooms);
   if (error) {
     console.error("Error fetching data : ", error);
     throw new Error("Failed to fetch Chatrooms");
   } else {
-    return data;
+    return chatrooms;
   }
 }
 
@@ -56,7 +93,7 @@ export async function fetchUserByUsername(username: string) {
       id: data[0].id,
       username: data[0].username,
       from: data[0].from,
-      pic: data[0].profile_pic,
+      profilePic: data[0].profile_pic,
     };
     return user;
   }
@@ -65,7 +102,7 @@ export async function fetchUserByUsername(username: string) {
 export async function fetchChatsByChatroomId(id: string) {
   // console.log("fetchChatsByChatroomId id : ", id);
   const { data, error } = await supabase
-    .from("v_chat_messages")
+    .from("v_chat_message")
     .select("*")
     .eq("chatroom", id);
 
@@ -78,16 +115,31 @@ export async function fetchChatsByChatroomId(id: string) {
 }
 
 export async function insertChat(formData: FormData) {
+  // console.log("insertchat() formData : ", formData);
   const { data, error } = await supabase
     .from("chat_message")
     .insert({
       chatroom: formData.get("chatroom"),
-      sent: formData.get("sent"),
+      user_id: formData.get("user_id"),
       message: formData.get("message"),
     })
-    .select();
+    .select("id");
+
   if (error) {
     console.error("Error inserting chat message", error);
+  } else {
+    return data[0].id;
+  }
+}
+
+export async function fetchChatById(id: string) {
+  const { data, error } = await supabase
+    .from("v_chat_message")
+    .select("*")
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error fetching chat message", error);
   } else {
     return data[0] as ChatMessage;
   }

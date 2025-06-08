@@ -65,7 +65,7 @@ export default function Project() {
                     link
                   </a>
                 )}
-                <span className="ml-2">{[...project.stack].join(" ")}</span>
+                <span className="ml-2">{[...project.stack].join(", ")}</span>
               </div>
             ))}
           </motion.div>

@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useChatroom } from "./chatroom-provider";
 import { User } from "@/lib/definitions";
-import NoProfile from "public/no-profile";
+import { NoProfile } from "public/icon";
 import { ChatMessage } from "@/lib/definitions";
 import { supabase } from "@/lib/supabase";
 import { fetchChatsByChatroomId } from "@/lib/data";
@@ -37,7 +37,7 @@ export default function MessageBox({ user }: { user: User }) {
 
       setChatMessages((prev) => [...(prev ?? []), message]);
 
-      if (message.sent === user.username) {
+      if (message.user_id === user.id) {
         setIsSubmitting(false);
       }
     });
@@ -66,13 +66,13 @@ export default function MessageBox({ user }: { user: User }) {
 }
 
 export function Message({
-  sent,
+  username,
   message,
   created_at,
   user,
   profile_pic,
 }: ChatMessage & { user: User }) {
-  const isMe = sent === user.username;
+  const isMe = username === user.username;
 
   return (
     <div className={`px-5 pb-6 flex ${isMe ? "flex-row-reverse" : "flex-row"}`}>
@@ -90,7 +90,7 @@ export function Message({
           ) : (
             <NoProfile size="md" />
           )}
-          <span className="text-xs">{sent}</span>
+          <span className="text-xs">{username}</span>
         </div>
         <div className="ml-6 whitespace-normal wrap-anywhere text-shadow-sm">
           {message}
