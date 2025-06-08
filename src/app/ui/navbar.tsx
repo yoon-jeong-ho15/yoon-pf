@@ -22,7 +22,7 @@ export default function Navbar() {
     }
 
     //div 크기,위치 설정
-    if (currentRef && currentRef.current) {
+    if (currentRef.current) {
       const rect = currentRef.current.getBoundingClientRect();
       const navRect = currentRef.current.parentElement?.getBoundingClientRect();
 
@@ -40,53 +40,48 @@ export default function Navbar() {
       className={`
           ${robotoMono.className}
           flex justify-around items-center 
-          h-14 mt-8 mx-10 text-2xl 
-          shadow-lg
-          border-gray-400 border-1
-          bg-gray-100
-          rounded-3xl
-          font-[500]
-          relative
-          overflow-hidden
-          text-shadow-xs/10
+          h-14 mt-8 mx-10 text-2xl shadow-lg
+          border-gray-400 border-1 bg-gray-100
+          rounded-3xl font-[500] relative
+          overflow-hidden text-shadow-xs/10
           `}
     >
       <Link
         href="/"
         ref={homeRef}
         className="
-        flex justify-center items-center 
-        h-full w-35 my-3
-        z-10"
+          flex justify-center items-center 
+          h-full w-35 my-3 z-10"
       >
         home
       </Link>
       <Link
         href="/about"
         ref={aboutRef}
-        className="flex 
-          justify-center items-center 
-          h-full w-35 my-3
-          z-10"
+        className="
+          flex justify-center items-center 
+          h-full w-35 my-3 z-10
+          "
       >
         about
       </Link>
       <Link
         href="/more"
         ref={moreRef}
-        className="flex 
-          justify-center items-center 
-          h-full w-35 my-3
-          z-10"
+        className="
+          flex justify-center items-center 
+          h-full w-35 my-3 z-10
+          "
       >
         more
       </Link>
+      {/* 움직이는 print (    ) */}
       <div
         className="
             absolute h-full my-3
-            transition-all
-            duration-300
-            flex items-center justify-between"
+            transition-all duration-300
+            flex items-center justify-between
+            "
         style={{
           left: `${activePosition.left}px`,
           width: `${activePosition.width}px`,

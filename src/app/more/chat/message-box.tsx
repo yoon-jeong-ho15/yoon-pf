@@ -37,7 +37,7 @@ export default function MessageBox({ user }: { user: User }) {
 
       setChatMessages((prev) => [...(prev ?? []), message]);
 
-      if (message.user_id === user.id) {
+      if (message.username === user.username) {
         setIsSubmitting(false);
       }
     });
