@@ -10,7 +10,7 @@ export type User = {
   id: string;
   username: string;
   from: number;
-  pic: string;
+  profilePic: string;
 };
 
 export type Board = {
@@ -21,17 +21,23 @@ export type Board = {
   content: string;
 };
 
+export type ChatroomUser = {
+  username: string;
+  id: string;
+  profilePic: string;
+};
+
 export type Chatroom = {
   id: string;
-  me: string;
-  other: string;
-  profile_pic: string;
+  title: string;
 };
+
+export type ChatroomMap = Map<Chatroom, ChatroomUser[]>;
 
 export type ChatMessage = {
   id: string;
   created_at: string;
-  sent: string;
+  username: string;
   message: string;
   chatroom: string;
   profile_pic: string;

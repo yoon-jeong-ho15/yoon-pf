@@ -19,19 +19,21 @@ export default async function Page() {
     <div className="w-[90%]">
       <h1>chat</h1>
       <ChatroomProvider>
-        <div
-          className="h-180 w-[70%] flex rounded shadowp-1 container p-1
-            bg-gradient-to-r from-blue-400 to-indigo-400"
-        >
+        <div className="flex">
           <div
-            className="w-full h-full bg-white rounded container 
-              flex flex-col justify-between shadow"
+            className="h-180 w-[70%] flex rounded shadowp-1 container p-1
+            bg-gradient-to-r from-blue-400 to-indigo-400"
           >
-            <MessageBox user={user} />
-            <MessageForm user={user} />
+            <div
+              className="w-full h-full bg-white rounded container 
+              flex flex-col justify-between shadow"
+            >
+              <MessageBox user={user} />
+              <MessageForm user={user} />
+            </div>
           </div>
+          <ChatList chatrooms={chatrooms} />
         </div>
-        <ChatList chatrooms={chatrooms} />
       </ChatroomProvider>
     </div>
   );

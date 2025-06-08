@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import type { User } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
-import { insertChat } from "./data";
+import { fetchChatById, insertChat } from "./data";
 
 // export async function authenticate(
 //   prevState: string | undefined,
@@ -79,7 +79,8 @@ export async function deleteBoard(id: string) {
 export async function sendChatMessage(formData: FormData) {
   const chatroom = formData.get("chatroom");
 
-  const newMessage = await insertChat(formData);
+  const newMessageId = await insertChat(formData);
+  const newMessage = await fetchChatById(newMessageId);
   const channel = supabase.channel(`ch${chatroom}`);
   const result = await channel.send({
     type: "broadcast",
@@ -87,6 +88,6 @@ export async function sendChatMessage(formData: FormData) {
     payload: newMessage,
   });
 
-  console.log("sendChatMessage()  result : ", result);
+  // console.log("sendChatMessage()  result : ", result);
   return result;
 }

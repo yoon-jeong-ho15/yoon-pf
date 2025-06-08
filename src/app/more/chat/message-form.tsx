@@ -90,7 +90,7 @@ export default function MessageForm({ user }: { user: User }) {
         />
         {selectedChatroom && (
           <>
-            <input type="hidden" name="sent" value={user.username} />
+            <input type="hidden" name="user_id" value={user.id} />
             <input type="hidden" name="chatroom" value={selectedChatroom} />
             <button
               type="submit"
