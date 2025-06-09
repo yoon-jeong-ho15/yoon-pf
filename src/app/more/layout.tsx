@@ -1,5 +1,5 @@
 import { SessionProvider } from "next-auth/react";
-import MoreNav from "./ui/board-nav";
+import MoreNav from "./ui/more-nav";
 import { auth } from "@/auth";
 
 export default async function Layout({

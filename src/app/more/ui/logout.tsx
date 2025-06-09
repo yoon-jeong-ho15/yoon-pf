@@ -1,13 +1,8 @@
-import { signOut } from "@/auth";
+import { logOut } from "@/lib/actions";
 
 export default function Logout() {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut({ redirectTo: "/more" });
-      }}
-    >
+    <form action={logOut}>
       <button className="hover:bg-indigo-200 p-1.5 rounded-md transition-colors">
         <svg
           xmlns="http://www.w3.org/2000/svg"
