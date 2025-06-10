@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { User } from "@/lib/definitions";
 import ChatList from "./chat-list";
 import ChatroomProvider from "./chatroom-provider";
-import { fetchChatrooms } from "@/lib/data";
+import { fetchChatrooms, fetchUsersByGroup } from "@/lib/data";
 import MessageBox from "./message-box";
 import MessageForm from "./message-form";
 
@@ -14,10 +14,10 @@ export default async function Page() {
   }
   const user = session.user as User;
   const chatrooms = await fetchChatrooms(user.username);
+  const friends = await fetchUsersByGroup(user.friendGroup, user.username);
 
   return (
-    <div className="w-[90%]">
-      <h1>chat</h1>
+    <div className="w-[90%] pt-5">
       <ChatroomProvider>
         <div className="flex">
           <div
@@ -32,7 +32,7 @@ export default async function Page() {
               <MessageForm user={user} />
             </div>
           </div>
-          <ChatList chatrooms={chatrooms} />
+          <ChatList chatrooms={chatrooms} friends={friends} />
         </div>
       </ChatroomProvider>
     </div>

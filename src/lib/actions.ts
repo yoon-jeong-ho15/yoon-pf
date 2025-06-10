@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import type { User } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
@@ -26,6 +26,10 @@ import { fetchChatById, insertChat } from "./data";
 //     throw error;
 //   }
 // }
+
+export async function logOut() {
+  await signOut({ redirectTo: "/more" });
+}
 
 export async function createBoard(title: string, content: string) {
   // console.log("createBoard : ", title);

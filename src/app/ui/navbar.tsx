@@ -1,97 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import { robotoMono } from "../fonts";
+import * as motion from "motion/react-client";
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const homeRef = useRef<HTMLAnchorElement | null>(null);
-  const aboutRef = useRef<HTMLAnchorElement | null>(null);
-  const moreRef = useRef<HTMLAnchorElement | null>(null);
-  const [activePosition, setActivePosition] = useState({ left: 0, width: 0 });
-
-  useEffect(() => {
-    //현재 주소로 ref 지정해주기
-    let currentRef = homeRef;
-    if (pathname.startsWith("/about")) {
-      currentRef = aboutRef;
-    } else if (pathname.startsWith("/more") || pathname.startsWith("/login")) {
-      currentRef = moreRef;
-    }
-
-    //div 크기,위치 설정
-    if (currentRef.current) {
-      const rect = currentRef.current.getBoundingClientRect();
-      const navRect = currentRef.current.parentElement?.getBoundingClientRect();
-
-      if (rect && navRect) {
-        setActivePosition({
-          left: rect.left - navRect.left,
-          width: rect.width,
-        });
-      }
-    }
-  }, [pathname]);
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
     <nav
       className={`
-          ${robotoMono.className}
-          flex justify-around items-center 
-          h-14 mt-8 mx-10 text-2xl shadow-lg
-          border-gray-400 border-1 bg-gray-100
-          rounded-3xl font-[500] relative
-          overflow-hidden text-shadow-xs/10
-          `}
+       ${robotoMono.className}
+       flex justify-around items-center 
+       h-14 mt-8 mx-10 text-2xl shadow-lg
+       border-gray-400 border-1 bg-gray-100
+       rounded-3xl font-[500]
+       overflow-hidden text-shadow-xs/10
+       relative
+     `}
     >
-      <Link
-        href="/"
-        ref={homeRef}
-        className="
-          flex justify-center items-center 
-          h-full w-35 my-3 z-10"
-      >
-        home
-      </Link>
-      <Link
-        href="/about"
-        ref={aboutRef}
-        className="
-          flex justify-center items-center 
-          h-full w-35 my-3 z-10
-          "
-      >
-        about
-      </Link>
-      <Link
-        href="/more"
-        ref={moreRef}
-        className="
-          flex justify-center items-center 
-          h-full w-35 my-3 z-10
-          "
-      >
-        more
-      </Link>
-      {/* 움직이는 print (    ) */}
-      <div
-        className="
-            absolute h-full my-3
-            transition-all duration-300
-            flex items-center justify-between
-            "
-        style={{
-          left: `${activePosition.left}px`,
-          width: `${activePosition.width}px`,
-          transitionTimingFunction: "cubic-bezier(0.34, 1.2, 0.64, 1)",
-        }}
-      >
-        <span className="hidden md:block absolute -left-19">print</span>
-        <span>(</span>
-        <span>)</span>
-      </div>
+      {tabs.map((item) => (
+        <Link
+          key={item.title}
+          href={item.href}
+          onClick={() => setSelectedTab(item)}
+          className="
+           flex justify-center items-center 
+           h-full w-35 my-3 relative z-10"
+        >
+          {item.title}
+          {selectedTab === item && (
+            <motion.div
+              layoutId="printBrackets"
+              className="
+               absolute inset-0 h-full flex items-center
+               pointer-events-none"
+              transition={{
+                type: "spring",
+                duration: 0.4,
+                bounce: 0.2,
+              }}
+            >
+              <span className="hidden md:block absolute -left-19">print</span>
+              <span>(</span>
+              <div className="flex-1"></div>
+              <span>)</span>
+            </motion.div>
+          )}
+        </Link>
+      ))}
     </nav>
   );
 }
+
+const tabs = [
+  { title: "home", href: "/" },
+  { title: "about", href: "/about" },
+  { title: "more", href: "/more" },
+];

@@ -4,6 +4,7 @@ export type AuthUser = {
   password: string;
   from: string;
   profile_pic: string;
+  friend_group: string;
 };
 
 export type User = {
@@ -11,6 +12,7 @@ export type User = {
   username: string;
   from: number;
   profilePic: string;
+  friendGroup: string;
 };
 
 export type Board = {

@@ -1,11 +1,12 @@
 "use client";
 
 import { User } from "@/lib/definitions";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useChatroom } from "./chatroom-provider";
 import { sendChatMessage } from "@/lib/actions";
 
 export default function MessageForm({ user }: { user: User }) {
+  // console.log("MessageForm");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -14,24 +15,32 @@ export default function MessageForm({ user }: { user: User }) {
   const setIsSubmitting = chatroomContext.setIsSubmitting;
   const selectedChatroom = chatroomContext.selectedChatroom;
 
-  // useEffect(() => {
-  //   if (textareaRef.current && buttonRef.current) {
-  //     const textarea = textareaRef.current;
-  //     const button = buttonRef.current;
-  //     const form = textarea.parentElement;
+  useEffect(() => {
+    // console.log("useEffect()");
+    if (textareaRef.current && buttonRef.current) {
+      const textarea = textareaRef.current;
+      const button = buttonRef.current;
+      const form = textarea.parentElement;
+      // console.log("textarea : ", textarea);
+      // console.log("button : ", button);
+      // console.log("form : ", form);
 
-  //     if (!form) {
-  //       return;
-  //     }
+      textarea.value = "";
+      textarea.style.height = "auto";
+      setIsEmpty(true);
 
-  //     const formRect = form.getBoundingClientRect();
-  //     const buttonRect = button.getBoundingClientRect();
+      if (!form) {
+        return;
+      }
 
-  //     const bottomPosition = formRect.height / 2 - buttonRect.height / 2;
+      const formRect = form.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
 
-  //     button.style.bottom = `${bottomPosition}px`;
-  //   }
-  // }, []);
+      const bottomPosition = formRect.height / 2 - buttonRect.height / 2;
+      // console.log("bottomPosition : ", bottomPosition);
+      button.style.bottom = `${bottomPosition}px`;
+    }
+  }, [selectedChatroom]);
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     e.currentTarget.style.height = "auto";
@@ -60,8 +69,9 @@ export default function MessageForm({ user }: { user: User }) {
     }
   };
 
+  if (!selectedChatroom) return;
   return (
-    <div className="mt-auto">
+    <div className="">
       <form
         onSubmit={handleSubmit}
         className="bg-gray-200 w-full pt-1 p-0.5 relative rounded-b-md items-center"
