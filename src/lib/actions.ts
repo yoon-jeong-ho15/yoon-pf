@@ -85,6 +85,7 @@ export async function sendChatMessage(formData: FormData) {
 
   const newMessageId = await insertChat(formData);
   const newMessage = await fetchChatById(newMessageId);
+  console.log("newMessage : ", newMessage);
   const channel = supabase.channel(`ch${chatroom}`);
   const result = await channel.send({
     type: "broadcast",

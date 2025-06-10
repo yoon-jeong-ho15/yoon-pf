@@ -31,7 +31,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: token.sub,
           username: token.username as string,
           from: token.from as number,
-          pic: token.pic as string,
+          profilePic: token.profilePic as string,
+          friendGroup: token.friendGroup as string,
         },
       };
     },
@@ -40,7 +41,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // console.log("jwt() user : ", user);
         token.username = (user as AuthUser).username;
         token.from = (user as AuthUser).from;
-        token.pic = (user as AuthUser).profile_pic;
+        token.profilePic = (user as AuthUser).profile_pic;
+        token.friendGroup = (user as AuthUser).friend_group;
       }
       return token;
     },

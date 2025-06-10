@@ -1,47 +1,61 @@
 "use client";
 
-import { Chatroom, ChatroomMap, ChatroomUser } from "@/lib/definitions";
+import { Chatroom, ChatroomMap, ChatroomUser, User } from "@/lib/definitions";
 import { NoProfile } from "public/icon";
 import { useChatroom } from "./chatroom-provider";
 import { MessageIcon } from "public/icon";
+import AddChatroom from "./add-chatroom";
+import { AnimatePresence } from "motion/react";
 
 export default function ChatList({
   chatrooms,
+  friends,
 }: {
   chatrooms: ChatroomMap | null;
+  friends?: User[];
 }) {
-  const selectChatroom = useChatroom()?.selectChatroom;
+  const chatroomContext = useChatroom()!;
+  const { setSelectedChatroom, setIsShowingAddChatroom, isShowingAddChatroom } =
+    chatroomContext;
 
   return (
-    <div className="bg-gray-100 rounded-xl w-[25%] ml-3">
-      <div className="h-fit px-3 pt-2">
-        <div
+    <div className="bg-gray-100 rounded-xl w-[25%] ml-3 relative">
+      <AnimatePresence>
+        {isShowingAddChatroom && <AddChatroom friends={friends} />}
+      </AnimatePresence>
+      <div className="h-fit flex justify-between px-3 pt-2">
+        <button
           onClick={() => {
-            if (selectChatroom) selectChatroom(null);
+            setSelectedChatroom(null);
           }}
           className="w-fit rounded-xl border-1 text-md text-center px-2
-          hover:bg-gray-100 cursor-pointer"
+          hover:bg-gray-200 cursor-pointer"
         >
           메인
-        </div>
+        </button>
+        <button
+          className="rounded-xl border-1 text-center px-2 
+        hover:bg-gray-200 cursor-pointer"
+          onClick={() => {
+            if (isShowingAddChatroom) {
+              setIsShowingAddChatroom(false);
+            } else {
+              setIsShowingAddChatroom(true);
+            }
+          }}
+        >
+          +
+        </button>
       </div>
-
       <nav className="p-4 flex flex-col overflow-x-scroll">
         {[...(chatrooms?.entries() || [])].map(([chatroom, users]) => (
           <Chat
             key={chatroom.id}
             chatroom={chatroom}
             users={users}
-            selectChatroom={selectChatroom ?? (() => {})}
+            setSelectedChatroom={setSelectedChatroom ?? (() => {})}
           />
         ))}
-        {/* {chatrooms?.map((chatroom) => (
-          <Chat
-            key={chatroom.id}
-            chatroom={chatroom}
-            selectChatroom={selectChatroom ?? (() => {})}
-          />
-        ))} */}
       </nav>
     </div>
   );
@@ -49,17 +63,17 @@ export default function ChatList({
 
 export function Chat({
   chatroom,
-  selectChatroom,
+  setSelectedChatroom,
   users,
 }: {
   chatroom: Chatroom;
-  selectChatroom: (id: string | null) => void;
+  setSelectedChatroom: (id: string | null) => void;
   users: ChatroomUser[];
 }) {
   return (
     <div
       onClick={() => {
-        if (selectChatroom) selectChatroom(chatroom.id);
+        setSelectedChatroom(chatroom.id);
       }}
       className="flex w-full items-center hover:bg-zinc-200
         cursor-pointer"

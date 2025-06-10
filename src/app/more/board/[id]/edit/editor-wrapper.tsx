@@ -18,14 +18,16 @@ export default function EditorWrapper({
 
   useEffect(() => {
     if (!quillRef.current) return;
-    try {
-      const delta = JSON.parse(initialValue);
-      quillRef.current.setContents(delta);
-    } catch (error) {
-      console.error("Error parsing initialValue", error);
-    }
+
+    // try {
+    const delta = JSON.parse(initialValue);
+    quillRef.current.setContents(delta);
+    // } catch (error) {
+    //   console.error("Error parsing initialValue", error);
+    // }
 
     const editor = quillRef.current;
+
     const handleChange = () => {
       const delta = editor.getContents();
       setEditorContent(JSON.stringify(delta));

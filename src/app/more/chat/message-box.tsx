@@ -6,6 +6,7 @@ import { NoProfile } from "public/icon";
 import { ChatMessage } from "@/lib/definitions";
 import { supabase } from "@/lib/supabase";
 import { fetchChatsByChatroomId } from "@/lib/data";
+import MessageBoxWelcome from "@/app/ui/motions/message-box-welcome";
 
 export default function MessageBox({ user }: { user: User }) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
@@ -37,7 +38,7 @@ export default function MessageBox({ user }: { user: User }) {
 
       setChatMessages((prev) => [...(prev ?? []), message]);
 
-      if (message.user_id === user.id) {
+      if (message.username === user.username) {
         setIsSubmitting(false);
       }
     });
@@ -48,16 +49,10 @@ export default function MessageBox({ user }: { user: User }) {
     };
   }, [selectedChatroom]);
 
-  if (!selectedChatroom)
-    return (
-      <div>
-        <span>aadsf</span>
-      </div>
-    );
-
+  if (!selectedChatroom) return <MessageBoxWelcome />;
   return (
-    <div className="grow overflow-y-scroll" ref={messageDivRef}>
-      {selectedChatroom}
+    <div className="grow overflow-y-scroll pt-2" ref={messageDivRef}>
+      <input type="hidden" value={selectedChatroom} />
       {chatMessages?.map((chatMessage) => (
         <Message key={chatMessage.id} {...chatMessage} user={user} />
       ))}

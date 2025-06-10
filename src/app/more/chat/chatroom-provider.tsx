@@ -3,9 +3,11 @@ import React, { createContext, useContext, useState } from "react";
 
 type ChatroomContextType = {
   selectedChatroom: string | null;
-  selectChatroom: (id: string | null) => void;
+  setSelectedChatroom: (id: string | null) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
+  isShowingAddChatroom: boolean;
+  setIsShowingAddChatroom: (isShowingAddChatroom: boolean) => void;
 };
 
 const ChatroomContext = createContext<ChatroomContextType | null>(null);
@@ -16,19 +18,18 @@ export default function ChatroomProvider({
   children: React.ReactNode;
 }) {
   const [selectedChatroom, setSelectedChatroom] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const selectChatroom = (id: string | null) => {
-    setSelectedChatroom(id);
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isShowingAddChatroom, setIsShowingAddChatroom] = useState(false);
 
   return (
     <ChatroomContext.Provider
       value={{
         selectedChatroom,
-        selectChatroom,
+        setSelectedChatroom,
         isSubmitting,
         setIsSubmitting,
+        isShowingAddChatroom,
+        setIsShowingAddChatroom,
       }}
     >
       {children}

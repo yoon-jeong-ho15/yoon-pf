@@ -14,6 +14,7 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
 
   useEffect(() => {
     if (!containerRef.current) return;
+
     let quill: Quill | null = null;
     let container: HTMLDivElement | null = null;
 
@@ -21,9 +22,13 @@ export default function Editor({ ref }: { ref: RefObject<Quill | null> }) {
     const editorContainer = container.appendChild(
       document.createElement("div")
     );
+
     quill = new Quill(editorContainer, { theme: "bubble" });
+
     ref.current = quill;
-    console.log("quill : ", quill);
+
+    // console.log("quill : ", quill);
+
     return () => {
       if (quill && container) {
         ref.current = null;
