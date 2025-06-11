@@ -1,12 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { robotoMono } from "../fonts";
 import * as motion from "motion/react-client";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const pathname = usePathname();
+  const getSelectedTab = () => {
+    if (pathname === "/") return tabs[0];
+    if (pathname.startsWith("/about")) return tabs[1];
+    if (pathname.startsWith("/more")) return tabs[2];
+  };
+  const selectedTab = getSelectedTab();
 
   return (
     <nav
@@ -24,7 +30,6 @@ export default function Navbar() {
         <Link
           key={item.title}
           href={item.href}
-          onClick={() => setSelectedTab(item)}
           className="
            flex justify-center items-center 
            h-full w-35 my-3 relative z-10"

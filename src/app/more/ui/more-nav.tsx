@@ -4,10 +4,11 @@ import Link from "next/link";
 import Logout from "./logout";
 import Alert from "./alert";
 import * as motion from "motion/react-client";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function MoreNav() {
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const pathname = usePathname();
+  const selectedTab = tabs.find((tab) => tab.href === pathname);
   return (
     <nav
       className="
@@ -21,7 +22,6 @@ export default function MoreNav() {
           <MotionLink
             key={item.title}
             href={item.href}
-            onClick={() => setSelectedTab(item)}
             animate={{
               backgroundColor: item === selectedTab ? "#000" : "",
               color: item === selectedTab ? "#fff" : "",

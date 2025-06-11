@@ -29,13 +29,13 @@ export default function ChatList({
             setSelectedChatroom(null);
           }}
           className="w-fit rounded-xl border-1 text-md text-center px-2
-          hover:bg-gray-200 cursor-pointer"
+          hover:bg-gray-200"
         >
           메인
         </button>
         <button
           className="rounded-xl border-1 text-center px-2 
-        hover:bg-gray-200 cursor-pointer"
+        hover:bg-gray-200"
           onClick={() => {
             if (isShowingAddChatroom) {
               setIsShowingAddChatroom(false);
@@ -47,7 +47,7 @@ export default function ChatList({
           +
         </button>
       </div>
-      <nav className="p-4 flex flex-col overflow-x-scroll">
+      <nav className="p-4 flex flex-col overflow-y-scroll">
         {[...(chatrooms?.entries() || [])].map(([chatroom, users]) => (
           <Chat
             key={chatroom.id}
@@ -75,8 +75,7 @@ export function Chat({
       onClick={() => {
         setSelectedChatroom(chatroom.id);
       }}
-      className="flex w-full items-center hover:bg-zinc-200
-        cursor-pointer"
+      className="flex w-full items-center hover:bg-zinc-200"
     >
       <div className="w-10/12 flex">
         {users.length == 1 ? (
