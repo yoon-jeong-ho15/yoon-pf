@@ -1,5 +1,6 @@
 "use client";
 
+import { addChatroom } from "@/lib/actions";
 import { User } from "@/lib/definitions";
 import * as motion from "motion/react-client";
 import { NoProfile } from "public/icon";
@@ -7,6 +8,7 @@ import { useState } from "react";
 
 export default function AddChatroom({ friends }: { friends?: User[] }) {
   const [selectedFriend, setSelectedFriend] = useState<string[]>([]);
+  const [title, setTitle] = useState<string>();
 
   const toggleSelectedFriend = (id: string) => {
     setSelectedFriend((prev) => {
@@ -36,13 +38,22 @@ export default function AddChatroom({ friends }: { friends?: User[] }) {
         />
       ))}
       <div className="flex justify-end">
+        {selectedFriend.length > 1 && (
+          <input
+            className="bg-stone-50 mr-8 border-1 border-blue-500 outline-0 rounded px-2"
+            placeholder="그룹채팅방 이름을 입력해주세요"
+            onChange={(e) => setTitle(e.currentTarget.value)}
+          />
+        )}
         <motion.button
           className="rounded bg-blue-500 px-2 py-1 text-white shadow-md"
           animate={{
             opacity: selectedFriend.length == 0 ? 0 : 1,
           }}
           transition={{ type: "spring", duration: 0.2 }}
-          onClick={() => {}}
+          onClick={async () => {
+            await addChatroom(selectedFriend, title);
+          }}
         >
           {selectedFriend.length <= 1 ? "메시지 보내기" : "그룹채팅 만들기"}
         </motion.button>

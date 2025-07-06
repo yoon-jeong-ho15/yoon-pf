@@ -165,3 +165,27 @@ export async function fetchUsersByGroup(group: string, username: string) {
     return data as User[];
   }
 }
+
+export async function checkExistingDM(selectedFriend: string[]) {
+  // console.log("fetchChatroomByUserId");
+  // console.log(selectedFriend);
+  // console.log(selectedFriend.length);
+  const { data } = await supabase.rpc("get_dm_chatroom", {
+    userid: selectedFriend,
+    member_count: selectedFriend.length,
+  });
+  return data;
+}
+
+export async function checkExistingGroupChat(
+  selectedFriend: string[],
+  title?: string
+) {
+  // console.log(`checkExistingGroupChat. title:${title}`);
+  const { data } = await supabase.rpc("get_group_chatroom", {
+    userid: selectedFriend,
+    member_count: selectedFriend.length,
+    p_title: title,
+  });
+  return data;
+}
