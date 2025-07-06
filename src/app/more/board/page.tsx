@@ -1,6 +1,6 @@
 import Search from "./ui/search";
 import BoardList from "./ui/board-list";
-import Write from "./ui/write";
+// import Write from "./ui/write";
 
 export default async function Page(props: {
   searchParams?: Promise<{
