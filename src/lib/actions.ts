@@ -10,6 +10,7 @@ import {
   insertChat,
   checkExistingGroupChat,
 } from "./data";
+import { PostgrestError } from "@supabase/supabase-js";
 
 // export async function authenticate(
 //   prevState: string | undefined,
@@ -102,10 +103,15 @@ export async function sendChatMessage(formData: FormData) {
   return result;
 }
 
-export async function addChatroom(selectedFriend: string[], title?: string) {
+export async function addChatroom(
+  selectedFriend: string[],
+  title?: string
+): Promise<
+  { type: "error" | "success"; msg: string; data?: string } | PostgrestError
+> {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return;
+  if (!userId) return { type: "error", msg: "no session" };
   selectedFriend.push(userId);
   title = title ? title : "";
   // console.log(selectedFriend);
@@ -116,15 +122,21 @@ export async function addChatroom(selectedFriend: string[], title?: string) {
     if (existing) {
       // 이미 있는 채팅
       console.log("dm채팅방 existing:", existing);
+      return {
+        type: "error",
+        msg: "existing dm",
+        data: existing[0]?.chatroom_id as string,
+      };
     } else {
       const { data, error } = await supabase
         .from("chatroom")
         .insert({})
         .select("id")
         .single();
-      const newChatroomId: number = data?.id;
+      const newChatroomId: string = data?.id;
       if (error) {
         // chatroom에 삽입 에러
+        return error;
       } else {
         const insertingData = selectedFriend.map((item) => ({
           chatroom_id: newChatroomId,
@@ -135,8 +147,14 @@ export async function addChatroom(selectedFriend: string[], title?: string) {
           .insert(insertingData);
         if (error) {
           //chatroom_member에 삽입 에러
+          return error;
         } else {
           //chatroom_member에 삽입 성공
+          return {
+            type: "success",
+            msg: "created new dm chat",
+            data: newChatroomId,
+          };
         }
       }
     }
@@ -146,15 +164,20 @@ export async function addChatroom(selectedFriend: string[], title?: string) {
     if (existing) {
       // 이미 있는 채팅
       console.log("그룹채팅방 existing:", existing);
+      return {
+        type: "error",
+        msg: "existing group",
+      };
     } else {
       const { data, error } = await supabase
         .from("chatroom")
         .insert({})
         .select("id")
         .single();
-      const newChatroomId: number = data?.id;
+      const newChatroomId: string = data?.id;
       if (error) {
         // chatroom에 삽입 에러
+        return error;
       } else {
         const insertingData = selectedFriend.map((item) => ({
           chatroom_id: newChatroomId,
@@ -165,8 +188,14 @@ export async function addChatroom(selectedFriend: string[], title?: string) {
           .insert(insertingData);
         if (error) {
           //chatroom_member에 삽입 에러
+          return error;
         } else {
           //chatroom_member에 삽입 성공
+          return {
+            type: "success",
+            msg: "created new group chat",
+            data: newChatroomId,
+          };
         }
       }
     }

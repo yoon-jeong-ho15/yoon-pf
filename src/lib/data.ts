@@ -167,14 +167,17 @@ export async function fetchUsersByGroup(group: string, username: string) {
 }
 
 export async function checkExistingDM(selectedFriend: string[]) {
-  // console.log("fetchChatroomByUserId");
+  console.log("fetchChatroomByUserId");
   // console.log(selectedFriend);
   // console.log(selectedFriend.length);
   const { data } = await supabase.rpc("get_dm_chatroom", {
     userid: selectedFriend,
     member_count: selectedFriend.length,
   });
-  return data;
+  if (data.length !== 0) {
+    return data[0].chatroom_id;
+  }
+  return null;
 }
 
 export async function checkExistingGroupChat(
@@ -187,5 +190,8 @@ export async function checkExistingGroupChat(
     member_count: selectedFriend.length,
     p_title: title,
   });
-  return data;
+  if (data.length !== 0) {
+    return data[0].chatroom_id;
+  }
+  return null;
 }

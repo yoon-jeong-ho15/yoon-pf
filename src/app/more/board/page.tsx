@@ -16,7 +16,7 @@ export default async function Page(props: {
     <div className="w-[90%] flex flex-col justify-center">
       <div className="flex items-center justify-center">
         <Search />
-        <Write />
+        {/* <Write /> */}
       </div>
       <div className="w-full mt-3">
         <BoardList query={query} currentPage={currentPage} />
