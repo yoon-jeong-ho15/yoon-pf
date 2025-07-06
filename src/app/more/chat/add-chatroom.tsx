@@ -13,8 +13,7 @@ export default function AddChatroom({ friends }: { friends?: User[] }) {
   const [title, setTitle] = useState<string>();
   const titleInputRef = useRef<HTMLInputElement | null>(null);
   const chatroomContext = useChatroom()!;
-  const { setSelectedChatroom, setIsShowingAddChatroom, isShowingAddChatroom } =
-    chatroomContext;
+  const { setSelectedChatroom, setIsShowingAddChatroom } = chatroomContext;
 
   const toggleSelectedFriend = (id: string) => {
     setSelectedFriend((prev) => {
