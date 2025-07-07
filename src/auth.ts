@@ -20,33 +20,6 @@ async function getUser(username: string): Promise<AuthUser> {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  //세션 토큰은 기본적으로 30일 유지
-  callbacks: {
-    session: ({ session, token }) => {
-      // console.log("session() token: ", token);
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub,
-          username: token.username as string,
-          from: token.from as number,
-          profilePic: token.profilePic as string,
-          friendGroup: token.friendGroup as string,
-        },
-      };
-    },
-    jwt: ({ token, user }) => {
-      if (user) {
-        // console.log("jwt() user : ", user);
-        token.username = (user as AuthUser).username;
-        token.from = (user as AuthUser).from;
-        token.profilePic = (user as AuthUser).profile_pic;
-        token.friendGroup = (user as AuthUser).friend_group;
-      }
-      return token;
-    },
-  },
   providers: [
     Credentials({
       credentials: {
