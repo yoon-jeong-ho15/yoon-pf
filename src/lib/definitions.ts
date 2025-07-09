@@ -40,6 +40,7 @@ export type ChatMessage = {
   id: string;
   created_at: string;
   username: string;
+  user_id: string;
   message: string;
   chatroom: string;
   profile_pic: string;
