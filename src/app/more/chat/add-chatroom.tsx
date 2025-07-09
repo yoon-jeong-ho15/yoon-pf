@@ -26,24 +26,22 @@ export default function AddChatroom({ friends }: { friends?: User[] }) {
 
   const handleAddingChatroom = async () => {
     const result = await addChatroom(selectedFriend, title);
-    if (!(result instanceof PostgrestError)) {
-      if (result.type === "error") {
-        switch (result.msg) {
-          case "existing dm":
-            setIsShowingAddChatroom(false);
-            setSelectedChatroom(result.data!);
-            break;
-          case "existing group":
-            alert(
-              "이미 존재하는 그룹채팅 입니다. 대화방 이름을 다르게 지정해주세요."
-            );
-            titleInputRef.current?.focus();
-            break;
-        }
-      } else {
-        setIsShowingAddChatroom(false);
-        setSelectedChatroom(result.data!);
+    if (result.type === "error") {
+      switch (result.msg) {
+        case "existing dm":
+          setIsShowingAddChatroom(false);
+          setSelectedChatroom(result.data!);
+          break;
+        case "existing group":
+          alert(
+            "이미 존재하는 그룹채팅 입니다. 대화방 이름을 다르게 지정해주세요."
+          );
+          titleInputRef.current?.focus();
+          break;
       }
+    } else {
+      setIsShowingAddChatroom(false);
+      setSelectedChatroom(result.data!);
     }
   };
   return (

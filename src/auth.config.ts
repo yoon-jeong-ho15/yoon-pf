@@ -4,6 +4,7 @@ import type { AuthUser } from "@/lib/definitions";
 export const authConfig = {
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -29,8 +30,12 @@ export const authConfig = {
           return Response.redirect(new URL("/more", nextUrl));
         }
       }
-
       return true;
+    },
+    redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
     session: ({ session, token }) => {
       return {

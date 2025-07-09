@@ -153,7 +153,7 @@ export async function fetchUsersByGroup(group: string, username: string) {
     .or(`friend_group.eq.${group}, friend_group.eq.0`)
     .neq("username", username);
 
-  if (group == "0") {
+  if (group === "0") {
     query = supabase.from("user").select().neq("username", username);
   }
 
@@ -194,4 +194,38 @@ export async function checkExistingGroupChat(
     return data[0].chatroom_id;
   }
   return null;
+}
+
+export async function insertChatroom(title?: string) {
+  const { data, error } = await supabase
+    .from("chatroom")
+    .insert({ title: title })
+    .select("id")
+    .single();
+  if (error) {
+    console.error("Error inserting chatroom", error);
+  } else {
+    return data.id as string;
+  }
+}
+
+export async function insertChatroomMember(
+  insertingData: {
+    chatroom_id: string;
+    user_id: string;
+  }[]
+) {
+  const { error } = await supabase
+    .from("chatroom_member")
+    .insert(insertingData);
+
+  if (error) {
+    console.error("Error inserting chatroom members", error);
+  }
+}
+
+export async function insertNotification(newMessage: ChatMessage) {
+  const { data, error } = await supabase.from("notification").insert({
+    type: "chat_message",
+  });
 }
