@@ -224,8 +224,8 @@ export async function insertChatroomMember(
   }
 }
 
-export async function insertNotification(newMessage: ChatMessage) {
-  const { data, error } = await supabase.from("notification").insert({
-    type: "chat_message",
-  });
-}
+// export async function insertNotification(newMessage: ChatMessage) {
+//   const { data, error } = await supabase.from("notification").insert({
+//     type: "chat_message",
+//   });
+// }

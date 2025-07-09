@@ -11,7 +11,7 @@ import {
   checkExistingGroupChat,
   insertChatroom,
   insertChatroomMember,
-  insertNotification,
+  // insertNotification,
 } from "./data";
 // import { PostgrestError } from "@supabase/supabase-js";
 
@@ -95,7 +95,7 @@ export async function sendChatMessage(formData: FormData) {
   const newMessageId = await insertChat(formData);
   const newMessage = (await fetchChatById(newMessageId)) as ChatMessage;
   // console.log("newMessage : ", newMessage);
-  await insertNotification(newMessage);
+  // await insertNotification(newMessage);
   const channel = supabase.channel(`ch${chatroom}`);
   const result = await channel.send({
     type: "broadcast",

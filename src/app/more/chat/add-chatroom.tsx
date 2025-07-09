@@ -6,7 +6,7 @@ import * as motion from "motion/react-client";
 import { NoProfile } from "public/icon";
 import { useRef, useState } from "react";
 import { useChatroom } from "./chatroom-provider";
-import { PostgrestError } from "@supabase/supabase-js";
+// import { PostgrestError } from "@supabase/supabase-js";
 
 export default function AddChatroom({ friends }: { friends?: User[] }) {
   const [selectedFriend, setSelectedFriend] = useState<string[]>([]);
