@@ -38,7 +38,7 @@ export default function EditorWrapper({
     return () => {
       editor.off("text-change", handleChange);
     };
-  }, [quillRef.current, initialValue]);
+  }, [initialValue]);
 
   // useEffect(() => {
   //   const form = document.querySelector("form");

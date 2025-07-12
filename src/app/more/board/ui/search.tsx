@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 export default function Search() {
   const [term, setTerm] = useState("");
   const searchParams = useSearchParams();
-  const searchRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLInputElement | null>(null);
   const { replace } = useRouter();
   const pathname = usePathname();
 

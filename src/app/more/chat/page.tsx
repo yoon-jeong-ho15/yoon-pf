@@ -8,17 +8,18 @@ import MessageForm from "./message-form";
 
 export default async function Page() {
   const session = await auth();
-  // console.log("chat/page.tsx > session : ", session);
+
   if (!session || !session.user) {
     return <div>no session</div>;
   }
+
   const user = session.user as User;
   const chatrooms = await fetchChatrooms(user.username);
   const friends = await fetchUsersByGroup(user.friendGroup, user.username);
 
   return (
     <div className="w-[90%] pt-5">
-      <ChatroomProvider>
+      <ChatroomProvider userId={user.id}>
         <div className="flex">
           <div
             className="h-180 w-[70%] flex rounded shadowp-1 container p-1
