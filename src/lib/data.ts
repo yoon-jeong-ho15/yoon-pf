@@ -141,13 +141,15 @@ export async function fetchChatById(id: string) {
 }
 
 export async function fetchUsersByGroup(group: string, username: string) {
+  console.log("username : ", username, "group : ", group);
+  console.log(typeof group);
   let query = supabase
     .from("user")
     .select()
     .or(`friend_group.eq.${group}, friend_group.eq.0`)
     .neq("username", username);
 
-  if (group === "0") {
+  if (group + "" === "0") {
     query = supabase.from("user").select().neq("username", username);
   }
 

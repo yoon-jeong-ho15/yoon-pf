@@ -47,18 +47,18 @@ export default function ChatroomProvider({
         return;
       }
       try {
-        console.log("Calling get_unread_message_counts with userId:", userId);
+        // console.log("Calling get_unread_message_counts with userId:", userId);
         const { data, error } = await supabase.rpc(
           "get_unread_message_counts",
           {
             p_user_id: userId,
           }
         );
-        console.log("unread counts data:", data);
+        // console.log("unread counts data:", data);
         if (error) {
-          console.error("Error fetching unread counts:", error);
-          console.error("Full error object:", JSON.stringify(error, null, 2));
-          console.error("Data received with error:", data);
+          // console.error("Error fetching unread counts:", error);
+          // console.error("Full error object:", JSON.stringify(error, null, 2));
+          // console.error("Data received with error:", data);
         } else if (data) {
           const countsMap = new Map();
           data.forEach(
@@ -81,12 +81,12 @@ export default function ChatroomProvider({
 
   // 채팅방 변경 시 읽음 처리
   useEffect(() => {
-    console.log(
-      "Entering chatroom with ID:",
-      selectedChatroom,
-      "Type:",
-      typeof selectedChatroom
-    );
+    // console.log(
+    //   "Entering chatroom with ID:",
+    //   selectedChatroom,
+    //   "Type:",
+    //   typeof selectedChatroom
+    // );
     if (selectedChatroom && userId) {
       enterChatroom(selectedChatroom, userId);
       // 해당 채팅방의 안 읽은 수를 0으로 설정
