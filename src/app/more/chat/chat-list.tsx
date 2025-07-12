@@ -15,9 +15,13 @@ export default function ChatList({
   friends?: User[];
 }) {
   const chatroomContext = useChatroom()!;
-  const { setSelectedChatroom, setIsShowingAddChatroom, isShowingAddChatroom } =
-    chatroomContext;
-
+  const {
+    setSelectedChatroom,
+    setIsShowingAddChatroom,
+    isShowingAddChatroom,
+    unreadCounts,
+  } = chatroomContext;
+  // console.log("unreadCounts", unreadCounts);
   return (
     <div className="bg-gray-100 rounded-xl w-[25%] ml-3 relative">
       <AnimatePresence>
@@ -48,14 +52,24 @@ export default function ChatList({
         </button>
       </div>
       <nav className="p-4 flex flex-col overflow-y-scroll">
-        {[...(chatrooms?.entries() || [])].map(([chatroom, users]) => (
-          <Chat
-            key={chatroom.id}
-            chatroom={chatroom}
-            users={users}
-            setSelectedChatroom={setSelectedChatroom ?? (() => {})}
-          />
-        ))}
+        {[...(chatrooms?.entries() || [])].map(([chatroomId, chatroom]) => {
+          const currentUnreadCount = unreadCounts.get(chatroom.id) || 0;
+          console.log("chatroomId : ", chatroomId);
+          console.log(
+            `Chatroom ID: ${
+              chatroom.id
+            }, Unread Count: ${currentUnreadCount}, Type of chatroom.id: ${typeof chatroom.id}`
+          );
+          return (
+            <Chat
+              key={chatroom.id}
+              chatroom={chatroom}
+              users={chatroom.users}
+              setSelectedChatroom={setSelectedChatroom ?? (() => {})}
+              unreadCount={currentUnreadCount}
+            />
+          );
+        })}
       </nav>
     </div>
   );
@@ -65,34 +79,47 @@ export function Chat({
   chatroom,
   setSelectedChatroom,
   users,
+  unreadCount = 0,
 }: {
   chatroom: Chatroom;
   setSelectedChatroom: (id: string | null) => void;
   users: ChatroomUser[];
+  unreadCount?: number;
 }) {
   return (
     <div
       onClick={() => {
         setSelectedChatroom(chatroom.id);
       }}
-      className="flex w-full items-center hover:bg-zinc-200"
+      className="flex w-full items-center hover:bg-zinc-200 relative p-2 rounded-lg cursor-pointer mb-1"
     >
-      <div className="w-10/12 flex">
-        {users.length == 1 ? (
-          // 1:1 채팅인 경우
-          <div className="flex items-center">
-            <NoProfile size="md" />
-            <span className="ml-2">{users[0].username}</span>
-          </div>
-        ) : (
-          // 그룹 채팅인 경우
-          <div className="flex items-center">
-            <MessageIcon size="md" />
-            <span className="ml-2">
-              {chatroom.title
-                ? chatroom.title
-                : users.map((user) => user.username).join(", ")}
-            </span>
+      <div className="w-full flex items-center justify-between">
+        <div className="flex items-center flex-1">
+          {users.length == 1 ? (
+            <>
+              <NoProfile size="md" />
+              <span className="ml-2">{users[0].username}</span>
+            </>
+          ) : (
+            <>
+              <MessageIcon size="md" />
+              <span className="ml-2">
+                {chatroom.title
+                  ? chatroom.title
+                  : users.map((user) => user.username).join(", ")}
+              </span>
+            </>
+          )}
+          <div className="hidden unread-count">{unreadCount}</div>
+          <div className="hidden chatroom-id">{chatroom.id}</div>
+          <div className="hidden chatroom-title">{chatroom.title}</div>
+        </div>
+
+        {unreadCount > 0 && (
+          <div className="flex-shrink-0 ml-2">
+            <div className="bg-red-500 text-white rounded-full px-2 py-1 text-xs min-w-[20px] text-center font-medium">
+              {unreadCount > 99 ? "99+" : unreadCount}
+            </div>
           </div>
         )}
       </div>

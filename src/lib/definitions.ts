@@ -32,9 +32,10 @@ export type ChatroomUser = {
 export type Chatroom = {
   id: string;
   title: string;
+  users: ChatroomUser[];
 };
 
-export type ChatroomMap = Map<Chatroom, ChatroomUser[]>;
+export type ChatroomMap = Map<string, Chatroom>;
 
 export type ChatMessage = {
   id: string;
@@ -44,4 +45,9 @@ export type ChatMessage = {
   message: string;
   chatroom: string;
   profile_pic: string;
+};
+
+export type ChatMessageWithReadStatus = ChatMessage & {
+  unread_count: number;
+  total_recipients: number;
 };

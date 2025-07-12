@@ -29,54 +29,47 @@ export async function fetchBoardById(id: string) {
 }
 
 export async function fetchChatrooms(username: string) {
-  // console.log("fetchChatrooms username : ", username);
   const { data, error } = await supabase.rpc("get_chatroom_data", {
     p_username: username,
   });
   const chatrooms: ChatroomMap = new Map();
-  data.map((obj: Record<string, unknown>) => {
-    // console.log("obj", obj);
 
-    const roomId = obj.id as string;
+  if (error) {
+    console.error("Error fetching data : ", error);
+    throw new Error("Failed to fetch Chatrooms");
+  }
+
+  if (!data) {
+    console.log("No chatroom data returned from get_chatroom_data.");
+    return chatrooms; // 빈 Map 반환
+  }
+
+  data.forEach((obj: Record<string, unknown>) => {
+    const roomId = String(obj.id);
     const roomtitle = obj.title as string;
+    const username = obj.username as string;
+    const uid = obj.uid as string;
+    const profilePic = obj.profile_pic as string;
 
-    //채팅방
-    let room = null;
-    for (const [existingRoom] of chatrooms) {
-      if (existingRoom.id === roomId) {
-        room = existingRoom;
-        break;
-      }
-    }
+    let room = chatrooms.get(roomId);
 
     if (!room) {
       room = {
         id: roomId,
         title: roomtitle,
+        users: [],
       };
+      chatrooms.set(roomId, room);
     }
 
-    //유저
-    const user = {
-      username: obj.username as string,
-      id: obj.uid as string,
-      profilePic: obj.profile_pic as string,
-    };
-
-    if (chatrooms.has(room)) {
-      chatrooms.get(room)?.push(user);
-    } else {
-      chatrooms.set(room, [user]);
-    }
+    room.users.push({
+      username: username,
+      id: uid,
+      profilePic: profilePic,
+    });
   });
 
-  // console.log(chatrooms);
-  if (error) {
-    console.error("Error fetching data : ", error);
-    throw new Error("Failed to fetch Chatrooms");
-  } else {
-    return chatrooms;
-  }
+  return chatrooms;
 }
 
 export async function fetchUserByUsername(username: string) {
@@ -100,12 +93,13 @@ export async function fetchUserByUsername(username: string) {
   }
 }
 
-export async function fetchChatsByChatroomId(id: string) {
-  // console.log("fetchChatsByChatroomId id : ", id);
+export async function fetchChatsByChatroomId(chatroomId: string) {
+  console.log("fetchChatsByChatroomId id : ", chatroomId);
   const { data, error } = await supabase
     .from("v_chat_message")
     .select("*")
-    .eq("chatroom", id);
+    .eq("chatroom_id", chatroomId)
+    .order("id");
 
   if (error) {
     console.error("Error fetching Chats", error);
@@ -166,34 +160,19 @@ export async function fetchUsersByGroup(group: string, username: string) {
   }
 }
 
-export async function checkExistingDM(selectedFriend: string[]) {
-  console.log("fetchChatroomByUserId");
-  // console.log(selectedFriend);
-  // console.log(selectedFriend.length);
-  const { data } = await supabase.rpc("get_dm_chatroom", {
-    userid: selectedFriend,
-    member_count: selectedFriend.length,
-  });
-  if (data.length !== 0) {
-    return data[0].chatroom_id;
-  }
-  return null;
-}
-
-export async function checkExistingGroupChat(
+export async function checkExistingChatroom(
   selectedFriend: string[],
   title?: string
 ) {
-  // console.log(`checkExistingGroupChat. title:${title}`);
-  const { data } = await supabase.rpc("get_group_chatroom", {
+  const { data } = await supabase.rpc("check_chatroom", {
     userid: selectedFriend,
     member_count: selectedFriend.length,
-    p_title: title,
+    p_title: title ? title : "",
   });
-  if (data.length !== 0) {
-    return data[0].chatroom_id;
+  console.log("data", data);
+  if (data) {
+    return data;
   }
-  return null;
 }
 
 export async function insertChatroom(title?: string) {
@@ -224,8 +203,43 @@ export async function insertChatroomMember(
   }
 }
 
-// export async function insertNotification(newMessage: ChatMessage) {
-//   const { data, error } = await supabase.from("notification").insert({
-//     type: "chat_message",
-//   });
-// }
+export async function fetchChatsWithReadStatus(chatroomId: string) {
+  const { data, error } = await supabase.rpc(
+    "get_chat_messages_with_read_status",
+    {
+      p_chatroom_id: chatroomId,
+    }
+  );
+
+  if (error) {
+    console.error(
+      "Error fetching chats with read status:",
+      JSON.stringify(error, null, 2)
+    );
+    return null;
+  }
+
+  return data;
+}
+
+export async function enterChatroom(chatroomId: string, userId: string) {
+  const { error } = await supabase.rpc("mark_chatroom_as_read", {
+    p_chatroom_id: chatroomId,
+    p_user_id: userId,
+  });
+
+  if (error) {
+    console.error("Error marking messages as read", error);
+  }
+}
+
+export async function markMessageAsRead(messageId: string, userId: string) {
+  const { error } = await supabase.rpc("mark_single_message_as_read", {
+    p_message_id: messageId,
+    p_user_id: userId,
+  });
+
+  if (error) {
+    console.error("Error marking message as read", error);
+  }
+}

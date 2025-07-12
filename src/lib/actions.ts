@@ -6,12 +6,10 @@ import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
 import {
   fetchChatById,
-  checkExistingDM,
+  checkExistingChatroom,
   insertChat,
-  checkExistingGroupChat,
   insertChatroom,
   insertChatroomMember,
-  // insertNotification,
 } from "./data";
 // import { PostgrestError } from "@supabase/supabase-js";
 
@@ -95,7 +93,7 @@ export async function sendChatMessage(formData: FormData) {
   const newMessageId = await insertChat(formData);
   const newMessage = (await fetchChatById(newMessageId)) as ChatMessage;
   // console.log("newMessage : ", newMessage);
-  // await insertNotification(newMessage);
+
   const channel = supabase.channel(`ch${chatroom}`);
   const result = await channel.send({
     type: "broadcast",
@@ -115,17 +113,16 @@ export async function addChatroom(
   const userId = session?.user?.id;
   if (!userId) return { type: "error", msg: "no session" };
   selectedFriend.push(userId);
-  // console.log(selectedFriend);
 
   if (selectedFriend.length == 2) {
-    const existing = await checkExistingDM(selectedFriend);
+    const existing = await checkExistingChatroom(selectedFriend);
 
     if (existing) {
       console.error("dm채팅방 existing:", existing);
       return {
         type: "error",
         msg: "existing dm",
-        data: existing[0]?.chatroom_id as string,
+        data: existing[0].chatroom_id as string,
       };
     } else {
       const newChatroomId = (await insertChatroom()) as string;
@@ -144,7 +141,7 @@ export async function addChatroom(
       };
     }
   } else {
-    const existing = await checkExistingGroupChat(selectedFriend, title);
+    const existing = await checkExistingChatroom(selectedFriend, title);
 
     if (existing) {
       console.log("그룹채팅방 existing:", existing);
@@ -169,4 +166,50 @@ export async function addChatroom(
       };
     }
   }
+}
+
+export async function markChatroomAsRead(chatroomId: string, userId: string) {
+  const { data, error } = await supabase.rpc("mark_chatroom_as_read", {
+    p_chatroom_id: chatroomId,
+    p_user_id: userId,
+  });
+
+  if (error) {
+    console.error("Error marking chatroom as read:", error);
+    return false;
+  }
+
+  console.log(`Marked ${data?.[0]?.messages_read || 0} messages as read`);
+  return true;
+}
+
+export async function markMessageAsRead(messageId: string, userId: string) {
+  const [chatResult, notifResult] = await Promise.all([
+    supabase
+      .from("chat_read_status")
+      .update({ read_at: new Date().toISOString() })
+      .eq("message_id", messageId)
+      .eq("user_id", userId)
+      .is("read_at", null),
+
+    supabase
+      .from("notification")
+      .update({ read_at: new Date().toISOString() })
+      .eq("user_id", userId)
+      .eq("type", "chat_message")
+      .filter("data->message_id", "eq", messageId)
+      .is("read_at", null),
+  ]);
+
+  return !chatResult.error && !notifResult.error;
+}
+
+export async function readNotification(notificationId: string) {
+  const { error } = await supabase
+    .from("notification")
+    .update({ read_at: new Date().toISOString() })
+    .eq("id", notificationId)
+    .is("read_at", null);
+
+  return !error;
 }
