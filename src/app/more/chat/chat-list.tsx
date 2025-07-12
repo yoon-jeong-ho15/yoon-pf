@@ -55,11 +55,11 @@ export default function ChatList({
         {[...(chatrooms?.entries() || [])].map(([chatroomId, chatroom]) => {
           const currentUnreadCount = unreadCounts.get(chatroom.id) || 0;
           console.log("chatroomId : ", chatroomId);
-          console.log(
-            `Chatroom ID: ${
-              chatroom.id
-            }, Unread Count: ${currentUnreadCount}, Type of chatroom.id: ${typeof chatroom.id}`
-          );
+          // console.log(
+          //   `Chatroom ID: ${
+          //     chatroom.id
+          //   }, Unread Count: ${currentUnreadCount}, Type of chatroom.id: ${typeof chatroom.id}`
+          // );
           return (
             <Chat
               key={chatroom.id}
