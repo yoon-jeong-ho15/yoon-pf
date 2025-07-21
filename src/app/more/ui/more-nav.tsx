@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 export default function MoreNav() {
   const pathname = usePathname();
   const selectedTab = tabs.find((tab) => tab.href === pathname);
+
   return (
     <nav
       className="
@@ -62,10 +63,6 @@ const tabs = [
   {
     title: "chat",
     href: "/more/chat",
-  },
-  {
-    title: "board",
-    href: "/more/board",
   },
 ];
 

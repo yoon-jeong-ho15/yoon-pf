@@ -77,6 +77,18 @@ export default function Project() {
 
 const tabs = [
   {
+    title: "Next.js",
+    logo: "◼️",
+    project: [
+      {
+        title: "yoon-pf",
+        github: "https://github.com/yoon-jeong-ho15/yoon-pf",
+        link: "https://yoon-pf.vercel.app",
+        stack: ["PostgreSQL", "WebSocket", "TypeScript"],
+      },
+    ],
+  },
+  {
     title: "Spring-Boot",
     logo: "🌱",
     project: [
@@ -91,18 +103,6 @@ const tabs = [
         github: "https://github.com/JuHyeong2/RealMan",
         link: "",
         stack: ["Oracle", "Firebase", "MyBatis", "Thymeleaf", "JavaScript"],
-      },
-    ],
-  },
-  {
-    title: "Next.js",
-    logo: "◼️",
-    project: [
-      {
-        title: "yoon-pf",
-        github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-        link: "https://yoon-pf.vercel.app",
-        stack: ["PostgreSQL", "TypeScript"],
       },
     ],
   },

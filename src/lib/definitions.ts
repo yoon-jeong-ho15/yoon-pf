@@ -15,6 +15,13 @@ export type User = {
   friendGroup: string;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  parent_id: string;
+  level: string;
+};
 export type Board = {
   id: string;
   created_at: string;

@@ -10,7 +10,8 @@ export default function Navbar() {
   const getSelectedTab = () => {
     if (pathname === "/") return tabs[0];
     if (pathname.startsWith("/about")) return tabs[1];
-    if (pathname.startsWith("/more")) return tabs[2];
+    if (pathname.startsWith("/blog")) return tabs[2];
+    if (pathname.startsWith("/more")) return tabs[3];
   };
   const selectedTab = getSelectedTab();
 
@@ -62,5 +63,6 @@ export default function Navbar() {
 const tabs = [
   { title: "home", href: "/" },
   { title: "about", href: "/about" },
+  { title: "blog", href: "/blog" },
   { title: "more", href: "/more" },
 ];
