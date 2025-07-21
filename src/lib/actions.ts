@@ -38,12 +38,12 @@ export async function logOut() {
   await signOut({ redirectTo: "/more" });
 }
 
-export async function createBoard(title: string, content: string) {
-  // console.log("createBoard : ", title);
+export async function createBlog(title: string, content: string) {
+  // console.log("createBlog : ", title);
   const session = await auth();
   const user: User | null = (session?.user as User) || null;
 
-  const { error } = await supabase.from("board").insert({
+  const { error } = await supabase.from("Blog").insert({
     writer: user?.username,
     title: title,
     content: content,
@@ -51,16 +51,16 @@ export async function createBoard(title: string, content: string) {
   if (error) {
     console.error("Error inserting Data : ", error);
   }
-  return redirect("/more/board");
+  return redirect("/more/blog");
 }
 
-export async function updateBoard(formData: FormData) {
-  // console.log("updateBoard()");
+export async function updateBlog(formData: FormData) {
+  // console.log("updateBlog()");
   // console.log(formData.get("id"));
   // console.log(formData.get("title"));
   // console.log(formData.get("content"));
   const { error } = await supabase
-    .from("board")
+    .from("Blog")
     .update({
       title: formData.get("title"),
       content: formData.get("content"),
@@ -68,22 +68,22 @@ export async function updateBoard(formData: FormData) {
     })
     .eq("id", formData.get("id"));
   if (error) {
-    console.error("Error updating Board", error);
+    console.error("Error updating Blog", error);
   } else {
-    return redirect("/more/board");
+    return redirect("/more/Blog");
   }
 }
 
-export async function deleteBoard(id: string) {
+export async function deleteBlog(id: string) {
   // console.log("deleting : ", id);
   const { error } = await supabase
-    .from("board")
+    .from("blog")
     .update({
       status: false,
     })
     .eq("id", id);
   if (error) {
-    console.error("Error deleteing Board", error);
+    console.error("Error deleteing Blog", error);
   }
 }
 
@@ -212,4 +212,12 @@ export async function readNotification(notificationId: string) {
     .is("read_at", null);
 
   return !error;
+}
+
+export async function fetchCategories() {
+  const { data, error } = await supabase.from("blog_category").select("*");
+  if (error) {
+    console.error(error);
+  }
+  return data;
 }

@@ -1,5 +1,5 @@
 "use-client";
-import { fetchBoards } from "@/lib/data";
+import { fetchBlogs } from "@/lib/data";
 import Link from "next/link";
 
 export default async function BoardList({
@@ -9,7 +9,7 @@ export default async function BoardList({
   query: string;
   currentPage: number;
 }) {
-  const boards = await fetchBoards(query, currentPage);
+  const boards = await fetchBlogs(query, currentPage);
 
   return (
     <div className="w-full flex justify-center">

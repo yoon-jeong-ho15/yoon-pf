@@ -1,12 +1,12 @@
 import { Board, ChatMessage, ChatroomMap, User } from "./definitions";
 import { supabase } from "./supabase";
 
-export async function fetchBoards(query: string, currentPage: number) {
+export async function fetchBlogs(query: string, currentPage: number) {
   const offset = (currentPage - 1) * 25;
   const { data, error } = await supabase
-    .from("board")
+    .from("blog")
     .select("*")
-    .or(`title.ilike.%${query},writer.ilike.%${query}%`)
+    .or(`title.ilike.%${query}`)
     .eq("status", true)
     .order("created_at", { ascending: false })
     .range(offset, offset + 24);
