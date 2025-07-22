@@ -1,6 +1,13 @@
 import Link from "next/link";
+import { auth } from "@/auth";
+import { User } from "@/lib/definitions";
 
-export default function Write() {
+export default async function Write() {
+  const session = await auth();
+  const isAdmin = (session?.user as User)?.username === "윤정호";
+  if (!session || !isAdmin) {
+    return;
+  }
   return (
     <button
       className="

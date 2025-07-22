@@ -1,5 +1,5 @@
 import BlogList from "./blog-list";
-import Category from "./category";
+import Categories from "./category";
 import Search from "./ui/search";
 import Write from "./ui/write";
 import { fetchCategories } from "@/lib/actions";
@@ -17,10 +17,10 @@ export default async function Page(props: {
 
   return (
     <div className="flex flex-row">
-      <div>
-        <Category categories={categories} />
+      <div className="m-3 bg-gray-100">
+        <Categories categories={categories} />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-amber-50">
         <div className="flex flex-row">
           <Search />
           <Write />

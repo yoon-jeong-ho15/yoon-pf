@@ -1,7 +1,7 @@
 "use server";
 
 import { auth, signOut } from "@/auth";
-import type { ChatMessage, User } from "@/lib/definitions";
+import type { ChatMessage, User, Category } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
 import {
@@ -218,6 +218,30 @@ export async function fetchCategories() {
   const { data, error } = await supabase.from("blog_category").select("*");
   if (error) {
     console.error(error);
+    return null;
   }
-  return data;
+
+  const categoryMap = new Map(
+    data.map((cat) => [cat.id, { ...cat, children: [] }])
+  );
+  // console.log(categoryMap);
+
+  const categories: Category[] = [];
+
+  // 객체 참조(Object Reference)
+  for (const category of data) {
+    if (category.parent_id) {
+      const parent = categoryMap.get(category.parent_id);
+      if (parent) {
+        parent.children.push(categoryMap.get(category.id)!);
+      }
+    } else {
+      // 이 때 map에 들어있는 객체의 주소값을 넣어준다.
+      // 그래서 배열의 객체에 직접 자식을 넣어주지 않고,
+      // Map에 있는 객체에 넣어줘도 배열 안의 객체에도 똑같이 자식이 들어가게 되는것.
+      categories.push(categoryMap.get(category.id)!);
+    }
+  }
+
+  return categories;
 }
