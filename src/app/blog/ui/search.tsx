@@ -31,7 +31,7 @@ export default function Search() {
         py-2 pl-6 pr-12 text-md outline-gray-600
         overflow-hidden
         "
-        placeholder="검색"
+        placeholder="전체 검색"
         onChange={(e) => {
           setTerm(e.target.value);
         }}

@@ -21,6 +21,7 @@ export type Category = {
   slug: string;
   parent_id: string;
   level: string;
+  children?: Category[];
 };
 export type Board = {
   id: string;

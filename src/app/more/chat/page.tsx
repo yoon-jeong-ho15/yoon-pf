@@ -9,7 +9,7 @@ import MessageForm from "./message-form";
 export default async function Page() {
   const session = await auth();
 
-  if (!session || !session.user) {
+  if (!session) {
     return <div>no session</div>;
   }
 

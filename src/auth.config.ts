@@ -1,5 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
-import type { AuthUser } from "@/lib/definitions";
+import type { AuthUser, User } from "@/lib/definitions";
 
 export const authConfig = {
   pages: {
@@ -11,13 +11,15 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isAdmin = (auth?.user as AuthUser)?.username === "윤정호";
 
-      const isOnWritePage = nextUrl.pathname.startsWith("/more/board/write");
+      const isOnWritePage = nextUrl.pathname.startsWith("/blog/write");
       const isOnMorePage = nextUrl.pathname.startsWith("/more");
       const isOnLoginPage = nextUrl.pathname.startsWith("/login");
 
       if (isOnWritePage) {
-        if (isLoggedIn && isAdmin) return true;
-        return false;
+        if (!isAdmin) {
+          return false;
+        }
+        return true;
       }
 
       if (isOnMorePage) {
@@ -47,7 +49,7 @@ export const authConfig = {
           from: token.from as number,
           profilePic: token.profilePic as string,
           friendGroup: token.friendGroup as string,
-        },
+        } as User,
       };
     },
     jwt: ({ token, user }) => {
