@@ -1,4 +1,4 @@
-import { Board, ChatMessage, ChatroomMap, User } from "./definitions";
+import { Blog, ChatMessage, ChatroomMap, User } from "./definitions";
 import { supabase } from "./supabase";
 
 export async function fetchBlogs(query: string, currentPage: number) {
@@ -6,14 +6,14 @@ export async function fetchBlogs(query: string, currentPage: number) {
   const { data, error } = await supabase
     .from("blog")
     .select("*")
-    .or(`title.ilike.%${query}`)
+    .or(`title.like.%${query}`)
     .eq("status", true)
     .order("created_at", { ascending: false })
     .range(offset, offset + 24);
   if (error) {
     console.error("Error fetching data:", error);
   } else {
-    return data;
+    return data as Blog[];
   }
 }
 
@@ -24,7 +24,7 @@ export async function fetchBoardById(id: string) {
     console.error("Error fetching data:", error);
     throw new Error("Failed to fetch the board");
   } else {
-    return data[0] as Board;
+    return data[0] as Blog;
   }
 }
 

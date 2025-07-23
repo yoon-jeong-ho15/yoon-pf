@@ -1,7 +1,7 @@
 "use server";
 
 import { auth, signOut } from "@/auth";
-import type { ChatMessage, User, Category } from "@/lib/definitions";
+import type { ChatMessage, Category, BlogData } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
 import {
@@ -38,20 +38,17 @@ export async function logOut() {
   await signOut({ redirectTo: "/more" });
 }
 
-export async function createBlog(title: string, content: string) {
-  // console.log("createBlog : ", title);
-  const session = await auth();
-  const user: User | null = (session?.user as User) || null;
-
-  const { error } = await supabase.from("Blog").insert({
-    writer: user?.username,
-    title: title,
-    content: content,
+export async function createBlog(data: BlogData) {
+  console.log("createBlog : ", data.title);
+  const { error } = await supabase.from("blog").insert({
+    title: data.title,
+    content: data.content,
+    category_id: data.category_id,
   });
   if (error) {
     console.error("Error inserting Data : ", error);
   }
-  return redirect("/more/blog");
+  return redirect("/blog");
 }
 
 export async function updateBlog(formData: FormData) {

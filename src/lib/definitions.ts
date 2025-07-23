@@ -16,19 +16,29 @@ export type User = {
 };
 
 export type Category = {
-  id: string;
+  id: number;
   name: string;
   slug: string;
   parent_id: string;
-  level: string;
+  level: number;
   children?: Category[];
 };
-export type Board = {
+
+export type Blog = {
   id: string;
   created_at: string;
-  writer: string;
   title: string;
   content: string;
+  category_id: number;
+  updated_at: string;
+  status: boolean;
+};
+
+export type BlogData = {
+  title: string;
+  content: string;
+  length: number;
+  category_id: number;
 };
 
 export type ChatroomUser = {
