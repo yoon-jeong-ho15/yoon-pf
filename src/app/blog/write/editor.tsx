@@ -4,18 +4,34 @@ import "quill/dist/quill.snow.css";
 import QuillType from "quill";
 import hljs from "highlight.js";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
-import Category from "./category";
+import Categories from "./categories";
+import type { Category } from "@/lib/definitions";
+import { createBlog } from "@/lib/actions";
 
-export default function Editor() {
+export default function Editor({
+  categories,
+}: {
+  categories: Category[] | null;
+}) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [length, setLength] = useState(0);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
 
-  const handleSave = (title: string, content: string, length: number) => {
-    // Implement your save logic here
-    console.log("Saving content:", length, content);
+  const handleCategorySelect = (id: number) => {
+    setSelectedCategoryId(id);
+  };
+
+  const handleSave = () => {
+    const data = {
+      title: title,
+      content: content,
+      length: length,
+      category_id: selectedCategoryId,
+    };
+    createBlog(data);
   };
 
   useEffect(() => {
@@ -40,7 +56,7 @@ export default function Editor() {
 
         quillRef.current.on("text-change", () => {
           setContent(JSON.stringify(quillRef.current?.getContents()));
-          setLength(quillRef.current?.getLength() || 0);
+          setLength(quillRef.current?.root.innerText.length || 0);
         });
       });
     }
@@ -60,11 +76,15 @@ export default function Editor() {
         ></input>
       </div>
       <div>
-        <Category />
+        <Categories
+          categories={categories}
+          selectedCategoryId={selectedCategoryId}
+          onCategorySelect={handleCategorySelect}
+        />
       </div>
       <div className="my-3 flex flex-row-reverse">
         <button
-          onClick={() => handleSave(title, content, length)}
+          onClick={handleSave}
           className="bg-sky-600 hover:bg-sky-700 text-white p-2 rounded-xl"
         >
           작성

@@ -1,8 +1,8 @@
 import BlogList from "./blog-list";
-import Categories from "./category";
+// import CategoryView from "./category-view";
 import Search from "./ui/search";
 import Write from "./ui/write";
-import { fetchCategories } from "@/lib/actions";
+// import { fetchCategories } from "@/lib/actions";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -13,12 +13,12 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const categories = await fetchCategories();
+  // const categories = await fetchCategories();
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col">
       <div className="m-3 bg-gray-100">
-        <Categories categories={categories} />
+        {/* <CategoryView categories={categories} /> */}
       </div>
       <div className="flex flex-col bg-amber-50">
         <div className="flex flex-row">
