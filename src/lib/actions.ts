@@ -1,7 +1,12 @@
 "use server";
 
 import { auth, signOut } from "@/auth";
-import type { ChatMessage, Category, BlogData } from "@/lib/definitions";
+import type {
+  ChatMessage,
+  Category,
+  BlogInsertData,
+  BlogUpdateData,
+} from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
 import {
@@ -38,12 +43,13 @@ export async function logOut() {
   await signOut({ redirectTo: "/more" });
 }
 
-export async function createBlog(data: BlogData) {
+export async function createBlog(data: BlogInsertData) {
   console.log("createBlog : ", data.title);
   const { error } = await supabase.from("blog").insert({
     title: data.title,
     content: data.content,
     category_id: data.category_id,
+    length: data.length,
   });
   if (error) {
     console.error("Error inserting Data : ", error);
@@ -51,27 +57,28 @@ export async function createBlog(data: BlogData) {
   return redirect("/blog");
 }
 
-export async function updateBlog(formData: FormData) {
+export async function updateBlog(data: BlogUpdateData) {
   // console.log("updateBlog()");
   // console.log(formData.get("id"));
   // console.log(formData.get("title"));
   // console.log(formData.get("content"));
   const { error } = await supabase
-    .from("Blog")
+    .from("blog")
     .update({
-      title: formData.get("title"),
-      content: formData.get("content"),
+      title: data.title,
+      content: data.content,
       updated_at: "now()",
+      length: data.length,
     })
-    .eq("id", formData.get("id"));
+    .eq("id", data.id);
   if (error) {
     console.error("Error updating Blog", error);
   } else {
-    return redirect("/more/Blog");
+    return redirect(`/blog/${data.id}`);
   }
 }
 
-export async function deleteBlog(id: string) {
+export async function deleteBlog(id: number) {
   // console.log("deleting : ", id);
   const { error } = await supabase
     .from("blog")

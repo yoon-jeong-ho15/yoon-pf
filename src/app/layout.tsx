@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { nanumGothic } from "@/app/fonts";
 import Navbar from "./ui/navbar";
+import Footer from "./ui/footer";
 
 export const metadata: Metadata = {
   title: "윤정호",
@@ -20,6 +21,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -3,25 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import "quill/dist/quill.snow.css";
 import QuillType, { Delta } from "quill";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
-import Categories from "./categories";
-import type { Category } from "@/lib/definitions";
-import { createBlog } from "@/lib/actions";
+import { Blog } from "@/lib/definitions";
+import { updateBlog } from "@/lib/actions";
 
-export default function Editor({
-  categories,
-}: {
-  categories: Category[] | null;
-}) {
+export default function Editor({ blog }: { blog: Blog }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
   const [content, setContent] = useState<Delta | null>(null);
-  const [title, setTitle] = useState("");
-  const [length, setLength] = useState(0);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
-
-  const handleCategorySelect = (id: number) => {
-    setSelectedCategoryId(id);
-  };
+  const [title, setTitle] = useState(blog.title);
+  const [length, setLength] = useState(blog.length);
 
   const handleSave = () => {
     if (length <= 0) {
@@ -32,17 +22,13 @@ export default function Editor({
       alert("no title");
       return;
     }
-    if (selectedCategoryId === 0) {
-      alert("no category");
-      return;
-    }
     const data = {
+      id: blog.id,
       title: title,
       content: content!,
       length: length,
-      category_id: selectedCategoryId,
     };
-    createBlog(data);
+    updateBlog(data);
   };
 
   useEffect(() => {
@@ -64,6 +50,8 @@ export default function Editor({
           },
         });
 
+        quillRef.current.setContents(blog.content);
+
         quillRef.current.on("text-change", () => {
           let plainText = "";
           const delta = quillRef.current?.getContents();
@@ -79,7 +67,7 @@ export default function Editor({
         });
       });
     }
-  }, []);
+  }, [blog.content]);
 
   return (
     <div className="w-full">
@@ -92,21 +80,15 @@ export default function Editor({
           focus:outline-0 text-center border border-gray-300 shadow
           w-120 text-2xl font-bold"
           placeholder="제목"
+          value={title}
         ></input>
-      </div>
-      <div>
-        <Categories
-          categories={categories}
-          selectedCategoryId={selectedCategoryId}
-          onCategorySelect={handleCategorySelect}
-        />
       </div>
       <div className="my-3 flex flex-row-reverse">
         <button
           onClick={handleSave}
           className="bg-sky-600 hover:bg-sky-700 text-white p-2 rounded-xl"
         >
-          작성
+          수정
         </button>
       </div>
       <div ref={editorRef} />
