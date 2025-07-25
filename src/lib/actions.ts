@@ -44,10 +44,10 @@ export async function logOut() {
 }
 
 export async function createBlog(data: BlogInsertData) {
-  console.log("createBlog : ", data.title);
+  console.log(data);
   const { error } = await supabase.from("blog").insert({
     title: data.title,
-    content: data.content,
+    content: JSON.parse(data.content),
     category_id: data.category_id,
     length: data.length,
   });
@@ -66,7 +66,7 @@ export async function updateBlog(data: BlogUpdateData) {
     .from("blog")
     .update({
       title: data.title,
-      content: data.content,
+      content: JSON.parse(data.content),
       updated_at: "now()",
       length: data.length,
     })

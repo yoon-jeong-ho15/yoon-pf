@@ -19,8 +19,12 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
   const date = new Date(blog.created_at);
   const localDateTime = date.toLocaleString();
 
-  const converter = new QuillDeltaToHtmlConverter(blog.content.ops, {});
-  const html = converter.convert();
+  let converter = null;
+  if (blog.content) {
+    converter = new QuillDeltaToHtmlConverter(blog.content.ops, {});
+  }
+
+  const html = converter ? converter.convert() : "";
 
   const $ = cheerio.load(html);
   const llines: string[][] = [];
@@ -73,10 +77,10 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
         <Delete id={blog.id} />
         <Edit id={blog.id} />
       </div>
-      <div
+      <article
         className="h-190 ml-20 mr-25 mt-5 prose prose-lg prose-blog max-w-none"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
-      ></div>
+      ></article>
       {/* <div>{html}</div>
       <div>
         {llines.map((tag: string[]) =>

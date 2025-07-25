@@ -39,7 +39,7 @@ export type Blog = {
 
 export type BlogInsertData = {
   title: string;
-  content: Delta;
+  content: string;
   length: number;
   category_id: number;
 };
@@ -47,7 +47,7 @@ export type BlogInsertData = {
 export type BlogUpdateData = {
   id: number;
   title: string;
-  content: Delta;
+  content: string;
   length: number;
 };
 

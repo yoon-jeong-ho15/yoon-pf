@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import "quill/dist/quill.snow.css";
-import QuillType, { Delta } from "quill";
+import QuillType from "quill";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { Blog } from "@/lib/definitions";
 import { updateBlog } from "@/lib/actions";
@@ -9,7 +9,7 @@ import { updateBlog } from "@/lib/actions";
 export default function Editor({ blog }: { blog: Blog }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
-  const [content, setContent] = useState<Delta | null>(null);
+  const [content, setContent] = useState("");
   const [title, setTitle] = useState(blog.title);
   const [length, setLength] = useState(blog.length);
 
@@ -25,7 +25,7 @@ export default function Editor({ blog }: { blog: Blog }) {
     const data = {
       id: blog.id,
       title: title,
-      content: content!,
+      content: content,
       length: length,
     };
     updateBlog(data);
@@ -53,17 +53,12 @@ export default function Editor({ blog }: { blog: Blog }) {
         quillRef.current.setContents(blog.content);
 
         quillRef.current.on("text-change", () => {
-          let plainText = "";
+          // const innerText = quillRef.current.root.innerText;
+
           const delta = quillRef.current?.getContents();
-          if (delta) {
-            delta?.ops.forEach((op) => {
-              if (op.insert !== "\n") {
-                plainText += op.insert;
-              }
-            });
-            setContent(delta);
-          }
-          setLength(plainText.length || 0);
+          setContent(JSON.stringify(delta));
+
+          setLength(quillRef?.current?.root.innerText.length || 0);
         });
       });
     }

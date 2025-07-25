@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import "quill/dist/quill.snow.css";
-import QuillType, { Delta } from "quill";
+import QuillType from "quill";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
 import Categories from "./categories";
 import type { Category } from "@/lib/definitions";
@@ -14,7 +14,7 @@ export default function Editor({
 }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
-  const [content, setContent] = useState<Delta | null>(null);
+  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [length, setLength] = useState(0);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
@@ -36,9 +36,13 @@ export default function Editor({
       alert("no category");
       return;
     }
+    // console.log(title);
+    // console.log(selectedCategoryId);
+    // console.log(length);
+    console.log(content);
     const data = {
       title: title,
-      content: content!,
+      content: content,
       length: length,
       category_id: selectedCategoryId,
     };
@@ -65,17 +69,12 @@ export default function Editor({
         });
 
         quillRef.current.on("text-change", () => {
-          let plainText = "";
+          // const innerText = quillRef.current.root.innerText;
+
           const delta = quillRef.current?.getContents();
-          if (delta) {
-            delta?.ops.forEach((op) => {
-              if (op.insert !== "\n") {
-                plainText += op.insert;
-              }
-            });
-            setContent(delta);
-          }
-          setLength(plainText.length || 0);
+          setContent(JSON.stringify(delta));
+
+          setLength(quillRef?.current?.root.innerText.length || 0);
         });
       });
     }
