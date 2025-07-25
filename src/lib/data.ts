@@ -17,8 +17,8 @@ export async function fetchBlogs(query: string, currentPage: number) {
   }
 }
 
-export async function fetchBoardById(id: string) {
-  const { data, error } = await supabase.from("board").select("*").eq("id", id);
+export async function fetchBlogById(id: number) {
+  const { data, error } = await supabase.from("blog").select("*").eq("id", id);
 
   if (error) {
     console.error("Error fetching data:", error);

@@ -1,6 +1,6 @@
 import { fetchCategories } from "@/lib/actions";
-// import { Category } from "@/lib/definitions";
 import Editor from "./editor";
+// import { Category } from "@/lib/definitions";
 
 export default async function Page() {
   const categories = await fetchCategories();

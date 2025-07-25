@@ -1,16 +1,20 @@
 import { fetchBlogs } from "@/lib/data";
 import { Blog } from "@/lib/definitions";
+import Link from "next/link";
 
 export function BlogItem({ id, created_at, title, category_id }: Blog) {
-  // Convert ISO string to local date/time
   const date = new Date(created_at);
   const localDateTime = date.toLocaleString();
-  console.log(date);
+
   return (
     <tr>
-      <input type="hidden" value={id}></input>
+      <td className="hidden">{id}</td>
       <td className="text-sm">{localDateTime}</td>
-      <td className="text-center">{title}</td>
+      <td className="text-center">
+        <Link href={`/blog/${id}`} className="hover:text-blue-600">
+          {title}
+        </Link>
+      </td>
       <td className="text-center">{category_id}</td>
     </tr>
   );

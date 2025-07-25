@@ -1,3 +1,5 @@
+import { Delta } from "quill";
+
 export type AuthUser = {
   id: string;
   username: string;
@@ -25,20 +27,28 @@ export type Category = {
 };
 
 export type Blog = {
-  id: string;
+  id: number;
   created_at: string;
   title: string;
-  content: string;
+  content: Delta;
   category_id: number;
   updated_at: string;
   status: boolean;
+  length: number;
 };
 
-export type BlogData = {
+export type BlogInsertData = {
   title: string;
   content: string;
   length: number;
   category_id: number;
+};
+
+export type BlogUpdateData = {
+  id: number;
+  title: string;
+  content: string;
+  length: number;
 };
 
 export type ChatroomUser = {
