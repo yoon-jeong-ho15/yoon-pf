@@ -4,7 +4,7 @@ import { useChatroom } from "./chatroom-provider";
 import { User, ChatMessageWithReadStatus } from "@/lib/definitions";
 import { NoProfile } from "public/icon";
 import { supabase } from "@/lib/supabase";
-import { fetchChatsWithReadStatus, markMessageAsRead } from "@/lib/data";
+import { fetchChatsWithReadStatus, markMessageAsRead } from "@/lib/data/chat";
 import MessageBoxWelcome from "@/app/ui/motions/message-box-welcome";
 
 export default function MessageBox({ user }: { user: User }) {

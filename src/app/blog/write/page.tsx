@@ -1,4 +1,4 @@
-import { fetchCategories } from "@/lib/actions";
+import { fetchCategories } from "@/lib/data/blog";
 import Editor from "./editor";
 // import { Category } from "@/lib/definitions";
 

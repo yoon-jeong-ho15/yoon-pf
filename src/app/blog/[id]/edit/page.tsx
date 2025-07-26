@@ -1,4 +1,4 @@
-import { fetchBlogById } from "@/lib/data";
+import { fetchBlogById } from "@/lib/data/blog";
 import Editor from "./editor";
 
 export default async function Page(props: { params: Promise<{ id: number }> }) {

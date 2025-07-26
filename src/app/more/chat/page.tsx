@@ -2,7 +2,8 @@ import { auth } from "@/auth";
 import { User } from "@/lib/definitions";
 import ChatList from "./chat-list";
 import ChatroomProvider from "./chatroom-provider";
-import { fetchChatrooms, fetchUsersByGroup } from "@/lib/data";
+import { fetchChatrooms } from "@/lib/data/chatroom";
+import { fetchUsersByGroup } from "@/lib/data/user";
 import MessageBox from "./message-box";
 import MessageForm from "./message-form";
 

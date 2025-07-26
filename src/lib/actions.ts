@@ -3,21 +3,22 @@
 import { auth, signOut } from "@/auth";
 import type {
   ChatMessage,
-  Category,
   BlogInsertData,
   BlogUpdateData,
 } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
+import { fetchChatById, insertChat } from "./data/chat";
+import { insertBlog, updateBlog, updateBlogStatus } from "./data/blog";
 import {
-  fetchChatById,
   checkExistingChatroom,
-  insertChat,
   insertChatroom,
   insertChatroomMember,
-} from "./data";
-// import { PostgrestError } from "@supabase/supabase-js";
+} from "./data/chatroom";
 
+// auth
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // export async function authenticate(
 //   prevState: string | undefined,
 //   formData: FormData
@@ -43,34 +44,19 @@ export async function logOut() {
   await signOut({ redirectTo: "/more" });
 }
 
+// blog
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export async function createBlog(data: BlogInsertData) {
-  console.log(data);
-  const { error } = await supabase.from("blog").insert({
-    title: data.title,
-    content: JSON.parse(data.content),
-    category_id: data.category_id,
-    length: data.length,
-  });
+  const error = insertBlog(data);
   if (error) {
     console.error("Error inserting Data : ", error);
   }
   return redirect("/blog");
 }
 
-export async function updateBlog(data: BlogUpdateData) {
-  // console.log("updateBlog()");
-  // console.log(formData.get("id"));
-  // console.log(formData.get("title"));
-  // console.log(formData.get("content"));
-  const { error } = await supabase
-    .from("blog")
-    .update({
-      title: data.title,
-      content: JSON.parse(data.content),
-      updated_at: "now()",
-      length: data.length,
-    })
-    .eq("id", data.id);
+export async function editBlog(data: BlogUpdateData) {
+  const error = updateBlog(data);
   if (error) {
     console.error("Error updating Blog", error);
   } else {
@@ -79,18 +65,15 @@ export async function updateBlog(data: BlogUpdateData) {
 }
 
 export async function deleteBlog(id: number) {
-  // console.log("deleting : ", id);
-  const { error } = await supabase
-    .from("blog")
-    .update({
-      status: false,
-    })
-    .eq("id", id);
+  const error = await updateBlogStatus(id);
   if (error) {
     console.error("Error deleteing Blog", error);
   }
 }
 
+// chat
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export async function sendChatMessage(formData: FormData) {
   const chatroom = formData.get("chatroom");
 
@@ -109,10 +92,39 @@ export async function sendChatMessage(formData: FormData) {
   return result;
 }
 
+export async function markMessageAsRead(messageId: string, userId: string) {
+  const [chatResult, notifResult] = await Promise.all([
+    supabase
+      .from("chat_read_status")
+      .update({ read_at: new Date().toISOString() })
+      .eq("message_id", messageId)
+      .eq("user_id", userId)
+      .is("read_at", null),
+
+    supabase
+      .from("notification")
+      .update({ read_at: new Date().toISOString() })
+      .eq("user_id", userId)
+      .eq("type", "chat_message")
+      .filter("data->message_id", "eq", messageId)
+      .is("read_at", null),
+  ]);
+
+  return !chatResult.error && !notifResult.error;
+}
+
+// chatroom
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export async function addChatroom(
   selectedFriend: string[],
   title?: string
-): Promise<{ type: "error" | "success"; msg: string; data?: string }> {
+): Promise<{
+  type: "error" | "success";
+  msg: string;
+  data?: string;
+}> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return { type: "error", msg: "no session" };
@@ -136,8 +148,10 @@ export async function addChatroom(
         user_id: item,
       }));
 
-      await insertChatroomMember(insertingData);
-
+      const error = await insertChatroomMember(insertingData);
+      if (error) {
+        console.error("failed to insert chatrooms ", error);
+      }
       return {
         type: "success",
         msg: "created new dm chat",
@@ -161,8 +175,10 @@ export async function addChatroom(
         user_id: item,
       }));
 
-      await insertChatroomMember(insertingData);
-
+      const error = await insertChatroomMember(insertingData);
+      if (error) {
+        console.error("failed to insert chatrooms ", error);
+      }
       return {
         type: "success",
         msg: "created new group chat",
@@ -187,27 +203,10 @@ export async function markChatroomAsRead(chatroomId: string, userId: string) {
   return true;
 }
 
-export async function markMessageAsRead(messageId: string, userId: string) {
-  const [chatResult, notifResult] = await Promise.all([
-    supabase
-      .from("chat_read_status")
-      .update({ read_at: new Date().toISOString() })
-      .eq("message_id", messageId)
-      .eq("user_id", userId)
-      .is("read_at", null),
-
-    supabase
-      .from("notification")
-      .update({ read_at: new Date().toISOString() })
-      .eq("user_id", userId)
-      .eq("type", "chat_message")
-      .filter("data->message_id", "eq", messageId)
-      .is("read_at", null),
-  ]);
-
-  return !chatResult.error && !notifResult.error;
-}
-
+// notification
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 아직 사용 안하는중
 export async function readNotification(notificationId: string) {
   const { error } = await supabase
     .from("notification")
@@ -216,36 +215,4 @@ export async function readNotification(notificationId: string) {
     .is("read_at", null);
 
   return !error;
-}
-
-export async function fetchCategories() {
-  const { data, error } = await supabase.from("blog_category").select("*");
-  if (error) {
-    console.error(error);
-    return null;
-  }
-
-  const categoryMap = new Map(
-    data.map((cat) => [cat.id, { ...cat, children: [] }])
-  );
-  // console.log(categoryMap);
-
-  const categories: Category[] = [];
-
-  // 객체 참조(Object Reference)
-  for (const category of data) {
-    if (category.parent_id) {
-      const parent = categoryMap.get(category.parent_id);
-      if (parent) {
-        parent.children.push(categoryMap.get(category.id)!);
-      }
-    } else {
-      // 이 때 map에 들어있는 객체의 주소값을 넣어준다.
-      // 그래서 배열의 객체에 직접 자식을 넣어주지 않고,
-      // Map에 있는 객체에 넣어줘도 배열 안의 객체에도 똑같이 자식이 들어가게 되는것.
-      categories.push(categoryMap.get(category.id)!);
-    }
-  }
-
-  return categories;
 }

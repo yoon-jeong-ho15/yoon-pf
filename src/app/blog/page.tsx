@@ -2,7 +2,7 @@ import BlogList from "./blog-list";
 // import CategoryView from "./category-view";
 import Search from "./ui/search";
 import Write from "./ui/write";
-// import { fetchCategories } from "@/lib/actions";
+// import { fetchCategoriesWithDetail } from "@/lib/data/blog";
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -13,12 +13,12 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  // const categories = await fetchCategories();
+  // const catgoriesWithDetail = await fetchCategoriesWithDetail();s
 
   return (
     <div className="flex flex-col">
-      <div className="m-3 bg-gray-100">
-        {/* <CategoryView categories={categories} /> */}
+      <div className="m-3">
+        {/* <CategoryView categories={catgoriesWithDetail} /> */}
       </div>
       <div className="flex flex-col bg-amber-50">
         <div className="flex flex-row">

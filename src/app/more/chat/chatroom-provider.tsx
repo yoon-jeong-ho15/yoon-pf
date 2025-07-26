@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { enterChatroom } from "@/lib/data";
+import { enterChatroom } from "@/lib/data/chatroom";
 
 type ChatroomContextType = {
   selectedChatroom: string | null;
