@@ -4,7 +4,7 @@ import "quill/dist/quill.snow.css";
 import QuillType from "quill";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { Blog } from "@/lib/definitions";
-import { updateBlog } from "@/lib/actions";
+import { editBlog } from "@/lib/actions";
 
 export default function Editor({ blog }: { blog: Blog }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +28,7 @@ export default function Editor({ blog }: { blog: Blog }) {
       content: content,
       length: length,
     };
-    updateBlog(data);
+    editBlog(data);
   };
 
   useEffect(() => {
