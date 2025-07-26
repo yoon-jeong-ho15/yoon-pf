@@ -60,7 +60,7 @@ export default function Editor({
               [{ header: "1" }, { header: "2" }, { header: "3" }],
               [{ color: [] }, { background: [] }],
               ["bold", "italic", "underline"],
-              [{ "code-block": "typescript" }],
+              ["code-block", "formula"],
               [{ script: "sub" }, { script: "super" }],
               [{ list: "ordered" }, { list: "bullet" }],
               ["link", "image"],

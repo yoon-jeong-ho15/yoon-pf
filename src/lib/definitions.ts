@@ -21,8 +21,24 @@ export type Category = {
   id: number;
   name: string;
   slug: string;
-  parent_id: string;
+  parent_id: number;
   level: number;
+  children?: Category[];
+};
+
+export type CategoryWithDetail = {
+  id: number;
+  name: string;
+  parent_id: number;
+  level: number;
+  description: string;
+  blog?: [
+    {
+      blog_id?: number;
+      blog_title?: string;
+      blog_keyword?: string[];
+    }
+  ];
   children?: Category[];
 };
 

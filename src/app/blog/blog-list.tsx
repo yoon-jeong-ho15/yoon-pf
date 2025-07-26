@@ -1,4 +1,4 @@
-import { fetchBlogs } from "@/lib/data";
+import { fetchBlogs } from "@/lib/data/blog";
 import { Blog } from "@/lib/definitions";
 import Link from "next/link";
 

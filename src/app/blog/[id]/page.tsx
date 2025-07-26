@@ -1,4 +1,4 @@
-import { fetchBlogById } from "@/lib/data";
+import { fetchBlogById } from "@/lib/data/blog";
 import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 import "quill/dist/quill.snow.css";
 import hljs from "highlight.js";
