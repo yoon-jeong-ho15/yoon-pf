@@ -6,7 +6,7 @@ import Footer from "./ui/footer";
 
 export const metadata: Metadata = {
   title: "윤정호",
-  description: "Yoon's portfolio",
+  description: "Yoon's blog",
 };
 
 export default function RootLayout({
