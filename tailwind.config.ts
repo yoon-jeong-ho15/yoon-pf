@@ -1,12 +1,38 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
+// module.exports = {
+//   content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
+//   purge: [],
+//   theme: {
+//     extend: {
+//       keyframes: {
+//         pulse: {
+//           "50%": { opacity: 0.5 },
+//         },
+//       },
+//       animation: {
+//         "pulse-fast": "pulse 1s cubic-bezier(0,0,1,1) infinite",
+//       },
+//     },
+//   },
+//   variants: {},
+//   plugins: [typography],
+// };
+
 const config: Config = {
-  content: [
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      // keyframes: {
+      //   "pulse-fast": {
+      //     "0%, 100%": { opacity: "1" },
+      //     "50%": { opacity: "0.5" },
+      //   },
+      // },
+      // animation: {
+      //   "pulse-fast": "pulse-fast 1s cubic-bezier(0.4,0,0.6,1) infinite",
+      // },
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {

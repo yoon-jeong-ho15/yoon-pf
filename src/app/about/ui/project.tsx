@@ -48,7 +48,7 @@ export default function Project({
     >
       <div className="flex flex-row mb-2 items-center">
         {isMain && (
-          <div className="rounded-full w-2 h-2 mr-2 bg-blue-500"></div>
+          <div className="rounded-full w-2 h-2 mr-2 bg-blue-500 animate-pulse-fast"></div>
         )}
         <span>{title}</span>
         <div>
