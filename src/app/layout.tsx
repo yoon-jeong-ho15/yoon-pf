@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import { nanumGothic } from "@/app/fonts";
-import Navbar from "./ui/navbar";
-import Footer from "./ui/footer";
 
 export const metadata: Metadata = {
   title: "윤정호",
   description: "Yoon's blog",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -17,11 +15,11 @@ export default function RootLayout({
   return (
     <html>
       <body
-        className={`${nanumGothic.className} antialiased overflow-y-scroll flex flex-col`}
+        className={`${nanumGothic.className} 
+        antialiased flex flex-col max-w-screen min-h-screen
+        overflow-y-scroll `}
       >
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

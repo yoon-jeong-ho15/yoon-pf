@@ -24,27 +24,18 @@ const config: Config = {
   content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      // keyframes: {
-      //   "pulse-fast": {
-      //     "0%, 100%": { opacity: "1" },
-      //     "50%": { opacity: "0.5" },
-      //   },
-      // },
-      // animation: {
-      //   "pulse-fast": "pulse-fast 1s cubic-bezier(0.4,0,0.6,1) infinite",
-      // },
       typography: ({ theme }) => ({
-        DEFAULT: {
-          css: {
-            color: theme("colors.gray.700"),
-            a: {
-              color: theme("colors.blue.500"),
-              "&:hover": {
-                color: theme("colors.blue.700"),
-              },
-            },
-          },
-        },
+        // DEFAULT: {
+        //   css: {
+        //     color: theme("colors.gray.700"),
+        //     a: {
+        //       color: theme("colors.blue.500"),
+        //       "&:hover": {
+        //         color: theme("colors.blue.700"),
+        //       },
+        //     },
+        //   },
+        // },
         blog: {
           css: {
             "--tw-prose-body": theme("colors.slate.800"),

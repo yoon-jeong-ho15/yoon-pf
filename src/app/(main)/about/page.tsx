@@ -14,10 +14,11 @@ export default function Page() {
     </div>
   );
 }
+
 const yoonPf = {
   title: "yoon-pf",
   github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-  about: "https://yoon-pf.vercel.app/about/yoon-pf",
+  about: "/aboutthispage",
   stack: [
     "Next.js",
     "Next.auth",
@@ -27,6 +28,7 @@ const yoonPf = {
     "Vercel",
   ],
 };
+
 const giveHub = {
   title: "Givehub",
   github: "https://github.com/shpark47/GiveHub",
