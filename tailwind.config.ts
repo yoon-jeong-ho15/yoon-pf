@@ -1,24 +1,41 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
+// module.exports = {
+//   content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
+//   purge: [],
+//   theme: {
+//     extend: {
+//       keyframes: {
+//         pulse: {
+//           "50%": { opacity: 0.5 },
+//         },
+//       },
+//       animation: {
+//         "pulse-fast": "pulse 1s cubic-bezier(0,0,1,1) infinite",
+//       },
+//     },
+//   },
+//   variants: {},
+//   plugins: [typography],
+// };
+
 const config: Config = {
-  content: [
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       typography: ({ theme }) => ({
-        DEFAULT: {
-          css: {
-            color: theme("colors.gray.700"),
-            a: {
-              color: theme("colors.blue.500"),
-              "&:hover": {
-                color: theme("colors.blue.700"),
-              },
-            },
-          },
-        },
+        // DEFAULT: {
+        //   css: {
+        //     color: theme("colors.gray.700"),
+        //     a: {
+        //       color: theme("colors.blue.500"),
+        //       "&:hover": {
+        //         color: theme("colors.blue.700"),
+        //       },
+        //     },
+        //   },
+        // },
         blog: {
           css: {
             "--tw-prose-body": theme("colors.slate.800"),
