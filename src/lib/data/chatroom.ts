@@ -49,14 +49,16 @@ export async function checkExistingChatroom(
   selectedFriend: string[],
   title?: string
 ) {
+  title = title ? title : "";
+  // console.log("list", selectedFriend, "title", title);
   const { data } = await supabase.rpc("check_chatroom", {
     userid: selectedFriend,
     member_count: selectedFriend.length,
-    p_title: title ? title : "",
+    p_title: title,
   });
-  console.log("data", data);
-  if (data) {
-    return data;
+  console.log("data[0]", data[0]);
+  if (data[0]) {
+    return data[0].chatroom_id;
   }
 }
 

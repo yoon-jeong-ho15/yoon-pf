@@ -24,7 +24,6 @@ export default function Navbar() {
        border-gray-400 border-1 bg-gray-100
        rounded-3xl font-[500]
        overflow-hidden text-shadow-xs/10
-       relative
      `}
     >
       {tabs.map((item) => (

@@ -74,10 +74,12 @@ export async function updateReadStatusByMessageId(
   messageId: string,
   userId: string
 ) {
-  const { error } = await supabase.rpc("mark_single_message_as_read", {
-    p_message_id: messageId,
-    p_user_id: userId,
-  });
+  const error = await supabase
+    .from("chat_read_status")
+    .update({ read_at: new Date().toISOString() })
+    .eq("user_id", userId)
+    .eq("message_id", messageId)
+    .is("read_at", null);
 
   if (error) {
     return error;
