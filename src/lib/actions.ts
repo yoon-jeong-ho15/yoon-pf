@@ -5,6 +5,7 @@ import type {
   ChatMessage,
   BlogInsertData,
   BlogUpdateData,
+  AuthUser,
 } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
@@ -21,7 +22,10 @@ import {
   insertChatroomMember,
   fetchUnreadCountsByUserId,
 } from "./data/chatroom";
-import { updateNotificationReadAtByMessageId } from "./data/notification";
+import {
+  fetchNotificationByUserId,
+  updateNotificationReadAtByMessageId,
+} from "./data/notification";
 
 // auth
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +85,7 @@ export async function deleteBlog(id: number) {
 // chat
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export async function sendChatMessage(formData: FormData) {
   const chatroom = formData.get("chatroom");
 
@@ -116,27 +121,6 @@ export async function markSingleMessageAsRead(
   }
 }
 
-export async function markMessageAsRead(messageId: string, userId: string) {
-  const [chatResult, notifResult] = await Promise.all([
-    supabase
-      .from("chat_read_status")
-      .update({ read_at: new Date().toISOString() })
-      .eq("message_id", messageId)
-      .eq("user_id", userId)
-      .is("read_at", null),
-
-    supabase
-      .from("notification")
-      .update({ read_at: new Date().toISOString() })
-      .eq("user_id", userId)
-      .eq("type", "chat_message")
-      .filter("data->message_id", "eq", messageId)
-      .is("read_at", null),
-  ]);
-
-  return !chatResult.error && !notifResult.error;
-}
-
 export async function getPrevChats(chatroomId: string) {
   const data = await fetchChatsByChatroomId(chatroomId);
   return data;
@@ -147,16 +131,17 @@ export async function getPrevChats(chatroomId: string) {
 
 export async function addChatroom(
   selectedFriend: string[],
-  title?: string
+  title?: string,
+  usernames?: string[]
 ): Promise<{
   type: "error" | "success";
   msg: string;
   data?: string;
 }> {
   const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) return { type: "error", msg: "no session" };
-  selectedFriend.push(userId);
+  const user = session?.user as AuthUser;
+  if (!session || !user) return { type: "error", msg: "no session" };
+  selectedFriend.push(user.id);
 
   if (selectedFriend.length == 2) {
     const existing = await checkExistingChatroom(selectedFriend);
@@ -166,7 +151,7 @@ export async function addChatroom(
       return {
         type: "error",
         msg: "existing dm",
-        data: existing[0].chatroom_id as string,
+        data: existing,
       };
     } else {
       const newChatroomId = (await insertChatroom()) as string;
@@ -187,6 +172,10 @@ export async function addChatroom(
       };
     }
   } else {
+    if (!title) {
+      usernames?.push(user.username);
+      title = usernames?.sort().join(", ");
+    }
     const existing = await checkExistingChatroom(selectedFriend, title);
 
     if (existing) {
@@ -254,4 +243,9 @@ export async function readNotification(notificationId: string) {
     .is("read_at", null);
 
   return !error;
+}
+
+export async function getNotifications(userId: string) {
+  const data = await fetchNotificationByUserId(userId);
+  return data;
 }

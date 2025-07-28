@@ -14,7 +14,7 @@ export default function MoreNav() {
     <nav
       className="
         flex flex-row items-center justify-between
-        bg-gray-100 overflow-hidden
+        bg-gray-100
         h-14 w-11/12 mt-3 rounded-2xl shadow-md
         border border-gray-400 relative"
     >
@@ -44,8 +44,9 @@ export default function MoreNav() {
       </div>
       <div
         className="
-        flex flex-row h-full w-fit border-l 
+        flex flex-row h-full w-fit border-l
         border-gray-500 bg-gray-100 items-center px-2 z-10
+        rounded-r-2xl
         "
       >
         <Alert />

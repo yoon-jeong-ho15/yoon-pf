@@ -9,22 +9,31 @@ import { useChatroom } from "./chatroom-provider";
 
 export default function AddChatroom({ friends }: { friends?: User[] }) {
   const [selectedFriend, setSelectedFriend] = useState<string[]>([]);
+  const [usernames, setUsernames] = useState<string[]>([]);
   const [title, setTitle] = useState<string>();
   const titleInputRef = useRef<HTMLInputElement | null>(null);
   const chatroomContext = useChatroom()!;
   const { setSelectedChatroom, setIsShowingAddChatroom } = chatroomContext;
 
-  const toggleSelectedFriend = (id: string) => {
+  const toggleSelectedFriend = (id: string, username: string) => {
+    if (selectedFriend.includes(id)) {
+    }
     setSelectedFriend((prev) => {
       if (prev.includes(id)) {
         return prev.filter((friendId) => friendId !== id);
       }
       return [...prev, id];
     });
+    setUsernames((prev) => {
+      if (prev.includes(username)) {
+        return prev.filter((friendName) => friendName !== username);
+      }
+      return [...prev, username];
+    });
   };
 
   const handleAddingChatroom = async () => {
-    const result = await addChatroom(selectedFriend, title);
+    const result = await addChatroom(selectedFriend, title, usernames);
     if (result.type === "error") {
       switch (result.msg) {
         case "existing dm":
@@ -92,7 +101,7 @@ export function Friend({
   isSelected,
 }: {
   user: User;
-  onToggleSelect: (id: string) => void;
+  onToggleSelect: (id: string, username: string) => void;
   isSelected?: boolean;
 }) {
   return (
@@ -101,7 +110,7 @@ export function Friend({
         rounded-xl transition-colors
         ${isSelected ? seletedStyle : "hover:bg-stone-100"}`}
       onClick={() => {
-        onToggleSelect(user.id);
+        onToggleSelect(user.id, user.username);
       }}
     >
       <input type="hidden" value={user.id} />

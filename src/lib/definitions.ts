@@ -92,3 +92,18 @@ export type ChatMessage = {
   recipients_count: number;
   unread_count: number;
 };
+
+export type MessageDataForNotification = {
+  message_id: number;
+  chatroom_title: string;
+  sender_username: string;
+  message_preview: string;
+};
+
+export type Notification = {
+  id: number;
+  user_id: string;
+  type: string;
+  created_at: string;
+  data: MessageDataForNotification;
+};
