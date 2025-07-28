@@ -1,16 +1,15 @@
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useChatroom } from "./chatroom-provider";
-import { User, ChatMessageWithReadStatus } from "@/lib/definitions";
+import { User, ChatMessage } from "@/lib/definitions";
 import { NoProfile } from "public/icon";
 import { supabase } from "@/lib/supabase";
-import { fetchChatsWithReadStatus, markMessageAsRead } from "@/lib/data/chat";
+import { markSingleMessageAsRead } from "@/lib/actions";
 import MessageBoxWelcome from "@/app/(main)/ui/motions/message-box-welcome";
+import { getPrevChats } from "@/lib/actions";
 
 export default function MessageBox({ user }: { user: User }) {
-  const [chatMessages, setChatMessages] = useState<
-    ChatMessageWithReadStatus[] | null
-  >(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[] | null>(null);
   const messageDivRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const messageRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -28,7 +27,7 @@ export default function MessageBox({ user }: { user: User }) {
             // 내가 보낸 메시지가 아닌 경우만 읽음 처리
             const message = chatMessages?.find((m) => m.id === messageId);
             if (message && message.username !== user.username) {
-              markMessageAsRead(messageId, user.id);
+              markSingleMessageAsRead(messageId, user.id);
             }
           }
         });
@@ -66,7 +65,7 @@ export default function MessageBox({ user }: { user: User }) {
 
   const loadPrevChats = useCallback(async () => {
     if (selectedChatroom) {
-      const previousChats = await fetchChatsWithReadStatus(selectedChatroom);
+      const previousChats = await getPrevChats(selectedChatroom);
       setChatMessages(previousChats);
     }
   }, [selectedChatroom]);
@@ -84,16 +83,16 @@ export default function MessageBox({ user }: { user: User }) {
 
     const channel = supabase.channel(`ch${selectedChatroom}`);
     channel.on("broadcast", { event: "new-message" }, (data) => {
-      const message = data.payload;
+      const message: ChatMessage = data.payload;
 
       // 새 메시지를 ChatMessageWithReadStatus 형태로 변환
-      const messageWithReadStatus: ChatMessageWithReadStatus = {
-        ...message,
-        unread_count: message.username === user.username ? 0 : 1, // 내가 보낸 메시지는 읽음 처리
-        total_recipients: 1, // 실제로는 채팅방 멤버 수에서 계산해야 함
-      };
+      // const messageWithReadStatus: ChatMessage = {
+      //   ...message,
+      //   unread_count: message.username === user.username ? 0 : 1, // 내가 보낸 메시지는 읽음 처리
+      //   total_recipients: 1, // 실제로는 채팅방 멤버 수에서 계산해야 함
+      // };
 
-      setChatMessages((prev) => [...(prev ?? []), messageWithReadStatus]);
+      setChatMessages((prev) => [...(prev ?? []), message]);
 
       if (message.username === user.username) {
         setIsSubmitting(false);
@@ -137,10 +136,10 @@ export function Message({
   created_at,
   user_id,
   profile_pic,
+  recipients_count,
   unread_count,
-  total_recipients,
   user,
-}: ChatMessageWithReadStatus & { user: User }) {
+}: ChatMessage & { user: User }) {
   const isMe = username === user.username;
 
   // const getReadStatusDisplay = () => {
@@ -173,7 +172,7 @@ export function Message({
         <div className="hidden">{created_at}</div>
         <div className="hidden">{id}</div>
         <div className="hidden">{user_id}</div>
-        <div className="hidden">{total_recipients}</div>
+        <div className="hidden">{recipients_count}</div>
         <div className="hidden">{unread_count}</div>
         <div className="flex flex-col justify-center items-center">
           {profile_pic ? (

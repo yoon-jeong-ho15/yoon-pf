@@ -89,9 +89,6 @@ export type ChatMessage = {
   message: string;
   chatroom: string;
   profile_pic: string;
-};
-
-export type ChatMessageWithReadStatus = ChatMessage & {
+  recipients_count: number;
   unread_count: number;
-  total_recipients: number;
 };

@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 import { enterChatroom } from "@/lib/data/chatroom";
+import { getUnreadCountsMap } from "@/lib/actions";
 
 type ChatroomContextType = {
   selectedChatroom: string | null;
@@ -46,47 +46,18 @@ export default function ChatroomProvider({
         console.log("userId is missing, skipping API call.");
         return;
       }
-      try {
-        // console.log("Calling get_unread_message_counts with userId:", userId);
-        const { data, error } = await supabase.rpc(
-          "get_unread_message_counts",
-          {
-            p_user_id: userId,
-          }
-        );
-        // console.log("unread counts data:", data);
-        if (error) {
-          // console.error("Error fetching unread counts:", error);
-          // console.error("Full error object:", JSON.stringify(error, null, 2));
-          // console.error("Data received with error:", data);
-        } else if (data) {
-          const countsMap = new Map();
-          data.forEach(
-            (item: { chatroom_id: string; unread_count: number }) => {
-              countsMap.set(item.chatroom_id.toString(), item.unread_count);
-            }
-          );
-          setUnreadCounts(countsMap);
-        }
-      } catch (error) {
-        console.error("Failed to load unread counts:", error);
-      }
+      const countsMap = await getUnreadCountsMap(userId);
+      setUnreadCounts(countsMap);
     };
 
     loadUnreadCounts();
-    const interval = setInterval(loadUnreadCounts, 30000); // 30초마다
+    const interval = setInterval(loadUnreadCounts, 30000);
 
     return () => clearInterval(interval);
   }, [userId]);
 
   // 채팅방 변경 시 읽음 처리
   useEffect(() => {
-    // console.log(
-    //   "Entering chatroom with ID:",
-    //   selectedChatroom,
-    //   "Type:",
-    //   typeof selectedChatroom
-    // );
     if (selectedChatroom && userId) {
       enterChatroom(selectedChatroom, userId);
       // 해당 채팅방의 안 읽은 수를 0으로 설정

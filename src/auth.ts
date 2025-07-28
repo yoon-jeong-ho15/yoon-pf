@@ -52,9 +52,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             credentials
           );
 
-          console.log("=== LOGIN DEBUG ===");
-          console.log("Input username:", username);
-          console.log("Input password:", password, "type:", typeof password);
+          // console.log("=== LOGIN DEBUG ===");
+          // console.log("Input username:", username);
+          // console.log("Input password:", password, "type:", typeof password);
 
           const user = await getUser(username);
 
@@ -62,17 +62,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             throw new Error("존재하지 않는 사용자입니다.");
           }
 
-          console.log("DB user found:", user.username);
-          console.log(
-            "DB password:",
-            user.password,
-            "type:",
-            typeof user.password
-          );
+          // console.log("DB user found:", user.username);
+          // console.log(
+          //   "DB password:",
+          //   user.password,
+          //   "type:",
+          //   typeof user.password
+          // );
 
           const passwordsMatch = comparePasswords(user.password, password);
-          console.log("Password comparison result:", passwordsMatch);
-          console.log("===================");
+          // console.log("Password comparison result:", passwordsMatch);
+          // console.log("===================");
 
           if (!passwordsMatch) {
             throw new Error("생년월일이 올바르지 않습니다.");

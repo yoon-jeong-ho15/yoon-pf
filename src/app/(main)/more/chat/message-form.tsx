@@ -6,7 +6,6 @@ import { useChatroom } from "./chatroom-provider";
 import { sendChatMessage } from "@/lib/actions";
 
 export default function MessageForm({ user }: { user: User }) {
-  // console.log("MessageForm");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -16,7 +15,6 @@ export default function MessageForm({ user }: { user: User }) {
   const selectedChatroom = chatroomContext.selectedChatroom;
 
   useEffect(() => {
-    // console.log("useEffect()");
     if (textareaRef.current && buttonRef.current) {
       const textarea = textareaRef.current;
       const button = buttonRef.current;
