@@ -77,7 +77,7 @@ export default function Project({
                    border-blue-500 border-1 px-1 py-0.5 
                    rounded-lg hover:bg-lime-200 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             >
-              about this page
+              about
             </a>
           )}
         </div>

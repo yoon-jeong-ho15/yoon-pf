@@ -98,3 +98,14 @@ export async function enterChatroom(chatroomId: string, userId: string) {
     console.error("Error marking messages as read", error);
   }
 }
+
+export async function fetchUnreadCountsByUserId(userId: string) {
+  const { data, error } = await supabase.rpc("get_unread_message_counts", {
+    p_user_id: userId,
+  });
+  if (error) {
+    console.error("Error fetching unread counts:", error);
+  } else {
+    return data;
+  }
+}

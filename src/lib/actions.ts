@@ -8,13 +8,20 @@ import type {
 } from "@/lib/definitions";
 import { redirect } from "next/navigation";
 import { supabase } from "./supabase";
-import { fetchChatById, insertChat } from "./data/chat";
 import { insertBlog, updateBlog, updateBlogStatus } from "./data/blog";
+import {
+  insertChat,
+  fetchChatById,
+  updateReadStatusByMessageId,
+  fetchChatsByChatroomId,
+} from "./data/chat";
 import {
   checkExistingChatroom,
   insertChatroom,
   insertChatroomMember,
+  fetchUnreadCountsByUserId,
 } from "./data/chatroom";
+import { updateNotificationReadAtByMessageId } from "./data/notification";
 
 // auth
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +99,23 @@ export async function sendChatMessage(formData: FormData) {
   return result;
 }
 
+export async function markSingleMessageAsRead(
+  messageId: string,
+  userId: string
+) {
+  const [chatError, notificationError] = await Promise.all([
+    updateReadStatusByMessageId(messageId, userId),
+    updateNotificationReadAtByMessageId(messageId, userId),
+  ]);
+
+  if (chatError) {
+    console.error("Error marking message as read", chatError);
+  }
+  if (notificationError) {
+    console.error("Error marking notification as read", chatError);
+  }
+}
+
 export async function markMessageAsRead(messageId: string, userId: string) {
   const [chatResult, notifResult] = await Promise.all([
     supabase
@@ -113,6 +137,10 @@ export async function markMessageAsRead(messageId: string, userId: string) {
   return !chatResult.error && !notifResult.error;
 }
 
+export async function getPrevChats(chatroomId: string) {
+  const data = await fetchChatsByChatroomId(chatroomId);
+  return data;
+}
 // chatroom
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,9 +231,20 @@ export async function markChatroomAsRead(chatroomId: string, userId: string) {
   return true;
 }
 
+export async function getUnreadCountsMap(userId: string) {
+  const data = await fetchUnreadCountsByUserId(userId);
+
+  const countsMap = new Map();
+  data.forEach((item: { chatroom_id: string; unread_count: number }) => {
+    countsMap.set(item.chatroom_id.toString(), item.unread_count);
+  });
+  return countsMap;
+}
+
 // notification
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // 아직 사용 안하는중
 export async function readNotification(notificationId: string) {
   const { error } = await supabase
