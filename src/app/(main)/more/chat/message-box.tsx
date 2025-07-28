@@ -24,7 +24,6 @@ export default function MessageBox({ user }: { user: User }) {
         entries.forEach((entry) => {
           const messageId = entry.target.getAttribute("data-message-id");
           if (messageId && entry.isIntersecting) {
-            // 내가 보낸 메시지가 아닌 경우만 읽음 처리
             const message = chatMessages?.find((m) => m.id === messageId);
             if (message && message.username !== user.username) {
               markSingleMessageAsRead(messageId, user.id);
@@ -33,7 +32,7 @@ export default function MessageBox({ user }: { user: User }) {
         });
       },
       {
-        threshold: 0.7, // 메시지의 70%가 보이면 읽음 처리
+        threshold: 0.7,
         rootMargin: "0px",
       }
     );

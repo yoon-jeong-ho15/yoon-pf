@@ -17,6 +17,16 @@ export async function updateNotificationReadAtByMessageId(
     return error;
   }
 }
+export async function updateNotificationReadAt(notificationId: number) {
+  const { error } = await supabase
+    .from("notification")
+    .update({ read_at: new Date(Date.now()).toISOString() })
+    .eq("id", notificationId)
+    .is("read_at", null);
+  if (error) {
+    return error;
+  }
+}
 
 export async function fetchNotificationByUserId(userId: string) {
   const { data, error } = await supabase

@@ -24,6 +24,7 @@ import {
 } from "./data/chatroom";
 import {
   fetchNotificationByUserId,
+  updateNotificationReadAt,
   updateNotificationReadAtByMessageId,
 } from "./data/notification";
 
@@ -235,14 +236,11 @@ export async function getUnreadCountsMap(userId: string) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // 아직 사용 안하는중
-export async function readNotification(notificationId: string) {
-  const { error } = await supabase
-    .from("notification")
-    .update({ read_at: new Date().toISOString() })
-    .eq("id", notificationId)
-    .is("read_at", null);
-
-  return !error;
+export async function readNotification(notificationId: number) {
+  const error = await updateNotificationReadAt(notificationId);
+  if (error) {
+    console.error("Error updating notification", error);
+  }
 }
 
 export async function getNotifications(userId: string) {

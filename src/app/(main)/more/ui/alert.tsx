@@ -1,11 +1,12 @@
 "use client";
 
-import { getNotifications } from "@/lib/actions";
+import { getNotifications, readNotification } from "@/lib/actions";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback } from "react";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 import { Notification } from "@/lib/definitions";
+import { redirect } from "next/navigation";
 
 export default function Alert() {
   const { data: session, status } = useSession();
@@ -14,19 +15,33 @@ export default function Alert() {
   );
   const [alertCounts, setAlertCounts] = useState(0);
   const [isShowingNotification, setIsShowingNotification] = useState(false);
+  const [readNotifications, setReadNotifications] = useState<Set<number>>(
+    new Set()
+  );
 
   const loadNotification = useCallback(async () => {
     if (session && session.user) {
       const data = await getNotifications(session.user.id!);
       if (data) {
         setNotification(data);
-        setAlertCounts(data.length);
+        const unreadCount = data.filter(
+          (n) => !readNotifications.has(n.id)
+        ).length;
+        setAlertCounts(unreadCount);
       }
     }
-  }, [session]);
+  }, [session, readNotifications]);
 
   const toggleNotificationView = () => {
     setIsShowingNotification(!isShowingNotification);
+  };
+
+  const handleRead = (id: number, type: string) => {
+    setReadNotifications((prev) => new Set(prev).add(id));
+    readNotification(id);
+    if (type === "chat_message") {
+      redirect("/more/chat");
+    }
   };
 
   useEffect(() => {
@@ -38,6 +53,15 @@ export default function Alert() {
     }
   }, [status, loadNotification]);
 
+  useEffect(() => {
+    if (notifications) {
+      const unreadCount = notifications.filter(
+        (n) => !readNotifications.has(n.id)
+      ).length;
+      setAlertCounts(unreadCount);
+    }
+  }, [readNotifications, notifications]);
+
   if (status === "loading") return <div>loading</div>;
   if (!session || !session.user) return <div>no session</div>;
 
@@ -45,9 +69,9 @@ export default function Alert() {
     <div className="relative">
       <div
         className="
-    hover:bg-indigo-200 p-1.5 rounded-md 
-    transition-colors flex items-center cursor-pointer
-    "
+      hover:bg-indigo-200 p-1.5 rounded-md 
+        transition-colors flex items-center cursor-pointer
+        "
         onClick={toggleNotificationView}
       >
         <svg
@@ -83,27 +107,12 @@ export default function Alert() {
             {notifications && notifications.length > 0 ? (
               <ul className="p-2 max-h-80 overflow-y-auto">
                 {notifications.map((n) => (
-                  <li
+                  <AlertItem
                     key={n.id}
-                    className="p-2 text-sm text-gray-600 hover:bg-gray-100 rounded-md"
-                  >
-                    {n.type === "chat_message" && (
-                      <div>
-                        <div className="">
-                          {n.data.chatroom_title && (
-                            <span className="text-xs text-gray-400">
-                              {n.data.chatroom_title}
-                            </span>
-                          )}
-                        </div>
-                        <div>
-                          <span>{n.data.sender_username}</span>
-                          <span>:</span>
-                          <span>{n.data.message_preview}</span>
-                        </div>
-                      </div>
-                    )}
-                  </li>
+                    alert={n}
+                    isRead={readNotifications.has(n.id)}
+                    handleRead={handleRead}
+                  />
                 ))}
               </ul>
             ) : (
@@ -115,5 +124,44 @@ export default function Alert() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export function AlertItem({
+  alert,
+  isRead,
+  handleRead,
+}: {
+  alert: Notification;
+  isRead: boolean;
+  handleRead: (id: number, type: string) => void;
+}) {
+  return (
+    <li
+      className={`p-2 text-sm rounded-md cursor-pointer 
+        ${
+          isRead
+            ? "text-gray-400 bg-gray-50"
+            : "text-gray-600 hover:bg-gray-100"
+        }`}
+      onClick={() => handleRead(alert.id, alert.type)}
+    >
+      {alert.type === "chat_message" && (
+        <div>
+          <div className="">
+            {alert.data.chatroom_title && (
+              <span className="text-xs text-gray-400">
+                {alert.data.chatroom_title}
+              </span>
+            )}
+          </div>
+          <div>
+            <span>{alert.data.sender_username}</span>
+            <span>:</span>
+            <span>{alert.data.message_preview}</span>
+          </div>
+        </div>
+      )}
+    </li>
   );
 }
