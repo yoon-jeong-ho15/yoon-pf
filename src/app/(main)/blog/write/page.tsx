@@ -7,7 +7,7 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col items-center my-3">
-      <div className="flex flex-row w-[90%]">
+      <div className="flex flex-row w-[90%] max-h-9/12">
         <Editor categories={categories} />
       </div>
     </div>
