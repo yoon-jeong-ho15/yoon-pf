@@ -54,7 +54,7 @@ export default function ChatList({
       <nav className="p-4 flex flex-col overflow-y-scroll">
         {[...(chatrooms?.entries() || [])].map(([chatroomId, chatroom]) => {
           const currentUnreadCount = unreadCounts.get(chatroom.id) || 0;
-          console.log("chatroomId : ", chatroomId);
+          // console.log("chatroomId : ", chatroomId);
           // console.log(
           //   `Chatroom ID: ${
           //     chatroom.id
@@ -62,7 +62,7 @@ export default function ChatList({
           // );
           return (
             <Chat
-              key={chatroom.id}
+              key={chatroomId}
               chatroom={chatroom}
               users={chatroom.users}
               setSelectedChatroom={setSelectedChatroom ?? (() => {})}

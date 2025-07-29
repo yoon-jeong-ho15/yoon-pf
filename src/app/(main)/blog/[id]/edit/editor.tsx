@@ -5,15 +5,16 @@ import QuillType from "quill";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { Blog } from "@/lib/definitions";
 import { editBlog } from "@/lib/actions";
+import { redirect } from "next/navigation";
 
 export default function Editor({ blog }: { blog: Blog }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(JSON.stringify(blog.content));
   const [title, setTitle] = useState(blog.title);
   const [length, setLength] = useState(blog.length);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (length <= 0) {
       alert("length <= 0");
       return;
@@ -28,7 +29,10 @@ export default function Editor({ blog }: { blog: Blog }) {
       content: content,
       length: length,
     };
-    editBlog(data);
+    const error = await editBlog(data);
+    if (!error) {
+      redirect(`/blog/${blog.id}`);
+    }
   };
 
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function Editor({ blog }: { blog: Blog }) {
           },
         });
 
-        quillRef.current.setContents(blog.content);
+        quillRef.current.setContents(JSON.parse(content));
 
         quillRef.current.on("text-change", () => {
           // const innerText = quillRef.current.root.innerText;
@@ -62,10 +66,10 @@ export default function Editor({ blog }: { blog: Blog }) {
         });
       });
     }
-  }, [blog.content]);
+  }, [content]);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full flex flex-col">
       <div className="flex flex-row w-[90%] mt-4 items-center">
         <input
           onChange={(e) => {
@@ -77,16 +81,17 @@ export default function Editor({ blog }: { blog: Blog }) {
           placeholder="제목"
           value={title}
         ></input>
-      </div>
-      <div className="my-3 flex flex-row-reverse">
         <button
           onClick={handleSave}
-          className="bg-sky-600 hover:bg-sky-700 text-white p-2 rounded-xl"
+          className="bg-sky-600 hover:bg-sky-700 text-white p-2 
+          rounded-xl"
         >
           수정
         </button>
       </div>
-      <div ref={editorRef} />
+      <div className="quill-container">
+        <div ref={editorRef} />
+      </div>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function ChatroomProvider({
   children: React.ReactNode;
   userId: string;
 }) {
-  console.log("ChatroomProvider received userId:", userId);
+  // console.log("ChatroomProvider received userId:", userId);
   const [selectedChatroom, setSelectedChatroom] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isShowingAddChatroom, setIsShowingAddChatroom] = useState(false);

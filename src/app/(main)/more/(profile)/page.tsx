@@ -12,7 +12,7 @@ export default async function Page() {
   return (
     <div
       className="
-      w-[90%] h-140 flex mt-3 p-8
+      h-140 flex mx-10 mt-3 p-8
       rounded-xl bg-linear-to-r
       from-indigo-500/50 to-blue-400/60
       "

@@ -26,9 +26,11 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-.ql-editor {
+.quill-container .ql-editor {
   font-size: 1.3rem;
   font-family: inherit;
+  height: 45rem;
+  overflow-y: scroll;
 }
 
 @layer utilities {

@@ -13,7 +13,7 @@ export default async function Layout({
     return <div>no session</div>;
   }
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
       <SessionProvider session={session}>
         <MoreNav />
         {children}

@@ -20,10 +20,10 @@ export default function Navbar() {
       className={`
        ${robotoMono.className}
        flex justify-around items-center 
-       h-14 mt-4 mx-6 text-2xl shadow-lg
+       h-14 w-auto mt-4 mx-6 text-2xl shadow-lg
        border-gray-400 border-1 bg-gray-100
-       rounded-3xl font-[500]
-       overflow-hidden text-shadow-xs/10
+       rounded-2xl font-[500] text-shadow-xs/10
+       overflow-hidden 
      `}
     >
       {tabs.map((item) => (
@@ -32,7 +32,7 @@ export default function Navbar() {
           href={item.href}
           className="
            flex justify-center items-center 
-           h-full w-35 my-3 relative z-10"
+           h-full my-3 relative z-10 px-5"
         >
           {item.title}
           {selectedTab === item && (

@@ -39,7 +39,7 @@ export default function Editor({
     // console.log(title);
     // console.log(selectedCategoryId);
     // console.log(length);
-    console.log(content);
+    // console.log(content);
     const data = {
       title: title,
       content: content,
@@ -108,7 +108,9 @@ export default function Editor({
           작성
         </button>
       </div>
-      <div ref={editorRef} />
+      <div className="quill-container">
+        <div ref={editorRef} />
+      </div>
     </div>
   );
 }

@@ -78,7 +78,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
         <Edit id={blog.id} />
       </div>
       <article
-        className="h-190 ml-20 mr-25 mt-5 prose prose-lg prose-blog max-w-none"
+        className="ml-20 mr-25 mt-5 prose prose-lg prose-blog max-w-none"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       ></article>
       {/* <div>{html}</div>

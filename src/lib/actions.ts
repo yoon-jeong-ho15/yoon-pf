@@ -68,7 +68,7 @@ export async function createBlog(data: BlogInsertData) {
 }
 
 export async function editBlog(data: BlogUpdateData) {
-  const error = updateBlog(data);
+  const error = await updateBlog(data);
   if (error) {
     console.error("Error updating Blog", error);
   } else {
