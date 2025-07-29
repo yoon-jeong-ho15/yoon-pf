@@ -39,7 +39,7 @@ export type CategoryWithDetail = {
       blog_keyword?: string[];
     }
   ];
-  children?: Category[];
+  children?: CategoryWithDetail[];
 };
 
 export type Blog = {
