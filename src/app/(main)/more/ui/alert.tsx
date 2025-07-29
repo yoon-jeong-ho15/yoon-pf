@@ -66,12 +66,13 @@ export default function Alert() {
   if (!session || !session.user) return <div>no session</div>;
 
   return (
-    <div className="relative">
+    <div className="">
       <div
-        className="
-      hover:bg-indigo-200 p-1.5 rounded-md 
+        className={`p-1.5 rounded-md hover:bg-indigo-200
         transition-colors flex items-center cursor-pointer
-        "
+        ${alertCounts > 0 ? "bg-indigo-100" : ""}
+        
+        `}
         onClick={toggleNotificationView}
       >
         <svg
@@ -89,9 +90,9 @@ export default function Alert() {
           />
         </svg>
         <div
-          className={`bg-red-500 text-white rounded-full
-            text-center size-3 animate-bounce
-            ${alertCounts > 0 ? "" : "opacity-0"}`}
+          className={` text-white rounded-full
+            text-center size-2 
+            ${alertCounts > 0 ? "bg-red-500 animate-pulse-fast" : ""}`}
         />
       </div>
       <AnimatePresence>

@@ -9,7 +9,7 @@ import type {
 export async function fetchBlogs(query: string, currentPage: number) {
   const offset = (currentPage - 1) * 25;
   const { data, error } = await supabase
-    .from("blog")
+    .from("v_all_blog")
     .select("*")
     .or(`title.like.%${query}`)
     .eq("status", true)

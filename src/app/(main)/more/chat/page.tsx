@@ -19,24 +19,22 @@ export default async function Page() {
   const friends = await fetchUsersByGroup(user.friendGroup, user.username);
 
   return (
-    <div className="w-[90%] pt-5">
-      <ChatroomProvider userId={user.id}>
-        <div className="flex">
-          <div
-            className="h-180 w-[70%] flex rounded shadowp-1 container p-1
+    <ChatroomProvider userId={user.id}>
+      <div className="flex mt-5 mx-8">
+        <div
+          className="h-180 w-9/12 flex rounded shadowp-1 container p-1
             bg-gradient-to-r from-blue-400 to-indigo-400"
-          >
-            <div
-              className="w-full h-full bg-white rounded container 
+        >
+          <div
+            className="w-full h-full bg-white rounded container 
               flex flex-col justify-between shadow"
-            >
-              <MessageBox user={user} />
-              <MessageForm user={user} />
-            </div>
+          >
+            <MessageBox user={user} />
+            <MessageForm user={user} />
           </div>
-          <ChatList chatrooms={chatrooms} friends={friends} />
         </div>
-      </ChatroomProvider>
-    </div>
+        <ChatList chatrooms={chatrooms} friends={friends} />
+      </div>
+    </ChatroomProvider>
   );
 }

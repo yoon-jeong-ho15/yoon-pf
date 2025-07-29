@@ -51,6 +51,7 @@ export type Blog = {
   updated_at: string;
   status: boolean;
   length: number;
+  path: string[];
 };
 
 export type BlogInsertData = {
