@@ -4,7 +4,6 @@ import type {
   BlogInsertData,
   BlogUpdateData,
   Category,
-  CategoryWithDetail,
 } from "../definitions";
 
 export async function fetchBlogs(query: string, currentPage: number) {
@@ -68,58 +67,60 @@ export async function fetchCategoriesWithDetail() {
   if (error) {
     console.error("error fetching categories with detail", error);
   } else {
-    const categoryMap = new Map<number, CategoryWithDetail>();
-    const categories: CategoryWithDetail[] = [];
+    return data;
+    // const categoryMap = new Map<number, CategoryWithDetail>();
+    // const categories: CategoryWithDetail[] = [];
 
-    for (const item of data) {
-      if (!categoryMap.has(item.id)) {
-        const category: CategoryWithDetail = {
-          id: item.id,
-          name: item.name,
-          parent_id: item.parent_id,
-          level: item.level,
-          description: item.description,
-          children: [],
-        };
-        if (item.blog_id) {
-          const blog = {
-            blog_id: item.blog_id,
-            blog_title: item.blog_title,
-            blog_keyword: item.blog_keyword,
-          };
-          category.blog = [blog];
-        }
-        categoryMap.set(item.id, category);
-      } else {
-        if (item.blog_id) {
-          const blog = {
-            blog_id: item.blog_id,
-            blog_title: item.blog_title,
-            blog_keyword: item.blog_keyword,
-          };
-          const category = categoryMap.get(item.id)!;
-          if (category.blog) {
-            category.blog.push(blog);
-          } else {
-            category.blog = [blog];
-          }
-        }
-      }
-    }
-
-    for (const category of categoryMap.values()) {
-      if (category.parent_id) {
-        const parent = categoryMap.get(category.parent_id);
-        if (parent) {
-          parent.children?.push(category);
-        }
-      } else {
-        categories.push(category);
-      }
-    }
-
-    return categories;
+    // for (const item of data) {
+    //   if (!categoryMap.has(item.id)) {
+    //     const category: CategoryWithDetail = {
+    //       id: item.id,
+    //       name: item.name,
+    //       parent_id: item.parent_id,
+    //       level: item.level,
+    //       description: item.description,
+    //       children: [],
+    //     };
+    //     if (item.blog_id) {
+    //       const blog = {
+    //         blog_id: item.blog_id,
+    //         blog_title: item.blog_title,
+    //         blog_keyword: item.blog_keyword,
+    //       };
+    //       category.blog = [blog];
+    //     }
+    //     categoryMap.set(item.id, category);
+    //   } else {
+    //     if (item.blog_id) {
+    //       const blog = {
+    //         blog_id: item.blog_id,
+    //         blog_title: item.blog_title,
+    //         blog_keyword: item.blog_keyword,
+    //       };
+    //       const category = categoryMap.get(item.id)!;
+    //       if (category.blog) {
+    //         category.blog.push(blog);
+    //       } else {
+    //         category.blog = [blog];
+    //       }
+    //     }
+    //   }
   }
+
+  // 여기 추가함
+  //   for (const category of categoryMap.values()) {
+  //     if (category.parent_id) {
+  //       const parent = categoryMap.get(category.parent_id);
+  //       if (parent) {
+  //         parent.children?.push(category);
+  //       }
+  //     } else {
+  //       categories.push(category);
+  //     }
+  //   }
+
+  //   return categories;
+  // }
 }
 
 export async function insertBlog(data: BlogInsertData) {

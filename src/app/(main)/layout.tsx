@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <>
       <Navbar />
-      <div className="flex-grow">{children}</div>
+      <div className="flex flex-col flex-grow">{children}</div>
       <Footer />
     </>
   );

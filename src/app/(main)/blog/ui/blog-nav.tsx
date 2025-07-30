@@ -2,11 +2,23 @@ import Link from "next/link";
 
 export default function BlogNav() {
   return (
-    <nav>
-      <div>
-        <Link href="/blog">카테고리</Link>
-        <Link href="/blog/search">전체 보기</Link>
-      </div>
+    <nav className="bg-gray-100 w-6/12 divide-x">
+      {tabs.map((tab) => (
+        <Link key={tab.title} href={tab.href}>
+          {tab.title}
+        </Link>
+      ))}
     </nav>
   );
 }
+
+const tabs = [
+  {
+    title: "카테고리",
+    href: "/blog",
+  },
+  {
+    title: "전체보기",
+    href: "/blog/search",
+  },
+];
