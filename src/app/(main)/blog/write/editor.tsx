@@ -108,7 +108,7 @@ export default function Editor({ categories }: { categories?: Category[] }) {
         </button>
       </div>
       <div className="quill-container">
-        <div ref={editorRef} />
+        <div ref={editorRef} className="prose max-w-none" />
       </div>
     </div>
   );

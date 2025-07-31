@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description: "Yoon's blog",
 };
 
-export default function Layout({
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html>
       <body

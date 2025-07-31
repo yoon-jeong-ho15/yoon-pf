@@ -90,7 +90,7 @@ export default function Editor({ blog }: { blog: Blog }) {
         </button>
       </div>
       <div className="quill-container">
-        <div ref={editorRef} />
+        <div ref={editorRef} className="prose max-w-none" />
       </div>
     </div>
   );
