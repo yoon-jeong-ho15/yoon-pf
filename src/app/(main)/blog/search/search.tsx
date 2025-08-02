@@ -23,7 +23,7 @@ export default function Search() {
   };
 
   return (
-    <div className="flex items-center mt-5 relative">
+    <div className="flex items-center relative">
       <input
         ref={searchRef}
         className="

@@ -10,15 +10,18 @@ export default async function Page() {
     return <div>no session</div>;
   }
   return (
-    <div
-      className="
-      h-140 flex mx-10 mt-3 p-8
-      rounded-xl bg-linear-to-r
-      from-indigo-500/50 to-blue-400/60
-      "
-    >
-      <UserProfile user={user} />
-      <UserInfo user={user} />
+    <div className="flex flex-col">
+      <div
+        className="
+        flex flex-row 
+        mx-5 mt-6 p-8
+        rounded-xl 
+        bg-linear-to-r
+      from-indigo-500/50 to-blue-400/60"
+      >
+        <UserProfile user={user} />
+        <UserInfo user={user} />
+      </div>
     </div>
   );
 }

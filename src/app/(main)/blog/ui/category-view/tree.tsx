@@ -17,8 +17,8 @@ export default function CategoryTree({
     <motion.div
       className="
       flex flex-col
-      justify-center items-center 
-      bg-white
+      w-4/12 
+      p-2
       "
     >
       {categories.map((category) => (

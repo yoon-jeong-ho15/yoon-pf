@@ -40,7 +40,7 @@ export default function CategoryView({ data }: { data: CategoryWithDetail[] }) {
   }, [data]);
 
   return (
-    <div className="flex">
+    <div className="flex justify-around">
       <CategoryTree
         categories={categories}
         selectedCategory={selectedCategory}

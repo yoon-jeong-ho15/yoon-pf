@@ -58,7 +58,7 @@ export default async function Page(props: { params: Promise<{ id: number }> }) {
   const contentHtml = $.html();
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-4">
+    <div id="blog-view-page" className="container mx-auto px-4 py-8 mt-4">
       <div className="mx-33 flex text-3xl items-center relative">
         <span
           className="py-2 mt-3

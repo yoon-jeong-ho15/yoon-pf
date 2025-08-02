@@ -21,11 +21,21 @@ export default function BlogList({
   }, [categoryMap, selectedCategory]);
 
   return (
-    <motion.div>
-      <motion.div>{category?.name}</motion.div>
-      {category?.blogs?.map((blog) => (
-        <motion.div key={`b${blog.id}`}>{blog.title}</motion.div>
-      ))}
-    </motion.div>
+    <motion.table id="blog-list" className="w-full">
+      <thead>
+        <tr>
+          <th className="px-4 py-3 ">제목</th>
+          <th className="px-4 py-3 ">키워드</th>
+        </tr>
+      </thead>
+      <tbody>
+        {category?.blogs?.map((blog) => (
+          <tr key={`b${blog.id}`}>
+            <td>{blog.title}</td>
+            <td>{blog.keyword}</td>
+          </tr>
+        ))}
+      </tbody>
+    </motion.table>
   );
 }

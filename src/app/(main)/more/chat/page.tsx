@@ -20,9 +20,9 @@ export default async function Page() {
 
   return (
     <ChatroomProvider userId={user.id}>
-      <div className="flex mt-5 mx-8">
+      <div className="flex mt-5 mx-8 flex-grow">
         <div
-          className="h-180 w-9/12 flex rounded shadowp-1 container p-1
+          className="w-9/12 flex rounded shadowp-1 container p-1
             bg-gradient-to-r from-blue-400 to-indigo-400"
         >
           <div
