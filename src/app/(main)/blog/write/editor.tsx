@@ -7,11 +7,7 @@ import Categories from "./categories";
 import type { Category } from "@/lib/definitions";
 import { createBlog } from "@/lib/actions";
 
-export default function Editor({
-  categories,
-}: {
-  categories: Category[] | null;
-}) {
+export default function Editor({ categories }: { categories?: Category[] }) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<QuillType | null>(null);
   const [content, setContent] = useState("");
@@ -80,6 +76,9 @@ export default function Editor({
     }
   }, []);
 
+  if (!categories) {
+    return;
+  }
   return (
     <div className="w-full">
       <div className="flex flex-row w-[90%] mt-4 items-center">
@@ -109,7 +108,7 @@ export default function Editor({
         </button>
       </div>
       <div className="quill-container">
-        <div ref={editorRef} />
+        <div ref={editorRef} className="prose max-w-none" />
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
-// import CategoryView from "./category-view";
-// import { fetchCategoriesWithDetail } from "@/lib/data/blog";
+import CategoryView from "./ui/category-view/view";
+import { fetchCategoriesWithDetail } from "@/lib/data/blog";
 
 export default async function Page() {
-  // const catgoriesWithDetail = await fetchCategoriesWithDetail();s
-
+  const data = await fetchCategoriesWithDetail();
+  if (!data) {
+    return <div>error no data</div>;
+  }
   return (
-    <div className="flex flex-col">
-      <div className="m-3">
-        {/* <CategoryView categories={catgoriesWithDetail} /> */}
-      </div>
+    <div className="flex flex-col flex-grow">
+      <CategoryView data={data} />
     </div>
   );
 }

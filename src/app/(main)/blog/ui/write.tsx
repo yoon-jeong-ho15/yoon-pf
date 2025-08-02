@@ -1,22 +1,32 @@
+"use client";
+
 import Link from "next/link";
-import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { User } from "@/lib/definitions";
 
-export default async function Write() {
-  const session = await auth();
+export default function Write() {
+  const pathname = usePathname();
+  const { data: session } = useSession();
+
+  if (pathname.endsWith("/edit") || pathname.endsWith("/write")) {
+    return null;
+  }
+
   const isAdmin = (session?.user as User)?.username === "윤정호";
   if (!session || !isAdmin) {
-    return;
+    return null;
   }
+
   return (
     <button>
       <Link
         href="/blog/write"
         className="
-        flex items-center mt-5 ml-3 
+        flex items-center ml-3 
         cursor-pointer bg-sky-600 p-2
         rounded-md border border-blue-400
-        hover:bg-sky-700 fixed bottom-5 right-3
+        hover:bg-sky-700 
         "
       >
         <svg

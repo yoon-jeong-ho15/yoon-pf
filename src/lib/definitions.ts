@@ -31,16 +31,20 @@ export type CategoryWithDetail = {
   name: string;
   parent_id: number;
   level: number;
+  count: number;
+  sum: number;
   description: string;
-  blog?: [
+  blogs?: [
     {
-      blog_id?: number;
-      blog_title?: string;
-      blog_keyword?: string[];
+      id?: number;
+      title?: string;
+      keyword?: string[];
     }
   ];
-  children?: Category[];
+  children?: CategoryWithDetail[];
 };
+
+export type CategoryWithDetailMap = Map<number, CategoryWithDetail>;
 
 export type Blog = {
   id: number;
