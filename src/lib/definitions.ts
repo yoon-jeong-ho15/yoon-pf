@@ -44,6 +44,8 @@ export type CategoryWithDetail = {
   children?: CategoryWithDetail[];
 };
 
+export type CategoryWithDetailMap = Map<number, CategoryWithDetail>;
+
 export type Blog = {
   id: number;
   created_at: string;
