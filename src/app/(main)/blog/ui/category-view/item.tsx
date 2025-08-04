@@ -32,14 +32,14 @@ export default function CategoryItem({
       className={`
         flex flex-col mx-1
         border border-gray-300
-        p-1 rounded-xl my-1
+        py-1 rounded-xl my-1
         `}
     >
       <motion.div
         onClick={handleClick}
         className={`
           flex items-center 
-          rounded-xl p-1
+          rounded-xl
           hover:pl-3 transition-all
           cursor-pointer ${
             selectedCategory === category.id
@@ -49,7 +49,7 @@ export default function CategoryItem({
           py-1
           `}
       >
-        <div>{category.name}</div>
+        <div className="pl-1">{category.name}</div>
       </motion.div>
       {showChildren &&
         category.children?.map((child) => (

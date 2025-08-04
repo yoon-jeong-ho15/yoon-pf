@@ -19,6 +19,7 @@ export default function CategoryTree({
       flex flex-col
       w-4/12 
       p-2
+      border border-gray-200
       "
     >
       {categories.map((category) => (
