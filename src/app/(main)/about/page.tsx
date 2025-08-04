@@ -2,10 +2,10 @@ import Project from "./ui/project";
 
 export default function Page() {
   return (
-    <div className="flex justify-center">
-      <div className="mt-4 grid grid-cols-3 w-[90%]">
-        <div className="col-span-2 p-4 bg-gray-50 rounded-lg mx-1">
-          <h1>Project</h1>
+    <div id="about-page" className="flex flex-col flex-grow">
+      <div className="mt-4 mx-3 flex flex-col">
+        <div className="p-4 my-3 rounded-lg border border-gray-300">
+          <h1 className="text-xl font-black">:: 프로젝트</h1>
           <Project {...yoonPf} />
           <Project {...realMan} />
           <Project {...giveHub} />

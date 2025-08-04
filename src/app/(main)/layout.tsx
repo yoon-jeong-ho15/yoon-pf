@@ -10,7 +10,9 @@ export default function Layout({
   return (
     <SessionProvider>
       <Navbar />
-      <div className="flex flex-col flex-grow items-center">{children}</div>
+      <div id="main-layout" className="flex flex-col flex-grow">
+        {children}
+      </div>
       <Footer />
     </SessionProvider>
   );

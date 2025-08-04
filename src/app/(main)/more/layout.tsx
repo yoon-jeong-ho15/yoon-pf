@@ -6,7 +6,11 @@ export default function MoreLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center w-full">
+    <div
+      id="more-layout"
+      className="
+      flex flex-col w-full min-h-200"
+    >
       <MoreNav />
       {children}
     </div>

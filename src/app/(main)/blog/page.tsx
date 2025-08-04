@@ -7,7 +7,7 @@ export default async function Page() {
     return <div>error no data</div>;
   }
   return (
-    <div className="flex flex-col flex-grow">
+    <div id="blog-category-page" className="w-full mt-5">
       <CategoryView data={data} />
     </div>
   );

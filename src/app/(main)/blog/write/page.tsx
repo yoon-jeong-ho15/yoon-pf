@@ -6,7 +6,7 @@ export default async function Page() {
   const categories = await fetchCategories();
 
   return (
-    <div className="flex flex-col items-center my-3">
+    <div id="blog-write-page" className="flex flex-col items-center my-3">
       <div className="flex flex-row w-[90%] max-h-9/12">
         <Editor categories={categories} />
       </div>

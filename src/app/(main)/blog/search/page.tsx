@@ -11,7 +11,10 @@ export default async function Page(props: {
 
   const blogs = await fetchBlogs(query, currentPage);
   return (
-    <div className="flex flex-col items-center w-full">
+    <div
+      id="blog-search-page"
+      className="flex flex-col items-center w-full mt-5"
+    >
       <div className="flex flex-row">
         <Search />
       </div>

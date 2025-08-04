@@ -19,14 +19,12 @@ export default function MoreNav() {
     >
       <div
         className={`
-        flex w-6/12 bg-amber-50
+        flex w-6/12
         `}
-      >
-        hello
-      </div>
+      ></div>
       <div
         className={`
-          ${robotoMono.className} relative 
+          ${robotoMono.className}
           w-6/12 flex justify-around text-xl
           border-gray-400 border-1 bg-gray-100
           rounded-2xl font-[500] text-shadow-xs/10
@@ -63,7 +61,6 @@ export default function MoreNav() {
         </div>
         <div
           className="
-        absolute right-0
         flex flex-row h-full w-fit border-l
         border-gray-500 bg-gray-100 items-center px-2 z-10
         rounded-r-2xl

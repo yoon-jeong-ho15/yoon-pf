@@ -13,7 +13,7 @@ export default function CategoryItem({
   selectedCategory: number | null;
   handleSelect: (id: number | null) => void;
 }) {
-  const [showChildren, setShowChildren] = useState(category.level === 1);
+  const [showChildren, setShowChildren] = useState(category.level < 3);
   const hasChildren = category.children && category.children.length > 0;
 
   const handleClick = () => {
@@ -30,23 +30,26 @@ export default function CategoryItem({
   return (
     <motion.div
       className={`
-        flex flex-col mx-1 
+        flex flex-col mx-1
+        border border-gray-300
+        py-1 rounded-xl my-1
         `}
     >
       <motion.div
         onClick={handleClick}
         className={`
-          flex items-center r
-          ounded-md 
-          hover:bg-gray-200 
-          dark:hover:bg-gray-700
+          flex items-center 
+          rounded-xl
+          hover:pl-3 transition-all
           cursor-pointer ${
             selectedCategory === category.id
               ? "bg-gray-200 dark:bg-gray-700"
               : ""
-          }`}
+          }
+          py-1
+          `}
       >
-        <div>{category.name}</div>
+        <div className="pl-1">{category.name}</div>
       </motion.div>
       {showChildren &&
         category.children?.map((child) => (
