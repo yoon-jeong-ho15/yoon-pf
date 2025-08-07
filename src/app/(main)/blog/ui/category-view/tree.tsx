@@ -1,17 +1,16 @@
 "use client";
-
-import { CategoryWithDetail } from "@/lib/definitions";
 import { motion } from "motion/react";
 import CategoryItem from "./item";
+import { Category } from "@/lib/definitions";
 
 export default function CategoryTree({
   categories,
   selectedCategory,
   handleSelect,
 }: {
-  categories: CategoryWithDetail[];
-  selectedCategory: number | null;
-  handleSelect: (id: number | null) => void;
+  categories: Category[];
+  selectedCategory: string;
+  handleSelect: (name: string) => void;
 }) {
   return (
     <motion.div
@@ -22,12 +21,13 @@ export default function CategoryTree({
       border border-gray-200
       "
     >
-      {categories.map((category) => (
+      {categories.map((category, i) => (
         <CategoryItem
-          key={`c${category.id}`}
+          key={`c${i}`}
           category={category}
           handleSelect={handleSelect}
           selectedCategory={selectedCategory}
+          level={1}
         />
       ))}
     </motion.div>

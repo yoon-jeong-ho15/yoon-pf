@@ -18,7 +18,7 @@ export default function Page() {
 const yoonPf = {
   title: "yoon-pf",
   github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-  about: "/aboutthispage",
+  // about: "/aboutthispage",
   stack: [
     "Next.js",
     "Next.auth",

@@ -11,14 +11,14 @@ export default function Footer() {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <span className="px-3 text-gray-500">//</span>
         <ul className="flex items-center divide-x-1 divide-gray-400">
-          <li className="px-4">
+          {/* <li className="px-4">
             <Link
               href="/aboutthispage"
               className="hover:text-blue-700 transition-colors"
             >
               About this project
             </Link>
-          </li>
+          </li> */}
           <li className="px-4">
             <Link
               href="https://github.com/yoon-jeong-ho15/yoon-pf"

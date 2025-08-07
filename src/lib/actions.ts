@@ -1,15 +1,9 @@
 "use server";
 
 import { auth, signOut } from "@/auth";
-import type {
-  ChatMessage,
-  BlogInsertData,
-  BlogUpdateData,
-  AuthUser,
-} from "@/lib/definitions";
-import { redirect } from "next/navigation";
+import type { ChatMessage, AuthUser } from "@/lib/definitions";
 import { supabase } from "./supabase";
-import { insertBlog, updateBlog, updateBlogStatus } from "./data/blog";
+// import { insertBlog, updateBlog, updateBlogStatus } from "./data/blog";
 import {
   insertChat,
   fetchChatById,
@@ -59,29 +53,29 @@ export async function logOut() {
 // blog
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export async function createBlog(data: BlogInsertData) {
-  const error = insertBlog(data);
-  if (error) {
-    console.error("Error inserting Data : ", error);
-  }
-  return redirect("/blog");
-}
+// export async function createBlog(data: BlogInsertData) {
+//   const error = insertBlog(data);
+//   if (error) {
+//     console.error("Error inserting Data : ", error);
+//   }
+//   return redirect("/blog");
+// }
 
-export async function editBlog(data: BlogUpdateData) {
-  const error = await updateBlog(data);
-  if (error) {
-    console.error("Error updating Blog", error);
-  } else {
-    return redirect(`/blog/${data.id}`);
-  }
-}
+// export async function editBlog(data: BlogUpdateData) {
+//   const error = await updateBlog(data);
+//   if (error) {
+//     console.error("Error updating Blog", error);
+//   } else {
+//     return redirect(`/blog/${data.id}`);
+//   }
+// }
 
-export async function deleteBlog(id: number) {
-  const error = await updateBlogStatus(id);
-  if (error) {
-    console.error("Error deleteing Blog", error);
-  }
-}
+// export async function deleteBlog(id: number) {
+//   const error = await updateBlogStatus(id);
+//   if (error) {
+//     console.error("Error deleteing Blog", error);
+//   }
+// }
 
 // chat
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
