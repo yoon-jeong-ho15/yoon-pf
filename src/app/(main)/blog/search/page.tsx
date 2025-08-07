@@ -1,6 +1,7 @@
-import { fetchBlogs } from "@/lib/data/blog";
-import Search from "./search";
 import { BlogItem } from "./blog-item";
+import { getSortedBlogData } from "@/lib/data/blog";
+import Search from "./ui/search";
+import Pagination from "./ui/pagination";
 
 export default async function Page(props: {
   searchParams?: Promise<{ query?: string; page?: string }>;
@@ -8,8 +9,11 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
+  const { blogs, totalBlogs, totalPages } = getSortedBlogData(
+    query,
+    currentPage
+  );
 
-  const blogs = await fetchBlogs(query, currentPage);
   return (
     <div
       id="blog-search-page"
@@ -17,6 +21,7 @@ export default async function Page(props: {
     >
       <div className="flex flex-row">
         <Search />
+        <span className="hidden">{totalBlogs}</span>
       </div>
       <div>
         <table className="w-full">
@@ -28,11 +33,12 @@ export default async function Page(props: {
             </tr>
           </thead>
           <tbody>
-            {blogs?.map((item) => (
-              <BlogItem key={item.id} {...item} />
+            {blogs?.map((blog) => (
+              <BlogItem key={blog.id} {...blog} />
             ))}
           </tbody>
         </table>
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
       </div>
     </div>
   );

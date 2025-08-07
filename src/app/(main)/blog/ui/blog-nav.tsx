@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Write from "./write";
 
 export default function BlogNav() {
   return (
@@ -15,7 +14,6 @@ export default function BlogNav() {
           </Link>
         ))}
       </div>
-      <Write />
     </nav>
   );
 }

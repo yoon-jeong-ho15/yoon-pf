@@ -1,5 +1,3 @@
-import { Delta } from "quill";
-
 export type AuthUser = {
   id: string;
   username: string;
@@ -17,60 +15,80 @@ export type User = {
   friendGroup: string;
 };
 
-export type Category = {
-  id: number;
-  name: string;
-  slug: string;
-  parent_id: number;
-  level: number;
-  children?: Category[];
-};
-
-export type CategoryWithDetail = {
-  id: number;
-  name: string;
-  parent_id: number;
-  level: number;
-  count: number;
-  sum: number;
-  description: string;
-  blogs?: [
-    {
-      id?: number;
-      title?: string;
-      keyword?: string[];
-    }
-  ];
-  children?: CategoryWithDetail[];
-};
-
-export type CategoryWithDetailMap = Map<number, CategoryWithDetail>;
-
 export type Blog = {
-  id: number;
-  created_at: string;
+  id: string;
   title: string;
-  content: Delta;
-  category_id: number;
-  updated_at: string;
-  status: boolean;
-  length: number;
+  date: string;
+  tags: string[];
+};
+
+export type BlogData = Blog & {
+  contentHTML: string;
+};
+
+export type Category = {
   path: string[];
+  name: string;
+  children: Category[];
+  blogs: Blog[];
 };
 
-export type BlogInsertData = {
-  title: string;
-  content: string;
-  length: number;
-  category_id: number;
-};
+export type CategoryMap = { [key: string]: Category };
 
-export type BlogUpdateData = {
-  id: number;
-  title: string;
-  content: string;
-  length: number;
-};
+// export type Category = {
+//   id: number;
+//   name: string;
+//   slug: string;
+//   parent_id: number;
+//   level: number;
+//   children?: Category[];
+// };
+
+// export type CategoryWithDetail = {
+//   id: number;
+//   name: string;
+//   parent_id: number;
+//   level: number;
+//   count: number;
+//   sum: number;
+//   description: string;
+//   blogs?: [
+//     {
+//       id?: number;
+//       title?: string;
+//       keyword?: string[];
+//     }
+//   ];
+//   children?: CategoryWithDetail[];
+// };
+//
+// export type CategoryWithDetailMap = Map<number, CategoryWithDetail>;
+//
+// export type Blog = {
+//   id: number;
+//   created_at: string;
+//   title: string;
+//   content: Delta;
+//   category_id: number;
+//   updated_at: string;
+//   status: boolean;
+//   length: number;
+//   path: string[];
+// };
+
+// export type BlogInsertData = {
+//   title: string;
+//   content: string;
+//   length: number;
+//   category_id: number;
+// };
+
+// export type BlogUpdateData = {
+//   id: number;
+//   title: string;
+//   content: string;
+//   length: number;
+// };
 
 export type ChatroomUser = {
   username: string;

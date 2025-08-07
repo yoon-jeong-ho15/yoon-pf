@@ -100,3 +100,46 @@ FROM chat_read_status crs
 WHERE crs.message_id = msg.id AND crs.read_at IS NULL) AS un_read
 FROM chat_message msg
 JOIN "user" u ON msg.user_id = u.id;
+
+create or replace view public.v_all_blog as
+WITH RECURSIVE category_path AS (
+    SELECT id, parent_id, ARRAY[name] as path, level
+    FROM public.blog_category
+    WHERE parent_id IS NULL
+    
+    UNION ALL
+    
+    SELECT bc.id, bc.parent_id, 
+           cp.path || bc.name as path, bc.level
+    FROM public.blog_category bc
+    JOIN category_path cp ON bc.parent_id = cp.id
+)
+select b.id, b.created_at, b.title, b.status,
+    cp.path           
+FROM category_path cp
+join public.blog b on(b.category_id = cp.id)
+ORDER BY level;
+
+reate or replace view public.v_blog_category as 
+select bc.id, bc.name, bc.parent_id, 
+	bc.level, bc2.count, bc2.sum, bc.description,
+	b.blogs
+from blog_category bc 
+left join (
+	select 
+	bc.id, bc.name, count(b.id), sum(b.length)
+	from blog_category bc
+	join blog b on (bc.id=b.category_id)
+	where b.status=true
+	group by bc.id, bc.name
+	) bc2 on (bc.id = bc2.id)
+left join (
+	SELECT
+    b.category_id,
+    json_agg(json_build_object(
+    	'id', b.id, 'title', b.title, 
+    	'keyword', coalesce(b.keyword,'{}'::text[]))) AS blogs
+	from blog b
+	where b.status = true
+	GROUP by b.category_id
+	) b on (b.category_id = bc.id);

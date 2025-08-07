@@ -1,164 +1,175 @@
-import { supabase } from "../supabase";
-import type {
-  Blog,
-  BlogInsertData,
-  BlogUpdateData,
-  Category,
-} from "../definitions";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { remark } from "remark";
+import html from "remark-html";
+import { Blog, BlogData, Category } from "../definitions";
 
-export async function fetchBlogs(query: string, currentPage: number) {
-  const offset = (currentPage - 1) * 25;
-  const { data, error } = await supabase
-    .from("v_all_blog")
-    .select("*")
-    .or(`title.like.%${query}`)
-    .eq("status", true)
-    .order("created_at", { ascending: false })
-    .range(offset, offset + 24);
-  if (error) {
-    console.error("Error fetching data:", error);
-  } else {
-    return data as Blog[];
-  }
-}
+const blogsDirectory = path.join(process.cwd(), "blogs");
 
-export async function fetchBlogById(id: number) {
-  const { data, error } = await supabase.from("blog").select("*").eq("id", id);
+export function getCategoryTree(): {
+  categories: Category[];
+  categoryMap: { [key: string]: Category };
+} {
+  const allFolders: string[] = [];
+  const _getAllFolders = (dirPath: string) => {
+    const files = fs.readdirSync(dirPath);
+    files.forEach(function (file) {
+      const fullPath = path.join(dirPath, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        allFolders.push(fullPath);
+        _getAllFolders(fullPath);
+      }
+    });
+  };
 
-  if (error) {
-    console.error("Error fetching data:", error);
-    throw new Error("Failed to fetch the board");
-  } else {
-    return data[0] as Blog;
-  }
-}
+  _getAllFolders(blogsDirectory);
 
-export async function fetchCategories() {
-  const { data, error } = await supabase.from("blog_category").select("*");
-  if (error) {
-    console.error("error fetching categories", error);
-  } else {
-    const categoryMap = new Map(
-      data.map((item) => [item.id, { ...item, children: [] }])
-    );
-    // console.log(categoryMap);
+  const nodeMap = new Map<string, Category>();
+  allFolders.forEach((folderPath) => {
+    const relativePath = path.relative(blogsDirectory, folderPath);
+    const pathSegments = relativePath.split(path.sep);
+    const files = fs.readdirSync(folderPath);
+    const blogs: Blog[] = files
+      .filter((file) => file.endsWith(".md"))
+      .map((file) => {
+        const title = file.replace(/\.md$/, "");
+        const id = relativePath + "/" + title;
+        const fullPath = path.join(folderPath, file);
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const matterResult = matter(fileContents);
 
-    const categories: Category[] = [];
+        return {
+          id,
+          title,
+          ...(matterResult.data as { date: string; tags: string[] }),
+        };
+      });
 
-    // 객체 참조(Object Reference)
-    for (const item of data) {
-      if (item.parent_id) {
-        const parent = categoryMap.get(item.parent_id);
-        parent.children.push(categoryMap.get(item.id)!);
-      } else {
-        // 이 때 map에 들어있는 객체의 주소값을 넣어준다.
-        // 그래서 다음 반복에 배열의 객체에 직접 자식을 넣어주지 않고,
-        // Map에 있는 객체에 넣어줘도 배열 안의 객체에도 똑같이 자식이 들어가게 되는것.
-        categories.push(categoryMap.get(item.id)!);
+    nodeMap.set(relativePath, {
+      path: pathSegments,
+      name: path.basename(folderPath),
+      children: [],
+      blogs,
+    });
+  });
+
+  const roots: Category[] = [];
+  nodeMap.forEach((node, key) => {
+    const parentPath = path.dirname(key);
+    if (parentPath === ".") {
+      roots.push(node);
+    } else {
+      const parentNode = nodeMap.get(parentPath);
+      if (parentNode) {
+        parentNode.children.push(node);
       }
     }
-
-    return categories;
-  }
-}
-
-export async function fetchCategoriesWithDetail() {
-  const { data, error } = await supabase.from("v_blog_category").select("*");
-  if (error) {
-    console.error("error fetching categories with detail", error);
-  } else {
-    return data;
-    // const categoryMap = new Map<number, CategoryWithDetail>();
-    // const categories: CategoryWithDetail[] = [];
-
-    // for (const item of data) {
-    //   if (!categoryMap.has(item.id)) {
-    //     const category: CategoryWithDetail = {
-    //       id: item.id,
-    //       name: item.name,
-    //       parent_id: item.parent_id,
-    //       level: item.level,
-    //       description: item.description,
-    //       children: [],
-    //     };
-    //     if (item.blog_id) {
-    //       const blog = {
-    //         blog_id: item.blog_id,
-    //         blog_title: item.blog_title,
-    //         blog_keyword: item.blog_keyword,
-    //       };
-    //       category.blog = [blog];
-    //     }
-    //     categoryMap.set(item.id, category);
-    //   } else {
-    //     if (item.blog_id) {
-    //       const blog = {
-    //         blog_id: item.blog_id,
-    //         blog_title: item.blog_title,
-    //         blog_keyword: item.blog_keyword,
-    //       };
-    //       const category = categoryMap.get(item.id)!;
-    //       if (category.blog) {
-    //         category.blog.push(blog);
-    //       } else {
-    //         category.blog = [blog];
-    //       }
-    //     }
-    //   }
-  }
-
-  // 여기 추가함
-  //   for (const category of categoryMap.values()) {
-  //     if (category.parent_id) {
-  //       const parent = categoryMap.get(category.parent_id);
-  //       if (parent) {
-  //         parent.children?.push(category);
-  //       }
-  //     } else {
-  //       categories.push(category);
-  //     }
-  //   }
-
-  //   return categories;
-  // }
-}
-
-export async function insertBlog(data: BlogInsertData) {
-  const { error } = await supabase.from("blog").insert({
-    title: data.title,
-    content: JSON.parse(data.content),
-    category_id: data.category_id,
-    length: data.length,
   });
-  if (error) {
-    console.error("Error inserting Data : ", error);
-  }
+
+  const categoryMapObject = Object.fromEntries(nodeMap);
+
+  return { categories: roots, categoryMap: categoryMapObject };
 }
 
-export async function updateBlog(data: BlogUpdateData) {
-  const { error } = await supabase
-    .from("blog")
-    .update({
-      title: data.title,
-      content: JSON.parse(data.content),
-      updated_at: "now()",
-      length: data.length,
-    })
-    .eq("id", data.id);
-  if (error) {
-    return error;
-  }
+function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
+  const files = fs.readdirSync(dirPath);
+
+  files.forEach(function (file) {
+    if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+      arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
+    } else {
+      if (file.endsWith(".md")) {
+        arrayOfFiles.push(path.join(dirPath, file));
+      }
+    }
+  });
+
+  return arrayOfFiles;
 }
 
-export async function updateBlogStatus(id: number) {
-  // console.log("deleting : ", id);
-  const { error } = await supabase
-    .from("blog")
-    .update({
-      status: false,
-    })
-    .eq("id", id);
-  if (error) {
-    return error;
-  }
+export function getSortedBlogData(
+  query: string,
+  currentPage: number,
+  blogsPerPage: number = 12
+) {
+  const filePaths = getAllFiles(blogsDirectory);
+
+  const allBlogsData = filePaths.map((filePath) => {
+    const id = path.relative(blogsDirectory, filePath).replace(/\.md$/, "");
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const matterResult = matter(fileContents);
+    const title = id.substring(id.lastIndexOf("/") + 1);
+    const blogPath = id.split(path.sep);
+    blogPath.pop();
+
+    return {
+      id,
+      title,
+      ...(matterResult.data as { date: string; tags: string[] }),
+      path: blogPath,
+    };
+  });
+
+  const sortedblogs = allBlogsData.sort((a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  const filteredBlogs = query
+    ? sortedblogs.filter((blog) =>
+        blog.title.toLowerCase().includes(query.toLowerCase())
+      )
+    : sortedblogs;
+
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const paginatedBlogs = filteredBlogs.slice(
+    startIndex,
+    startIndex + blogsPerPage
+  );
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+
+  return {
+    blogs: paginatedBlogs,
+    totalPages,
+    totalBlogs: filteredBlogs.length,
+  };
+}
+
+export function getAllBlogIds() {
+  const filePaths = getAllFiles(blogsDirectory);
+
+  return filePaths.map((filePath) => {
+    const id = path.relative(blogsDirectory, filePath).replace(/\.md$/, "");
+    return {
+      params: {
+        id: id.split(path.sep),
+      },
+    };
+  });
+}
+
+export async function getBlogData(id: string[]) {
+  const decodedId = id.map((segment) => decodeURIComponent(segment));
+  const fullPath = path.join(blogsDirectory, ...decodedId) + ".md";
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  const matterResult = matter(fileContents);
+
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+
+  const contentHTML = processedContent.toString();
+  const title = decodedId[decodedId.length - 1];
+
+  return {
+    id: decodedId.join("/"),
+    title,
+    contentHTML,
+    ...(matterResult.data as { date: string; tags: string[] }),
+  } as BlogData;
 }

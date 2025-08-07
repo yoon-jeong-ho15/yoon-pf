@@ -1,4 +1,5 @@
 "use client";
+
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 
@@ -27,7 +28,7 @@ export default function Search() {
       <input
         ref={searchRef}
         className="
-        w-full rounded-md border-2 border-gray-400 
+        w-full rounded-md border-2 border-gray-400
         py-2 pl-6 pr-12 text-md outline-gray-600
         overflow-hidden
         "
