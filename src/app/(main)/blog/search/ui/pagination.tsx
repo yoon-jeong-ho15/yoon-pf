@@ -14,7 +14,7 @@ export default function Pagination({
       {pages.map((page) => (
         <Link key={page} href={`/blog/search?page=${page}`}>
           <span
-            className={`px-3 py-1 mx-1 border ${
+            className={`px-3 py-1 mx-1 rounded border ${
               currentPage === page ? "bg-gray-300" : ""
             }`}
           >

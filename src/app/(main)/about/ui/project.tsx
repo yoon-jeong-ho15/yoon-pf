@@ -83,7 +83,7 @@ export default function Project({
         </div>
       </div>
       {stack && (
-        <div className="bg-white rounded w-fit px-1 py-0.5 border border-stone-400">
+        <div className="bg-white rounded w- px-1 py-0.5 border border-stone-400 flex flex-wrap">
           {stack.map((item, i) => {
             if (item in stackData) {
               const data = stackData[item as keyof typeof stackData];

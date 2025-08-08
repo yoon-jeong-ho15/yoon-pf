@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import CategoryItem from "./item";
+import { CategoryItem } from "./item";
 import { Category } from "@/lib/definitions";
 
 export default function CategoryTree({
