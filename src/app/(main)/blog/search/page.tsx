@@ -1,4 +1,4 @@
-import { BlogItem } from "./blog-item";
+import { BlogItem, MobileBlogItem } from "./blog-item";
 import { getSortedBlogData } from "@/lib/data/blog";
 import Search from "./ui/search";
 import Pagination from "./ui/pagination";
@@ -17,14 +17,14 @@ export default async function Page(props: {
   return (
     <div
       id="blog-search-page"
-      className="flex flex-col items-center w-full mt-5"
+      className="flex flex-col items-center w-full my-3 md:my-5 px-1"
     >
-      <div className="flex flex-row">
+      <div className="flex flex-row mx-3">
         <Search />
         <span className="hidden">{totalBlogs}</span>
       </div>
-      <div>
-        <table className="w-full">
+      <div className="hidden md:flex md:flex-col w-8/12">
+        <table className="">
           <thead>
             <tr>
               <th className="px-4 py-3 ">작성일</th>
@@ -38,6 +38,12 @@ export default async function Page(props: {
             ))}
           </tbody>
         </table>
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
+      </div>
+      <div className="flex flex-col md:hidden items-center mt-4 mb-5 w-full">
+        {blogs?.map((blog) => (
+          <MobileBlogItem key={blog.id} {...blog} />
+        ))}
         <Pagination totalPages={totalPages} currentPage={currentPage} />
       </div>
     </div>

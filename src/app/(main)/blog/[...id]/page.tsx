@@ -24,21 +24,45 @@ export default async function Page(props: {
   const contentHTML = $.html();
 
   return (
-    <div className="w-10/12 mb-15">
+    <div
+      className="
+      w-full md:w-8/12 
+      mb-15 mt-3 md:mt-8
+    bg-gray-100
+    "
+    >
       <div
-        className="flex flex-col
-      border border-gray-400 
-      my-3 p-2
-      rounded-lg"
+        className="
+      flex flex-col
+      border-b
+      p-2 mt-5
+      md:my-0
+      md:border-b-2
+      md:border-gray-300
+      md:bg-white
+      "
       >
-        <h1 className="text-4xl font-black">{blog.title}</h1>
-        <span className="mt-auto ml-auto">
+        <h1
+          className="
+        text-xl 
+        text-shadow-sm
+        font-black
+        md:text-4xl
+        md:ml-10
+        "
+        >
+          {blog.title}
+        </h1>
+        <span className="text-sm md:text-md mt-auto ml-auto">
           {new Date(blog.date).toLocaleDateString()}
         </span>
       </div>
       <article
         dangerouslySetInnerHTML={{ __html: contentHTML }}
-        className="prose max-w-none bg-gray-50 px-15 pt-8 pb-3"
+        className="
+        prose prose-sm md:prose-base 
+        max-w-none
+        px-4 pt-5 pb-15 md:px-15"
       />
     </div>
   );

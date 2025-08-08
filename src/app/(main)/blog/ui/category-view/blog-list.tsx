@@ -26,7 +26,10 @@ export default function BlogList({
   }, [categoryMap, selectedCategory]);
 
   return (
-    <motion.div id="blog-list" className="w-full border border-gray-200 p-2">
+    <motion.div
+      id="blog-list"
+      className="w-full border border-gray-200 p-2 flex flex-col"
+    >
       <div className="text-lg">{category?.name}</div>
       {category?.blogs.map((blog, i) => (
         <div
