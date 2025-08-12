@@ -14,6 +14,20 @@ export default function RootLayout({
 }) {
   return (
     <html>
+      <head>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/apple-touch-icon.png"
+        />
+      </head>
       <body
         className={`${nanumGothic.className} 
         antialiased flex flex-col max-w-screen min-h-screen
