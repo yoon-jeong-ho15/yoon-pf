@@ -12,10 +12,16 @@ export default function TabButtons({
         개요
       </button>
       <button
-        className="p-2 rounded-md bg-gray-200"
+        className="mr-2 p-2 rounded-md bg-gray-200"
         onClick={() => onSelectTab("chatting")}
       >
         채팅
+      </button>
+      <button
+        className="mr-2 p-2 rounded-md bg-gray-200"
+        onClick={() => onSelectTab("blog")}
+      >
+        블로그
       </button>
     </div>
   );

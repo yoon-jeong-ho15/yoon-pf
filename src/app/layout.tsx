@@ -4,7 +4,7 @@ import { nanumGothic } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: "윤정호",
-  description: "Yoon's blog",
+  description: "𓅰 𓅬 𓅭 𓅮 𓅯",
 };
 
 export default function RootLayout({
