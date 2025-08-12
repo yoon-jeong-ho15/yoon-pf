@@ -39,9 +39,9 @@ export function CategoryItem({
         border border-gray-300
         py-1 rounded-xl my-1
         `}
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
+      // initial={{ opacity: 0, height: 0 }}
+      // animate={{ opacity: 1, height: "auto" }}
+      // exit={{ opacity: 0, height: 0 }}
     >
       <motion.div
         onClick={handleClick}

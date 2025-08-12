@@ -3,13 +3,20 @@ import Project from "./ui/project";
 export default function Page() {
   return (
     <div id="about-page" className="flex flex-col flex-grow">
-      <div className="mt-4 mx-3 flex flex-col">
-        <div className="p-4 my-3 rounded-lg border border-gray-300">
+      <div className="mt-8 mx-3 flex flex-col-reverse md:flex-row">
+        <div
+          className="
+        p-4 rounded-lg 
+        border w-full 
+        md:w-5/12 md:border-0 
+        border-gray-300"
+        >
           <h1 className="text-xl font-black">:: 프로젝트</h1>
           <Project {...yoonPf} />
           <Project {...realMan} />
           <Project {...giveHub} />
         </div>
+        {/* <div className="w-full md:w-7/12 bg-amber-100 md:mt-3"></div> */}
       </div>
     </div>
   );
@@ -18,7 +25,7 @@ export default function Page() {
 const yoonPf = {
   title: "yoon-pf",
   github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-  // about: "/aboutthispage",
+  about: "/aboutthispage",
   stack: [
     "Next.js",
     "Next.auth",
