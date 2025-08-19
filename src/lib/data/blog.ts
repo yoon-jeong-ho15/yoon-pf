@@ -2,8 +2,11 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
-import html from "remark-html";
 import breaks from "remark-breaks";
+import remarkMath from "remark-math";
+import remarkRehype from "remark-rehype";
+import rehypeKatex from "rehype-katex";
+import rehypeStringify from "rehype-stringify";
 import { Blog, BlogData, Category } from "../definitions";
 
 const blogsDirectory = path.join(process.cwd(), "blogs");
@@ -161,8 +164,11 @@ export async function getBlogData(id: string[]) {
   const matterResult = matter(fileContents);
 
   const processedContent = await remark()
-    .use(html)
     .use(breaks)
+    .use(remarkMath)
+    .use(remarkRehype)
+    .use(rehypeKatex)
+    .use(rehypeStringify)
     .process(matterResult.content);
 
   const contentHTML = processedContent.toString();
