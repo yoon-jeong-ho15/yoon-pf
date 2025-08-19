@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import breaks from "remark-breaks";
 import { Blog, BlogData, Category } from "../definitions";
 
 const blogsDirectory = path.join(process.cwd(), "blogs");
@@ -161,6 +162,7 @@ export async function getBlogData(id: string[]) {
 
   const processedContent = await remark()
     .use(html)
+    .use(breaks)
     .process(matterResult.content);
 
   const contentHTML = processedContent.toString();
