@@ -124,8 +124,10 @@ export function getSortedBlogData(
   });
 
   const filteredBlogs = query
-    ? sortedblogs.filter((blog) =>
-        blog.title.toLowerCase().includes(query.toLowerCase())
+    ? sortedblogs.filter(
+        (blog) =>
+          blog.title.toLowerCase().includes(query.toLowerCase()) ||
+          blog.path.join("/").toLowerCase().includes(query.toLowerCase())
       )
     : sortedblogs;
 
