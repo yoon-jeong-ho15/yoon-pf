@@ -21,6 +21,7 @@ export function getCategoryTree(): {
     files.forEach(function (file) {
       const fullPath = path.join(dirPath, file);
       if (fs.statSync(fullPath).isDirectory()) {
+        if (file.startsWith("_")) return;
         allFolders.push(fullPath);
         _getAllFolders(fullPath);
       }
@@ -81,6 +82,7 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
 
   files.forEach(function (file) {
     if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+      if (file.startsWith("_")) return;
       arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
     } else {
       if (file.endsWith(".md")) {
