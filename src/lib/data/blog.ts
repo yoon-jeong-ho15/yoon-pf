@@ -18,6 +18,7 @@ export function getCategoryTree(): {
   const allFolders: string[] = [];
   const _getAllFolders = (dirPath: string) => {
     const files = fs.readdirSync(dirPath);
+
     files.forEach(function (file) {
       const fullPath = path.join(dirPath, file);
       if (fs.statSync(fullPath).isDirectory()) {
