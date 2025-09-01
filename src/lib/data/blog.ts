@@ -5,6 +5,7 @@ import { remark } from "remark";
 import breaks from "remark-breaks";
 import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import { Blog, BlogData, Category } from "../definitions";
@@ -22,7 +23,7 @@ export function getCategoryTree(): {
     files.forEach(function (file) {
       const fullPath = path.join(dirPath, file);
       if (fs.statSync(fullPath).isDirectory()) {
-        if (file.startsWith("_")) return;
+        if (file.startsWith(".") || file.startsWith("_")) return;
         allFolders.push(fullPath);
         _getAllFolders(fullPath);
       }
@@ -171,7 +172,8 @@ export async function getBlogData(id: string[]) {
   const processedContent = await remark()
     .use(breaks)
     .use(remarkMath)
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeKatex)
     .use(rehypeStringify)
     .process(matterResult.content);
