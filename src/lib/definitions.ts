@@ -17,6 +17,7 @@ export type User = {
 
 export type Blog = {
   id: string;
+  index?: number;
   title: string;
   date: string;
   tags: string[];

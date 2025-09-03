@@ -19,9 +19,9 @@ export default function BlogList({
     if (!selectedCategory || !categoryMap) {
       return;
     }
-    console.log(selectedCategory);
+    // console.log(selectedCategory);
     const newCategory = categoryMap[selectedCategory]!;
-    console.log(newCategory);
+    // console.log(newCategory);
     setCategory(newCategory);
   }, [categoryMap, selectedCategory]);
 
@@ -45,7 +45,7 @@ export default function BlogList({
               className="flex whitespace-nowrap 
                 nowrap animate-text-slide"
             >
-              {blog.title}
+              {(blog.index ? blog.index + ". " : "") + blog.title}
             </Link>
           </div>
           <div>

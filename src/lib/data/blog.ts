@@ -5,6 +5,7 @@ import { remark } from "remark";
 import breaks from "remark-breaks";
 import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import { Blog, BlogData, Category } from "../definitions";
@@ -22,7 +23,7 @@ export function getCategoryTree(): {
     files.forEach(function (file) {
       const fullPath = path.join(dirPath, file);
       if (fs.statSync(fullPath).isDirectory()) {
-        if (file.startsWith("_")) return;
+        if (file.startsWith(".") || file.startsWith("_")) return;
         allFolders.push(fullPath);
         _getAllFolders(fullPath);
       }
@@ -43,13 +44,12 @@ export function getCategoryTree(): {
         const id = relativePath + "/" + title;
         const fullPath = path.join(folderPath, file);
         const fileContents = fs.readFileSync(fullPath, "utf8");
-        const matterResult = matter(fileContents);
+        const { data } = matter(fileContents);
 
         return {
           id,
-          title,
-          ...(matterResult.data as { date: string; tags: string[] }),
-        };
+          ...data,
+        } as Blog;
       });
 
     nodeMap.set(relativePath, {
@@ -105,17 +105,15 @@ export function getSortedBlogData(
   const allBlogsData = filePaths.map((filePath) => {
     const id = path.relative(blogsDirectory, filePath).replace(/\.md$/, "");
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const matterResult = matter(fileContents);
-    const title = id.substring(id.lastIndexOf("/") + 1);
+    const { data } = matter(fileContents);
     const blogPath = id.split(path.sep);
     blogPath.pop();
 
     return {
       id,
-      title,
-      ...(matterResult.data as { date: string; tags: string[] }),
+      ...data,
       path: blogPath,
-    };
+    } as Blog & { path: string[] };
   });
 
   const sortedblogs = allBlogsData.sort((a, b) => {
@@ -166,23 +164,22 @@ export async function getBlogData(id: string[]) {
   const fullPath = path.join(blogsDirectory, ...decodedId) + ".md";
   const fileContents = fs.readFileSync(fullPath, "utf8");
 
-  const matterResult = matter(fileContents);
+  const { data, content } = matter(fileContents);
 
   const processedContent = await remark()
     .use(breaks)
     .use(remarkMath)
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeKatex)
     .use(rehypeStringify)
-    .process(matterResult.content);
+    .process(content);
 
   const contentHTML = processedContent.toString();
-  const title = decodedId[decodedId.length - 1];
 
   return {
     id: decodedId.join("/"),
-    title,
+    ...data,
     contentHTML,
-    ...(matterResult.data as { date: string; tags: string[] }),
   } as BlogData;
 }
