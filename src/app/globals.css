@@ -27,11 +27,23 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-.quill-container .ql-editor {
+/* .quill-container .ql-editor {
   font-size: 1.3rem;
   font-family: inherit;
   height: 45rem;
   overflow-y: scroll;
+} */
+
+.prose strong {
+  color: #da6900;
+}
+.prose em {
+  color: #da6900;
+  /* display: inline-block; */
+  border: 1 solid #9d9d9d;
+  border-radius: 5;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 @layer utilities {

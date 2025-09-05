@@ -8,6 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
+import rehypeHighlight from "rehype-highlight";
 import { Blog, BlogData, Category } from "../definitions";
 
 const blogsDirectory = path.join(process.cwd(), "blogs");
@@ -162,7 +163,9 @@ export function getAllBlogIds() {
 export async function getBlogData(id: string[]) {
   const decodedId = id.map((segment) => decodeURIComponent(segment));
   const fullPath = path.join(blogsDirectory, ...decodedId) + ".md";
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+  let fileContents = fs.readFileSync(fullPath, "utf8");
+
+  fileContents = fileContents.replace(/%%(.*?)%%/gs, "<!-- $1 -->");
 
   const { data, content } = matter(fileContents);
 
@@ -171,6 +174,7 @@ export async function getBlogData(id: string[]) {
     .use(remarkMath)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypeHighlight)
     .use(rehypeKatex)
     .use(rehypeStringify)
     .process(content);
