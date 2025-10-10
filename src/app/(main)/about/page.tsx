@@ -12,6 +12,7 @@ export default function Page() {
         border-gray-300"
         >
           <h1 className="text-xl font-black">:: 프로젝트</h1>
+          <Project {...pkmon} />
           <Project {...yoonPf} />
           <Project {...realMan} />
           <Project {...giveHub} />
@@ -21,11 +22,23 @@ export default function Page() {
     </div>
   );
 }
-
+const pkmon = {
+  title: "Packet-Monster",
+  github: "https://github.com/yoon-jeong-ho15/pkmon",
+  link: "https://pkmon-theta.vercel.app",
+  stack: [
+    "Next.js",
+    "Next.auth",
+    "Supabase",
+    "TypeScript",
+    "TailwindCSS",
+    "Vercel",
+  ],
+};
 const yoonPf = {
   title: "yoon-pf",
   github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-  about: "/aboutthispage",
+  link: "/aboutthispage",
   stack: [
     "Next.js",
     "Next.auth",
