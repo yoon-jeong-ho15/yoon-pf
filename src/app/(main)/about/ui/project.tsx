@@ -64,10 +64,7 @@ export default function Project({
               const data = stackData[item as keyof typeof stackData];
               return (
                 <span key={i} className="mr-2">
-                  <a
-                    href={data.link}
-                    className={`${data.style} hover:font-semibold p-0.5`}
-                  >
+                  <a className={`${data.style} hover:font-semibold p-0.5`}>
                     {item}
                   </a>
                 </span>
@@ -93,27 +90,24 @@ export default function Project({
 
 const stackData = {
   "Next.js": {
-    link: "https://nextjs.org/",
     style: "text-gray-900 bg-gray-200",
   },
   "Next.auth": {
-    link: "https://next-auth.js.org",
     style: "text-violet-800 bg-purple-100",
   },
   Supabase: {
-    link: "https://supabase.com/",
     style: "text-green-800 bg-green-100",
   },
   Firebase: {
-    link: "https://firebase.google.com/products/firestore",
     style: "text-red-800 bg-red-100",
   },
   TailwindCSS: {
-    link: "https://tailwindcss.com",
     style: "text-sky-700 bg-sky-100",
   },
   Vercel: {
-    link: "https://vercel.com/home",
     style: "text-stone-900 bg-stone-200",
+  },
+  Vite: {
+    style: "text-purple-600 bg-purple-100",
   },
 };

@@ -17,13 +17,19 @@ export type User = {
 
 export type Blog = {
   id: string;
-  index?: number;
   title: string;
   date: string;
   tags: string[];
+  index?: number; // numerical order of the blog posts
+  instructor?: string;
+  author?: string;
+  provide?: string;
+  publish?: string;
+  link?: string;
 };
 
-export type BlogData = Blog & {
+export type BlogData = {
+  blog: Blog;
   contentHTML: string;
 };
 

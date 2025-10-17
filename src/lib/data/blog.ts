@@ -160,7 +160,7 @@ export function getAllBlogIds() {
   });
 }
 
-export async function getBlogData(id: string[]) {
+export async function getBlogData(id: string[]): Promise<BlogData> {
   const decodedId = id.map((segment) => decodeURIComponent(segment));
   const fullPath = path.join(blogsDirectory, ...decodedId) + ".md";
   let fileContents = fs.readFileSync(fullPath, "utf8");
@@ -182,8 +182,10 @@ export async function getBlogData(id: string[]) {
   const contentHTML = processedContent.toString();
 
   return {
-    id: decodedId.join("/"),
-    ...data,
+    blog: {
+      id: decodedId.join("/"),
+      ...(data as Omit<Blog, "id">),
+    },
     contentHTML,
-  } as BlogData;
+  };
 }
