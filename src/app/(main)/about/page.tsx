@@ -22,12 +22,7 @@ export default function Page() {
     </div>
   );
 }
-const pkmon = {
-  title: "Packet-Monster",
-  github: "https://github.com/yoon-jeong-ho15/pkmon",
-  link: "https://pkmon-theta.vercel.app",
-  stack: ["Vite", "React", "TailwindCSS"],
-};
+
 const yoonPf = {
   title: "yoon-pf",
   github: "https://github.com/yoon-jeong-ho15/yoon-pf",
