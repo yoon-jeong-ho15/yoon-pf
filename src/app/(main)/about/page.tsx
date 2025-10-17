@@ -12,7 +12,6 @@ export default function Page() {
         border-gray-300"
         >
           <h1 className="text-xl font-black">:: 프로젝트</h1>
-          <Project {...pkmon} />
           <Project {...yoonPf} />
           <Project {...realMan} />
           <Project {...giveHub} />
