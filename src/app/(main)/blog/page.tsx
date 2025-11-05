@@ -1,7 +1,7 @@
-import { BlogItem, MobileBlogItem } from "./search/blog-item";
 import { getMainBlogData } from "@/lib/data/blog";
 import Search from "./search/ui/search";
 import Pagination from "./search/ui/pagination";
+import BlogCard from "./ui/main-view/blog-card";
 
 export default async function Page(props: {
   searchParams?: Promise<{ query?: string; page?: string }>;
@@ -17,34 +17,33 @@ export default async function Page(props: {
   return (
     <div
       id="main-blog-page"
-      className="flex flex-col items-center w-full my-3 md:my-5 px-1"
+      className="flex flex-col items-center w-full my-3 md:my-5 px-3 md:px-6"
     >
-      <div className="flex flex-row mx-3">
+      {/* Search Bar */}
+      <div className="flex flex-row mx-3 mb-6">
         <Search />
         <span className="hidden">{totalBlogs}</span>
       </div>
-      <div className="hidden md:flex md:flex-col w-8/12">
-        <table className="">
-          <thead>
-            <tr>
-              <th className="px-4 py-3 ">작성일</th>
-              <th className="px-4 py-3 ">제목</th>
-              <th className="px-4 py-3 ">분류</th>
-            </tr>
-          </thead>
-          <tbody>
-            {blogs?.map((blog) => (
-              <BlogItem key={blog.id} {...blog} />
-            ))}
-          </tbody>
-        </table>
-        <Pagination totalPages={totalPages} currentPage={currentPage} />
-      </div>
-      <div className="flex flex-col md:hidden items-center mt-4 mb-5 w-full">
-        {blogs?.map((blog) => (
-          <MobileBlogItem key={blog.id} {...blog} />
-        ))}
-        <Pagination totalPages={totalPages} currentPage={currentPage} />
+
+      {/* Grid Layout */}
+      <div className="w-full max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {blogs?.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {blogs.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            <p className="text-lg">블로그 글이 없습니다.</p>
+          </div>
+        )}
+
+        {/* Pagination */}
+        <div className="mt-8">
+          <Pagination totalPages={totalPages} currentPage={currentPage} />
+        </div>
       </div>
     </div>
   );

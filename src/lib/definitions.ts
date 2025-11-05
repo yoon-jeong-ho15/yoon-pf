@@ -20,6 +20,7 @@ export type Blog = {
   title: string;
   date: string;
   tags: string[];
+  thumbnail?: string; // thumbnail image URL or path
   index?: number; // numerical order of the blog posts
   instructor?: string;
   author?: string;
