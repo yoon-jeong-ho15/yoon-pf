@@ -33,6 +33,10 @@ const tabs = [
     href: "/blog",
   },
   {
+    title: "Main",
+    href: "/blog/main",
+  },
+  {
     title: "전체보기",
     href: "/blog/search",
   },
