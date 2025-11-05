@@ -26,12 +26,12 @@ export function CategoryItem({
     >
       <div className="flex items-center justify-between">
         <Link
-          href={isSelected ? "/blog" : `/blog?category=${categoryPath}`}
+          href={isSelected ? "/blog/categories" : `/blog/categories?category=${categoryPath}`}
           className={`
             flex-1
             rounded-xl
             hover:pl-4 transition-all
-            cursor-pointer 
+            cursor-pointer
             py-1 pl-3
             `}
         >

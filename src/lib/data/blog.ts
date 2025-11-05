@@ -37,6 +37,12 @@ export function getCategoryTree(): {
   allFolders.forEach((folderPath) => {
     const relativePath = path.relative(blogsDirectory, folderPath);
     const pathSegments = relativePath.split(path.sep);
+
+    // Skip 'main' directory for category tree
+    if (pathSegments[0] === "main") {
+      return;
+    }
+
     const files = fs.readdirSync(folderPath);
     const blogs: Blog[] = files
       .filter((file) => file.endsWith(".md"))

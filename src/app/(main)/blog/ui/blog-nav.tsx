@@ -29,12 +29,12 @@ export default function BlogNav() {
 
 const tabs = [
   {
-    title: "카테고리",
+    title: "Main",
     href: "/blog",
   },
   {
-    title: "Main",
-    href: "/blog/main",
+    title: "카테고리",
+    href: "/blog/categories",
   },
   {
     title: "전체보기",
