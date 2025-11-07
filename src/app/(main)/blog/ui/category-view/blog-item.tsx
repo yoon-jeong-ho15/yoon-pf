@@ -7,8 +7,8 @@ export default function BlogItem({ blog }: { blog: Blog }) {
     <div className="my-1 py-1 bg-gray-100 flex">
       <div className="w-3/12 overflow-hidden text-slide-container">
         <Link
-          href={`blog/${blog.id}`}
-          className="flex whitespace-nowrap 
+          href={`/blog/${blog.id}`}
+          className="flex whitespace-nowrap
                 nowrap animate-text-slide"
         >
           {(blog.index ? blog.index + ". " : "") + blog.title}

@@ -46,7 +46,7 @@ export function MobileCategoryItem({
             <div key={k} className="pl-2 my-2">
               <Link
                 className="text-sm text-gray-600 border-b"
-                href={`blog/${blog.id}`}
+                href={`/blog/${blog.id}`}
               >
                 {blog.title}
               </Link>
