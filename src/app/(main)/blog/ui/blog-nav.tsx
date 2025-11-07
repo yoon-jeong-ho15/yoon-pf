@@ -6,8 +6,8 @@ export default function BlogNav() {
   const [selectedTab, setSelectedTab] = useState("카테고리");
 
   return (
-    <nav className="flex w-11/12 md:w-6/12 mt-3 justify-center">
-      <div className="bg-gray-100 flex justify-center items-center rounded-full w-full">
+    <nav className="flex w-11/12 md:w-auto mt-3 justify-center">
+      <div className="bg-gray-100 flex justify-center items-center rounded-full">
         {tabs.map((tab, i) => (
           <Link
             key={tab.title}
