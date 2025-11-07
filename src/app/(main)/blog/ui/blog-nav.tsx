@@ -6,14 +6,15 @@ export default function BlogNav() {
   const [selectedTab, setSelectedTab] = useState("카테고리");
 
   return (
-    <nav className="flex w-6/12 mt-3 justify-center">
+    <nav className="flex w-11/12 md:w-auto mt-3 justify-center">
       <div className="bg-gray-100 flex justify-center items-center rounded-full">
         {tabs.map((tab, i) => (
           <Link
             key={tab.title}
             href={tab.href}
             className={`
-              px-4 ${selectedTab === tab.title ? "bg-gray-200" : ""}
+              px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base
+              ${selectedTab === tab.title ? "bg-gray-200" : ""}
               ${i === 0 && "rounded-l-full"}
               ${i === tabs.length - 1 && "rounded-r-full"}
               `}
@@ -29,8 +30,12 @@ export default function BlogNav() {
 
 const tabs = [
   {
-    title: "카테고리",
+    title: "Main",
     href: "/blog",
+  },
+  {
+    title: "카테고리",
+    href: "/blog/categories",
   },
   {
     title: "전체보기",

@@ -37,6 +37,12 @@ export function getCategoryTree(): {
   allFolders.forEach((folderPath) => {
     const relativePath = path.relative(blogsDirectory, folderPath);
     const pathSegments = relativePath.split(path.sep);
+
+    // Skip 'main' directory for category tree
+    if (pathSegments[0] === "main") {
+      return;
+    }
+
     const files = fs.readdirSync(folderPath);
     const blogs: Blog[] = files
       .filter((file) => file.endsWith(".md"))
@@ -158,6 +164,68 @@ export function getAllBlogIds() {
       },
     };
   });
+}
+
+export function getMainBlogData(
+  query: string,
+  currentPage: number,
+  blogsPerPage: number = 12
+) {
+  const mainDirectory = path.join(blogsDirectory, "main");
+
+  // Check if main directory exists
+  if (!fs.existsSync(mainDirectory)) {
+    return {
+      blogs: [],
+      totalPages: 0,
+      totalBlogs: 0,
+    };
+  }
+
+  const filePaths = getAllFiles(mainDirectory);
+
+  const allBlogsData = filePaths.map((filePath) => {
+    const id = path.relative(blogsDirectory, filePath).replace(/\.md$/, "");
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(fileContents);
+    const blogPath = id.split(path.sep);
+    blogPath.pop();
+
+    return {
+      id,
+      ...data,
+      path: blogPath,
+    } as Blog & { path: string[] };
+  });
+
+  const sortedblogs = allBlogsData.sort((a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  const filteredBlogs = query
+    ? sortedblogs.filter(
+        (blog) =>
+          blog.title.toLowerCase().includes(query.toLowerCase()) ||
+          blog.path.join("/").toLowerCase().includes(query.toLowerCase())
+      )
+    : sortedblogs;
+
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const paginatedBlogs = filteredBlogs.slice(
+    startIndex,
+    startIndex + blogsPerPage
+  );
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+
+  return {
+    blogs: paginatedBlogs,
+    totalPages,
+    totalBlogs: filteredBlogs.length,
+  };
 }
 
 export async function getBlogData(id: string[]): Promise<BlogData> {
