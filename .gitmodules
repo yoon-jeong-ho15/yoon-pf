@@ -5,3 +5,7 @@
 [submodule "md/study-notes"]
 	path = md/study-notes
 	url = https://github.com/yoon-jeong-ho15/study-notes
+
+[submodule "md/pedia"]
+	path = md/pedia
+	url = https://github.com/yoon-jeong-ho15/pedia
