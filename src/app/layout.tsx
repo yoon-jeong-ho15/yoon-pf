@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import { notoSansKr } from "@/app/fonts";
+import Footer from "./_ui/footer";
+import Navbar from "./_components/navbar/navbar";
 
 export const metadata: Metadata = {
   title: "윤정호",
@@ -39,7 +41,11 @@ export default function RootLayout({
         antialiased flex flex-col max-w-screen min-h-screen
         overflow-y-scroll `}
       >
-        {children}
+        <Navbar />
+        <div id="main-layout" className="flex flex-col flex-grow">
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );

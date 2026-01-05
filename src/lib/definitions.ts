@@ -20,6 +20,8 @@ export type Blog = {
   title: string;
   date: string;
   tags: string[];
+  path?: string[]; // Category path derived from folder structure
+  slug?: string; // Custom slug from frontmatter
   index?: number; // numerical order of the blog posts
   instructor?: string;
   author?: string;

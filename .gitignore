@@ -47,5 +47,6 @@ next-env.d.ts
 # docs
 docs
 etc
+md
 
-blogs
+gemini.md

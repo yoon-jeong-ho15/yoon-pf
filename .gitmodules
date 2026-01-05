@@ -1,3 +1,7 @@
-[submodule "blogs"]
-	path = blogs
+[submodule "md/blogs"]
+	path = md/blogs
 	url = https://github.com/yoon-jeong-ho15/blogs
+
+[submodule "md/study-notes"]
+	path = md/study-notes
+	url = https://github.com/yoon-jeong-ho15/study-notes
