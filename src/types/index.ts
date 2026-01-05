@@ -31,3 +31,14 @@ export type Note = {
   slug: string[];
   body: string;
 };
+
+export type BlogFrontmatter = {
+  title: string;
+  date: string;
+};
+
+export type Blog = {
+  frontmatter: BlogFrontmatter;
+  slug: string[];
+  body: string;
+};

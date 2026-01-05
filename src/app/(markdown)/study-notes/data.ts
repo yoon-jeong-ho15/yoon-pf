@@ -83,7 +83,7 @@ function getCategoryNotes(notePaths: string[]): Note[] {
 
     return {
       frontmatter: {
-        ...(data as any),
+        ...data,
         date:
           data.date instanceof Date
             ? data.date.toISOString().split("T")[0]
@@ -125,7 +125,7 @@ export function getNoteBySlug(slug: string[]) {
       const { data, content } = matter(fs.readFileSync(notePath, "utf8"));
       const note = {
         frontmatter: {
-          ...(data as any),
+          ...data,
           date:
             data.date instanceof Date
               ? data.date.toISOString().split("T")[0]
