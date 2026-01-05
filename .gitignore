@@ -9,7 +9,6 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-/etc
 
 # testing
 /coverage
@@ -45,4 +44,8 @@ next-env.d.ts
 .vscode
 .idx
 
-code-backup
+# docs
+docs
+etc
+
+gemini.md

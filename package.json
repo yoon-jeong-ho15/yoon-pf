@@ -7,11 +7,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@supabase/supabase-js": "^2.49.4",
     "@types/cheerio": "^1.0.0",
     "cheerio": "^1.1.2",
     "eslint-plugin-react-hooks": "^5.2.0",
@@ -20,11 +20,7 @@
     "highlight.js": "^11.11.1",
     "katex": "^0.16.22",
     "motion": "^12.11.0",
-    "next": "15.3.8",
-    "next-auth": "5.0.0-beta.27",
-    "postgres": "^3.4.5",
-    "quill": "^2.0.3",
-    "quill-delta-to-html": "^0.12.1",
+    "next": "16.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "rehype-highlight": "^7.0.2",
@@ -35,8 +31,7 @@
     "remark-breaks": "^4.0.0",
     "remark-html": "^16.0.1",
     "remark-math": "^6.0.0",
-    "remark-rehype": "^11.1.2",
-    "zod": "^3.24.3"
+    "remark-rehype": "^11.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -46,9 +41,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.16"
   }
 }
