@@ -2,7 +2,7 @@ import Project from "./_ui/project";
 
 export default function Page() {
   return (
-    <div id="about-page" className="flex flex-col flex-grow">
+    <div id="about-page" className="flex flex-col flex-grow bg-about-gradient">
       <div className="mt-8 mx-3 flex flex-col-reverse md:flex-row">
         <div
           className="

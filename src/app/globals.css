@@ -34,11 +34,22 @@ body {
   overflow-y: scroll;
 } */
 
+.prose h1 {
+  @apply text-xl;
+}
+
+.prose h2 {
+  @apply text-lg;
+}
+
+.prose h3 {
+  @apply text-base font-bold;
+}
 .prose strong {
-  color: #da6900;
+  @apply text-orange-600;
 }
 .prose em {
-  color: #da6900;
+  @apply text-orange-600;
   /* display: inline-block; */
   border: 1 solid #9d9d9d;
   border-radius: 5;
@@ -46,7 +57,51 @@ body {
   padding-right: 2px;
 }
 
+.prose-category-desc {
+  @apply prose prose-sm mt-4 p-4 mr-6 max-w-none min-h-16;
+
+  & :where(h1, h2, h3, h4) {
+    @apply text-base font-semibold mt-0 mb-2;
+  }
+
+  & :where(p) {
+    @apply my-1 leading-normal;
+  }
+
+  & :where(ul, ol) {
+    @apply my-1 pl-4;
+  }
+
+  & :where(li) {
+    @apply my-0.5;
+  }
+}
+
 @layer utilities {
+  .bg-selected-gradient {
+    @apply bg-linear-to-l from-amber-300 to-yellow-100;
+  }
+
+  .bg-note-gradient {
+    background: linear-gradient(
+      to left,
+      transparent 0%,
+      var(--color-slate-300) 15%,
+      var(--color-slate-300) 40%,
+      transparent 60%
+    );
+  }
+
+  .bg-about-gradient {
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--color-slate-300) 15%,
+      var(--color-slate-300) 40%,
+      transparent 60%
+    );
+  }
+
   @keyframes letterSpacing {
     0% {
       letter-spacing: 0;

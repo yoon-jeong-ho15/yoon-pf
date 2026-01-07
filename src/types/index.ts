@@ -5,6 +5,7 @@ export type CategoryFrontmatter = {
   link?: string[];
   topic?: string[];
   instructor?: string[];
+  chapter?: string;
 };
 
 export type Category = {
