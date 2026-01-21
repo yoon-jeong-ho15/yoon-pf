@@ -1,6 +1,6 @@
 const FIELD_ORDER = [
-  "title",
   "chapter",
+  "title",
   "date",
   "category",
   "instructor",

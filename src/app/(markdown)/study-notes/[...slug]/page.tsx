@@ -18,7 +18,15 @@ export default async function Page({
 
   return (
     <>
-      <div className="w-1/4 h-fitflex flex-col border-t border-r sticky top-20">
+      <div className="w-1/4 h-fit flex flex-col border-t border-r sticky top-10">
+        <div className="flex gap-2 text-gray-700">
+          {category.slug.slice(0, -1).map((part) => (
+            <span key={part} className="flex gap-2">
+              <span>{part}</span>
+              <span>{">"}</span>
+            </span>
+          ))}
+        </div>
         {sortFrontmatter(category.frontmatter).map(([key, value]) => (
           <Frontmatter key={key} type="category" label={key} value={value} />
         ))}

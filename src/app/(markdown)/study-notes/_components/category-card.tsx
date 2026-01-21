@@ -15,7 +15,7 @@ export default function CategoryCard({
 }) {
   const pathname = usePathname();
   const isSelected = pathname.startsWith(
-    `/study-notes/${category.slug.join("/")}`
+    `/study-notes/${category.slug.join("/")}`,
   );
   const isShallow = depth < 2;
   const [isChildrenOpen, setIsChildrenOpen] = useState(isShallow || isSelected);
@@ -27,7 +27,9 @@ export default function CategoryCard({
   }, [isSelected]);
 
   return (
-    <li className="flex flex-col border-l border-b border-gray-700 my-0.5">
+    <li
+      className={`flex flex-col border-l border-gray-700 my-0.5 ${depth === 1 ? "border-b py-1" : ""}`}
+    >
       <div
         className={`flex items-center px-2 justify-between transition-colors duration-500 ${
           depth === 0

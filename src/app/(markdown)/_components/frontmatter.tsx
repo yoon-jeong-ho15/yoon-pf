@@ -5,6 +5,7 @@ const FIELD_RENDERERS: Record<
   string,
   React.FC<{ value: any; label?: string; type: "category" | "note" }>
 > = {
+  chapter: Chapter,
   title: Title,
   link: Link,
 };
@@ -21,11 +22,20 @@ export default function Frontmatter({
   const Component = FIELD_RENDERERS[label] || Default;
   return <Component label={label} value={value} type={type} />;
 }
+function Chapter({
+  value,
+  type,
+}: {
+  value: string;
+  type: "category" | "note";
+}) {
+  return <h2 className="mb-1 underline">chapter. {value}</h2>;
+}
 
 function Title({ value, type }: { value: string; type: "category" | "note" }) {
   const className = {
-    category: "text-xl",
-    note: "text-lg",
+    category: "text-2xl",
+    note: "text-3xl",
   };
 
   return <h2 className={`font-bold mb-2 ${className[type]}`}>{value}</h2>;
