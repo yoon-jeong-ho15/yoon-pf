@@ -22,13 +22,15 @@ export default function PostItem({
 
   return (
     <li
-      className={`flex flex-col justify-center my-0.5 border-y border-transparent ${
-        isSelected ? "font-semibold items-end border-gray-700" : ""
+      className={`flex flex-col my-0.5 py-0.5 min-w-0 ${
+        isSelected ? "font-semibold border-y-2 border-indigo-800" : ""
       }`}
     >
-      <Link href={href} className="flex gap-1">
-        <span>{note.frontmatter.order ? note.frontmatter.order : i + 1}.</span>
-        <span>{note.frontmatter.title}</span>
+      <Link href={href} className="flex items-center gap-1 overflow-hidden">
+        <span className="text-slate-700 text-sm">
+          {note.frontmatter.order ? note.frontmatter.order : i + 1}.
+        </span>
+        <span className="truncate">{note.frontmatter.title}</span>
       </Link>
 
       <span className="text-xs text-gray-500">{note.frontmatter.date}</span>

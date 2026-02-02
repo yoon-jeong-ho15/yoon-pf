@@ -56,7 +56,7 @@ export default async function Page({
         />
       </Suspense>
 
-      <div className="w-3/4 max-w-none">
+      <div className="w-full xl:col-span-3 max-w-none">
         {note && (
           <>
             {sortFrontmatter(note.frontmatter).map(([key, value]) => (
@@ -69,7 +69,7 @@ export default async function Page({
               />
             ))}
             <article
-              className="prose mt-8 max-w-3xl mx-auto"
+              className="prose mt-8 max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </>

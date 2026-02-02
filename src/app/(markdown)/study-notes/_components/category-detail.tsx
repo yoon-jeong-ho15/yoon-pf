@@ -83,7 +83,7 @@ export default function CategoryDetail({
   return (
     <>
       {/* xl */}
-      <div className="w-1/4 h-fit hidden xl:flex flex-col min-w-52 border-t border-r sticky top-10">
+      <div className="h-fit hidden xl:flex flex-col min-w-52 border-t border-r sticky top-10">
         <div className="flex gap-2 text-gray-700">
           {category.slug.slice(0, -1).map((part) => (
             <span key={part} className="flex gap-2">
@@ -113,7 +113,7 @@ export default function CategoryDetail({
       </div>
 
       {/* lg */}
-      <div className={`flex xl:hidden border p-4 h-80 lg:grow`}>
+      <div className={`flex xl:hidden border p-4 h-80 w-full`}>
         <div className="flex gap-2 text-gray-700 flex-col w-4/10">
           {sortFrontmatter(category.frontmatter).map(([key, value]) => (
             <Frontmatter
@@ -125,8 +125,8 @@ export default function CategoryDetail({
             />
           ))}
         </div>
-        <div className="flex flex-col w-6/10">
-          <ul className="mt-2 pl-2 gap-2 py-2 h-9/10">
+        <div className="w-6/10">
+          <ul className="gap-2 h-9/10 grid grid-cols-1 grid-rows-5">
             {paginatedNotes.map((note, i) => (
               <PostItem
                 key={note.slug.join("/")}

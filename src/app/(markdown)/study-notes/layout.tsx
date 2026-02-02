@@ -8,7 +8,7 @@ export default function StudyNotesLayout({
 }) {
   const categories = getCategoryTree();
   return (
-    <div className="flex gap-4 flex-1 bg-note-gradient">
+    <div id="study-notes-layout" className="flex gap-4 bg-note-gradient">
       <ul className="flex flex-col w-1/6 mt-10 ml-4 pb-20 min-w-64">
         {categories.map((category) => (
           <CategoryCard
@@ -18,7 +18,15 @@ export default function StudyNotesLayout({
           />
         ))}
       </ul>
-      <div className="w-5/6 min-h-full flex pb-30 pt-10 gap-4">{children}</div>
+      <div
+        id=""
+        className="flex-1 min-w-0 min-h-full 
+        flex flex-col 
+        xl:grid xl:grid-cols-4 
+        pb-30 pt-10 gap-4"
+      >
+        {children}
+      </div>
     </div>
   );
 }
