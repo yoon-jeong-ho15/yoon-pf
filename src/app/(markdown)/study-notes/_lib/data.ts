@@ -29,7 +29,7 @@ function getCategory(path: string): Category {
   const index = getCategoryIndex(indexPath);
   const notes = getCategoryNotes(notePaths);
   const subCategories = folderPaths.map((folderPath) =>
-    getCategory(folderPath)
+    getCategory(folderPath),
   );
 
   return {
@@ -111,6 +111,24 @@ export function getAllSlugs(): string[][] {
 
   traverse(categories);
   return slugs;
+}
+
+export function getAllNotes(): {
+  frontmatter: NoteFrontmatter;
+  slug: string[];
+}[] {
+  const categories = getCategoryTree();
+  const allNotes: { frontmatter: NoteFrontmatter; slug: string[] }[] = [];
+
+  function traverse(categories: Category[]) {
+    for (const category of categories) {
+      allNotes.push(...category.notes);
+      traverse(category.subCategories);
+    }
+  }
+
+  traverse(categories);
+  return allNotes;
 }
 
 export function getNoteBySlug(slug: string[]) {

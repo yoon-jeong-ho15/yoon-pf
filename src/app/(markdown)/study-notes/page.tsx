@@ -1,7 +1,33 @@
+import { getAllNotes } from "./_lib/data";
+import PostItem from "../_components/post-item";
+import Link from "next/link";
+
 export default async function Page() {
+  const allNotes = getAllNotes();
+  const sortedNotes = allNotes.sort((a, b) => {
+    return (
+      new Date(b.frontmatter.date).getTime() -
+      new Date(a.frontmatter.date).getTime()
+    );
+  });
+
   return (
-    <>
-      <h1>깊이나 열정의 크기와 관계 없이 공부한 모든 내용을 적어두는 장소.</h1>
-    </>
+    <div className="w-full xl:col-span-4 max-w-none">
+      <h1 className="text-2xl font-bold mb-4">최근 작성된 글</h1>
+      <ul className="flex flex-col gap-2">
+        {sortedNotes.map((note, i) => (
+          <li key={note.slug.join("/")} className="flex items-center gap-2">
+            <Link href={`/study-notes/${note.slug.join("/")}`}>
+              {note.frontmatter.title}
+            </Link>
+            <span className="text-xs text-gray-500">
+              {note.frontmatter.date}
+            </span>
+            <span>{note.slug.slice(0, note.slug.length - 1).join(" > ")}</span>
+            <div>{note.frontmatter.tags?.join(", ")}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
