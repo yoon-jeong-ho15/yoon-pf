@@ -8,21 +8,23 @@ export function NavLinks() {
   const { navTabs, selectedNavTab } = useNav();
 
   return (
-    <div className="hidden md:flex justify-around items-center h-full w-full">
+    <div className="hidden flex-1 md:flex text-xl xl:text-2xl justify-around items-center">
       {navTabs.map((tab) => (
         <Link
           key={tab.title}
           href={tab.href}
           className="
            flex justify-center items-center 
-           h-full my-3 relative z-10 px-5"
+           h-full my-3 relative z-10 px-5
+           hover:bg-gray-100 transition-colors"
         >
           {tab.title}
           {selectedNavTab?.title === tab.title && (
             <motion.div
               layoutId="printBrackets"
               className="
-               absolute inset-0 h-full flex items-center
+               flex
+               absolute inset-0 h-full items-center
                pointer-events-none"
               transition={{
                 type: "spring",
@@ -30,7 +32,9 @@ export function NavLinks() {
                 bounce: 0.2,
               }}
             >
-              <span className="hidden md:block absolute -left-19">print</span>
+              <span className="hidden lg:block absolute -left-16 xl:-left-19">
+                print
+              </span>
               <span>(</span>
               <div className="flex-1"></div>
               <span>)</span>

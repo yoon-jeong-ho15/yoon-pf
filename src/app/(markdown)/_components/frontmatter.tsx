@@ -94,13 +94,13 @@ function Link({
                   </div>
                 )}
                 <div className="p-3">
-                  <h4 className="font-bold text-sm text-gray-900 line-clamp-2 leading-tight mb-1">
+                  <h4 className="font-bold text-sm line-clamp-2 leading-tight mb-1">
                     {meta.title}
                   </h4>
-                  <p className="text-xs text-gray-500 line-clamp-2 mb-2">
+                  <p className="text-xs line-clamp-2 mb-2">
                     {meta.description}
                   </p>
-                  <div className="text-[10px] text-gray-400 truncate">
+                  <div className="text-[10px] truncate">
                     {new URL(meta.url).hostname}
                   </div>
                 </div>
@@ -124,16 +124,16 @@ function Default({
 }) {
   if (type === "category") {
     return (
-      <div className="flex gap-2 text-sm text-gray-500">
+      <div className="flex gap-2 text-sm">
         <span className="font-semibold capitalize">{label}:</span>
         <span>{String(value)}</span>
       </div>
     );
   }
   return (
-    <div className="flex gap-2 text-xs text-gray-400">
+    <div className="flex gap-2 text-xs">
       <span className="font-medium capitalize opacity-80">{label}:</span>
-      <span className="text-gray-600">{String(value)}</span>
+      <span className="">{String(value)}</span>
     </div>
   );
 }
