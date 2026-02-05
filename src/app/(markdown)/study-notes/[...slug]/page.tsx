@@ -1,9 +1,30 @@
+import { Suspense } from "react";
 import { markdownToHtml } from "@/lib/markdown";
-import { FrontmatterSection } from "../_components/fields";
-import { getNoteBySlug } from "../_lib/data";
-import { sortFrontmatter } from "../_lib/util";
+import { getNoteBySlug, getAllSlugs } from "../_lib/data";
+import CategoryDetail from "../_components/category-detail";
 import Frontmatter from "../../_components/frontmatter";
-import PostItem from "../../_components/post-item";
+import { sortFrontmatter } from "../_lib/util";
+import { getUrlMetadata, LinkMetadata } from "@/lib/metadata";
+
+export async function generateStaticParams() {
+  const slugs = getAllSlugs();
+  return slugs.map((slug) => ({
+    slug,
+  }));
+}
+
+async function getFrontmatterMetadata(frontmatter: Record<string, any>) {
+  const links = frontmatter.link || [];
+  if (!Array.isArray(links)) return {};
+
+  const metadataMap: Record<string, LinkMetadata> = {};
+  await Promise.all(
+    links.map(async (url: string) => {
+      metadataMap[url] = await getUrlMetadata(url);
+    }),
+  );
+  return metadataMap;
+}
 
 export default async function Page({
   params,
@@ -11,43 +32,41 @@ export default async function Page({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const { type, data } = getNoteBySlug(slug);
+
+  const { data } = getNoteBySlug(slug);
   const { category, note } = data;
   const description = await markdownToHtml(category?.description || "");
   const content = await markdownToHtml(note?.body || "");
 
-  return (
-    <>
-      <div className="w-1/4 h-fitflex flex-col border-t border-r sticky top-20">
-        {sortFrontmatter(category.frontmatter).map(([key, value]) => (
-          <Frontmatter key={key} type="category" label={key} value={value} />
-        ))}
-        <div
-          className="mt-2 prose-category-desc"
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
-        <ul className="mt-2 pl-2 gap-2 py-2">
-          {category.notes.map((note, i) => (
-            <PostItem key={note.slug.join("/")} note={note} i={i} />
-          ))}
-        </ul>
-      </div>
+  // Fetch metadata for both category and note frontmatter
+  const [categoryMetadata, noteMetadata] = await Promise.all([
+    getFrontmatterMetadata(category.frontmatter),
+    note ? getFrontmatterMetadata(note.frontmatter) : Promise.resolve({}),
+  ]);
 
-      <div className="w-3/4 max-w-none">
-        {note && (
-          <>
-            <FrontmatterSection
-              data={note.frontmatter}
-              type="note"
-              parentData={note}
-            />
-            <article
-              className="prose mt-8 max-w-3xl mx-auto"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </>
-        )}
-      </div>
-    </>
+  const allMetadata = { ...categoryMetadata, ...noteMetadata };
+
+  return (
+    <div className="flex-1 flex flex-col">
+      {note && (
+        <>
+          <div>
+            {sortFrontmatter(note.frontmatter).map(([key, value]) => (
+              <Frontmatter
+                key={key}
+                type="note"
+                label={key}
+                value={value}
+                metadataMap={allMetadata}
+              />
+            ))}
+          </div>
+          <article
+            className="prose mt-8 max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </>
+      )}
+    </div>
   );
 }

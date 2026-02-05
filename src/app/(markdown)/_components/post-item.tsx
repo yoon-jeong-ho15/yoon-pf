@@ -1,6 +1,6 @@
 "use client";
 
-import { Note, NoteFrontmatter } from "@/types";
+import { NoteFrontmatter } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,20 +13,27 @@ export default function PostItem({
 }) {
   const pathname = usePathname();
   const isSelected = pathname.endsWith(note.slug.join("/"));
+
+  const href = `/study-notes/${note.slug.join("/")}`;
+
   return (
     <li
-      className={`flex flex-col justify-center ${
+      className={`box-border flex flex-col py-1 pl-2  min-w-0 border-y border-transparent hover:border-gray-400 ${
         isSelected
-          ? "font-semibold items-end pr-16 border-b border-t border-gray-700 my-0.5"
+          ? "font-semibold bg-linear-to-r from-slate-500/20 to-transparent"
           : ""
       }`}
     >
-      <Link href={`/study-notes/${note.slug.join("/")}`} className="flex gap-1">
-        <span>{note.frontmatter.order ? note.frontmatter.order : i + 1}.</span>
-        <span>{note.frontmatter.title}</span>
-      </Link>
+      <Link href={href}>
+        <div className="flex items-center overflow-ellipsis w-full">
+          <span className="text-slate-700 text-sm">
+            {note.frontmatter.order ? note.frontmatter.order : i + 1}.
+          </span>
+          <span className="truncate">{note.frontmatter.title}</span>
+        </div>
 
-      <span className="text-xs text-gray-500">{note.frontmatter.date}</span>
+        <span className="text-xs text-gray-500">{note.frontmatter.date}</span>
+      </Link>
     </li>
   );
 }

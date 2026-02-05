@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { Category } from "@/types";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export default function CategoryCard({
   category,
@@ -15,53 +13,35 @@ export default function CategoryCard({
 }) {
   const pathname = usePathname();
   const isSelected = pathname.startsWith(
-    `/study-notes/${category.slug.join("/")}`
+    `/study-notes/${category.slug.join("/")}`,
   );
-  const isShallow = depth < 2;
-  const [isChildrenOpen, setIsChildrenOpen] = useState(isShallow || isSelected);
-
-  useEffect(() => {
-    if (isSelected) {
-      setIsChildrenOpen(true);
-    }
-  }, [isSelected]);
 
   return (
-    <li className="flex flex-col border-l border-b border-gray-700 my-0.5">
+    <li
+      className={`flex flex-col
+        ${depth === 1 ? "pb-2" : ""}
+        `}
+    >
       <div
-        className={`flex items-center px-2 justify-between transition-colors duration-500 ${
-          depth === 0
-            ? "bg-linear-to-l from-gray-300 to-gray-50 text-xl rounded-r-full py-1"
-            : ""
-        } ${depth === 1 ? "list-disc" : ""}
-        ${isSelected ? "bg-selected-gradient" : ""}`}
+        className={`flex items-center px-2 justify-between
+          ${depth === 0 ? "py-2 justify-center border-b border-gray-500" : ""}
+          ${isSelected ? "font-bold pl-3 bg-selected-gradient" : ""}
+        `}
       >
         <Link
           href={`/study-notes/${category.slug.join("/")}`}
-          className={`transition-all ${isSelected ? "font-bold pl-2" : ""}`}
+          className={`${depth < 1 ? "text-2xl" : depth < 2 ? "text-lg" : "text-md"}`}
         >
-          <span
-            className={`${depth > 0 && "pl-2"} ${
-              depth > 1 && "text-gray-800"
-            } `}
-          >
-            {category.frontmatter.title}
-          </span>
+          {depth > 1 && <span>-</span>}
+          <span className={`ml-1`}>{category.frontmatter.title}</span>
           <span className="ml-2 text-sm text-gray-700">
             ({category.notes.length})
           </span>
         </Link>
-        {category.subCategories.length > 0 && (
-          <button
-            onClick={() => setIsChildrenOpen(!isChildrenOpen)}
-            className=""
-          >
-            <ChevronDownIcon className="size-3" />
-          </button>
-        )}
       </div>
-      {isChildrenOpen && category.subCategories.length > 0 && (
-        <ul className="ml-3 mt-2">
+
+      {depth < 1 && category.subCategories.length > 0 && (
+        <ul className="pt-2">
           {category.subCategories.map((subCategory) => (
             <CategoryCard
               key={subCategory.slug.join("/")}
