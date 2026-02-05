@@ -180,4 +180,35 @@ body {
   .animate-pulse-fast {
     animation: pulse-fast 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
   }
+
+  /* Custom Scrollbar Utility */
+  .scrollbar-minimal {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    /* Webkit (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 20px;
+    }
+
+    &:hover {
+      /* Firefox */
+      scrollbar-color: #9ca3af transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: #9ca3af;
+    }
+  }
 }

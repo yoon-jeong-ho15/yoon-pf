@@ -47,18 +47,10 @@ export default async function Page({
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
 
   return (
-    <>
-      <Suspense fallback={<div>Loading category...</div>}>
-        <CategoryDetail
-          category={category}
-          descriptionHtml={description}
-          metadataMap={allMetadata}
-        />
-      </Suspense>
-
-      <div className="w-full xl:col-span-3 max-w-none">
-        {note && (
-          <>
+    <div className="flex-1 flex flex-col">
+      {note && (
+        <>
+          <div>
             {sortFrontmatter(note.frontmatter).map(([key, value]) => (
               <Frontmatter
                 key={key}
@@ -68,13 +60,13 @@ export default async function Page({
                 metadataMap={allMetadata}
               />
             ))}
-            <article
-              className="prose mt-8 max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </>
-        )}
-      </div>
-    </>
+          </div>
+          <article
+            className="prose mt-8 max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </>
+      )}
+    </div>
   );
 }

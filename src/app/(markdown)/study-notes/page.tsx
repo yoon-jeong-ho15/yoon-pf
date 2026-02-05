@@ -12,7 +12,7 @@ export default async function Page() {
   });
 
   return (
-    <div className="w-full xl:col-span-4 max-w-none">
+    <div className="w-full max-w-none">
       <h1 className="text-2xl font-bold mb-4">최근 작성된 글</h1>
       <ul className="flex flex-col gap-2">
         {sortedNotes.map((note, i) => (

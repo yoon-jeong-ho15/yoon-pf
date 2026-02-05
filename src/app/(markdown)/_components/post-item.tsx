@@ -2,7 +2,7 @@
 
 import { NoteFrontmatter } from "@/types";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function PostItem({
   note,
@@ -12,28 +12,28 @@ export default function PostItem({
   i: number;
 }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
   const isSelected = pathname.endsWith(note.slug.join("/"));
 
-  const href = `/study-notes/${note.slug.join("/")}${
-    page ? `?page=${page}` : ""
-  }`;
+  const href = `/study-notes/${note.slug.join("/")}`;
 
   return (
     <li
-      className={`flex flex-col my-0.5 py-0.5 min-w-0 ${
-        isSelected ? "font-semibold border-y-2 border-indigo-800" : ""
+      className={`box-border flex flex-col py-1 pl-2  min-w-0 border-y border-transparent hover:border-gray-400 ${
+        isSelected
+          ? "font-semibold bg-linear-to-r from-slate-500/20 to-transparent"
+          : ""
       }`}
     >
-      <Link href={href} className="flex items-center gap-1 overflow-hidden">
-        <span className="text-slate-700 text-sm">
-          {note.frontmatter.order ? note.frontmatter.order : i + 1}.
-        </span>
-        <span className="truncate">{note.frontmatter.title}</span>
-      </Link>
+      <Link href={href}>
+        <div className="flex items-center overflow-ellipsis w-full">
+          <span className="text-slate-700 text-sm">
+            {note.frontmatter.order ? note.frontmatter.order : i + 1}.
+          </span>
+          <span className="truncate">{note.frontmatter.title}</span>
+        </div>
 
-      <span className="text-xs text-gray-500">{note.frontmatter.date}</span>
+        <span className="text-xs text-gray-500">{note.frontmatter.date}</span>
+      </Link>
     </li>
   );
 }
