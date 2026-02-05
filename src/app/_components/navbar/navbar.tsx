@@ -9,15 +9,17 @@ export default function Navbar() {
       className={`
        ${robotoMono.className}
        flex justify-between items-center 
-       h-14 w-auto mt-4 mx-4 md:mx-6 text-2xl shadow-lg
-       border-gray-400 border-1 bg-gray-100
-       rounded-2xl font-[500] text-shadow-xs/10
+       h-13 w-auto text-2xl
+      border-b border-gray-400
+       font-[500] text-shadow-xs/10
        md:justify-around
      `}
     >
       <NavLinks />
-      <MobileNavLabel />
-      <MobileMenu />
+      <div className="md:hidden w-full flex justify-between items-center">
+        <MobileNavLabel />
+        <MobileMenu />
+      </div>
     </nav>
   );
 }

@@ -7,7 +7,7 @@ export function MobileNavLabel() {
   const { selectedNavTab } = useNav();
 
   return (
-    <div className="md:hidden ml-5 font-bold text-xl">
+    <div className="ml-5 text-xl">
       <Link href={selectedNavTab?.href ?? "/"}>{selectedNavTab?.title}</Link>
     </div>
   );
