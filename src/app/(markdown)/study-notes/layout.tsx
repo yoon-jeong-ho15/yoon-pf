@@ -28,21 +28,8 @@ export default function StudyNotesLayout({
           ))}
         </ul>
 
-        <div
-          id=""
-          className="flex-1 flex flex-col divide-y divide-gray-500 
-          xl:flex-row xl:divide-x"
-        >
-          <div
-            className={`flex min-w-64 mb-6 bg-white/30
-              h-86 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
-              xl:h-full xl:flex-col xl:bg-transparent xl:w-1/5
-              `}
-          >
-            <CategoryDetail categories={categories} />
-          </div>
-          {children}
-        </div>
+        {children}
+
         <div className="w-3"></div>
       </div>
     </div>

@@ -35,19 +35,30 @@ export default async function Page({
 
   const { data } = getNoteBySlug(slug);
   const { category, note } = data;
-  const description = await markdownToHtml(category?.description || "");
   const content = await markdownToHtml(note?.body || "");
 
-  // Fetch metadata for both category and note frontmatter
-  const [categoryMetadata, noteMetadata] = await Promise.all([
-    getFrontmatterMetadata(category.frontmatter),
-    note ? getFrontmatterMetadata(note.frontmatter) : Promise.resolve({}),
-  ]);
+  // Fetch metadata for both category and note if they exist
+  const categoryMetadata = await getFrontmatterMetadata(category.frontmatter);
+  const noteMetadata = note
+    ? await getFrontmatterMetadata(note.frontmatter)
+    : {};
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div
+      id=""
+      className="flex-1 flex flex-col divide-y divide-gray-500 
+      xl:flex-row xl:divide-x"
+    >
+      <div
+        className={`flex min-w-64 mb-6 bg-white/30
+          h-86 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
+          xl:h-full xl:flex-col xl:bg-transparent xl:w-1/5
+        `}
+      >
+        <CategoryDetail category={category} metadataMap={allMetadata} />
+      </div>
       {note && (
         <>
           <div>
