@@ -1,14 +1,14 @@
-import CategoryCard from "./_components/category-card";
-import CategoryDetail from "./_components/category-detail";
+import DomainItem from "./_components/domain-item";
+import SubjectItem from "./_components/subject-item";
 
-import { getCategoryTree } from "./_lib/data";
+import { getDomains } from "./_lib/data";
 
 export default function StudyNotesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const categories = getCategoryTree();
+  const domains = getDomains();
 
   return (
     <div id="study-notes-layout" className="bg-note-gradient flex-1">
@@ -19,16 +19,37 @@ export default function StudyNotesLayout({
           divide-y divide-gray-500
           w-1/7 min-w-48"
         >
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.slug.join("/")}
-              category={category}
-              depth={0}
-            />
+          {domains.map((domain) => (
+            <DomainItem
+              title={domain.frontmatter.title}
+              slug={domain.slug}
+              key={domain.frontmatter.title}
+            >
+              <ul className="py-1">
+                {domain.subjects.map((subject) => (
+                  <SubjectItem
+                    key={subject.slug.join("/")}
+                    title={subject.frontmatter.title}
+                    slug={subject.slug}
+                    totalNotesCount={
+                      subject.notes.length +
+                      subject.series.reduce((acc, s) => acc + s.notes.length, 0)
+                    }
+                  />
+                ))}
+              </ul>
+            </DomainItem>
           ))}
+          <div className="flex-1" />
         </ul>
 
-        {children}
+        <div
+          id=""
+          className="flex-1 flex flex-col divide-y divide-gray-500 
+          xl:flex-row xl:divide-x"
+        >
+          {children}
+        </div>
 
         <div className="w-3"></div>
       </div>
