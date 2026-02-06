@@ -12,10 +12,7 @@ export type Series = {
   frontmatter: CategoryFrontmatter;
   description: string;
   slug: string[];
-  notes: {
-    frontmatter: NoteFrontmatter;
-    slug: string[];
-  }[];
+  notes: Note[];
 };
 
 export type Subject = {
@@ -23,10 +20,7 @@ export type Subject = {
   description: string;
   slug: string[];
   series: Series[];
-  notes: {
-    frontmatter: NoteFrontmatter;
-    slug: string[];
-  }[];
+  notes: Note[];
 };
 
 export type Domain = {
@@ -34,10 +28,7 @@ export type Domain = {
   description: string;
   slug: string[];
   subjects: Subject[];
-  notes: {
-    frontmatter: NoteFrontmatter;
-    slug: string[];
-  }[];
+  notes: Note[];
 };
 
 export type NoteFrontmatter = {

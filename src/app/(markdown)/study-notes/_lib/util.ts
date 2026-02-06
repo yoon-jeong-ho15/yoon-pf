@@ -4,9 +4,11 @@ const FIELD_ORDER = [
   "date",
   "category",
   "instructor",
+  "author",
   "order",
   "tags",
   "provide",
+  "publish",
   "link",
 ];
 

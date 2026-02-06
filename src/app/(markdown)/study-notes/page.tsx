@@ -1,6 +1,7 @@
-import { getAllNotes } from "./_lib/data";
-import PostItem from "../_components/post-item";
+import { getAllNotes, getDomains } from "./_lib/data";
+import PostItem from "./_components/post-item";
 import Link from "next/link";
+import DownloadButton from "./_components/download-button";
 
 export default async function Page() {
   const allNotes = getAllNotes();
@@ -13,7 +14,9 @@ export default async function Page() {
 
   return (
     <div className="w-full max-w-none">
-      <h1 className="text-2xl font-bold mb-4">최근 작성된 글</h1>
+      <div className="flex items-center gap-2 mb-4">
+        <h1 className="text-2xl font-bold">최근 작성된 글</h1>
+      </div>
       <ul className="flex flex-col gap-2">
         {sortedNotes.map((note, i) => (
           <li key={note.slug.join("/")} className="flex items-center gap-2">

@@ -16,15 +16,17 @@ export default function SubjectItem({
   const isSelected = pathname.startsWith(`/study-notes/${slug.join("/")}`);
 
   return (
-    <li
-      className={`flex items-center px-2 py-2 gap-2 
+    <li>
+      <Link
+        href={`/study-notes/${slug.join("/")}`}
+        className={`flex items-center px-2 py-2 gap-2 box-border border-y border-transparent 
+          hover:border-gray-300 truncate
           ${isSelected ? "font-bold bg-selected-gradient" : ""}
         `}
-    >
-      <Link href={`/study-notes/${slug.join("/")}`} className={`truncate`}>
-        {title}
+      >
+        <span>{title}</span>
+        <span className="text-sm text-gray-600 ">({totalNotesCount})</span>
       </Link>
-      <span className="text-sm text-gray-600 ">({totalNotesCount})</span>
     </li>
   );
 }

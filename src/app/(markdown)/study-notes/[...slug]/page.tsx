@@ -1,7 +1,8 @@
-import { Suspense } from "react";
 import { markdownToHtml } from "@/lib/markdown";
 import { getNoteBySlug, getAllSlugs } from "../_lib/data";
-import CategoryDetail from "../_components/category-detail";
+import CategoryInfo from "../_components/category-info";
+import CategorySubList from "../_components/category-sub-list";
+import CategoryNoteList from "../_components/category-note-list";
 import Frontmatter from "../../_components/frontmatter";
 import { sortFrontmatter } from "../_lib/util";
 import { getUrlMetadata, LinkMetadata } from "@/lib/metadata";
@@ -46,13 +47,56 @@ export default async function Page({
   const note = type === "note" ? data.note : null;
   const category = data.category;
 
-  // TODO: fix type
-  const activeNotes = category!.notes;
+  // TODO : refactor
+  let mainInfoCategory: Domain | Subject | Series = category;
+  let subCategories: (Subject | Series)[] = [];
+  let notes = category.notes;
+
+  if (type === "domain") {
+    const domain = category as Domain;
+    subCategories = domain.subjects;
+  } else if (type === "subject") {
+    const subject = category as Subject;
+    subCategories = subject.series;
+  } else if (type === "series") {
+    const parentSlug = slug.slice(0, 2);
+    const parentResult = getNoteBySlug(parentSlug);
+    if (parentResult.type === "subject") {
+      const parentSubject = parentResult.data.category as Subject;
+      mainInfoCategory = parentSubject;
+      subCategories = parentSubject.series;
+    }
+  } else if (type === "note") {
+    if ("series" in category) {
+      const subject = category as Subject;
+      subCategories = subject.series;
+    } else if ("subjects" in category) {
+      const domain = category as Domain;
+      subCategories = domain.subjects;
+    } else {
+      const parentSlug = slug.slice(0, 2);
+      const parentResult = getNoteBySlug(parentSlug);
+      if (parentResult.type === "subject") {
+        const parentSubject = parentResult.data.category as Subject;
+        mainInfoCategory = parentSubject;
+        subCategories = parentSubject.series;
+      }
+    }
+  }
+
+  const mainInfo = {
+    title: mainInfoCategory.frontmatter.title,
+    description: mainInfoCategory.description,
+    frontmatter: mainInfoCategory.frontmatter,
+    slug: mainInfoCategory.slug,
+    count: mainInfoCategory.notes.length,
+  };
 
   const content = await markdownToHtml(note?.body || "");
 
-  // TODO: fix type
-  const categoryMetadata = await getFrontmatterMetadata(category!.frontmatter);
+  const categoryMetadata = await getFrontmatterMetadata(
+    mainInfoCategory.frontmatter,
+  );
   const noteMetadata = note
     ? await getFrontmatterMetadata(note.frontmatter)
     : {};
@@ -67,11 +111,9 @@ export default async function Page({
           xl:h-full xl:flex-col xl:bg-transparent xl:w-1/5
         `}
       >
-        <CategoryDetail
-          category={category}
-          notes={activeNotes}
-          metadataMap={allMetadata}
-        />
+        <CategoryInfo mainInfo={mainInfo} metadataMap={allMetadata} />
+        <CategorySubList mainInfo={mainInfo} subCategories={subCategories} />
+        <CategoryNoteList notes={notes} />
       </div>
 
       {note ? (

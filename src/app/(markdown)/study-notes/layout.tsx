@@ -21,7 +21,8 @@ export default function StudyNotesLayout({
         >
           {domains.map((domain) => (
             <DomainItem
-              title={domain.frontmatter.title}
+              type="compact"
+              frontmatter={domain.frontmatter}
               slug={domain.slug}
               key={domain.frontmatter.title}
             >
