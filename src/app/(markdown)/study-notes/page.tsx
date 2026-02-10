@@ -1,7 +1,5 @@
 import { getAllNotes, getDomains } from "./_lib/data";
-import PostItem from "./_components/post-item";
 import Link from "next/link";
-import DownloadButton from "./_components/download-button";
 
 export default async function Page() {
   const allNotes = getAllNotes();

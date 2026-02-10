@@ -22,7 +22,7 @@ export default function CategoryInfo({
 
   return (
     <div className="flex-1 xl:flex-none text-sm divide-y divide-gray-300">
-      <div className="p-4 bg-gradient-to-l from-violet-400 to-indigo-100 h-36 xl:h-46">
+      <div className="p-4 bg-gradient-to-l from-violet-500 to-indigo-300 h-36 xl:h-46">
         {sortFrontmatter(mainInfo.frontmatter).map(([key, value]) => (
           <Frontmatter
             key={key}

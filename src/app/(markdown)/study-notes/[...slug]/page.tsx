@@ -1,8 +1,6 @@
 import { markdownToHtml } from "@/lib/markdown";
 import { getNoteBySlug, getAllSlugs } from "../_lib/data";
 import CategoryInfo from "../_components/category-info";
-import CategorySubList from "../_components/category-sub-list";
-import CategoryNoteList from "../_components/category-note-list";
 import Frontmatter from "../../_components/frontmatter";
 import { sortFrontmatter } from "../_lib/util";
 import { getUrlMetadata, LinkMetadata } from "@/lib/metadata";
@@ -13,6 +11,9 @@ import {
   Series,
   Subject,
 } from "@/types";
+import PostItem from "../_components/post-item";
+import SubCategoryItem from "../_components/sub-category-item";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();
@@ -51,6 +52,9 @@ export default async function Page({
   let mainInfoCategory: Domain | Subject | Series = category;
   let subCategories: (Subject | Series)[] = [];
   let notes = category.notes;
+  const sortedNotes = [...notes].sort((a, b) => {
+    return (a.frontmatter.order || 0) - (b.frontmatter.order || 0);
+  });
 
   if (type === "domain") {
     const domain = category as Domain;
@@ -106,19 +110,74 @@ export default async function Page({
   return (
     <>
       <div
-        className={`flex min-w-64 mb-6 bg-white/30
+        className={`flex min-w-64
           h-68 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
           xl:h-full xl:flex-col xl:bg-transparent xl:w-1/5
         `}
       >
         <CategoryInfo mainInfo={mainInfo} metadataMap={allMetadata} />
-        <CategorySubList mainInfo={mainInfo} subCategories={subCategories} />
-        <CategoryNoteList notes={notes} />
+
+        <div
+          className="w-1/5 xl:w-full flex flex-col xl:justify-center items-center 
+            divide-y divide-gray-500 text-slate-600"
+        >
+          <Link
+            href={`/study-notes/${mainInfo.slug.join("/")}`}
+            className="py-2 pl-3 w-full flex items-center gap-1 border-dashed
+            "
+          >
+            <span>
+              {mainInfo.title} ({mainInfo.count})
+            </span>
+          </Link>
+          {subCategories.length > 0 ? (
+            <ul className="overflow-y-scroll scrollbar-minimal flex flex-col w-full h-full max-h-48 xl:max-h-none">
+              {subCategories.map((subItem) => (
+                <SubCategoryItem
+                  key={subItem.slug.join("/")}
+                  title={subItem.frontmatter.title}
+                  noteCount={subItem.notes.length}
+                  slug={subItem.slug}
+                />
+              ))}
+            </ul>
+          ) : (
+            <div className="w-full flex justify-center items-center py-2 text-sm text-gray-500 h-full">
+              하위 분류 없음
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col w-1/3 xl:w-full border-r-0">
+          <div
+            className="flex items-center py-2 pl-3 
+          border-b border-dashed border-gray-500
+          text-slate-600"
+          >
+            노트
+          </div>
+          <ul
+            className="flex flex-col 
+          overflow-y-scroll scrollbar-minimal bg-white/30"
+          >
+            {sortedNotes.map((note, i) => (
+              <PostItem
+                key={note.slug.join("/")}
+                title={note.frontmatter.title}
+                order={note.frontmatter.order}
+                slug={note.slug}
+                i={i}
+              />
+            ))}
+          </ul>
+        </div>
+
+        <div className="hidden flex-1 xl:flex" />
       </div>
 
       {note ? (
-        <div className="flex-1 flex flex-col divide-y divide-slate-500">
-          <div className="flex flex-col justify-center pl-12 h-36 xl:h-46">
+        <div className="flex-1 flex flex-col divide-y divide-gray-500">
+          <div className="flex flex-col justify-center pl-12 h-36 xl:h-46 bg-linear-to-l from-green-400 to-lime-200">
             {sortFrontmatter(note.frontmatter).map(([key, value]) => (
               <Frontmatter
                 key={key}
