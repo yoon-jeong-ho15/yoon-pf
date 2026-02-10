@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { CategoryFrontmatter, Domain } from "@/types";
+import { CategoryFrontmatter } from "@/types";
 import { usePathname } from "next/navigation";
-import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
 
 export default function DomainItem({
   type,
@@ -25,13 +24,10 @@ export default function DomainItem({
       <li>
         <Link
           href={`/study-notes/${slug.join("/")}`}
-          className={`flex justify-center items-center gap-3 border-b border-dashed py-2 border-gray-400
-        ${
-          isSelected
-            ? "bg-linear-to-l from-amber-400 to-yellow-200"
-            : "bg-linear-to-l from-amber-300/60 to-yellow-100/60"
-        }
-      `}
+          className={`flex justify-center items-center gap-3 border-b border-dashed py-2
+            border-gray-400
+            bg-gray-200
+          `}
         >
           <span className="font-bold text-xl">{frontmatter.title}</span>
         </Link>

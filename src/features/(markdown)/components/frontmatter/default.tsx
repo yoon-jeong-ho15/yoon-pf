@@ -34,8 +34,8 @@ export default function Default({
 
   return (
     <div
-      className={`flex gap-2 items-center border rounded-full my-1 p-0.5 divide-x
-        bg-white/30 border-white/40 text-slate-700 text-sm`}
+      className={`flex gap-2 items-center rounded-full my-1 p-0.5 divide-x
+        bg-white/30 text-slate-700 text-sm`}
     >
       <div className="min-w-10 flex justify-center">
         <Icon className="size-3 stroke-black" />

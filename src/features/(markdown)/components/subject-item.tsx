@@ -21,7 +21,7 @@ export default function SubjectItem({
         href={`/study-notes/${slug.join("/")}`}
         className={`flex items-center px-2 py-2 gap-2 box-border border-y border-transparent 
           hover:border-gray-300 truncate
-          ${isSelected ? "font-bold bg-linear-to-r from-slate-200 to-slate-50" : ""}
+          ${isSelected ? "font-bold bg-green-400/80" : ""}
         `}
       >
         <span>{title}</span>

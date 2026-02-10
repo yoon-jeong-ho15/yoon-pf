@@ -24,9 +24,9 @@ export default function SubCategoryItem({
     <li>
       <Link
         href={href}
-        className={`flex items-center pl-1 text-sm text-gray-800
+        className={`flex items-center pl-1 text-sm
           box-border border-y border-transparent
-         ${isSelected ? "font-semibold bg-linear-to-r from-slate-200 to-slate-50" : ""}
+         ${isSelected ? "font-semibold bg-lime-200/80" : ""}
          hover:border-gray-300`}
       >
         <FolderIcon className="w-4 h-4" />

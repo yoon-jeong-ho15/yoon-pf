@@ -24,9 +24,7 @@ export default function PostItem({
         href={href}
         className={`flex py-2 pl-2 items-center gap-1 box-border border-y border-transparent 
           hover:border-gray-300 text-sm ${
-            isSelected
-              ? "font-semibold bg-linear-to-r from-slate-200 to-slate-50"
-              : ""
+            isSelected ? "font-semibold bg-blue-400/60" : ""
           }`}
       >
         <span className="text-slate-700">{order ? order : i + 1}.</span>

@@ -21,8 +21,11 @@ export default function CategoryInfo({
     : "";
 
   return (
-    <div className="flex-1 xl:flex-none text-sm divide-y divide-gray-300">
-      <div className="p-4 bg-gradient-to-l from-violet-500 to-indigo-300 h-36 xl:h-46">
+    <div
+      className="flex-1 xl:flex-none flex flex-col text-sm p-2 gap-2 
+    bg-gradient-to-b from-green-400 to-lime-200"
+    >
+      <div className="flex flex-col">
         {sortFrontmatter(mainInfo.frontmatter).map(([key, value]) => (
           <Frontmatter
             key={key}
@@ -33,9 +36,8 @@ export default function CategoryInfo({
           />
         ))}
       </div>
-
       <div
-        className="p-4 h-28 overflow-auto scrollbar-minimal"
+        className="p-3 bg-white/20 rounded overflow-auto scrollbar-minimal text-slate-700"
         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
       />
     </div>

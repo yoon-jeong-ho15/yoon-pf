@@ -14,8 +14,8 @@ export default function Link({
 
   return (
     <h2
-      className={`flex gap-2 items-center border rounded-full m-0.5 p-0.5 divide-x
-        bg-white/30 border-white/40`}
+      className={`flex gap-2 items-center rounded-full m-0.5 p-0.5 divide-x
+        bg-white/30 `}
     >
       <div className="w-10 flex justify-center">
         <LinkIcon className="size-3" />
