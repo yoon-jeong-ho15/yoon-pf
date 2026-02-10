@@ -1,9 +1,14 @@
-import { markdownToHtml } from "@/lib/markdown";
-import { getNoteBySlug, getAllSlugs } from "../_lib/data";
+import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
+import { getNoteBySlug, getAllSlugs } from "@/features/(markdown)/lib/data";
 import CategoryInfo from "../_components/category-info";
-import Frontmatter from "../../_components/frontmatter";
-import { sortFrontmatter } from "../_lib/util";
-import { getUrlMetadata, LinkMetadata } from "@/lib/metadata";
+import Frontmatter from "@/features/(markdown)/components/frontmatter";
+import PostItem from "@/features/(markdown)/components/post-item";
+import SubCategoryItem from "@/features/(markdown)/components/sub-category-item";
+import { sortFrontmatter } from "@/features/(markdown)/utils/util";
+import {
+  getUrlMetadata,
+  LinkMetadata,
+} from "@/features/(markdown)/lib/metadata";
 import {
   CategoryFrontmatter,
   Domain,
@@ -11,8 +16,6 @@ import {
   Series,
   Subject,
 } from "@/types";
-import PostItem from "../_components/post-item";
-import SubCategoryItem from "../_components/sub-category-item";
 import Link from "next/link";
 
 export async function generateStaticParams() {

@@ -1,4 +1,4 @@
-import IntroMotion from "./_ui/motions/intro";
+import IntroMotion from "@/components/intro";
 
 export default function Page() {
   return (

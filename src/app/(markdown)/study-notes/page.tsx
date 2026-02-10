@@ -1,4 +1,4 @@
-import { getAllNotes, getDomains } from "./_lib/data";
+import { getAllNotes } from "@/features/(markdown)/lib/data";
 import Link from "next/link";
 
 export default async function Page() {

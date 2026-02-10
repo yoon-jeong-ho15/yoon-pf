@@ -1,7 +1,7 @@
 import { CategoryFrontmatter } from "@/types";
-import Frontmatter from "../../_components/frontmatter";
-import { sortFrontmatter } from "../_lib/util";
-import { LinkMetadata } from "@/lib/metadata";
+import Frontmatter from "../../../../features/(markdown)/components/frontmatter";
+import { sortFrontmatter } from "../../../../features/(markdown)/utils/util";
+import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
 
 interface CategoryInfoProps {
   mainInfo: {

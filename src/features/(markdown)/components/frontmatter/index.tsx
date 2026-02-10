@@ -1,4 +1,4 @@
-import { LinkMetadata } from "@/lib/metadata";
+import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
 import Title from "./title";
 import Link from "./link";
 import Default from "./default";

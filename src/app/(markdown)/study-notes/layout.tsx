@@ -1,7 +1,6 @@
-import DomainItem from "./_components/domain-item";
-import SubjectItem from "./_components/subject-item";
-
-import { getDomains } from "./_lib/data";
+import DomainItem from "@/features/(markdown)/components/domain-item";
+import SubjectItem from "@/features/(markdown)/components/subject-item";
+import { getDomains } from "@/features/(markdown)/lib/data";
 
 export default function StudyNotesLayout({
   children,

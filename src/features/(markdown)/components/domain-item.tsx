@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { CategoryFrontmatter, Domain } from "@/types";
 import { usePathname } from "next/navigation";
-import { LinkMetadata } from "@/lib/metadata";
+import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
 
 export default function DomainItem({
   type,
