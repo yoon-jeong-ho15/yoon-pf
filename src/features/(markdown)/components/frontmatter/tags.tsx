@@ -9,6 +9,8 @@ export default function Tags({
   value: string[];
   type: "note" | "category";
 }) {
+  if (!value || value.length === 0) return null;
+
   return (
     <div
       className={`flex gap-2 items-center divide-x ${
