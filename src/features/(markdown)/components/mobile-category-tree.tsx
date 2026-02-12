@@ -29,6 +29,17 @@ export default function MobileCategoryTree({ domains }: { domains: Domain[] }) {
     };
   }, [isExpanded]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsExpanded(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const currentSubject = domains
     .flatMap((d) => d.subjects)
     .find((s) => pathname?.includes(s.slug.join("/")));
