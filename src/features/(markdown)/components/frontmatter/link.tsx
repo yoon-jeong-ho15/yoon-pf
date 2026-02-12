@@ -14,14 +14,19 @@ export default function Link({
 
   return (
     <h2
-      className={`flex gap-2 items-center rounded-full m-0.5 p-0.5 divide-x
-        bg-white/30 `}
+      className={`flex gap-2 items-center p-0.5 divide-x ${
+        type === "note" ? "flex-col items-start gap-0 divide-x-0 divide-y" : ""
+      }`}
     >
-      <div className="w-10 flex justify-center">
+      <div
+        className={`w-10 flex justify-center ${
+          type === "note" ? "w-full justify-start px-1 py-0.5" : ""
+        }`}
+      >
         <LinkIcon className="size-3" />
       </div>
 
-      <ul className="flex-1 flex gap-1 items-center">
+      <ul className="flex-1 w-full flex gap-1 items-center">
         {value.map((url, i) => {
           const meta = metadataMap?.[url];
 

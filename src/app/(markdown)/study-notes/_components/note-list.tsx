@@ -1,9 +1,19 @@
 import PostItem from "@/features/(markdown)/components/post-item";
 import { Note } from "@/types";
 
-export default function NoteList({ notes }: { notes: Note[] }) {
+export default function NoteList({
+  notes,
+  fullWidth,
+}: {
+  notes: Note[];
+  fullWidth?: boolean;
+}) {
   return (
-    <div className="flex flex-col w-1/2 xl:w-full border-r-0">
+    <div
+      className={`flex flex-col flex-1 min-w-0 xl:w-full xl:basis-90 xl:grow-0 border-r-0 ${
+        fullWidth ? "" : ""
+      }`}
+    >
       <span
         className="flex items-center py-2 pl-3 border-b border-dashed border-gray-500 
       font-semibold bg-gray-200"

@@ -1,7 +1,7 @@
 import { CategoryFrontmatter } from "@/types";
-import Frontmatter from "../../../../features/(markdown)/components/frontmatter";
-import { sortFrontmatter } from "../../../../features/(markdown)/utils/util";
+
 import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
+import FrontmatterList from "./frontmatter-list";
 
 interface CategoryInfoProps {
   mainInfo: {
@@ -10,11 +10,13 @@ interface CategoryInfoProps {
     frontmatter: CategoryFrontmatter;
   };
   metadataMap?: Record<string, LinkMetadata>;
+  fullWidth?: boolean;
 }
 
 export default function CategoryInfo({
   mainInfo,
   metadataMap,
+  fullWidth,
 }: CategoryInfoProps) {
   const descriptionHtml = mainInfo.description
     ? `<p>${mainInfo.description}</p>`
@@ -22,22 +24,21 @@ export default function CategoryInfo({
 
   return (
     <div
-      className="flex-1 xl:flex-none flex flex-col text-sm p-2 gap-2 
-    bg-gradient-to-b from-green-400 to-lime-200"
+      className={`flex flex-col text-sm p-2 gap-2 
+        grow-0 shrink-0 basis-92 xl:w-full xl:basis-68
+    bg-gradient-to-b from-green-400 to-lime-200 text-slate-700
+    ${fullWidth ? "" : ""}`}
     >
-      <div className="flex flex-col">
-        {sortFrontmatter(mainInfo.frontmatter).map(([key, value]) => (
-          <Frontmatter
-            key={key}
-            type="category"
-            label={key}
-            value={value}
-            metadataMap={metadataMap}
-          />
-        ))}
-      </div>
+      <h1 className="text-2xl font-semibold text-white text-shadow-lg">
+        {">"} {mainInfo.title}
+      </h1>
+      <FrontmatterList
+        frontmatter={mainInfo.frontmatter}
+        type="category"
+        metadataMap={metadataMap}
+      />
       <div
-        className="p-3 bg-white/20 rounded overflow-auto scrollbar-minimal text-slate-700"
+        className="p-3 bg-white/30 rounded overflow-auto scrollbar-minimal"
         dangerouslySetInnerHTML={{ __html: descriptionHtml }}
       />
     </div>

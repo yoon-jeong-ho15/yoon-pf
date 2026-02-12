@@ -15,8 +15,19 @@ export default function SubCategoryList({
   };
   subCategories: (Subject | Series)[];
 }) {
+  const isEmpty = subCategories.length === 0;
+
   return (
-    <div className="w-1/5 xl:w-full flex flex-col xl:justify-center items-center divide-y divide-gray-500">
+    <div
+      className={`
+      flex flex-col items-center divide-y divide-gray-500
+      ${
+        isEmpty
+          ? "hidden xl:flex xl:w-full xl:basis-auto border-b border-gray-500 xl:border-b-0"
+          : "w-64 xl:w-full xl:basis-54"
+      }
+    `}
+    >
       <Link
         href={`/study-notes/${mainInfo.slug.join("/")}`}
         className="py-2 pl-3 w-full flex items-center gap-1 border-dashed bg-gray-200"
@@ -25,16 +36,22 @@ export default function SubCategoryList({
           {mainInfo.title} ({mainInfo.count})
         </span>
       </Link>
-      <ul className="overflow-y-scroll scrollbar-minimal flex flex-col w-full h-full max-h-48 xl:max-h-none">
-        {subCategories.map((subItem) => (
-          <SubCategoryItem
-            key={subItem.slug.join("/")}
-            title={subItem.frontmatter.title}
-            noteCount={subItem.notes.length}
-            slug={subItem.slug}
-          />
-        ))}
-      </ul>
+      {isEmpty ? (
+        <div className="w-full p-4 text-center text-gray-500 text-sm">
+          하위 분류 없음
+        </div>
+      ) : (
+        <ul className="overflow-y-scroll scrollbar-minimal flex flex-col w-full h-full">
+          {subCategories.map((subItem) => (
+            <SubCategoryItem
+              key={subItem.slug.join("/")}
+              title={subItem.frontmatter.title}
+              noteCount={subItem.notes.length}
+              slug={subItem.slug}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

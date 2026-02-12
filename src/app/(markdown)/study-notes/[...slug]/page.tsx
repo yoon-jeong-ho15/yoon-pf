@@ -12,7 +12,6 @@ import {
   Series,
   Subject,
 } from "@/types";
-import Link from "next/link";
 import SubCategoryList from "../_components/subcategory-list";
 import NoteList from "../_components/note-list";
 import NoteInfo from "../_components/note-info";
@@ -115,17 +114,20 @@ export default async function Page({
           xl:flex-row xl:divide-y-0 xl:divide-x"
     >
       <div
-        className={`flex min-w-64 
+        className={`flex
           h-68 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
-          xl:h-full xl:flex-col xl:bg-transparent xl:w-1/5
+          xl:w-80 xl:h-full xl:flex-col
         `}
       >
-        <CategoryInfo mainInfo={mainInfo} metadataMap={allMetadata} />
+        <CategoryInfo
+          mainInfo={mainInfo}
+          metadataMap={allMetadata}
+          fullWidth={subCategories.length === 0}
+        />
 
-        {subCategories.length > 0 && (
-          <SubCategoryList mainInfo={mainInfo} subCategories={subCategories} />
-        )}
-        <NoteList notes={sortedNotes} />
+        <SubCategoryList mainInfo={mainInfo} subCategories={subCategories} />
+
+        <NoteList notes={sortedNotes} fullWidth={subCategories.length === 0} />
 
         <div className="hidden flex-1 xl:flex" />
       </div>
@@ -134,7 +136,7 @@ export default async function Page({
         <div className="flex-1 flex flex-col divide-y divide-gray-500">
           <NoteInfo frontmatter={note.frontmatter} allMetadata={allMetadata} />
           <article
-            className="prose my-8 max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
+            className="prose my-8 max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto px-10 xl:px-4 2xl:px-0"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

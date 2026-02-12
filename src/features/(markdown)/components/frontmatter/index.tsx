@@ -1,7 +1,7 @@
 import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
-import Title from "./title";
 import Link from "./link";
 import Default from "./default";
+import Tags from "./tags";
 
 export default function Frontmatter({
   type,
@@ -14,9 +14,9 @@ export default function Frontmatter({
   value: any;
   metadataMap?: Record<string, LinkMetadata>;
 }) {
-  if (label === "title") return <Title value={value} type={type} />;
   if (label === "link")
     return <Link value={value} type={type} metadataMap={metadataMap} />;
+  if (label === "tags") return <Tags label={label} value={value} type={type} />;
 
   return <Default label={label} value={value} type={type} />;
 }

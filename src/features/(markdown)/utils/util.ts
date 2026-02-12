@@ -6,10 +6,10 @@ const FIELD_ORDER = [
   "instructor",
   "author",
   "order",
-  "tags",
   "provide",
   "publish",
   "link",
+  "tags",
 ];
 
 export function sortFrontmatter(frontmatter: Record<string, any>) {
