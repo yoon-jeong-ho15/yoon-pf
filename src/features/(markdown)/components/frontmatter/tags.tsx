@@ -11,12 +11,14 @@ export default function Tags({
 }) {
   return (
     <div
-      className={`flex gap-2 items-center p-0.5 divide-x ${
-        type === "note" ? "flex-col items-start gap-0 divide-x-0 divide-y" : ""
+      className={`flex gap-2 items-center divide-x ${
+        type === "note"
+          ? "lg:flex-col items-start gap-0 divide-x-0 divide-y"
+          : ""
       }`}
     >
       <div
-        className={`min-w-10 flex items-center justify-center gap-1 ${
+        className={`min-w-12 flex items-center justify-center gap-1 ${
           type === "note" ? ":w-full justify-start px-1 py-0.5" : ""
         }`}
       >
@@ -27,9 +29,9 @@ export default function Tags({
       </div>
       <div>
         {value.map((tag) => (
-          <span key={tag} className="px-2 py-1 underline">
+          <p key={tag} className="px-2 py-1 underline inline-block">
             #{tag}
-          </span>
+          </p>
         ))}
       </div>
     </div>

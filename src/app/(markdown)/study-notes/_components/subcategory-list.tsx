@@ -3,9 +3,11 @@ import { CategoryFrontmatter, Series, Subject } from "@/types";
 import Link from "next/link";
 
 export default function SubCategoryList({
+  type,
   mainInfo,
   subCategories,
 }: {
+  type: "mobile" | "desktop";
   mainInfo: {
     title: string;
     description: string;
@@ -44,6 +46,7 @@ export default function SubCategoryList({
         <ul className="overflow-y-scroll scrollbar-minimal flex flex-col w-full h-full">
           {subCategories.map((subItem) => (
             <SubCategoryItem
+              type={type}
               key={subItem.slug.join("/")}
               title={subItem.frontmatter.title}
               noteCount={subItem.notes.length}

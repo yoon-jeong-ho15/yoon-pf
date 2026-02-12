@@ -35,7 +35,9 @@ export default function Default({
   return (
     <div
       className={`flex gap-2 items-center p-0.5 divide-x ${
-        type === "note" ? "flex-col items-start gap-0 divide-x-0 divide-y" : ""
+        type === "note"
+          ? "lg:flex-col items-start gap-0 divide-x-0 divide-y"
+          : ""
       }`}
     >
       <div
@@ -59,7 +61,7 @@ export default function Default({
           </ul>
         </div>
       ) : (
-        <span className="flex-1 w-full px-2 whitespace-nowrap">{value}</span>
+        <span className="flex-1 w-full px-2">{value}</span>
       )}
     </div>
   );

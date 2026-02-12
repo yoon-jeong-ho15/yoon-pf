@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CategoryFrontmatter } from "@/types";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function DomainItem({
   type,
@@ -10,16 +11,31 @@ export default function DomainItem({
   slug,
   children,
 }: {
-  type: "full" | "compact";
+  type: "mobile" | "desktop";
   frontmatter: CategoryFrontmatter;
   slug: string[];
   children?: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  const scrollRef = useRef<HTMLLIElement>(null);
 
-  const isSelected = pathname.startsWith(`/study-notes/${slug.join("/")}`);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
 
-  if (type === "compact") {
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollTo({
+        left: el.scrollLeft + e.deltaY,
+        behavior: "instant",
+      });
+    };
+
+    el.addEventListener("wheel", onWheel);
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
+
+  if (type === "desktop") {
     return (
       <li>
         <Link
@@ -30,6 +46,26 @@ export default function DomainItem({
           `}
         >
           <span className="font-bold text-xl">{frontmatter.title}</span>
+        </Link>
+        {children}
+      </li>
+    );
+  }
+  if (type === "mobile") {
+    return (
+      <li
+        ref={scrollRef}
+        className="flex overflow-auto"
+        style={{ scrollbarWidth: "none" }}
+      >
+        <Link
+          href={`/study-notes/${slug.join("/")}`}
+          className={`flex justify-center items-center border-r border-dashed py-2
+            border-gray-400 min-w-24 
+            bg-gray-200
+          `}
+        >
+          <span className="font-semibold">{frontmatter.title}</span>
         </Link>
         {children}
       </li>

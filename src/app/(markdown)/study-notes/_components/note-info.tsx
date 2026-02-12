@@ -12,8 +12,8 @@ export default function NoteInfo({
 }) {
   return (
     <div
-      className="flex flex-col justify-center px-12 h-36 xl:h-46 
-          bg-blue-400"
+      className="flex flex-col justify-center px-12 min-h-36 xl:min-h-46 
+          bg-blue-400 py-3"
     >
       <h1 className="text-2xl xl:text-3xl font-semibold text-white text-shadow-lg">
         {frontmatter.title}

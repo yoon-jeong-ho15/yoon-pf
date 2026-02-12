@@ -20,7 +20,7 @@ export default function FrontmatterList({
 
   const containerClass =
     type === "note"
-      ? "grid grid-flow-col grid-cols-6 gap-x-4 mt-4 rounded divide-y divide-dotted divide-black/20 bg-transparent divide-y-0 xl:grid-cols-5"
+      ? "flex flex-col lg:grid lg:grid-flow-col lg:grid-cols-6 lg:gap-x-4 mt-4 rounded divide-y divide-dotted divide-black/20 bg-transparent divide-y-0 xl:grid-cols-5 gap-1"
       : "flex flex-col rounded-lg divide-y divide-black/20 divide-dotted bg-white/50";
 
   return (
@@ -28,8 +28,8 @@ export default function FrontmatterList({
       {sortedFrontmatter.map(([key, value]) => (
         <div
           key={key}
-          className={`
-            ${type === "note" ? "bg-white/50 rounded-lg p-2 shadow-sm" : ""}
+          className={`text-xs xl:text-md whitespace-normal
+            ${type === "note" ? "bg-white/50 rounded-lg p-1 md:p-2 shadow-sm" : ""}
             ${key === "tags" ? "col-span-3" : ""}
           `}
         >
