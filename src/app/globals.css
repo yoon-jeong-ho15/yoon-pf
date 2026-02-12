@@ -78,10 +78,6 @@ body {
 }
 
 @layer utilities {
-  .bg-selected-gradient {
-    @apply bg-linear-to-l from-amber-300 to-yellow-100;
-  }
-
   .bg-note-gradient {
     background: linear-gradient(
       to left,
@@ -173,8 +169,6 @@ body {
 
   .text-slide-container:hover .animate-text-slide {
     animation: textSlide 8s linear infinite;
-    white-space: nowrap;
-    display: inline-block;
   }
 
   .animate-pulse-fast {

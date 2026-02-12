@@ -8,15 +8,27 @@ export type CategoryFrontmatter = {
   chapter?: string;
 };
 
-export type Category = {
+export type Series = {
   frontmatter: CategoryFrontmatter;
   description: string;
   slug: string[];
-  subCategories: Category[];
-  notes: {
-    frontmatter: NoteFrontmatter;
-    slug: string[];
-  }[];
+  notes: Note[];
+};
+
+export type Subject = {
+  frontmatter: CategoryFrontmatter;
+  description: string;
+  slug: string[];
+  series: Series[];
+  notes: Note[];
+};
+
+export type Domain = {
+  frontmatter: CategoryFrontmatter;
+  description: string;
+  slug: string[];
+  subjects: Subject[];
+  notes: Note[];
 };
 
 export type NoteFrontmatter = {

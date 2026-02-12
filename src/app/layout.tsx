@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
-import { notoSansKr } from "@/app/fonts";
-import Footer from "./_ui/footer";
-import Navbar from "./_components/navbar/navbar";
+import "./globals.css";
+import { notoSansKr } from "./fonts";
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar/navbar";
 
 export const metadata: Metadata = {
   title: "윤정호",
