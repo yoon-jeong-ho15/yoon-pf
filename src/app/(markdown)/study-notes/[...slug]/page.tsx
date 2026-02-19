@@ -140,7 +140,7 @@ export default async function Page({
         <div className="flex-1 flex flex-col divide-y divide-gray-500">
           <NoteInfo frontmatter={note.frontmatter} allMetadata={allMetadata} />
           <article
-            className="prose my-8 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
+            className="prose my-8 pt-5 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

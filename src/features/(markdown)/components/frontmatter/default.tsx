@@ -36,7 +36,7 @@ export default function Default({
     <div
       className={`flex gap-2 items-center p-0.5 divide-x ${
         type === "note"
-          ? "lg:flex-col items-start gap-0 divide-x-0 divide-y"
+          ? "md:flex-col items-start gap-0 divide-x-0 divide-y"
           : ""
       }`}
     >
