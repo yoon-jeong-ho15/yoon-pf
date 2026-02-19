@@ -20,7 +20,7 @@ export default function FrontmatterList({
 
   const containerClass =
     type === "note"
-      ? "flex flex-col lg:grid lg:grid-flow-col lg:grid-cols-6 lg:gap-x-4 mt-4 rounded divide-y divide-dotted divide-black/20 bg-transparent divide-y-0 xl:grid-cols-5 gap-1"
+      ? "flex flex-col md:grid md:grid-flow-col md:grid-cols-6 md:gap-x-4 mt-4 rounded divide-y divide-dotted divide-black/20 bg-transparent divide-y-0 xl:grid-cols-5 gap-1"
       : "flex flex-col rounded-lg divide-y divide-black/20 divide-dotted bg-white/50";
 
   return (

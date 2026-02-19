@@ -26,10 +26,10 @@ export default function CategoryInfo({
     <div
       className={`flex flex-col text-sm p-2 gap-2 
         grow-0 shrink-0 basis-92 xl:w-full xl:basis-68
-    bg-gradient-to-b from-green-400 to-lime-200 text-slate-700
+    bg-gradient-to-b from-green-400 to-lime-200
     `}
     >
-      <h1 className="text-2xl font-semibold text-white text-shadow-lg">
+      <h1 className="text-2xl font-black text-black text-shadow">
         {">"} {mainInfo.title}
       </h1>
       <FrontmatterList
