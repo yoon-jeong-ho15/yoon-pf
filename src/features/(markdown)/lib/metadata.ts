@@ -10,7 +10,7 @@ export interface LinkMetadata {
 export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
   try {
     const res = await fetch(url, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      // next: { revalidate: 3600 }, // Cache for 1 hour
       headers: {
         "User-Agent": "bot", // Generic user agent to avoid some blockings
       },
