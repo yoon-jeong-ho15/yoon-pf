@@ -176,6 +176,10 @@ export function getAllNotes(): {
   return allNotes;
 }
 
+import { cache } from "react";
+
+export const getCachedDomains = cache(() => getDomains());
+
 export function getNoteBySlug(slug: string[]): {
   type: "domain" | "subject" | "series" | "note";
   data: {
@@ -183,47 +187,61 @@ export function getNoteBySlug(slug: string[]): {
     note?: Note;
   };
 } {
-  const path = Path.join(STUDY_NOTES_PATH, ...slug);
+  const domains = getCachedDomains();
+  const slugStr = slug.join("/");
 
-  if (fs.existsSync(path) && fs.lstatSync(path).isDirectory()) {
-    const isDomain = slug.length === 1;
-    const isSubject = slug.length === 2;
-    const isSeries = slug.length === 3;
-    if (isDomain)
-      return {
-        type: "domain",
-        data: { category: getDomain(path) },
-      };
-    if (isSubject)
-      return {
-        type: "subject",
-        data: { category: getSubject(path) },
-      };
-    if (isSeries)
-      return {
-        type: "series",
-        data: { category: getSeries(path) },
-      };
-  } else if (fs.existsSync(path + ".md")) {
-    const notePath = path + ".md";
+  for (const domain of domains) {
+    if (domain.slug.join("/") === slugStr) {
+      return { type: "domain", data: { category: domain } };
+    }
+    const domainNote = domain.notes.find((n) => n.slug.join("/") === slugStr);
+    if (domainNote) {
+      return { type: "note", data: { category: domain, note: domainNote } };
+    }
 
-    const { data, content } = matter(fs.readFileSync(notePath, "utf8"));
-    const note = {
-      frontmatter: {
-        ...data,
-        date:
-          data.date instanceof Date
-            ? data.date.toISOString().split("T")[0]
-            : data.date,
-      } as NoteFrontmatter,
-      slug: slug,
-      body: content,
-    };
+    for (const subject of domain.subjects) {
+      if (subject.slug.join("/") === slugStr) {
+        return { type: "subject", data: { category: subject } };
+      }
+      const subjectNote = subject.notes.find(
+        (n) => n.slug.join("/") === slugStr,
+      );
+      if (subjectNote) {
+        return { type: "note", data: { category: subject, note: subjectNote } };
+      }
 
-    const parentPath = Path.join(STUDY_NOTES_PATH, ...slug.slice(0, -1));
-    const parent = getSeries(parentPath);
-
-    return { type: "note", data: { category: parent, note } };
+      for (const series of subject.series) {
+        if (series.slug.join("/") === slugStr) {
+          return { type: "series", data: { category: series } };
+        }
+        const seriesNote = series.notes.find(
+          (n) => n.slug.join("/") === slugStr,
+        );
+        if (seriesNote) {
+          return { type: "note", data: { category: series, note: seriesNote } };
+        }
+      }
+    }
   }
-  throw new Error(`File not found for path : ${path}`);
+
+  throw new Error(`File not found for path : ${slugStr}`);
+}
+
+export function getSubjectNotesBySlug(slug: string[]): Note[] {
+  const domains = getCachedDomains();
+  const slugStr = slug.join("/");
+  const allNotes: Note[] = [];
+
+  for (const domain of domains) {
+    for (const subject of domain.subjects) {
+      if (subject.slug.join("/") === slugStr) {
+        allNotes.push(...subject.notes);
+        for (const series of subject.series) {
+          allNotes.push(...series.notes);
+        }
+      }
+    }
+  }
+
+  return allNotes;
 }
