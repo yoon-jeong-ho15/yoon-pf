@@ -22,11 +22,11 @@ export default function SubCategoryList({
   return (
     <div
       className={`
-      flex flex-col items-center divide-y divide-gray-500
+      flex flex-col items-center divide-y divide-gray-500 text-sm lg:text-base
       ${
         isEmpty
           ? "hidden xl:flex xl:w-full xl:basis-auto border-b border-gray-500 xl:border-b-0"
-          : "w-64 xl:w-full xl:basis-54"
+          : "basis-44 lg:basis-74 xl:w-full xl:basis-54"
       }
     `}
     >

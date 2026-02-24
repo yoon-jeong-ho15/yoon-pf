@@ -19,7 +19,7 @@ export default function EmptyNote({
     <div
       className={`${menlo.className}
       flex-1 p-5 flex flex-col gap-3
-    text-2xl`}
+    text-lg`}
     >
       <div className="flex flex-col">
         <span className="text-orange-700">{"<title>"}</span>
@@ -29,7 +29,7 @@ export default function EmptyNote({
       {text && (
         <div className={`flex flex-col`}>
           <span className="text-orange-700">{"<desc>"}</span>
-          <span className="pl-16 text-indigo-800">{text}</span>
+          <span className="pl-10 text-indigo-800">{text}</span>
           <span className="text-orange-700">{"</desc>"}</span>
         </div>
       )}
@@ -37,9 +37,14 @@ export default function EmptyNote({
         <div className={`flex flex-col`}>
           <span className="text-orange-700">{"<sub>"}</span>
           {subCategories.map((sub) => (
-            <span key={sub.slug.join("/")} className="flex gap-2 pl-16">
+            <span
+              key={sub.slug.join("/")}
+              className="flex flex-col md:flex-row md:gap-2 pl-10"
+            >
               <span className="text-orange-700">{"<li>"}</span>
-              <span className="text-emerald-600">{sub.frontmatter.title}</span>
+              <span className="text-emerald-600 ml-10 md:ml-0">
+                {sub.frontmatter.title}
+              </span>
               <span className="text-orange-700">{"</li>"}</span>
             </span>
           ))}
@@ -53,11 +58,12 @@ export default function EmptyNote({
             <Link
               key={note.slug.join("/")}
               href={`/study-notes/${note.slug.join("/")}`}
-              className="flex gap-2 pl-16 hover:bg-gray-200"
+              className="flex w-fit ml-10 px-1 gap-2 hover:bg-gray-200 
+              "
             >
-              <span className="text-orange-700">{"<li>"}</span>
+              <span className="text-orange-700">{"<a>"}</span>
               <span className="text-sky-600">{note.frontmatter.title}</span>
-              <span className="text-orange-700">{"</li>"}</span>
+              <span className="text-orange-700">{"</a>"}</span>
             </Link>
           ))}
           <span className="text-orange-700">{"</notes>"}</span>

@@ -96,7 +96,7 @@ export default function MobileCategoryTree({ domains }: { domains: Domain[] }) {
   }
 
   return (
-    <div className="sticky top-0 flex flex-col lg:hidden divide-y divide-gray-500 text-sm">
+    <div className="sticky top-0 flex flex-col md:hidden divide-y divide-gray-500 text-sm">
       <div className="flex h-8 items-center border-b border-gray-500 bg-white">
         <button
           onClick={handleToggle}

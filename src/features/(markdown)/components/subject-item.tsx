@@ -26,7 +26,7 @@ export default function SubjectItem({
       <li>
         <Link
           href={`/study-notes/${slug.join("/")}`}
-          className={`flex items-center px-2 py-2 gap-2 box-border border-y border-transparent 
+          className={`flex items-center px-2 py-2 gap-1 lg:gap-2 box-border border-y border-transparent 
           hover:border-gray-300 truncate
           ${isCurrent ? "font-bold bg-green-300/50" : ""}
         `}
