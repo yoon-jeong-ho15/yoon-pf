@@ -45,7 +45,9 @@ export default function DomainItem({
             bg-gray-200
           `}
         >
-          <span className="font-bold text-xl">{frontmatter.title}</span>
+          <span className="font-bold text-base lg:text-xl">
+            {frontmatter.title}
+          </span>
         </Link>
         {children}
       </li>

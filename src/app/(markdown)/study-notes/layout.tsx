@@ -10,12 +10,12 @@ export default function StudyNotesLayout({
   const domains = getDomains();
 
   return (
-    <div className="flex flex-col lg:flex-row lg:divide-x divide-gray-500 border-gray-500 lg:mt-4 lg:border-y mb-16">
-      <div className="hidden lg:block w-3" />
+    <div className="flex flex-col md:flex-row md:divide-x divide-gray-500 border-gray-500 md:mt-4 md:border-y mb-16">
+      <div className="hidden md:block w-3" />
       <DomainTree domains={domains} />
       <MobileCategoryTree domains={domains} />
       {children}
-      <div className="hidden lg:block w-3" />
+      <div className="hidden md:block w-3" />
     </div>
   );
 }

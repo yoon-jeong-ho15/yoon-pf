@@ -18,14 +18,10 @@ export default function CategoryInfo({
   mainInfo,
   metadataMap,
 }: CategoryInfoProps) {
-  // const descriptionHtml = mainInfo.description
-  //   ? `<p>${mainInfo.description}</p>`
-  //   : "";
-
   return (
     <div
-      className={`flex flex-col divide-y divide-gray-500text-sm p-2 gap-2 
-        grow-0 shrink-0 basis-92 xl:w-full xl:basis-68
+      className={`flex flex-col divide-y divide-gray-500 p-2 gap-2 
+        grow-0 shrink-0 basis-64 lg:basis-74 xl:w-full xl:basis-68
     bg-gradient-to-b from-green-400 to-lime-200
     `}
     >

@@ -68,7 +68,6 @@ export default async function Page({
   let mainInfoCategory: Domain | Subject | Series = category;
   let subCategories: (Subject | Series)[] = [];
   let showingNotes: Note[] = [];
-  let subjectNotes: Note[] = [];
   const notes = category.notes;
 
   const sortedNotes = [...notes].sort((a, b) => {
@@ -121,11 +120,11 @@ export default async function Page({
 
   return (
     <div
-      className="flex-1 flex lg:flex-col divide-y divide-gray-500 
+      className="flex-1 flex md:flex-col divide-y divide-gray-500 
           xl:flex-row xl:divide-y-0 xl:divide-x"
     >
       <div
-        className={`hidden lg:flex
+        className={`hidden md:flex
           h-68 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
           xl:w-80 xl:h-full xl:flex-col
         `}
@@ -144,9 +143,10 @@ export default async function Page({
         <div className="hidden flex-1 xl:flex" />
       </div>
 
-      <div className="flex lg:hidden"></div>
+      <div className="flex md:hidden"></div>
 
       <div className="hidden xl:block xl:w-5" />
+
       {note ? (
         <div className="flex-1 flex flex-col divide-y divide-gray-500">
           <NoteInfo frontmatter={note.frontmatter} allMetadata={allMetadata} />

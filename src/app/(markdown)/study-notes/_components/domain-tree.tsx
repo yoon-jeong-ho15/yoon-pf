@@ -4,7 +4,7 @@ import type { Domain } from "@/types";
 
 export default function DomainTree({ domains }: { domains: Domain[] }) {
   return (
-    <ul className="hidden lg:flex flex-col divide-y divide-gray-500 w-1/6 max-w-70">
+    <ul className="hidden text-sm lg:text-base md:flex flex-col divide-y divide-gray-500 w-1/5 xl:w-1/6 max-w-70">
       {domains.map((domain) => (
         <DomainItem
           type="desktop"
@@ -12,7 +12,7 @@ export default function DomainTree({ domains }: { domains: Domain[] }) {
           slug={domain.slug}
           key={domain.frontmatter.title}
         >
-          <ul className="py-1">
+          <ul className="lg:py-1">
             {domain.subjects.map((subject) => (
               <SubjectItem
                 key={subject.slug.join("/")}
