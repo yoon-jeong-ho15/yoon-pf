@@ -1,5 +1,9 @@
 import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
-import { getNoteBySlug, getAllSlugs } from "@/features/(markdown)/lib/data";
+import {
+  getNoteBySlug,
+  getAllSlugs,
+  getSubjectNotesBySlug,
+} from "@/features/(markdown)/lib/data";
 import CategoryInfo from "../_components/category-info";
 import {
   getUrlMetadata,
@@ -8,6 +12,7 @@ import {
 import {
   CategoryFrontmatter,
   Domain,
+  Note,
   NoteFrontmatter,
   Series,
   Subject,
@@ -15,6 +20,7 @@ import {
 import SubCategoryList from "../_components/subcategory-list";
 import NoteList from "../_components/note-list";
 import NoteInfo from "../_components/note-info";
+import EmptyNote from "@/features/(markdown)/components/empty-note";
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();
@@ -38,55 +44,60 @@ async function getFrontmatterMetadata(
   return metadataMap;
 }
 
+import { notFound } from "next/navigation";
+
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const { type, data } = getNoteBySlug(slug);
+
+  let result;
+  try {
+    result = getNoteBySlug(slug);
+  } catch (error) {
+    return notFound();
+  }
+
+  const { type, data } = result;
 
   const note = type === "note" ? data.note : null;
   const category = data.category;
 
-  // TODO : refactor
   let mainInfoCategory: Domain | Subject | Series = category;
   let subCategories: (Subject | Series)[] = [];
-  let notes = category.notes;
+  let showingNotes: Note[] = [];
+  let subjectNotes: Note[] = [];
+  const notes = category.notes;
+
   const sortedNotes = [...notes].sort((a, b) => {
     return (a.frontmatter.order || 0) - (b.frontmatter.order || 0);
   });
 
-  if (type === "domain") {
-    const domain = category as Domain;
-    subCategories = domain.subjects;
-  } else if (type === "subject") {
-    const subject = category as Subject;
-    subCategories = subject.series;
-  } else if (type === "series") {
-    const parentSlug = slug.slice(0, 2);
-    const parentResult = getNoteBySlug(parentSlug);
-    if (parentResult.type === "subject") {
-      const parentSubject = parentResult.data.category as Subject;
-      mainInfoCategory = parentSubject;
-      subCategories = parentSubject.series;
-    }
-  } else if (type === "note") {
-    if ("series" in category) {
-      const subject = category as Subject;
-      subCategories = subject.series;
-    } else if ("subjects" in category) {
-      const domain = category as Domain;
-      subCategories = domain.subjects;
-    } else {
+  switch (type) {
+    case "domain":
+      mainInfoCategory = category as Domain;
+      subCategories = (category as Domain).subjects;
+      showingNotes = notes;
+      break;
+    case "subject":
+      mainInfoCategory = category as Subject;
+      subCategories = (category as Subject).series;
+      showingNotes = getSubjectNotesBySlug(slug.slice(0, 2));
+      break;
+    case "series":
+    case "note":
+      // For Series or notes, use the parent Subject context for the sidebar
       const parentSlug = slug.slice(0, 2);
       const parentResult = getNoteBySlug(parentSlug);
       if (parentResult.type === "subject") {
         const parentSubject = parentResult.data.category as Subject;
         mainInfoCategory = parentSubject;
         subCategories = parentSubject.series;
+        showingNotes = getSubjectNotesBySlug(parentSlug);
       }
-    }
+      break;
   }
 
   const mainInfo = {
@@ -145,7 +156,12 @@ export default async function Page({
           />
         </div>
       ) : (
-        <div>not found</div>
+        <EmptyNote
+          label={mainInfo.title}
+          text={mainInfo.description}
+          subCategories={subCategories as Series[]}
+          allNotes={showingNotes}
+        />
       )}
     </div>
   );
