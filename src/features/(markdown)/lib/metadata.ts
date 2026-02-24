@@ -10,9 +10,8 @@ export interface LinkMetadata {
 export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
   try {
     const res = await fetch(url, {
-      // next: { revalidate: 3600 }, // Cache for 1 hour
       headers: {
-        "User-Agent": "bot", // Generic user agent to avoid some blockings
+        "User-Agent": "Twitterbot/1.0",
       },
     });
 
@@ -29,10 +28,24 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       url;
 
     const description =
+      $('meta[property="description"]').attr("content") ||
+      $('meta[name="description"]').attr("content") ||
       $('meta[property="og:description"]').attr("content") ||
-      $('meta[name="description"]').attr("content");
+      $('meta[name="og:description"]').attr("content");
 
-    const image = $('meta[property="og:image"]').attr("content");
+    let image =
+      $('meta[property="image"]').attr("content") ||
+      $('meta[name="image"]').attr("content") ||
+      $('meta[property="og:image"]').attr("content") ||
+      $('meta[name="og:image"]').attr("content");
+
+    if (image && !image.startsWith("http") && !image.startsWith("//")) {
+      try {
+        image = new URL(image, url).href;
+      } catch (e) {
+        // Ignored if URL parsing fails
+      }
+    }
 
     return {
       url,
