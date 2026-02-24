@@ -28,7 +28,7 @@ export default function FrontmatterList({
       {sortedFrontmatter.map(([key, value]) => (
         <div
           key={key}
-          className={`text-xs xl:text-md whitespace-normal
+          className={`text-sm whitespace-normal
             ${type === "note" ? "bg-white/50 rounded-lg p-1 md:p-2 shadow-sm" : ""}
             ${key === "tags" ? "col-span-3" : ""}
           `}
