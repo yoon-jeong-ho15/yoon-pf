@@ -18,7 +18,7 @@ export default function EmptyNote({
   return (
     <div
       className={`${menlo.className}
-      flex-1 p-5 flex flex-col gap-3
+      p-5 w-full flex flex-col gap-3 bg-linear-to-b from-slate-50 to-white
     text-lg`}
     >
       <div className="flex flex-col">

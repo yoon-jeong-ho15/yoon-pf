@@ -14,7 +14,7 @@ export default function NoteList({
     >
       <span
         className="flex items-center py-2 pl-3 border-b border-dashed border-gray-500 
-      font-semibold bg-gray-200"
+      font-semibold bg-slate-100"
       >
         노트
       </span>

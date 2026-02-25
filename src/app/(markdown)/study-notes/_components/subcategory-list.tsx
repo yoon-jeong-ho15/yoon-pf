@@ -32,7 +32,7 @@ export default function SubCategoryList({
     >
       <Link
         href={`/study-notes/${mainInfo.slug.join("/")}`}
-        className="py-2 pl-3 w-full flex items-center gap-1 border-dashed bg-gray-200"
+        className="py-2 pl-3 w-full flex items-center gap-1 border-dashed bg-slate-100"
       >
         <span className="font-semibold">
           {mainInfo.title} ({mainInfo.count})
