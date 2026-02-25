@@ -1,8 +1,8 @@
 const FIELD_ORDER = [
+  "topic",
   "chapter",
   "title",
   "date",
-  "category",
   "instructor",
   "author",
   "order",

@@ -8,6 +8,14 @@ export type CategoryFrontmatter = {
   chapter?: string;
 };
 
+export type NoteFrontmatter = {
+  title: string;
+  date: string;
+  order?: number;
+  link?: string[];
+  tags?: string[];
+};
+
 export type Series = {
   frontmatter: CategoryFrontmatter;
   description: string;
@@ -29,14 +37,6 @@ export type Domain = {
   slug: string[];
   subjects: Subject[];
   notes: Note[];
-};
-
-export type NoteFrontmatter = {
-  title: string;
-  date: string;
-  order?: number;
-  link?: string[];
-  tags?: string[];
 };
 
 export type Note = {
