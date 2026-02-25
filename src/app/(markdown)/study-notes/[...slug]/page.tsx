@@ -9,6 +9,7 @@ import {
   getUrlMetadata,
   LinkMetadata,
 } from "@/features/(markdown)/lib/metadata";
+import { MetadataProvider } from "@/features/(markdown)/components/metadata-provider";
 import {
   CategoryFrontmatter,
   Domain,
@@ -29,6 +30,8 @@ export async function generateStaticParams() {
   }));
 }
 
+import { notFound } from "next/navigation";
+
 async function getFrontmatterMetadata(
   frontmatter: CategoryFrontmatter | NoteFrontmatter,
 ) {
@@ -43,8 +46,6 @@ async function getFrontmatterMetadata(
   );
   return metadataMap;
 }
-
-import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -119,50 +120,50 @@ export default async function Page({
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
 
   return (
-    <div
-      className="flex-1 flex md:flex-col divide-y divide-gray-500 
-          xl:flex-row xl:divide-y-0 xl:divide-x"
-    >
+    <MetadataProvider metadataMap={allMetadata}>
       <div
-        className={`hidden md:flex
+        className="flex-1 flex md:flex-col divide-y divide-gray-500 
+          xl:flex-row xl:divide-y-0 xl:divide-x"
+      >
+        <div
+          className={`hidden md:flex
           h-68 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
           xl:w-80 xl:h-full xl:flex-col
         `}
-      >
-        <CategoryInfo
-          type="desktop"
-          mainInfo={mainInfo}
-          metadataMap={allMetadata}
-        />
-        <SubCategoryList
-          type="desktop"
-          mainInfo={mainInfo}
-          subCategories={subCategories}
-        />
-        <NoteList type="desktop" notes={sortedNotes} />
-        <div className="hidden flex-1 xl:flex" />
-      </div>
-
-      <div className="flex md:hidden"></div>
-
-      <div className="hidden xl:block xl:w-5" />
-
-      {note ? (
-        <div className="flex-1 flex flex-col divide-y divide-gray-500">
-          <NoteInfo frontmatter={note.frontmatter} allMetadata={allMetadata} />
-          <article
-            className="prose my-8 pt-5 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
-            dangerouslySetInnerHTML={{ __html: content }}
+        >
+          <CategoryInfo type="desktop" mainInfo={mainInfo} />
+          <SubCategoryList
+            type="desktop"
+            mainInfo={mainInfo}
+            subCategories={subCategories}
           />
+          <NoteList type="desktop" notes={sortedNotes} />
+          <div className="hidden flex-1 xl:flex" />
         </div>
-      ) : (
-        <EmptyNote
-          label={mainInfo.title}
-          text={mainInfo.description}
-          subCategories={subCategories as Series[]}
-          allNotes={showingNotes}
-        />
-      )}
-    </div>
+
+        <div className="flex md:hidden"></div>
+
+        <div className="hidden xl:block xl:w-5" />
+
+        {note ? (
+          <div className="flex-1 flex flex-col divide-y divide-gray-500">
+            <NoteInfo frontmatter={note.frontmatter} />
+            <article
+              className="prose my-8 pt-5 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
+        ) : (
+          <div className="flex flex-1 justify-center">
+            <EmptyNote
+              label={mainInfo.title}
+              text={mainInfo.description}
+              subCategories={subCategories as Series[]}
+              allNotes={showingNotes}
+            />
+          </div>
+        )}
+      </div>
+    </MetadataProvider>
   );
 }

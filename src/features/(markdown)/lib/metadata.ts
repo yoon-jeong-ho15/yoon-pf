@@ -5,6 +5,7 @@ export interface LinkMetadata {
   title?: string;
   description?: string;
   image?: string;
+  icon?: string;
 }
 
 export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
@@ -39,12 +40,17 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       $('meta[property="og:image"]').attr("content") ||
       $('meta[name="og:image"]').attr("content");
 
+    let icon =
+      $('link[rel="icon"]').attr("href") ||
+      $('link[rel="shortcut icon"]').attr("href") ||
+      $('link[rel="apple-touch-icon"]').attr("href");
+
     if (image && !image.startsWith("http") && !image.startsWith("//")) {
-      try {
-        image = new URL(image, url).href;
-      } catch (e) {
-        // Ignored if URL parsing fails
-      }
+      image = new URL(image, url).href;
+    }
+
+    if (icon && !icon.startsWith("http") && !icon.startsWith("//")) {
+      icon = new URL(icon, url).href;
     }
 
     return {
@@ -52,6 +58,7 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       title,
       description,
       image,
+      icon,
     };
   } catch (error) {
     console.error(`Failed to fetch metadata for ${url}`, error);

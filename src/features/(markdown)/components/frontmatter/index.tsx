@@ -1,22 +1,65 @@
-import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
-import Link from "./link";
-import Default from "./default";
-import Tags from "./tags";
+import {
+  CalendarIcon,
+  HashtagIcon,
+  TagIcon,
+  UserIcon,
+  BuildingLibraryIcon,
+  BookOpenIcon,
+  BookmarkIcon,
+  NumberedListIcon,
+  EllipsisHorizontalCircleIcon,
+  LinkIcon,
+} from "@heroicons/react/24/outline";
+import CategoryFrontmatter from "./category";
+import NoteFrontmatter from "./note";
+
+const ICON_MAP: Record<
+  string,
+  React.ComponentType<React.SVGProps<SVGSVGElement>>
+> = {
+  topic: BookmarkIcon,
+  order: HashtagIcon,
+  date: CalendarIcon,
+  author: UserIcon,
+  instructor: UserIcon,
+  tags: TagIcon,
+  provide: BuildingLibraryIcon,
+  publish: BookOpenIcon,
+  chapter: NumberedListIcon,
+  link: LinkIcon,
+};
 
 export default function Frontmatter({
   type,
   label,
   value,
-  metadataMap,
+  isArray,
 }: {
   type: "category" | "note";
   label: string;
   value: any;
-  metadataMap?: Record<string, LinkMetadata>;
+  isArray: boolean;
 }) {
-  if (label === "link")
-    return <Link value={value} type={type} metadataMap={metadataMap} />;
-  if (label === "tags") return <Tags label={label} value={value} type={type} />;
+  const Icon = ICON_MAP[label] || EllipsisHorizontalCircleIcon;
 
-  return <Default label={label} value={value} type={type} />;
+  if (type === "category")
+    return (
+      <CategoryFrontmatter
+        label={label}
+        value={value}
+        isArray={isArray}
+        Icon={Icon}
+      />
+    );
+
+  if (type === "note") {
+    return (
+      <NoteFrontmatter
+        label={label}
+        value={value}
+        isArray={isArray}
+        Icon={Icon}
+      />
+    );
+  }
 }

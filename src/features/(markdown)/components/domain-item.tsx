@@ -42,7 +42,7 @@ export default function DomainItem({
           href={`/study-notes/${slug.join("/")}`}
           className={`flex justify-center items-center gap-3 border-b border-dashed py-2
             border-gray-400
-            bg-gray-200
+            bg-slate-100
           `}
         >
           <span className="font-bold text-base lg:text-xl">

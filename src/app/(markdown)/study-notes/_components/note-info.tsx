@@ -2,14 +2,12 @@ import { NoteFrontmatter } from "@/types";
 import { nanumGothicCoding } from "@/app/fonts";
 
 import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
-import FrontmatterList from "./frontmatter-list";
+import FrontmatterList from "../../../../features/(markdown)/components/frontmatter-list";
 
 export default function NoteInfo({
   frontmatter,
-  allMetadata,
 }: {
   frontmatter: NoteFrontmatter;
-  allMetadata: Record<string, LinkMetadata>;
 }) {
   return (
     <div
@@ -21,11 +19,7 @@ export default function NoteInfo({
       >
         {frontmatter.title}
       </h1>
-      <FrontmatterList
-        frontmatter={frontmatter}
-        type="note"
-        metadataMap={allMetadata}
-      />
+      <FrontmatterList frontmatter={frontmatter} type="note" />
     </div>
   );
 }
