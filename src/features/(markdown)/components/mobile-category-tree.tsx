@@ -182,7 +182,7 @@ export default function MobileCategoryTree({ domains }: { domains: Domain[] }) {
                       showingSubject?.series.map((series) => (
                         <SubCategoryItem
                           key={series.slug.join("/")}
-                          type="mobile"
+                          variant="mobile"
                           title={series.frontmatter.title}
                           slug={series.slug}
                           noteCount={series.notes.length}
@@ -216,7 +216,7 @@ export default function MobileCategoryTree({ domains }: { domains: Domain[] }) {
                       sortedNotes?.map((note, i) => (
                         <PostItem
                           key={note.slug.join("/")}
-                          type="mobile"
+                          variant="mobile"
                           title={note.frontmatter.title}
                           order={note.frontmatter.order}
                           slug={note.slug}
