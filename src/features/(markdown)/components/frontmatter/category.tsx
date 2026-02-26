@@ -44,7 +44,7 @@ export default function CategoryFrontmatter({
   }, [value]);
 
   return (
-    <div className="flex min-w-50 max-w-80 gap-2 items-center py-1.5 px-2 divide-x text-xs rounded-lg bg-linear-to-tr from-white to-slate-100 shadow-[1px_1px_0px_1px] shadow-gray-600">
+    <div className="flex max-w-80 gap-2 items-center py-1.5 px-2 divide-x text-xs rounded-lg bg-linear-to-tr from-white to-slate-100 shadow-[1px_1px_0px_1px] shadow-gray-600">
       <div className="min-w-10 flex items-center justify-center gap-1">
         {iconNode}
       </div>

@@ -32,9 +32,9 @@ export default function SubCategoryItem({
       <li>
         <Link
           href={href}
-          className={`flex items-center pl-1 text-sm
+          className={`flex items-center pl-4 text-sm
           box-border border-y border-transparent
-         ${isCurrent ? "font-semibold bg-lime-200/80" : ""}
+         ${isCurrent ? "bg-lime-200" : ""}
          hover:border-gray-300`}
         >
           <FolderIcon className="w-4 h-4" />
@@ -52,8 +52,8 @@ export default function SubCategoryItem({
         <div
           onClick={onSelect}
           className={`flex items-center pl-1
-         ${isSelected ? "font-semibold bg-gray-300/50" : ""}
-         ${isCurrent ? "font-semibold bg-lime-200/80" : ""}
+         ${isSelected ? "bg-gray-200" : ""}
+         ${isCurrent ? "bg-lime-200" : ""}
         `}
         >
           <FolderIcon className="w-4 h-4" />

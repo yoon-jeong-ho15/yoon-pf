@@ -130,13 +130,10 @@ export default async function Page({
             subCategories={subCategories}
             notes={sortedNotes}
           />
-          <div className="flex-1" />
+          <div className="hidden border-t border-gray-500 xl:flex xl:flex-1" />
         </div>
 
-        <div
-          id="notes-page-empty"
-          className="hidden xl:flex xl:h-full xl:w-5"
-        />
+        <div className="hidden xl:flex xl:h-full xl:w-5 " />
 
         {note ? (
           <div className="flex-1 flex flex-col divide-y divide-gray-500">
