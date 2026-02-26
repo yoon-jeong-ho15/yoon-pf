@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { FolderIcon } from "@heroicons/react/24/outline";
 
 interface SubCategoryItemProps {
-  type: "mobile" | "desktop";
+  variant: "mobile" | "desktop";
   title: string;
   noteCount: number;
   slug: string[];
@@ -15,7 +15,7 @@ interface SubCategoryItemProps {
 }
 
 export default function SubCategoryItem({
-  type,
+  variant,
   title,
   noteCount,
   slug,
@@ -25,7 +25,7 @@ export default function SubCategoryItem({
   const pathname = usePathname();
   const isCurrent = pathname.startsWith(`/study-notes/${slug.join("/")}`);
 
-  if (type === "desktop") {
+  if (variant === "desktop") {
     const href = `/study-notes/${slug.join("/")}`;
 
     return (
@@ -45,7 +45,7 @@ export default function SubCategoryItem({
     );
   }
 
-  if (type === "mobile") {
+  if (variant === "mobile") {
     const isSelected = isSelectedSeries;
     return (
       <li className="">

@@ -2,7 +2,7 @@
 
 import { AtSymbolIcon } from "@heroicons/react/24/outline";
 import { LinkMetadata } from "../../lib/metadata";
-import { useMetadata } from "../metadata-provider";
+import { useMetadata } from "@/components/provider/metadata-provider";
 
 export default function Links({
   type,
@@ -24,7 +24,7 @@ export default function Links({
               href={url}
               target="_blank"
               title={metaData?.title || url}
-              className="flex gap-1 rounded-lg py-1 px-1.5 bg-mist-200 hover:bg-white hover:outline outline-slate-600 transition-colors items-center"
+              className="flex gap-1 rounded-lg py-1 px-1.5 bg-white hover:bg-mist-200  transition-colors items-center"
             >
               <div className="size-3">
                 {" "}

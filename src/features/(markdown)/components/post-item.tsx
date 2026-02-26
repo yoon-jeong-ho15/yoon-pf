@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 import { useRef, useEffect } from "react";
 
 export default function PostItem({
-  type,
+  variant,
   title,
   order,
   slug,
   i,
   onSelect,
 }: {
-  type: "mobile" | "desktop";
+  variant: "mobile" | "desktop";
   title: string;
   order?: number;
   slug: string[];
@@ -23,7 +23,7 @@ export default function PostItem({
   const isSelected = pathname.endsWith(slug.join("/"));
   const href = `/study-notes/${slug.join("/")}`;
 
-  if (type === "desktop") {
+  if (variant === "desktop") {
     return (
       <li>
         <Link
@@ -40,7 +40,7 @@ export default function PostItem({
     );
   }
 
-  if (type === "mobile") {
+  if (variant === "mobile") {
     return (
       <li className="flex overflow-x-scroll" style={{ scrollbarWidth: "none" }}>
         <Link
