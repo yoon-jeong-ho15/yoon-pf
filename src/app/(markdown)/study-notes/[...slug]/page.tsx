@@ -4,12 +4,11 @@ import {
   getAllSlugs,
   getSubjectNotesBySlug,
 } from "@/features/(markdown)/lib/data";
-import CategoryInfo from "../_components/category-info";
 import {
   getUrlMetadata,
   LinkMetadata,
 } from "@/features/(markdown)/lib/metadata";
-import { MetadataProvider } from "@/features/(markdown)/components/metadata-provider";
+import { MetadataProvider } from "@/components/provider/metadata-provider";
 import {
   CategoryFrontmatter,
   Domain,
@@ -18,10 +17,6 @@ import {
   Series,
   Subject,
 } from "@/types";
-import SubCategoryList from "../_components/subcategory-list";
-import NoteList from "../_components/note-list";
-import NoteInfo from "../_components/note-info";
-import EmptyNote from "@/features/(markdown)/components/empty-note";
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();
@@ -31,6 +26,8 @@ export async function generateStaticParams() {
 }
 
 import { notFound } from "next/navigation";
+import InfoCard from "@/features/(markdown)/components/info-card";
+import NoteSidebar from "@/features/(markdown)/components/note-sidebar";
 
 async function getFrontmatterMetadata(
   frontmatter: CategoryFrontmatter | NoteFrontmatter,
@@ -122,46 +119,32 @@ export default async function Page({
   return (
     <MetadataProvider metadataMap={allMetadata}>
       <div
-        className="flex-1 flex md:flex-col divide-y divide-gray-500 
-          xl:flex-row xl:divide-y-0 xl:divide-x"
+        className="flex-1 flex 
+          md:flex-col md:divide-y md:divide-x-0
+          xl:flex-row xl:divide-y-0 xl:divide-x
+          divide-gray-500 "
       >
-        <div
-          className={`hidden md:flex
-          h-68 divide-x xl:divide-x-0 xl:divide-y divide-gray-400
-          xl:w-80 xl:h-full xl:flex-col
-        `}
-        >
-          <CategoryInfo type="desktop" mainInfo={mainInfo} />
-          <SubCategoryList
-            type="desktop"
+        <div className="flex flex-col">
+          <NoteSidebar
             mainInfo={mainInfo}
             subCategories={subCategories}
+            notes={sortedNotes}
           />
-          <NoteList type="desktop" notes={sortedNotes} />
-          <div className="hidden flex-1 xl:flex" />
+          <div className="hidden border-t border-gray-500 xl:flex xl:flex-1" />
         </div>
 
-        <div className="flex md:hidden"></div>
-
-        <div className="hidden xl:block xl:w-5" />
+        <div className="hidden xl:flex xl:h-full xl:w-5 " />
 
         {note ? (
           <div className="flex-1 flex flex-col divide-y divide-gray-500">
-            <NoteInfo frontmatter={note.frontmatter} />
+            <InfoCard type="note" frontmatter={note.frontmatter} />
             <article
               className="prose my-8 pt-5 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
         ) : (
-          <div className="flex flex-1 justify-center">
-            <EmptyNote
-              label={mainInfo.title}
-              text={mainInfo.description}
-              subCategories={subCategories as Series[]}
-              allNotes={showingNotes}
-            />
-          </div>
+          <div className="flex flex-1 justify-center p-4"></div>
         )}
       </div>
     </MetadataProvider>

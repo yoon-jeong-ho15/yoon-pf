@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { FolderIcon } from "@heroicons/react/24/outline";
 
 interface SubCategoryItemProps {
-  type: "mobile" | "desktop";
+  variant: "mobile" | "desktop";
   title: string;
   noteCount: number;
   slug: string[];
@@ -15,7 +15,7 @@ interface SubCategoryItemProps {
 }
 
 export default function SubCategoryItem({
-  type,
+  variant,
   title,
   noteCount,
   slug,
@@ -25,16 +25,16 @@ export default function SubCategoryItem({
   const pathname = usePathname();
   const isCurrent = pathname.startsWith(`/study-notes/${slug.join("/")}`);
 
-  if (type === "desktop") {
+  if (variant === "desktop") {
     const href = `/study-notes/${slug.join("/")}`;
 
     return (
       <li>
         <Link
           href={href}
-          className={`flex items-center pl-1 text-sm
+          className={`flex items-center pl-4 text-sm
           box-border border-y border-transparent
-         ${isCurrent ? "font-semibold bg-lime-200/80" : ""}
+         ${isCurrent ? "bg-lime-200" : ""}
          hover:border-gray-300`}
         >
           <FolderIcon className="w-4 h-4" />
@@ -45,15 +45,15 @@ export default function SubCategoryItem({
     );
   }
 
-  if (type === "mobile") {
+  if (variant === "mobile") {
     const isSelected = isSelectedSeries;
     return (
       <li className="">
         <div
           onClick={onSelect}
           className={`flex items-center pl-1
-         ${isSelected ? "font-semibold bg-gray-300/50" : ""}
-         ${isCurrent ? "font-semibold bg-lime-200/80" : ""}
+         ${isSelected ? "bg-gray-200" : ""}
+         ${isCurrent ? "bg-lime-200" : ""}
         `}
         >
           <FolderIcon className="w-4 h-4" />

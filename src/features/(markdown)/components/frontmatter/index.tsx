@@ -48,7 +48,7 @@ export default function Frontmatter({
         label={label}
         value={value}
         isArray={isArray}
-        Icon={Icon}
+        iconNode={<Icon className="size-3 stroke-black" />}
       />
     );
 
@@ -58,7 +58,7 @@ export default function Frontmatter({
         label={label}
         value={value}
         isArray={isArray}
-        Icon={Icon}
+        iconNode={<Icon className="size-3 stroke-black" />}
       />
     );
   }

@@ -11,11 +11,11 @@ export default function StudyNotesLayout({
 
   return (
     <div className="flex flex-col md:flex-row md:divide-x divide-gray-500 border-gray-500 md:mt-4 md:border-y mb-16">
-      <div className="hidden md:block w-3" />
+      <div id="notes-layout-empty-l" className="hidden md:block w-3" />
       <DomainTree domains={domains} />
       <MobileCategoryTree domains={domains} />
       {children}
-      <div className="hidden md:block w-3" />
+      <div id="notes-layout-empty-r" className="hidden md:block w-3" />
     </div>
   );
 }

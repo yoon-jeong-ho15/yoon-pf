@@ -6,9 +6,12 @@ export default function Tags({
   type: "note" | "category";
 }) {
   return (
-    <ul className="flex w-full items-center gap-0.5 animate-text-slide">
+    <ul className="flex items-center gap-0.5 ">
       {value.map((tag) => (
-        <li key={tag} className="px-2 py-1 underline inline-block">
+        <li
+          key={tag}
+          className="bg-emerald-200 px-1 py-0.5 rounded whitespace-nowrap"
+        >
           #{tag}
         </li>
       ))}
