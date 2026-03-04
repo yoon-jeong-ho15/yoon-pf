@@ -1,6 +1,6 @@
 import { CategoryFrontmatter, Subject, Series, Note } from "@/types";
 import { d2Coding } from "@/app/fonts";
-import { getDomainFromURL, sortFrontmatter } from "../../utils/util";
+import { sortFrontmatter } from "../../utils/util";
 import Link from "next/link";
 import SubCategoryItem from "./sub-category-item";
 import PostItem from "./post-item";

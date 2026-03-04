@@ -1,10 +1,11 @@
 "use client";
 
 import { AtSymbolIcon } from "@heroicons/react/24/outline";
-import { LinkMetadata } from "../../lib/metadata";
+import { LinkMetadata } from "../../../lib/metadata";
 import { useMetadata } from "@/components/provider/metadata-provider";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { getDomainFromURL } from "@/features/(markdown)/utils/util";
 
 export default function Links({
   type,
@@ -112,5 +113,47 @@ function LinkPreview({
         </div>
       </div>
     </div>
+  );
+}
+
+export function SidebarLink({ url, isLast }: { url: string; isLast: boolean }) {
+  const metadataMap = useMetadata();
+  const metaData = metadataMap?.[url];
+  const [isHovered, setIsHovered] = useState(false);
+  const [rect, setRect] = useState<DOMRect | null>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const handleMouseEnter = () => {
+    if (linkRef.current) {
+      setRect(linkRef.current.getBoundingClientRect());
+    }
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  return (
+    <span className="relative">
+      <a
+        ref={linkRef}
+        href={url}
+        className="text-orange-800 hover:underline"
+        target="_blank"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {`"${getDomainFromURL(url)}"`}
+      </a>
+      {!isLast && ","}
+      {isHovered &&
+        rect &&
+        metaData &&
+        createPortal(
+          <LinkPreview metaData={metaData} rect={rect} />,
+          document.body,
+        )}
+    </span>
   );
 }
