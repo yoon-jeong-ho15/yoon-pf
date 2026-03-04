@@ -4,7 +4,7 @@ import { within, fireEvent, expect, userEvent, fn } from "@storybook/test";
 import MobileDomainTabs from "./mobile-domain-tabs";
 
 const meta: Meta<typeof MobileDomainTabs> = {
-  title: "Components / MobileDomainUl",
+  title: "Components / MobileDomainTabs",
   component: MobileDomainTabs,
   decorators: [
     (Story) => (
@@ -101,7 +101,7 @@ export const Scroll: Story = {
         },
       },
     ],
-    showingDomain: { slug: ["domain1"], frontmatter: { title: "Domain 1" } },
+    showingDomain: { slug: ["domain7"], frontmatter: { title: "Domain 7" } },
     setActiveSelection: fn(),
   },
   play: async ({ args, canvasElement }) => {
