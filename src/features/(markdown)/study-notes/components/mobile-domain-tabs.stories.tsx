@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { within, fireEvent, expect, userEvent, fn } from "@storybook/test";
+import { Domain } from "@/types";
 
 import MobileDomainTabs from "./mobile-domain-tabs";
 
@@ -39,8 +40,11 @@ export const Default: Story = {
           title: "Domain 3",
         },
       },
-    ],
-    showingDomain: { slug: ["domain3"], frontmatter: { title: "Domain 3" } },
+    ] as Domain[],
+    showingDomain: {
+      slug: ["domain3"],
+      frontmatter: { title: "Domain 3" },
+    } as Domain,
     setActiveSelection: fn(),
   },
   play: async ({ args, canvasElement }) => {
@@ -100,8 +104,11 @@ export const Scroll: Story = {
           title: "Domain 7",
         },
       },
-    ],
-    showingDomain: { slug: ["domain7"], frontmatter: { title: "Domain 7" } },
+    ] as Domain[],
+    showingDomain: {
+      slug: ["domain7"],
+      frontmatter: { title: "Domain 7" },
+    } as Domain,
     setActiveSelection: fn(),
   },
   play: async ({ args, canvasElement }) => {

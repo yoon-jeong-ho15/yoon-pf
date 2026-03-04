@@ -1,6 +1,5 @@
 import { getDomains } from "@/features/(markdown)/lib/data";
-import DomainTree from "../../../features/(markdown)/components/domain-tree";
-import MobileCategoryTree from "@/features/(markdown)/components/mobile-category-tree";
+import MobileCategoryTree from "@/features/(markdown)/study-notes/components/mobile-category-tree";
 import DomainNav from "@/features/(markdown)/study-notes/components/domain-nav";
 
 export default function StudyNotesLayout({
