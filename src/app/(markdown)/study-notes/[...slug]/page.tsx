@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 }
 
 import { notFound } from "next/navigation";
-import NoteSidebar from "@/features/(markdown)/study-notes/components/note-sidebar2";
+import NoteSidebar from "@/features/(markdown)/study-notes/components/note-sidebar";
 import { sortFrontmatter } from "@/features/(markdown)/utils/util";
 import TopButton from "@/components/top-button";
 
