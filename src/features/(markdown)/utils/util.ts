@@ -1,7 +1,7 @@
 const FIELD_ORDER = [
+  "title",
   "topic",
   "chapter",
-  "title",
   "date",
   "instructor",
   "author",
@@ -22,4 +22,9 @@ export function sortFrontmatter(frontmatter: Record<string, any>) {
     if (indexB !== -1) return 1;
     return 0;
   });
+}
+
+export function getDomainFromURL(url: string) {
+  const match = url.match(/^(?:https?:\/\/)?([^\/]+)/i);
+  return match ? match[1] : "";
 }

@@ -17,6 +17,7 @@ import {
   Series,
   Subject,
 } from "@/types";
+import { d2Coding } from "@/app/fonts";
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();
@@ -26,8 +27,9 @@ export async function generateStaticParams() {
 }
 
 import { notFound } from "next/navigation";
-import InfoCard from "@/features/(markdown)/components/info-card";
-import NoteSidebar from "@/features/(markdown)/components/note-sidebar";
+import NoteSidebar from "@/features/(markdown)/study-notes/components/note-sidebar2";
+import { sortFrontmatter } from "@/features/(markdown)/utils/util";
+import TopButton from "@/components/top-button";
 
 async function getFrontmatterMetadata(
   frontmatter: CategoryFrontmatter | NoteFrontmatter,
@@ -66,7 +68,16 @@ export default async function Page({
   let mainInfoCategory: Domain | Subject | Series = category;
   let subCategories: (Subject | Series)[] = [];
   let showingNotes: Note[] = [];
-  const notes = category.notes;
+
+  let notes;
+  if (type === "subject") {
+    notes = [
+      ...category.notes,
+      ...(category as Subject).series.flatMap((s) => s.notes),
+    ];
+  } else {
+    notes = category.notes;
+  }
 
   const sortedNotes = [...notes].sort((a, b) => {
     return (a.frontmatter.order || 0) - (b.frontmatter.order || 0);
@@ -120,8 +131,7 @@ export default async function Page({
     <MetadataProvider metadataMap={allMetadata}>
       <div
         className="flex-1 flex 
-          md:flex-col md:divide-y md:divide-x-0
-          xl:flex-row xl:divide-y-0 xl:divide-x
+          flex-row divide-x
           divide-gray-500 "
       >
         <div className="flex flex-col">
@@ -136,12 +146,24 @@ export default async function Page({
         <div className="hidden xl:flex xl:h-full xl:w-5 " />
 
         {note ? (
-          <div className="flex-1 flex flex-col divide-y divide-gray-500">
-            <InfoCard type="note" frontmatter={note.frontmatter} />
+          <div
+            className={`${d2Coding.className} flex-1 flex flex-col divide-y divide-gray-500 font-medium`}
+          >
+            {/* <InfoCard type="note" frontmatter={note.frontmatter} /> */}
+            <div className="text-green-800 p-5 space-y-2">
+              {sortFrontmatter(note.frontmatter).map(([key, value]) => (
+                <div key={key} className="">
+                  <span>{key}</span>
+                  <span>{" : "}</span>
+                  <span>{`"${value}"`}</span>
+                </div>
+              ))}
+            </div>
             <article
               className="prose my-8 pt-5 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl md:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
               dangerouslySetInnerHTML={{ __html: content }}
             />
+            <TopButton />
           </div>
         ) : (
           <div className="flex flex-1 justify-center p-4"></div>
