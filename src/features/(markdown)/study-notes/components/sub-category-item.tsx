@@ -1,6 +1,5 @@
 "use client";
 
-import { Subject, Series } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FolderIcon } from "@heroicons/react/24/outline";
@@ -8,7 +7,6 @@ import { FolderIcon } from "@heroicons/react/24/outline";
 interface SubCategoryItemProps {
   variant: "mobile" | "desktop";
   title: string;
-  noteCount: number;
   slug: string[];
   onSelect?: () => void;
   isSelectedSeries?: boolean;
@@ -17,7 +15,6 @@ interface SubCategoryItemProps {
 export default function SubCategoryItem({
   variant,
   title,
-  noteCount,
   slug,
   onSelect,
   isSelectedSeries,
@@ -29,19 +26,15 @@ export default function SubCategoryItem({
     const href = `/study-notes/${slug.join("/")}`;
 
     return (
-      <li>
-        <Link
-          href={href}
-          className={`flex items-center pl-4 text-sm
-          box-border border-y border-transparent
-         ${isCurrent ? "bg-lime-200" : ""}
-         hover:border-gray-300`}
-        >
-          <FolderIcon className="w-4 h-4" />
-          <span className={`px-2 py-1 rounded-sm`}>{title}</span>
-          <span className="text-xs text-gray-700">({noteCount})</span>
-        </Link>
-      </li>
+      <Link href={href} className={` `}>
+        <span
+          className={`text-orange-800 hover:bg-zinc-100 ${
+            isCurrent
+              ? "bg-zinc-200 underline decoration-red-500 decoration-dotted decoration-2"
+              : ""
+          }`}
+        >{`"${title}"`}</span>
+      </Link>
     );
   }
 
@@ -58,7 +51,6 @@ export default function SubCategoryItem({
         >
           <FolderIcon className="w-4 h-4" />
           <span className={`px-2 py-1 rounded-sm`}>{title}</span>
-          <span className="text-xs text-gray-700">({noteCount})</span>
         </div>
       </li>
     );
