@@ -33,3 +33,16 @@ export const notoSerifKr = Noto_Serif_KR({
 export const menlo = localFont({
   src: "./Menlo-Regular.ttf",
 });
+
+export const d2Coding = localFont({
+  src: [
+    {
+      path: "./D2Coding-Ver1.3.2-20180524.ttf",
+      weight: "400",
+    },
+    {
+      path: "./D2CodingBold-Ver1.3.2-20180524.ttf",
+      weight: "700",
+    },
+  ],
+});
