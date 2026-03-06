@@ -143,14 +143,11 @@ export default async function Page({
           <div className="hidden border-t border-gray-500 xl:flex xl:flex-1" />
         </div>
 
-        <div className="hidden xl:flex xl:h-full xl:w-5 " />
-
         {note ? (
           <div
             className={`${d2Coding.className} flex-1 flex flex-col divide-y divide-gray-500 font-medium`}
           >
-            {/* <InfoCard type="note" frontmatter={note.frontmatter} /> */}
-            <div className="text-green-800 p-5 space-y-2">
+            <div className="text-green-800 p-5 space-y-2 text-xl">
               {sortFrontmatter(note.frontmatter).map(([key, value]) => (
                 <div key={key} className="">
                   <span>{key}</span>
@@ -166,7 +163,11 @@ export default async function Page({
             <TopButton />
           </div>
         ) : (
-          <div className="flex flex-1 justify-center p-4"></div>
+          <div
+            className={`${d2Coding.className} flex flex-1 p-4 italic text-xl text-green-800`}
+          >
+            <span>{`// description : ${mainInfo.description}`}</span>
+          </div>
         )}
       </div>
     </MetadataProvider>

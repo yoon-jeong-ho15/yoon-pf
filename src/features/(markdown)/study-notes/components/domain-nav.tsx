@@ -13,22 +13,17 @@ export default function DomainNav({ domains }: { domains: Domain[] }) {
     <nav
       className={`${d2Coding.className} hidden font-medium
       md:flex md:flex-col md:w-full md:p-3 md:justify-center
-      xl:w-1/6 xl:max-w-70 xl:pl-2 xl:justify-start xl:gap-2 
+      xl:w-1/6 xl:max-w-70 xl:pl-2 xl:justify-start xl:gap-2
+      
       `}
     >
-      <div>
-        <span className="text-fuchsia-600">{"const "}</span>
-        <span>{"domains"}</span>
-        <span>{" = "}</span>
-        <span className="text-blue-500">{"["}</span>
-        <span className="xl:hidden text-green-800">{" // scroll"}</span>
-      </div>
       {domains.map((domain, i) => (
         <div
           key={domain.slug.join("/")}
           className="flex 
           md:items-center md:gap-4 md:pl-3 md:text-nowrap
-          xl:flex-col xl:items-start xl:gap-0 xl:text-wrap xl:overflow-x-hidden"
+          xl:flex-col xl:items-start xl:gap-0 xl:text-wrap xl:overflow-x-hidden
+          xl:border-b xl:border-gray-400"
         >
           <div className="flex items-center gap-2">
             <Link href={`/study-notes/${domain.slug.join("/")}`} className="">
@@ -71,14 +66,9 @@ export default function DomainNav({ domains }: { domains: Domain[] }) {
 
           <div className="flex">
             <span className="">{" }"}</span>
-            {i !== domains.length - 1 && <span>,</span>}
           </div>
         </div>
       ))}
-      <div>
-        <span className="text-blue-500">{"]"}</span>
-        <span className="text-gray-500">{";"}</span>
-      </div>
     </nav>
   );
 }

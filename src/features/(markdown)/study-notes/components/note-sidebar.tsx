@@ -21,9 +21,7 @@ export default function NoteSidebar({
   subCategories: (Subject | Series)[];
   notes: Note[];
 }) {
-  const sortedFrontmatter = sortFrontmatter(mainInfo.frontmatter).filter(
-    ([key]) => key !== "title",
-  );
+  const sortedFrontmatter = sortFrontmatter(mainInfo.frontmatter);
 
   const mainType = mainInfo.slug.length === 1 ? "domain" : "subject";
   const subType = mainType === "domain" ? "subject" : "series";
@@ -36,14 +34,8 @@ export default function NoteSidebar({
         md:flex md:flex-col md:h-full md:w-72
         `}
     >
-      <div className="pl-3 py-3">
-        <div>
-          <span className={color.const}>{"const "}</span>
-          <span>{`${mainType} = `}</span>
-          <span className={color.brace}>{`{`}</span>
-        </div>
-
-        <div className="pl-3">
+      <div className="pl-1 py-3">
+        <div className="pl-3 border-b border-gray-400">
           {sortedFrontmatter.map(([key, value], index) => {
             if (key === "link") {
               return (
@@ -94,20 +86,18 @@ export default function NoteSidebar({
           })}
         </div>
 
-        <div className="pl-3 mt-3">
-          <div className={color.comment}>{"// click, see all"}</div>
-          <span className={color.key}>{"title"}</span>
-          <span>{" : "}</span>
-          <Link
-            href={`/study-notes/${mainInfo.slug.join("/")}`}
-            className={color.value}
-          >{`"${mainInfo.title}"`}</Link>
-        </div>
-
-        <div className="pl-3 mt-3">
-          <div className={color.comment}>{"// click, filter by series"}</div>
+        <div className="pl-3 mt-3 border-b border-gray-400">
+          <div className="mb-2">
+            <Link
+              href={`/study-notes/${mainInfo.slug.join("/")}`}
+              className={`text-orange-600 hover:bg-zinc-200`}
+            >
+              <span>{`allNotes();`}</span>
+            </Link>
+          </div>
+          <div className={color.comment}>{"// filter "}</div>
           {subCategories.length > 0 ? (
-            <>
+            <div>
               <span className={color.key}>{`${subType}`}</span>
               <span>{" : ["}</span>
               <div className="pl-3 flex flex-col">
@@ -121,18 +111,18 @@ export default function NoteSidebar({
                 ))}
               </div>
               <span>{`]`}</span>
-            </>
+            </div>
           ) : (
-            <>
+            <div>
               <span className={color.key}>{`${subType}`}</span>
               <span>{" : "}</span>
               <span className={color.value}>{`null`}</span>
-            </>
+            </div>
           )}
         </div>
 
-        <div className="pl-3 mt-3">
-          <div className={color.comment}>{"// click"}</div>
+        <div className="pl-3 mt-3 border-b border-gray-400">
+          <div className={color.comment}>{"// click to read"}</div>
           {notes.length > 0 ? (
             <>
               <span className={`${color.key}`}>{`notes`}</span>
@@ -158,11 +148,6 @@ export default function NoteSidebar({
               <span className={color.value}>{`null`}</span>
             </>
           )}
-        </div>
-
-        <div>
-          <span className={color.brace}>{`}`}</span>
-          <span className={color.semicolon}>{`;`}</span>
         </div>
       </div>
     </div>
