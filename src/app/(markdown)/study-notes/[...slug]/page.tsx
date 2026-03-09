@@ -27,9 +27,20 @@ export async function generateStaticParams() {
 }
 
 import { notFound } from "next/navigation";
-import NoteSidebar from "@/features/(markdown)/study-notes/components/note-sidebar";
+
 import { sortFrontmatter } from "@/features/(markdown)/utils/util";
 import TopButton from "@/components/top-button";
+import { SidebarLink } from "@/features/(markdown)/study-notes/components/frontmatter/links";
+
+const color = {
+  comment: "text-green-800",
+  const: "text-fuchsia-600",
+  brace: "text-blue-500",
+  semicolon: "text-gray-500",
+  key: "text-blue-800",
+  key2: "text-blue-800",
+  value: "text-orange-800",
+};
 
 async function getFrontmatterMetadata(
   frontmatter: CategoryFrontmatter | NoteFrontmatter,
@@ -127,6 +138,7 @@ export default async function Page({
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
 
+  const sortedFrontmatter = sortFrontmatter(mainInfo.frontmatter);
   return (
     <MetadataProvider metadataMap={allMetadata}>
       <div
@@ -134,18 +146,9 @@ export default async function Page({
           flex-row divide-x
           divide-gray-500 "
       >
-        <div className="flex flex-col">
-          <NoteSidebar
-            mainInfo={mainInfo}
-            subCategories={subCategories}
-            notes={sortedNotes}
-          />
-          <div className="hidden border-t border-gray-500 xl:flex xl:flex-1" />
-        </div>
-
         {note ? (
           <div
-            className={`${d2Coding.className} flex-1 flex flex-col divide-y divide-gray-500 font-medium`}
+            className={`flex-1 flex flex-col divide-y divide-gray-500 font-medium`}
           >
             <div className="text-green-800 p-5 space-y-2 text-xl">
               {sortFrontmatter(note.frontmatter).map(([key, value]) => (
@@ -163,10 +166,66 @@ export default async function Page({
             <TopButton />
           </div>
         ) : (
-          <div
-            className={`${d2Coding.className} flex flex-1 p-4 italic text-xl text-green-800`}
-          >
-            <span>{`// description : ${mainInfo.description}`}</span>
+          <div className={`lex flex-1 p-4 text-xl font-medium`}>
+            <div className="flex flex-col flex-1">
+              <div className="pl-1 py-3 text-lg">
+                <div className="pl-3 pb-4">
+                  {sortedFrontmatter.map(([key, value], index) => {
+                    if (key === "link") {
+                      return (
+                        <div key={key}>
+                          <div className={color.comment}>{"// click"}</div>
+                          <span className={color.key}>{`${key}`}</span>
+                          <span>{" : ["}</span>
+                          <div className="pl-3 flex flex-col">
+                            {value.map((item: string, index: number) => (
+                              <SidebarLink
+                                key={item}
+                                url={item}
+                                isLast={index === value.length - 1}
+                              />
+                            ))}
+                          </div>
+                          <span>{`]`}</span>
+                          {index < sortedFrontmatter.length - 1 && ","}
+                        </div>
+                      );
+                    }
+                    if (Array.isArray(value) && value.length > 1) {
+                      return (
+                        <div key={key}>
+                          <span className={color.key}>{`${key}`}</span>
+                          <span>{" : ["}</span>
+                          <div className="pl-3 flex flex-col">
+                            {value.map((item: string, index: number) => (
+                              <span key={item}>
+                                <span
+                                  className={color.value}
+                                >{`"${item}"`}</span>
+                                {index < value.length - 1 && ","}
+                              </span>
+                            ))}
+                          </div>
+                          <span>{`]`}</span>
+                          {index < sortedFrontmatter.length - 1 && ","}
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={key}>
+                        <span className={color.key}>{key}</span>
+                        <span>{" : "}</span>
+                        <span className={color.value}>{`"${value}"`}</span>
+                        {index < sortedFrontmatter.length - 1 && ","}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="italic text-green-800">
+                <span>{`// description : ${mainInfo.description}`}</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
