@@ -1,247 +1,164 @@
 import fs from "fs";
 import Path from "path";
 import matter from "gray-matter";
+import { cache } from "react";
 import {
-  Note,
-  NoteFrontmatter,
-  Domain,
-  Subject,
-  Series,
   CategoryFrontmatter,
+  CategoryTree,
+  MD_TYPE,
+  NoteFrontmatter,
+  NoteMeta,
 } from "@/types";
 
 const STUDY_NOTES_PATH = Path.join(process.cwd(), "md", "study-notes");
 
-export function getDomains(): Domain[] {
-  const files = fs
-    .readdirSync(STUDY_NOTES_PATH)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+export const getStudyNotesTree = cache(
+  (dirPath: string = STUDY_NOTES_PATH): CategoryTree[] => {
+    if (!fs.existsSync(dirPath)) {
+      return [];
+    }
 
-  const domains = files.map((file) => {
-    const path = Path.join(STUDY_NOTES_PATH, file);
-    return getDomain(path);
-  });
+    const files = fs
+      .readdirSync(dirPath)
+      .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
 
-  return domains;
-}
+    const tree: CategoryTree[] = [];
 
-function getDomain(path: string): Domain {
-  const files = fs
-    .readdirSync(path)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+    for (const file of files) {
+      const fullPath = Path.join(dirPath, file);
+      const stat = fs.statSync(fullPath);
 
-  const currentSlug = Path.relative(STUDY_NOTES_PATH, path).split(Path.sep);
-  const { indexPath, notePaths, folderPaths } = splitPath(files, path);
-  const index = getIndex(indexPath);
-  const notes = getNotes(notePaths);
-  const subjects = folderPaths.map((folderPath) => getSubject(folderPath));
-
-  return {
-    frontmatter: index.frontmatter,
-    description: index.description,
-    slug: currentSlug,
-    subjects,
-    notes,
-  };
-}
-
-function getSubject(path: string): Subject {
-  const files = fs
-    .readdirSync(path)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
-
-  const currentSlug = Path.relative(STUDY_NOTES_PATH, path).split(Path.sep);
-  const { indexPath, notePaths, folderPaths } = splitPath(files, path);
-  const index = getIndex(indexPath);
-  const notes = getNotes(notePaths);
-  const series = folderPaths.map((folderPath) => getSeries(folderPath));
-
-  return {
-    frontmatter: index.frontmatter,
-    description: index.description,
-    slug: currentSlug,
-    series,
-    notes,
-  };
-}
-
-function getSeries(path: string): Series {
-  const files = fs
-    .readdirSync(path)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
-
-  const currentSlug = Path.relative(STUDY_NOTES_PATH, path).split(Path.sep);
-  const { indexPath, notePaths } = splitPath(files, path);
-  const index = getIndex(indexPath);
-  const notes = getNotes(notePaths);
-
-  return {
-    frontmatter: index.frontmatter,
-    description: index.description,
-    slug: currentSlug,
-    notes,
-  };
-}
-
-function splitPath(files: string[], path: string) {
-  let indexFile = files.find((file) => file.endsWith("index.md"));
-  if (!indexFile) {
-    const defaultIndexContent = `---
-title: ${Path.basename(path)}
----
-`;
-    const newIndexPath = Path.join(path, "index.md");
-    fs.writeFileSync(newIndexPath, defaultIndexContent);
-    indexFile = "index.md";
-  }
-  const indexPath = Path.join(path, indexFile);
-
-  const notePaths = files
-    .filter((file) => file !== "index.md" && file.endsWith(".md"))
-    .map((file) => Path.join(path, file));
-
-  const folderPaths = files
-    .filter((file) => file !== "index.md" && !file.endsWith(".md"))
-    .map((file) => Path.join(path, file));
-
-  return { indexPath, notePaths, folderPaths };
-}
-
-function getIndex(indexPath: string) {
-  const { data, content } = matter(fs.readFileSync(indexPath, "utf8"));
-
-  return {
-    frontmatter: data as CategoryFrontmatter,
-    description: content as string,
-  };
-}
-
-function getNotes(notePaths: string[]): Note[] {
-  return notePaths.map((path) => {
-    const { data, content } = matter(fs.readFileSync(path, "utf8"));
-    const slug = Path.relative(STUDY_NOTES_PATH, path)
-      .replace(/\.md$/, "")
-      .split(Path.sep);
-
-    return {
-      frontmatter: {
-        ...data,
-        date:
-          data.date instanceof Date
-            ? data.date.toISOString().split("T")[0]
-            : data.date,
-      } as NoteFrontmatter,
-      slug,
-      body: content,
-    };
-  });
-}
-
-export function getAllSlugs(): string[][] {
-  const domains = getDomains();
-  const slugs: string[][] = [];
-
-  for (const domain of domains) {
-    for (const note of domain.notes) slugs.push(note.slug);
-    for (const subject of domain.subjects) {
-      slugs.push(subject.slug);
-      for (const note of subject.notes) slugs.push(note.slug);
-      for (const series of subject.series) {
-        slugs.push(series.slug);
-        for (const note of series.notes) slugs.push(note.slug);
+      if (stat.isDirectory()) {
+        tree.push(parseCategoryDirectory(fullPath));
       }
     }
+
+    return tree;
+  },
+);
+
+function parseCategoryDirectory(dirPath: string): CategoryTree {
+  const dirName = Path.basename(dirPath);
+  const currentSlug = Path.relative(STUDY_NOTES_PATH, dirPath).split(Path.sep);
+
+  const files = fs
+    .readdirSync(dirPath)
+    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+
+  let categoryFrontmatter: CategoryFrontmatter = { title: dirName };
+  let categoryDescription: string | undefined = undefined;
+
+  const notes: NoteMeta[] = [];
+  const children: CategoryTree[] = [];
+
+  for (const file of files) {
+    const fullPath = Path.join(dirPath, file);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      children.push(parseCategoryDirectory(fullPath));
+    } else if (file.endsWith(".md")) {
+      const fileContent = fs.readFileSync(fullPath, "utf8");
+      const { data, content } = matter(fileContent);
+
+      if (file === "index.md") {
+        categoryFrontmatter = data as CategoryFrontmatter;
+        categoryDescription = content;
+      } else {
+        const slug = Path.relative(STUDY_NOTES_PATH, fullPath)
+          .replace(/\.md$/, "")
+          .split(Path.sep);
+
+        notes.push({
+          frontmatter: data as NoteFrontmatter,
+          slug,
+        });
+      }
+    }
+  }
+
+  notes.sort((a, b) => {
+    if (a.frontmatter.order !== undefined && b.frontmatter.order !== undefined)
+      return a.frontmatter.order - b.frontmatter.order;
+    if (a.frontmatter.order !== undefined) return -1;
+    if (b.frontmatter.order !== undefined) return 1;
+    return a.frontmatter.title.localeCompare(b.frontmatter.title);
+  });
+
+  return {
+    slug: currentSlug,
+    children,
+    notes,
+    frontmatter: categoryFrontmatter,
+    description: categoryDescription,
+  };
+}
+
+export function getPostBodyBySlug(slug: string[]): string | null {
+  const fullPath = Path.join(STUDY_NOTES_PATH, ...slug) + ".md";
+  if (fs.existsSync(fullPath)) {
+    const { content } = matter(fs.readFileSync(fullPath, "utf8"));
+    return content;
+  }
+  return null;
+}
+
+export function getAllTreeSlugs(tree: CategoryTree[]): string[][] {
+  const slugs: string[][] = [];
+
+  function traverse(node: CategoryTree) {
+    slugs.push(node.slug);
+    for (const note of node.notes) {
+      slugs.push(note.slug);
+    }
+    for (const child of node.children) {
+      traverse(child);
+    }
+  }
+
+  for (const root of tree) {
+    traverse(root);
   }
 
   return slugs;
 }
 
-export function getAllNotes(): {
-  frontmatter: NoteFrontmatter;
-  slug: string[];
-}[] {
-  const domains = getDomains();
-  const allNotes: { frontmatter: NoteFrontmatter; slug: string[] }[] = [];
+export function getTreeItemBySlug(
+  tree: CategoryTree[],
+  slug: string[],
+):
+  | { type: "category"; data: CategoryTree }
+  | { type: "note"; data: NoteMeta }
+  | null {
+  const targetSlug = slug.join("/");
 
-  for (const domain of domains) {
-    allNotes.push(...domain.notes);
-    for (const subject of domain.subjects) {
-      allNotes.push(...subject.notes);
-      for (const series of subject.series) {
-        allNotes.push(...series.notes);
-      }
+  function traverse(
+    node: CategoryTree,
+  ):
+    | { type: "category"; data: CategoryTree }
+    | { type: "note"; data: NoteMeta }
+    | null {
+    if (node.slug.join("/") === targetSlug) {
+      return { type: "category", data: node };
     }
+
+    const note = node.notes.find((n) => n.slug.join("/") === targetSlug);
+    if (note) {
+      return { type: "note", data: note };
+    }
+
+    for (const child of node.children) {
+      const found = traverse(child);
+      if (found) return found;
+    }
+
+    return null;
   }
 
-  return allNotes;
-}
-
-import { cache } from "react";
-
-export const getCachedDomains = cache(() => getDomains());
-
-export function getNoteBySlug(slug: string[]): {
-  type: "domain" | "subject" | "series" | "note";
-  data: {
-    category: Domain | Subject | Series;
-    note?: Note;
-  };
-} {
-  const domains = getCachedDomains();
-  const slugStr = slug.join("/");
-
-  for (const domain of domains) {
-    if (domain.slug.join("/") === slugStr) {
-      return { type: "domain", data: { category: domain } };
-    }
-    const domainNote = domain.notes.find((n) => n.slug.join("/") === slugStr);
-    if (domainNote) {
-      return { type: "note", data: { category: domain, note: domainNote } };
-    }
-
-    for (const subject of domain.subjects) {
-      if (subject.slug.join("/") === slugStr) {
-        return { type: "subject", data: { category: subject } };
-      }
-      const subjectNote = subject.notes.find(
-        (n) => n.slug.join("/") === slugStr,
-      );
-      if (subjectNote) {
-        return { type: "note", data: { category: subject, note: subjectNote } };
-      }
-
-      for (const series of subject.series) {
-        if (series.slug.join("/") === slugStr) {
-          return { type: "series", data: { category: series } };
-        }
-        const seriesNote = series.notes.find(
-          (n) => n.slug.join("/") === slugStr,
-        );
-        if (seriesNote) {
-          return { type: "note", data: { category: series, note: seriesNote } };
-        }
-      }
-    }
+  for (const root of tree) {
+    const found = traverse(root);
+    if (found) return found;
   }
 
-  throw new Error(`File not found for path : ${slugStr}`);
-}
-
-export function getSubjectNotesBySlug(slug: string[]): Note[] {
-  const domains = getCachedDomains();
-  const slugStr = slug.join("/");
-  const allNotes: Note[] = [];
-
-  for (const domain of domains) {
-    for (const subject of domain.subjects) {
-      if (subject.slug.join("/") === slugStr) {
-        allNotes.push(...subject.notes);
-        for (const series of subject.series) {
-          allNotes.push(...series.notes);
-        }
-      }
-    }
-  }
-
-  return allNotes;
+  return null;
 }

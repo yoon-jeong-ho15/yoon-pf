@@ -1,5 +1,5 @@
-import { getDomains } from "@/features/(markdown)/lib/data";
-import NoteNav from "@/features/(markdown)/study-notes/components/note-nav";
+import NoteNav from "@/features/(markdown)/study-notes/components/note-nav/note-nav";
+import { getStudyNotesTree } from "@/features/(markdown)/lib/data";
 import { d2Coding } from "@/app/fonts";
 
 export default function StudyNotesLayout({
@@ -7,17 +7,16 @@ export default function StudyNotesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const domains = getDomains();
+  const tree = getStudyNotesTree();
 
   return (
     <div
-      className={`${d2Coding.className} flex flex-col 
-    md:divide-y md:divide-x-0
-    xl:flex-row xl:divide-y-0 xl:divide-x xl:mt-4 xl:border-y 
+      className={`${d2Coding.className} flex  
+    divide-x
     divide-gray-500 border-gray-500
     mb-16`}
     >
-      <NoteNav domains={domains} />
+      <NoteNav tree={tree} />
       {children}
     </div>
   );
