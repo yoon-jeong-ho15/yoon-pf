@@ -1,24 +1,18 @@
 "use client";
 
 import { AtSymbolIcon } from "@heroicons/react/24/outline";
-import { LinkMetadata } from "../../../lib/metadata";
+import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/components/provider/metadata-provider";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { getDomainFromURL } from "@/features/(markdown)/utils/util";
 
-export default function Links({
-  type,
-  value,
-}: {
-  type: "category" | "note";
-  value: string[];
-}) {
+export default function Links({ value }: { value: string[] }) {
   const metadataMap = useMetadata();
 
   return (
     <ul className="flex w-full items-center gap-1">
-      {value.map((url, i) => {
+      {value.map((url) => {
         const metaData = metadataMap?.[url];
         return <LinkItem key={url} url={url} metaData={metaData} />;
       })}

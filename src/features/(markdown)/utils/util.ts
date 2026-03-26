@@ -12,7 +12,7 @@ const FIELD_ORDER = [
   "tags",
 ];
 
-export function sortFrontmatter(frontmatter: Record<string, any>) {
+export function sortFrontmatter(frontmatter: Record<string, string[]>) {
   return Object.entries(frontmatter).sort(([keyA], [keyB]) => {
     const indexA = FIELD_ORDER.indexOf(keyA);
     const indexB = FIELD_ORDER.indexOf(keyB);

@@ -11,7 +11,7 @@ export default function CategoryFrontmatter({
   iconNode,
 }: {
   label: string;
-  value: any;
+  value: string[];
   isArray: boolean;
   iconNode: React.ReactNode;
 }) {
@@ -70,7 +70,7 @@ export default function CategoryFrontmatter({
             <Tags value={value} type={"category"} />
           ) : isArray ? (
             <ul className="flex w-full items-center gap-1">
-              {value.map((item: any, i: number) => (
+              {value.map((item: string, i: number) => (
                 <li
                   key={i}
                   className="flex items-center justify-center px-1 py-0.5 whitespace-nowrap bg-sky-100 rounded"

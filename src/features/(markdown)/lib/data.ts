@@ -5,7 +5,6 @@ import { cache } from "react";
 import {
   CategoryFrontmatter,
   CategoryTree,
-  MD_TYPE,
   NoteFrontmatter,
   NoteMeta,
 } from "@/types";

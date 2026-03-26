@@ -1,10 +1,4 @@
-export default function Tags({
-  value,
-  type,
-}: {
-  value: string[];
-  type: "note" | "category";
-}) {
+export default function Tags({ value }: { value: string[] }) {
   return (
     <ul className="flex items-center gap-0.5 ">
       {value.map((tag) => (

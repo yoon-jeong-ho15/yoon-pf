@@ -8,7 +8,7 @@ export default function NoteFrontmatter({
   iconNode,
 }: {
   label: string;
-  value: any;
+  value: string[];
   isArray: boolean;
   iconNode: React.ReactNode;
 }) {
@@ -28,12 +28,12 @@ export default function NoteFrontmatter({
       </div>
       <div className="w-full overflow-hidden">
         {isLink ? (
-          <Links value={value} type={"note"} />
+          <Links value={value} />
         ) : isTags ? (
-          <Tags value={value} type={"note"} />
+          <Tags value={value} />
         ) : isArray ? (
           <ul className="flex w-full items-center gap-0.5">
-            {value.map((item: any, i: number) => (
+            {value.map((item: string, i: number) => (
               <li key={i} className="px-1 text-center whitespace-nowrap">
                 {item}
               </li>

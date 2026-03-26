@@ -7,6 +7,7 @@ import {
 } from "@/features/(markdown)/lib/data";
 import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
+import { NoteMeta } from "@/types";
 
 export async function generateStaticParams() {
   const tree = getStudyNotesTree();
@@ -17,7 +18,6 @@ export async function generateStaticParams() {
 }
 
 import { notFound } from "next/navigation";
-import { sortFrontmatter } from "@/features/(markdown)/utils/util";
 import NotePage from "./note";
 import CategoryPage from "./category";
 
@@ -48,7 +48,7 @@ export default async function Page({
     ? await getLinkMetadataMap(categoryNode.frontmatter)
     : {};
   const noteMetadata = noteMeta
-    ? await getLinkMetadataMap(noteMeta as any)
+    ? await getLinkMetadataMap(noteMeta as NoteMeta)
     : {};
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };

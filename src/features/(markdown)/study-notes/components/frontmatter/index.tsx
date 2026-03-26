@@ -37,7 +37,7 @@ export default function Frontmatter({
 }: {
   type: "category" | "note";
   label: string;
-  value: any;
+  value: string[];
   isArray: boolean;
 }) {
   const Icon = ICON_MAP[label] || EllipsisHorizontalCircleIcon;
