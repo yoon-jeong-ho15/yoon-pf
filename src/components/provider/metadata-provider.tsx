@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { LinkMetadata } from "@/features/(markdown)/lib/metadata";
+import type { LinkMetadata } from "@/types";
 
 const MetadataContext = createContext<Record<string, LinkMetadata>>({});
 

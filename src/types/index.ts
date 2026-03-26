@@ -11,38 +11,9 @@ export type CategoryFrontmatter = {
 export type NoteFrontmatter = {
   title: string;
   date: string;
-  order?: number;
+  order?: string;
   link?: string[];
   tags?: string[];
-};
-
-export type Series = {
-  frontmatter: CategoryFrontmatter;
-  description: string;
-  slug: string[];
-  notes: Note[];
-};
-
-export type Subject = {
-  frontmatter: CategoryFrontmatter;
-  description: string;
-  slug: string[];
-  series: Series[];
-  notes: Note[];
-};
-
-export type Domain = {
-  frontmatter: CategoryFrontmatter;
-  description: string;
-  slug: string[];
-  subjects: Subject[];
-  notes: Note[];
-};
-
-export type Note = {
-  frontmatter: NoteFrontmatter;
-  slug: string[];
-  body: string;
 };
 
 export type BlogFrontmatter = {
@@ -54,4 +25,25 @@ export type Blog = {
   frontmatter: BlogFrontmatter;
   slug: string[];
   body: string;
+};
+
+export type NoteMeta = {
+  frontmatter: NoteFrontmatter;
+  slug: string[];
+};
+
+export type CategoryTree = {
+  frontmatter: CategoryFrontmatter;
+  slug: string[];
+  children: CategoryTree[];
+  notes: NoteMeta[];
+  description?: string;
+};
+
+export type LinkMetadata = {
+  url: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  icon?: string;
 };

@@ -1,11 +1,19 @@
 import * as cheerio from "cheerio";
+import type { LinkMetadata } from "@/types";
 
-export interface LinkMetadata {
-  url: string;
-  title?: string;
-  description?: string;
-  image?: string;
-  icon?: string;
+export async function getLinkMetadataMap(
+  frontmatter: Record<string, string | string[]>,
+): Promise<Record<string, LinkMetadata>> {
+  const links = frontmatter.link || [];
+  if (!Array.isArray(links)) return {};
+
+  const linkMetadataMap: Record<string, LinkMetadata> = {};
+  await Promise.all(
+    links.map(async (url: string) => {
+      linkMetadataMap[url] = await getUrlMetadata(url);
+    }),
+  );
+  return linkMetadataMap;
 }
 
 export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
@@ -14,6 +22,7 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       headers: {
         "User-Agent": "Twitterbot/1.0",
       },
+      signal: AbortSignal.timeout(5000),
     });
 
     if (!res.ok) {

@@ -1,26 +1,29 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @import "katex/dist/katex.css";
-@import "highlight.js/styles/github-dark.css";
+@import "highlight.js/styles/atom-one-light.css";
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root {
+  --background: var(--color-gray-100);
+  --foreground: var(--color-neutral-900);
+  --surface: var(--color-white);
 }
 
-@theme inline {
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-neutral-950);
+    --foreground: var(--color-neutral-200);
+    --surface: var(--color-neutral-900);
+  }
+}
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-} */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+}
 
 body {
   background: var(--background);
@@ -36,26 +39,36 @@ body {
 } */
 
 .prose h1 {
-  @apply text-xl;
+  @apply text-lg lg:text-xl;
 }
 
 .prose h2 {
-  @apply text-lg;
+  @apply text-lg lg:text-xl mt-10 mb-3;
 }
 
 .prose h3 {
-  @apply text-base font-bold;
+  @apply text-base font-bold mt-10 mb-3;
 }
 .prose strong {
-  @apply text-orange-700;
+  @apply text-orange-700 bg-orange-50 px-1 border-b font-normal;
 }
 .prose em {
-  @apply text-orange-700;
-  /* display: inline-block; */
-  border: 1 solid #9d9d9d;
-  border-radius: 5;
-  padding-left: 2px;
-  padding-right: 2px;
+  @apply text-orange-700 bg-orange-50 border rounded border-orange-700/60 px-1.5 py-0.5;
+}
+
+.prose :not(pre) > code {
+  @apply text-sky-800 bg-sky-800/10 rounded px-1 py-0.5 font-normal;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+.prose pre {
+  @apply bg-slate-100 p-2 border border-slate-200 rounded shadow-lg;
+}
+.prose pre code {
+  @apply bg-white rounded;
 }
 
 @layer utilities {
