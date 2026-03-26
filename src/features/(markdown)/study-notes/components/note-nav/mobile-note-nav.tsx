@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { CategoryTree } from "@/types";
 import NavContent from "./nav-content";
-import { useNoteNav } from "./use-note-nav";
+import { useNoteNav } from "../../hooks/use-note-nav";
 
 interface Props {
   tree: CategoryTree[];
@@ -32,18 +32,14 @@ export default function MobileNoteNav({ tree, navState }: Props) {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <div className="md:hidden w-12 shrink-0 h-full border-r border-gray-200 bg-white">
-      <div className="sticky top-0 z-50 flex h-12 items-center justify-center bg-white">
+    <div className="md:hidden w-12 shrink-0 h-full absolute">
+      <div className="sticky top-2 ml-2 mt-2">
         <button
           onClick={() => setIsOpen((prev) => !prev)}
-          className="p-1"
+          className="p-1 flex items-center justify-center w-10 h-10 border rounded bg-surface shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-300"
           aria-label="Toggle Menu"
         >
-          {isOpen ? (
-            <CloseIcon className="w-5 h-5" />
-          ) : (
-            <MenuIcon className="w-5 h-5" />
-          )}
+          <MenuIcon className="w-5 h-5" />
         </button>
       </div>
 
@@ -64,9 +60,14 @@ export default function MobileNoteNav({ tree, navState }: Props) {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 bottom-0 left-12 z-40 w-72 flex flex-col divide-y bg-white shadow-xl shadow-black/10 border-r border-gray-200"
+              className="fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col divide-y bg-white shadow-xl shadow-black/10 border-r border-gray-200"
               onClick={(e) => e.stopPropagation()}
             >
+              <div className="flex pl-4 items-center ">
+                <button onClick={closeMenu} className="p-1 h-10 w-10">
+                  <CloseIcon className="w-5 h-5" />
+                </button>
+              </div>
               <NavContent tree={tree} {...navState} onLinkClick={closeMenu} />
             </motion.aside>
           </>

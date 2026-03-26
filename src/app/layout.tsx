@@ -39,10 +39,10 @@ export default function RootLayout({
       <body
         className={`${notoSansKr.className} 
         antialiased flex flex-col max-w-screen min-h-screen
-        overflow-y-scroll relative`}
+        overflow-y-scroll relative bg-gray-200`}
       >
         <Navbar />
-        <div id="main-layout" className="flex flex-col flex-1">
+        <div id="main-layout" className="flex flex-col flex-1 mt-4">
           {children}
         </div>
         <Footer />

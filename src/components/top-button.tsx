@@ -9,7 +9,7 @@ export default function TopButton() {
     <div className="fixed bottom-8 right-8 z-50">
       <button
         onClick={scrollToTop}
-        className="flex items-center justify-center w-12 h-12 text-gray-500 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:hover:text-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-300"
+        className="flex items-center justify-center w-8 h-8 md:w-12 md:h-12 bg-surface rounded shadow-lg border border-gray-500 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-300"
         aria-label="맨 위로 올라가기"
       >
         <svg

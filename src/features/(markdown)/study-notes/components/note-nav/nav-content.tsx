@@ -31,7 +31,9 @@ export default function NavContent({
             onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
             className={`px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-gray-400
               ${
-                activeRootSlug === rootNode.slug.join("/") ? "bg-gray-200" : ""
+                activeRootSlug === rootNode.slug.join("/")
+                  ? "bg-gray-50 text-black font-bold"
+                  : "bg-gray-200 text-slate-500"
               }`}
           >
             {rootNode.frontmatter.title}

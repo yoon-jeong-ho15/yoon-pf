@@ -24,7 +24,7 @@ export default function CategoryPage({
 
   return (
     <div
-      className={`lex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500`}
+      className={`flex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500 pl-16`}
     >
       <div className="flex flex-col flex-1">
         <div className="pl-1 py-3">

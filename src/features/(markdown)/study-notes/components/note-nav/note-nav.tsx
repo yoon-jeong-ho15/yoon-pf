@@ -1,7 +1,7 @@
 "use client";
 
 import { CategoryTree } from "@/types";
-import { useNoteNav } from "./use-note-nav";
+import { useNoteNav } from "../../hooks/use-note-nav";
 import MobileNoteNav from "./mobile-note-nav";
 import DesktopNoteNav from "./desktop-note-nav";
 

@@ -15,10 +15,10 @@ export default function NotePage({
 
   return (
     <div
-      className={`flex-1 flex divide-x divide-gray-500 font-medium bg-surface border-l border-gray-500`}
+      className={`flex-1 flex xl:space-x-3 font-medium border-l border-gray-500`}
     >
-      <main className="flex-1 flex flex-col divide-y divide-gray-400 min-h-screen">
-        <div className="text-green-800 p-5 space-y-2 text-lg">
+      <main className="flex-1 flex flex-col min-h-screen bg-surface border-r border-gray-500">
+        <div className="text-green-800 p-5 space-y-2 border-b border-gray-400 pl-18">
           {sortedFrontmatter.map(([key, value]) => (
             <div key={key} className="">
               <span>{key}</span>
@@ -31,11 +31,11 @@ export default function NotePage({
           className="prose my-8 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl xl:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
           dangerouslySetInnerHTML={{ __html: content }}
         />
+        <TopButton />
       </main>
-      <aside className="hidden xl:block w-64 p-5 sticky top-0 max-h-screen overflow-y-auto shrink-0">
+      <aside className="hidden xl:block w-64 p-5 sticky top-0 max-h-screen overflow-y-auto shrink-0 bg-surface border-l border-gray-500">
         <TableOfContents />
       </aside>
-      <TopButton />
     </div>
   );
 }

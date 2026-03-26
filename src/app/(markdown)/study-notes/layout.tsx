@@ -12,7 +12,7 @@ export default function StudyNotesLayout({
   return (
     <div
       className={`${d2Coding.className} flex  
-    space-x-3
+    space-x-4
    border-y border-gray-500
     mb-16`}
     >
