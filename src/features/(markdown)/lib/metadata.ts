@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import type { LinkMetadata } from "@/types";
 
 export async function getLinkMetadataMap(
-  frontmatter: Record<string, string[]>,
+  frontmatter: Record<string, string | string[]>,
 ): Promise<Record<string, LinkMetadata>> {
   const links = frontmatter.link || [];
   if (!Array.isArray(links)) return {};

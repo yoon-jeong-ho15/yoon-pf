@@ -39,7 +39,7 @@ export default function CategoryPage({
                       <span>{" : ["}</span>
                     </div>
                     <div className="flex flex-wrap gap-x-2 gap-y-1">
-                      {value.map((item: string, idx: number) => (
+                      {(value as string[]).map((item: string, idx: number) => (
                         <span key={item} className="flex">
                           <SidebarLink
                             url={item}

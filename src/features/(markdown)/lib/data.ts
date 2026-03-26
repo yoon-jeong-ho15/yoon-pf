@@ -78,7 +78,7 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
 
   notes.sort((a, b) => {
     if (a.frontmatter.order !== undefined && b.frontmatter.order !== undefined)
-      return a.frontmatter.order - b.frontmatter.order;
+      return Number(a.frontmatter.order) - Number(b.frontmatter.order);
     if (a.frontmatter.order !== undefined) return -1;
     if (b.frontmatter.order !== undefined) return 1;
     return a.frontmatter.title.localeCompare(b.frontmatter.title);

@@ -11,7 +11,7 @@ export type CategoryFrontmatter = {
 export type NoteFrontmatter = {
   title: string;
   date: string;
-  order?: number;
+  order?: string;
   link?: string[];
   tags?: string[];
 };

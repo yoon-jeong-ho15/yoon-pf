@@ -48,7 +48,7 @@ export default async function Page({
     ? await getLinkMetadataMap(categoryNode.frontmatter)
     : {};
   const noteMetadata = noteMeta
-    ? await getLinkMetadataMap(noteMeta as NoteMeta)
+    ? await getLinkMetadataMap(noteMeta.frontmatter)
     : {};
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
