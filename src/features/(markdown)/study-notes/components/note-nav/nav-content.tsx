@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CategoryTree } from "@/types";
-import RowScrollTabs from "@/components/row-scroll-tabs";
+import ScrollableRow from "@/components/ui/scrollable-row";
 import CategoryTreeNode from "./tree-node";
 
 interface NavContentProps {
@@ -24,7 +24,7 @@ export default function NavContent({
 }: NavContentProps) {
   return (
     <>
-      <RowScrollTabs className="mt-2 px-1 gap-1">
+      <ScrollableRow className="mt-2 px-1 gap-1">
         {tree.map((rootNode) => (
           <button
             key={rootNode.slug.join("/")}
@@ -39,7 +39,7 @@ export default function NavContent({
             {rootNode.frontmatter.title}
           </button>
         ))}
-      </RowScrollTabs>
+      </ScrollableRow>
 
       <div className="flex-1 overflow-y-auto p-2">
         <h3 className="text-xs font-semibold tracking-wider mb-1 underline">

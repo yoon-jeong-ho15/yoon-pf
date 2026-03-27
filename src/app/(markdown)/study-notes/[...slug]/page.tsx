@@ -7,7 +7,6 @@ import {
 } from "@/features/(markdown)/lib/data";
 import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
-import { NoteMeta } from "@/types";
 
 export async function generateStaticParams() {
   const tree = getStudyNotesTree();
