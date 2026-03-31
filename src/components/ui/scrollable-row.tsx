@@ -2,7 +2,7 @@
 import { useScroll } from "@/hooks/useScroll";
 import { useScrollToActive } from "@/hooks/useScrollToActive";
 
-export default function RowScrollTabs({
+export default function ScrollableRow({
   children,
   className,
   activeSelector,

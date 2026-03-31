@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useScrollspy } from "@/hooks/useScrollspy";
 
 interface Heading {
   id: string;
@@ -10,7 +11,10 @@ interface Heading {
 
 export default function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([]);
-  const [activeId, setActiveId] = useState<string>("");
+  const activeId = useScrollspy(
+    "article h1, article h2, article h3, article h4",
+    { rootMargin: "0px 0px -80% 0px" }
+  );
 
   useEffect(() => {
     const elements = Array.from(
@@ -28,21 +32,6 @@ export default function TableOfContents() {
       .filter((heading) => heading.id);
 
     setHeadings(newHeadings);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -80% 0px" },
-    );
-
-    elements.forEach((elem) => observer.observe(elem));
-
-    return () => observer.disconnect();
   }, []);
 
   if (headings.length === 0) return null;

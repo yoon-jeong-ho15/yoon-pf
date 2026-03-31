@@ -3,6 +3,8 @@ import { sortFrontmatter } from "@/features/(markdown)/utils/util";
 import { NoteMeta } from "@/types";
 
 import TableOfContents from "@/features/(markdown)/components/table-of-contents";
+import { FrontmatterItem } from "@/components/ui/frontmatter";
+import { SidebarLink } from "@/features/(markdown)/study-notes/components/frontmatter/links";
 
 export default function NotePage({
   noteMeta,
@@ -18,13 +20,19 @@ export default function NotePage({
       className={`flex-1 flex xl:space-x-3 font-medium border-l border-gray-500`}
     >
       <main className="flex-1 flex flex-col min-h-screen bg-surface border-r border-gray-500">
-        <div className="text-green-800 p-5 space-y-2 border-b border-gray-400 pl-18">
+        <div className="flex flex-col p-5 space-y-2 border-b border-gray-400 pl-18 ">
           {sortedFrontmatter.map(([key, value]) => (
-            <div key={key} className="">
-              <span>{key}</span>
-              <span>{" : "}</span>
-              <span>{`"${value}"`}</span>
-            </div>
+            <FrontmatterItem
+              key={key}
+              label={key}
+              value={value as string | string[]}
+              renderCustomValue={
+                key === "link"
+                  ? (itemUrl) => <SidebarLink url={itemUrl} />
+                  : undefined
+              }
+              className="border border-gray-300"
+            />
           ))}
         </div>
         <article

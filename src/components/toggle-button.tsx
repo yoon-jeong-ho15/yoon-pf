@@ -2,6 +2,7 @@ import {
   ChevronDoubleUpIcon,
   ChevronDoubleDownIcon,
 } from "@heroicons/react/24/outline";
+import { Button } from "./ui/button";
 
 export function ToggleButton({
   onClick,
@@ -11,23 +12,23 @@ export function ToggleButton({
   isExpanded: boolean;
 }) {
   return (
-    <button
+    <Button
+      variant="outline"
+      size="sm"
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 p-1 px-4 border-gray-300 ${
-        isExpanded ? "" : ""
-      }`}
+      className="flex items-center justify-center gap-2"
     >
       {isExpanded ? (
         <>
           <span className="w-10">접기</span>
-          <ChevronDoubleUpIcon className="w-6 h-6" />
+          <ChevronDoubleUpIcon className="w-5 h-5" />
         </>
       ) : (
         <>
           <span className="w-10">펼치기</span>
-          <ChevronDoubleDownIcon className="w-6 h-6" />
+          <ChevronDoubleDownIcon className="w-5 h-5" />
         </>
       )}
-    </button>
+    </Button>
   );
 }

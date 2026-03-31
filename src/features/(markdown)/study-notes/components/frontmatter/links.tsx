@@ -3,9 +3,8 @@
 import { AtSymbolIcon } from "@heroicons/react/24/outline";
 import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/components/provider/metadata-provider";
-import { useState, useRef } from "react";
-import { createPortal } from "react-dom";
 import { getDomainFromURL } from "@/features/(markdown)/utils/util";
+import { HoverCard } from "@/components/ui/hover-card";
 
 export default function Links({ value }: { value: string[] }) {
   const metadataMap = useMetadata();
@@ -21,73 +20,34 @@ export default function Links({ value }: { value: string[] }) {
 }
 
 function LinkItem({ url, metaData }: { url: string; metaData?: LinkMetadata }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [rect, setRect] = useState<DOMRect | null>(null);
-  const linkRef = useRef<HTMLLIElement>(null);
-
-  const handleMouseEnter = () => {
-    if (linkRef.current) {
-      setRect(linkRef.current.getBoundingClientRect());
-    }
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   return (
-    <li
-      ref={linkRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="relative"
-    >
-      <a
-        href={url}
-        target="_blank"
-        title={metaData?.title || url}
-        className="flex gap-1 rounded-lg py-1 px-1.5 bg-white hover:bg-mist-200  transition-colors items-center cursor-pointer"
+    <li>
+      <HoverCard
+        content={metaData ? <LinkPreview metaData={metaData} /> : null}
       >
-        <div className="size-3">
-          {" "}
-          {metaData?.icon ? (
-            <img src={metaData.icon} alt={metaData.title || "Link icon"} />
-          ) : (
-            <AtSymbolIcon className="" />
-          )}
-        </div>
-      </a>
-      {isHovered &&
-        rect &&
-        metaData &&
-        createPortal(
-          <LinkPreview metaData={metaData} rect={rect} />,
-          document.body,
-        )}
+        <a
+          href={url}
+          target="_blank"
+          title={metaData?.title || url}
+          className="flex gap-1 rounded-lg py-1 px-1.5 bg-white hover:bg-mist-200 transition-colors items-center cursor-pointer"
+        >
+          <div className="size-3">
+            {" "}
+            {metaData?.icon ? (
+              <img src={metaData.icon} alt={metaData.title || "Link icon"} />
+            ) : (
+              <AtSymbolIcon className="" />
+            )}
+          </div>
+        </a>
+      </HoverCard>
     </li>
   );
 }
 
-function LinkPreview({
-  metaData,
-  rect,
-}: {
-  metaData: LinkMetadata;
-  rect: DOMRect;
-}) {
+function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
-    <div
-      className="fixed z-50 w-64 bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col overflow-hidden pointer-events-none"
-      style={{
-        top: Math.min(rect.bottom + 8, window.innerHeight - 200),
-        left: Math.max(
-          0,
-          Math.min(rect.left + rect.width / 2, window.innerWidth - 130),
-        ),
-        transform: "translateX(-50%)",
-      }}
-    >
+    <div className="w-64 bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col overflow-hidden">
       {metaData.image && (
         <div className="w-full h-32 relative overflow-hidden bg-gray-100">
           <img
@@ -110,44 +70,19 @@ function LinkPreview({
   );
 }
 
-export function SidebarLink({ url, isLast }: { url: string; isLast: boolean }) {
+export function SidebarLink({ url }: { url: string }) {
   const metadataMap = useMetadata();
   const metaData = metadataMap?.[url];
-  const [isHovered, setIsHovered] = useState(false);
-  const [rect, setRect] = useState<DOMRect | null>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-
-  const handleMouseEnter = () => {
-    if (linkRef.current) {
-      setRect(linkRef.current.getBoundingClientRect());
-    }
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
 
   return (
     <span className="relative">
-      <a
-        ref={linkRef}
-        href={url}
-        className="text-orange-800 hover:underline"
-        target="_blank"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+      <HoverCard
+        content={metaData ? <LinkPreview metaData={metaData} /> : null}
       >
-        {`"${getDomainFromURL(url)}"`}
-      </a>
-      {!isLast && ","}
-      {isHovered &&
-        rect &&
-        metaData &&
-        createPortal(
-          <LinkPreview metaData={metaData} rect={rect} />,
-          document.body,
-        )}
+        <a href={url} className="hover:underline" target="_blank">
+          {`${getDomainFromURL(url)}`}
+        </a>
+      </HoverCard>
     </span>
   );
 }
