@@ -1,7 +1,6 @@
 import * as React from "react";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline" | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
   ref?: React.Ref<HTMLButtonElement>;
@@ -26,8 +25,7 @@ export function Button({
   let sizeStyles = "h-10 px-4 py-2";
   if (size === "sm") sizeStyles = "h-8 px-3 text-sm";
   if (size === "lg") sizeStyles = "h-11 px-8 text-lg";
-  if (size === "icon")
-    sizeStyles = "flex items-center justify-center p-0"; // Let custom width/height apply via className
+  if (size === "icon") sizeStyles = "flex items-center justify-center p-0"; // Let custom width/height apply via className
 
   return (
     <button

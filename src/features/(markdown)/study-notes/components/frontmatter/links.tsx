@@ -45,11 +45,7 @@ function LinkItem({ url, metaData }: { url: string; metaData?: LinkMetadata }) {
   );
 }
 
-function LinkPreview({
-  metaData,
-}: {
-  metaData: LinkMetadata;
-}) {
+function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
     <div className="w-64 bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col overflow-hidden">
       {metaData.image && (
@@ -74,7 +70,7 @@ function LinkPreview({
   );
 }
 
-export function SidebarLink({ url, isLast }: { url: string; isLast: boolean }) {
+export function SidebarLink({ url }: { url: string }) {
   const metadataMap = useMetadata();
   const metaData = metadataMap?.[url];
 
@@ -83,15 +79,10 @@ export function SidebarLink({ url, isLast }: { url: string; isLast: boolean }) {
       <HoverCard
         content={metaData ? <LinkPreview metaData={metaData} /> : null}
       >
-        <a
-          href={url}
-          className="text-orange-800 hover:underline"
-          target="_blank"
-        >
-          {`"${getDomainFromURL(url)}"`}
+        <a href={url} className="hover:underline" target="_blank">
+          {`${getDomainFromURL(url)}`}
         </a>
       </HoverCard>
-      {!isLast && ","}
     </span>
   );
 }
