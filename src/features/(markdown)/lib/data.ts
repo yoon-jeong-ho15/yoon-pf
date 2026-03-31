@@ -69,7 +69,13 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
           .split(Path.sep);
 
         notes.push({
-          frontmatter: data as NoteFrontmatter,
+          frontmatter: {
+            ...data,
+            date:
+              data.date instanceof Date
+                ? data.date.toISOString().substring(0, 10)
+                : String(data.date || ""),
+          } as NoteFrontmatter,
           slug,
         });
       }
