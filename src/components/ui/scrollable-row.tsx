@@ -1,6 +1,7 @@
 "use client";
 import { useScroll } from "@/hooks/useScroll";
 import { useScrollToActive } from "@/hooks/useScrollToActive";
+import { cn } from "@/lib/utils";
 
 export default function ScrollableRow({
   children,
@@ -20,7 +21,7 @@ export default function ScrollableRow({
   );
 
   return (
-    <div ref={scrollRef} className={`flex overflow-x-hidden ${className}`}>
+    <div ref={scrollRef} className={cn("flex overflow-x-hidden", className)}>
       {children}
     </div>
   );

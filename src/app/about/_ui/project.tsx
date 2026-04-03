@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export default function Project({
   title,
   github,
@@ -16,10 +18,10 @@ export default function Project({
   const isMain = title === "yoon-pf";
   return (
     <div
-      className={`my-2 p-1 py-2 rounded ${
+      className={cn(
+        "my-2 p-1 py-2 rounded",
         isMain ? "bg-gray-100 outline outline-stone-300" : "hover:bg-gray-100"
-      }
-      `}
+      )}
     >
       <div className="flex flex-row mb-2 items-center">
         {isMain && (
@@ -30,7 +32,7 @@ export default function Project({
           <a
             href={github}
             className="text-blue-600 text-sm ml-3 
-          border-blue-500 border-1 px-1 py-0.5 
+          border-blue-500 border px-1 py-0.5 
           rounded-lg hover:bg-amber-200 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
           >
             github
@@ -39,7 +41,7 @@ export default function Project({
             <a
               href={link}
               className="text-blue-600 text-sm ml-3 
-            border-blue-500 border-1 px-1 py-0.5 
+            border-blue-500 border px-1 py-0.5 
             rounded-lg hover:bg-teal-100 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             >
               link
@@ -49,7 +51,7 @@ export default function Project({
             <a
               href={about}
               className="text-blue-600 text-sm ml-3 
-            border-blue-500 border-1 px-1 py-0.5 
+            border-blue-500 border px-1 py-0.5 
             rounded-lg hover:bg-lime-200 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             >
               about
@@ -64,7 +66,7 @@ export default function Project({
               const data = stackData[item as keyof typeof stackData];
               return (
                 <span key={i} className="mr-2">
-                  <a className={`${data.style} hover:font-semibold p-0.5`}>
+                  <a className={cn(data.style, "hover:font-semibold p-0.5")}>
                     {item}
                   </a>
                 </span>

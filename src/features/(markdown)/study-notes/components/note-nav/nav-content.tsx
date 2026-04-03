@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CategoryTree } from "@/types";
 import ScrollableRow from "@/components/ui/scrollable-row";
 import CategoryTreeNode from "./tree-node";
+import { cn } from "@/lib/utils";
 
 interface NavContentProps {
   tree: CategoryTree[];
@@ -29,12 +30,12 @@ export default function NavContent({
           <button
             key={rootNode.slug.join("/")}
             onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
-            className={`px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-gray-400
-              ${
-                activeRootSlug === rootNode.slug.join("/")
-                  ? "bg-gray-50 text-black font-bold"
-                  : "bg-gray-200 text-slate-500"
-              }`}
+            className={cn(
+              "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-gray-400",
+              activeRootSlug === rootNode.slug.join("/")
+                ? "bg-gray-50 text-black font-bold"
+                : "bg-gray-200 text-slate-500"
+            )}
           >
             {rootNode.frontmatter.title}
           </button>
@@ -75,9 +76,10 @@ export default function NavContent({
                   <Link
                     href={noteHref}
                     onClick={onLinkClick}
-                    className={`block px-2 py-0.5 text-sm transition-colors truncate
-                      ${isCurrent ? "bg-gray-100 font-medium ml-1" : " "}
-                      box-border border border-transparent hover:border-y-gray-200 hover:ml-1`}
+                    className={cn(
+                      "block px-2 py-0.5 text-sm transition-colors truncate box-border border border-transparent hover:border-y-gray-200 hover:ml-1",
+                      isCurrent && "bg-gray-100 font-medium ml-1"
+                    )}
                   >
                     {note.frontmatter.title}
                   </Link>

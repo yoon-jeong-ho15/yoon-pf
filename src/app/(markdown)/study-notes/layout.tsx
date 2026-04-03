@@ -1,6 +1,7 @@
 import NoteNav from "@/features/(markdown)/study-notes/components/note-nav/note-nav";
 import { getStudyNotesTree } from "@/features/(markdown)/lib/data";
 import { d2Coding } from "@/app/fonts";
+import { cn } from "@/lib/utils";
 
 export default function StudyNotesLayout({
   children,
@@ -11,10 +12,10 @@ export default function StudyNotesLayout({
 
   return (
     <div
-      className={`${d2Coding.className} flex  
-    space-x-4
-   border-y border-gray-500
-    mb-16`}
+      className={cn(
+        d2Coding.className,
+        "flex space-x-4 border-y border-gray-500 mb-16"
+      )}
     >
       <NoteNav tree={tree} />
       {children}

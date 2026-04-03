@@ -1,4 +1,5 @@
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline" | "ghost";
@@ -30,7 +31,12 @@ export function Button({
   return (
     <button
       ref={ref}
-      className={`inline-flex items-center justify-center rounded transition-all focus:outline-none ${variantStyles} ${sizeStyles} ${className}`}
+      className={cn(
+        "inline-flex items-center justify-center rounded transition-all focus:outline-none",
+        variantStyles,
+        sizeStyles,
+        className
+      )}
       {...props}
     />
   );

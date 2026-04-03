@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useScrollspy } from "@/hooks/useScrollspy";
+import { cn } from "@/lib/utils";
 
 interface Heading {
   id: string;
@@ -47,9 +48,10 @@ export default function TableOfContents() {
           >
             <a
               href={`#${heading.id}`}
-              className={`block transition-colors hover:text-black ${
+              className={cn(
+                "block transition-colors hover:text-black",
                 activeId === heading.id ? "font-semibold" : "text-gray-600"
-              }`}
+              )}
             >
               {heading.text}
             </a>

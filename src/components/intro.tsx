@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { robotoMono } from "@/app/fonts";
+import { cn } from "@/lib/utils";
 
 const lines = ["Hello", "안녕하세요?"];
 
@@ -33,11 +34,10 @@ export default function IntroMotion() {
 
   return (
     <div
-      className={`
-    w-full h-full 
-    flex items-center 
-    ${robotoMono.className}
-    `}
+      className={cn(
+        "w-full h-full flex items-center",
+        robotoMono.className
+      )}
     >
       <motion.div
         className="text-2xl md:text-4xl"
