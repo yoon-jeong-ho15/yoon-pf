@@ -1,7 +1,6 @@
 import * as React from "react";
 
-const cn = (...classes: (string | undefined | null | false)[]) =>
-  classes.filter(Boolean).join(" ");
+import { cn } from "@/lib/utils";
 
 export interface FrontmatterItemProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;

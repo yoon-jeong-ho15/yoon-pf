@@ -3,6 +3,7 @@ import "./globals.css";
 import { notoSansKr } from "./fonts";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar/navbar";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "윤정호",
@@ -37,12 +38,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${notoSansKr.className} 
-        antialiased flex flex-col max-w-screen min-h-screen
-        overflow-y-scroll relative bg-gray-200`}
+        className={cn(
+          notoSansKr.className,
+          "antialiased flex flex-col max-w-screen min-h-screen overflow-y-scroll relative bg-gray-200"
+        )}
       >
         <Navbar />
-        <div id="main-layout" className="flex flex-col flex-1 mt-4">
+        <div id="main-layout" className={cn("flex flex-col flex-1 mt-4")}>
           {children}
         </div>
         <Footer />

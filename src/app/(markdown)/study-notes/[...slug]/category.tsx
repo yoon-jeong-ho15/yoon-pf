@@ -25,7 +25,7 @@ export default function CategoryPage({
 
   return (
     <div
-      className={`flex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500 md:pl-16`}
+      className="flex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500 md:pl-16"
     >
       <div className="flex flex-1 space-x-6 mt-14 md:mt-0">
         <div className="flex flex-col space-y-12 w-1/3 min-w-54">
@@ -41,7 +41,7 @@ export default function CategoryPage({
                       ? (itemUrl) => <SidebarLink url={itemUrl} />
                       : undefined
                   }
-                  className={`bg-surface border border-gray-500`}
+                  className="bg-surface border border-gray-500"
                 />
               );
             })}
@@ -67,7 +67,7 @@ export default function CategoryPage({
                   <li key={note.slug.join("/")}>
                     <Link
                       href={`/study-notes/${note.slug.join("/")}`}
-                      className={`hover:underline`}
+                      className="hover:underline"
                     >
                       {`${note.frontmatter?.title || note.slug[note.slug.length - 1]}`}
                     </Link>

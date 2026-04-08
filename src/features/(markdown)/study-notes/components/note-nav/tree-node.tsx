@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { CategoryTree } from "@/types";
+import { cn } from "@/lib/utils";
 
 export default function CategoryTreeNode({
   node,
@@ -32,7 +33,7 @@ export default function CategoryTreeNode({
             e.preventDefault();
             setIsExpanded(!isExpanded);
           }}
-          className={`p-1 ${node.children.length === 0 ? "invisible" : ""}`}
+          className={cn("p-1", node.children.length === 0 && "invisible")}
         >
           {isExpanded ? (
             <ChevronDownIcon className="w-3.5 h-3.5" />
@@ -44,9 +45,10 @@ export default function CategoryTreeNode({
         <Link
           href={href}
           onClick={onLinkClick}
-          className={`flex-1 ml-1 p-1 text-sm transition-colors truncate
-            hover:pl-3
-            ${isCurrent ? "bg-linear-to-r from-gray-200 to-gray-50 italic pl-3" : ""}`}
+          className={cn(
+            "flex-1 ml-1 p-1 text-sm transition-colors truncate hover:pl-3",
+            isCurrent && "bg-linear-to-r from-gray-200 to-gray-50 italic pl-3"
+          )}
         >
           <span>{node.frontmatter.title}</span>
           <span className="text-xs text-gray-600 ml-1">{`(${node.notes.length})`}</span>

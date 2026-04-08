@@ -6,6 +6,7 @@ import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export function MobileMenu() {
   const { navTabs, selectedNavTab } = useNav();
@@ -45,11 +46,12 @@ export function MobileMenu() {
                     key={tab.title}
                     href={tab.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-2xl text-center py-3 rounded-lg transition-colors ${
+                    className={cn(
+                      "text-2xl text-center py-3 rounded-lg transition-colors",
                       selectedNavTab?.title === tab.title
                         ? "bg-gray-700 text-gray-200"
                         : "text-gray-700 hover:bg-gray-200"
-                    }`}
+                    )}
                   >
                     {tab.title}
                   </Link>

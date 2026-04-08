@@ -2,6 +2,7 @@
 
 import { useState, useRef, ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { cn } from "@/lib/utils";
 
 interface HoverCardProps {
   children: ReactNode;
@@ -36,7 +37,7 @@ export function HoverCard({ children, content, className = "", as: Component = "
         ref={wrapperRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`relative inline-block ${className}`}
+        className={cn("relative inline-block", className)}
       >
         {children}
       </Component>
