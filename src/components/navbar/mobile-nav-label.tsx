@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useNav } from "../../hooks/useNav";
+import { useNav } from "./useNav";
 
 export function MobileNavLabel() {
   const { selectedNavTab } = useNav();

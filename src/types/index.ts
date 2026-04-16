@@ -6,6 +6,7 @@ export type CategoryFrontmatter = {
   topic?: string[];
   instructor?: string[];
   chapter?: string;
+  provide?: string[];
 };
 
 export type NoteFrontmatter = {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import * as motion from "motion/react-client";
-import { useNav } from "../../hooks/useNav";
+import { useNav } from "./useNav";
 
 export function NavLinks() {
   const { navTabs, selectedNavTab } = useNav();
