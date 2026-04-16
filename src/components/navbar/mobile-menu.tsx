@@ -1,6 +1,6 @@
 "use client";
 
-import { useNav } from "../../hooks/useNav";
+import { useNav } from "./useNav";
 import { useState } from "react";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
@@ -50,7 +50,7 @@ export function MobileMenu() {
                       "text-2xl text-center py-3 rounded-lg transition-colors",
                       selectedNavTab?.title === tab.title
                         ? "bg-gray-700 text-gray-200"
-                        : "text-gray-700 hover:bg-gray-200"
+                        : "text-gray-700 hover:bg-gray-200",
                     )}
                   >
                     {tab.title}

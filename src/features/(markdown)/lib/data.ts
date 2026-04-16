@@ -167,3 +167,60 @@ export function getTreeItemBySlug(
 
   return null;
 }
+
+export function searchStudyNotes(
+  tree: CategoryTree[],
+  query: string,
+): { matchedCategories: CategoryTree[]; matchedNotes: NoteMeta[] } {
+  const matchedCategories: CategoryTree[] = [];
+  const matchedNotes: NoteMeta[] = [];
+
+  if (!query) return { matchedCategories, matchedNotes };
+
+  const lowerQuery = query.toLowerCase();
+
+  const matchField = (field: string | string[] | undefined) => {
+    if (!field) return false;
+    if (Array.isArray(field)) {
+      return field.some((f) => f.toLowerCase().includes(lowerQuery));
+    }
+    if (typeof field === "string") {
+      return field.toLowerCase().includes(lowerQuery);
+    }
+    return false;
+  };
+
+  const traverse = (node: CategoryTree) => {
+    const catFrontmatter = node.frontmatter;
+    const catMatch =
+      catFrontmatter.title.toLowerCase().includes(lowerQuery) ||
+      matchField(catFrontmatter.topic) ||
+      matchField(catFrontmatter.provide) ||
+      matchField(catFrontmatter.instructor);
+
+    if (catMatch) {
+      matchedCategories.push(node);
+    }
+
+    for (const note of node.notes) {
+      const noteFrontmatter = note.frontmatter;
+      const noteMatch =
+        noteFrontmatter.title.toLowerCase().includes(lowerQuery) ||
+        matchField(noteFrontmatter.tags);
+
+      if (noteMatch) {
+        matchedNotes.push(note);
+      }
+    }
+
+    for (const child of node.children) {
+      traverse(child);
+    }
+  };
+
+  for (const root of tree) {
+    traverse(root);
+  }
+
+  return { matchedCategories, matchedNotes };
+}
