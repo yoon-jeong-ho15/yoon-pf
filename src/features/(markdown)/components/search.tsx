@@ -45,3 +45,16 @@ export default function Search({
     </form>
   );
 }
+
+export function SearchSkeleton({ className = "" }: { className?: string }) {
+  return (
+    <div className={`${className} flex whitespace-nowrap animate-pulse`}>
+      <div className="border border-gray-500 py-2 px-4 w-[200px] bg-gray-700/30 text-transparent select-none">
+        &nbsp;
+      </div>
+      <div className="border border-gray-500 border-l-0 p-2 w-[66px] bg-gray-600/30 text-transparent select-none">
+        search
+      </div>
+    </div>
+  );
+}

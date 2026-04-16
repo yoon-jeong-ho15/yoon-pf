@@ -1,4 +1,5 @@
-import Search from "@/features/(markdown)/components/search";
+import Search, { SearchSkeleton } from "@/features/(markdown)/components/search";
+import { Suspense } from "react";
 import {
   getStudyNotesTree,
   searchStudyNotes,
@@ -39,7 +40,9 @@ export default async function Page(props: {
   return (
     <div className="flex-1 flex flex-col items-start min-h-screen p-4 gap-4">
       <div className="flex flex-wrap w-full gap-5 text-xl justify-end p-10">
-        <Search path="nsearch" />
+        <Suspense fallback={<SearchSkeleton />}>
+          <Search path="nsearch" />
+        </Suspense>
       </div>
       <div className="flex w-full p-10 gap-8">
         <div className="w-1/2 h-full bg-surface border border-gray-500 rounded p-4 flex flex-col gap-4">
