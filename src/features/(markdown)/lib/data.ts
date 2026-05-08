@@ -131,6 +131,23 @@ export function getAllTreeSlugs(tree: CategoryTree[]): string[][] {
   return slugs;
 }
 
+export function getAllPostFromTree(tree: CategoryTree[]): NoteMeta[] {
+  const posts: NoteMeta[] = [];
+
+  function traverse(node: CategoryTree) {
+    posts.push(...node.notes);
+
+    for (const child of node.children) {
+      traverse(child);
+    }
+  }
+
+  for (const root of tree) {
+    traverse(root);
+  }
+  return posts;
+}
+
 export function getTreeItemBySlug(
   tree: CategoryTree[],
   slug: string[],
@@ -226,4 +243,31 @@ export function searchStudyNotes(
   }
 
   return { matchedCategories, matchedNotes };
+}
+
+export function getImgSrc(
+  fileName: string,
+  type: "thumbnail" | "item",
+): string {
+  const extensions = [".jpg", ".png", ".webp", ".jpeg", ".gif"];
+  const directories =
+    type === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
+
+  for (const dir of directories) {
+    for (const ext of extensions) {
+      const relativePath = `/${dir}/${fileName}${ext}`;
+      const absolutePath = Path.join(
+        process.cwd(),
+        "public",
+        dir,
+        `${fileName}${ext}`,
+      );
+
+      if (fs.existsSync(absolutePath)) {
+        return relativePath;
+      }
+    }
+  }
+
+  return "/s.jpg"; // default fallback
 }
