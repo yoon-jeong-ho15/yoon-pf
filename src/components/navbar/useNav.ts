@@ -19,7 +19,8 @@ export function useNav() {
     if (pathname === "/") return navTabs[0];
     if (pathname.startsWith("/about")) return navTabs[1];
     if (pathname.startsWith("/blogs")) return navTabs[2];
-    if (pathname.startsWith("/study-notes")) return navTabs[3];
+    if (pathname.startsWith("/study-notes") || pathname.startsWith("/nsearch"))
+      return navTabs[3];
     return undefined;
   };
 
