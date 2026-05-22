@@ -24,9 +24,7 @@ export default function CategoryPage({
   const hasNotes = allNotes.length > 0;
 
   return (
-    <div
-      className="flex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500 md:pl-16"
-    >
+    <div className="flex flex-1 p-4 font-medium min-h-[calc(100vh-4rem)] border-l border-gray-500 md:pl-16">
       <div className="flex flex-1 space-x-6 mt-14 md:mt-0">
         <div className="flex flex-col space-y-12 w-1/3 min-w-54">
           <div className="space-y-2">
@@ -36,12 +34,12 @@ export default function CategoryPage({
                   key={key}
                   label={key}
                   value={value as string | string[]}
+                  variant="note"
                   renderCustomValue={
                     key === "link"
                       ? (itemUrl) => <SidebarLink url={itemUrl} />
                       : undefined
                   }
-                  className="bg-surface border border-gray-500"
                 />
               );
             })}

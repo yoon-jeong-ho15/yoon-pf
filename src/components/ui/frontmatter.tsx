@@ -2,23 +2,41 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+const variantStyles = {
+  note: {
+    container: "bg-surface border border-gray-500",
+    labelWrapper: "shrink-0 whitespace-pre bg-slate-200 px-1",
+    labelText: "text-blue-800",
+    valueText: "",
+  },
+  review: {
+    container: "border-b border-gray-400",
+    labelWrapper: "after:content-[':'] after:ml-1",
+    labelText: "",
+    valueText: "",
+  },
+};
+
 export interface FrontmatterItemProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
   value: string | string[];
+  variant: "note" | "review";
   renderCustomValue?: (value: string) => React.ReactNode;
 }
 
 export function FrontmatterItem({
   label,
   value,
+  variant,
   renderCustomValue,
-  className,
   ...props
 }: FrontmatterItemProps) {
   const items = Array.isArray(value) ? value : [value];
+  const styles = variantStyles[variant];
 
   const renderAsArray =
     Array.isArray(value) &&
+    variant !== "review" &&
     (label.toLowerCase() === "link" || items.length > 1);
 
   return (
@@ -28,12 +46,12 @@ export function FrontmatterItem({
         renderAsArray
           ? "flex-col items-start gap-1"
           : "flex-row items-start gap-2",
-        className,
+        styles.container,
       )}
       {...props}
     >
-      <div className="shrink-0 whitespace-pre bg-slate-200 px-1">
-        <span className="text-blue-800">{label}</span>
+      <div className={styles.labelWrapper}>
+        <span className={styles.labelText}>{label}</span>
       </div>
 
       <div
@@ -44,11 +62,14 @@ export function FrontmatterItem({
       >
         {items.map((item) => {
           return (
-            <span key={item} className="flex whitespace-pre">
+            <span
+              key={item}
+              className={cn("flex whitespace-pre", styles.valueText)}
+            >
               {renderCustomValue ? (
                 renderCustomValue(item)
               ) : (
-                <span className="">{`${item}`}</span>
+                <span>{item}</span>
               )}
             </span>
           );

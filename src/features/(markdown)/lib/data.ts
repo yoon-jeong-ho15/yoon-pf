@@ -9,36 +9,38 @@ import {
   NoteMeta,
 } from "@/types";
 
-const STUDY_NOTES_PATH = Path.join(process.cwd(), "md", "study-notes");
+const ROOT_PATH = Path.join(process.cwd(), "md");
 
-export const getStudyNotesTree = cache(
-  (dirPath: string = STUDY_NOTES_PATH): CategoryTree[] => {
-    if (!fs.existsSync(dirPath)) {
-      return [];
+export const getMDTree = cache((type: string): CategoryTree[] => {
+  const dirPath = Path.join(ROOT_PATH, type);
+
+  if (!fs.existsSync(dirPath)) {
+    return [];
+  }
+
+  const files = fs
+    .readdirSync(dirPath)
+    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+
+  const tree: CategoryTree[] = [];
+
+  for (const file of files) {
+    const fullPath = Path.join(dirPath, file);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      tree.push(parseCategoryDirectory(fullPath));
     }
+  }
 
-    const files = fs
-      .readdirSync(dirPath)
-      .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
-
-    const tree: CategoryTree[] = [];
-
-    for (const file of files) {
-      const fullPath = Path.join(dirPath, file);
-      const stat = fs.statSync(fullPath);
-
-      if (stat.isDirectory()) {
-        tree.push(parseCategoryDirectory(fullPath));
-      }
-    }
-
-    return tree;
-  },
-);
+  return tree;
+});
 
 function parseCategoryDirectory(dirPath: string): CategoryTree {
   const dirName = Path.basename(dirPath);
-  const currentSlug = Path.relative(STUDY_NOTES_PATH, dirPath).split(Path.sep);
+  const currentSlug = Path.relative(ROOT_PATH, dirPath)
+    .split(Path.sep)
+    .slice(1);
 
   const files = fs
     .readdirSync(dirPath)
@@ -64,9 +66,10 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
         categoryFrontmatter = data as CategoryFrontmatter;
         categoryDescription = content;
       } else {
-        const slug = Path.relative(STUDY_NOTES_PATH, fullPath)
+        const slug = Path.relative(ROOT_PATH, fullPath)
           .replace(/\.md$/, "")
-          .split(Path.sep);
+          .split(Path.sep)
+          .slice(1);
 
         notes.push({
           frontmatter: {
@@ -99,8 +102,8 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
   };
 }
 
-export function getPostBodyBySlug(slug: string[]): string | null {
-  const fullPath = Path.join(STUDY_NOTES_PATH, ...slug) + ".md";
+export function getPostBodyBySlug(type: string, slug: string[]): string | null {
+  const fullPath = Path.join(ROOT_PATH, type, ...slug) + ".md";
   if (fs.existsSync(fullPath)) {
     const { content } = matter(fs.readFileSync(fullPath, "utf8"));
     return content;
@@ -126,6 +129,23 @@ export function getAllTreeSlugs(tree: CategoryTree[]): string[][] {
   }
 
   return slugs;
+}
+
+export function getAllPostFromTree(tree: CategoryTree[]): NoteMeta[] {
+  const posts: NoteMeta[] = [];
+
+  function traverse(node: CategoryTree) {
+    posts.push(...node.notes);
+
+    for (const child of node.children) {
+      traverse(child);
+    }
+  }
+
+  for (const root of tree) {
+    traverse(root);
+  }
+  return posts;
 }
 
 export function getTreeItemBySlug(
@@ -223,4 +243,31 @@ export function searchStudyNotes(
   }
 
   return { matchedCategories, matchedNotes };
+}
+
+export function getImgSrc(
+  fileName: string,
+  type: "thumbnail" | "item",
+): string {
+  const extensions = [".jpg", ".png", ".webp", ".jpeg", ".gif"];
+  const directories =
+    type === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
+
+  for (const dir of directories) {
+    for (const ext of extensions) {
+      const relativePath = `/${dir}/${fileName}${ext}`;
+      const absolutePath = Path.join(
+        process.cwd(),
+        "public",
+        dir,
+        `${fileName}${ext}`,
+      );
+
+      if (fs.existsSync(absolutePath)) {
+        return relativePath;
+      }
+    }
+  }
+
+  return "/s.jpg"; // default fallback
 }

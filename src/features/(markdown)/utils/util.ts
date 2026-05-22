@@ -5,9 +5,11 @@ const FIELD_ORDER = [
   "date",
   "instructor",
   "author",
+  "director",
   "order",
   "provide",
-  "publish",
+  "publisher",
+  "year",
   "link",
   "tags",
 ];
@@ -24,6 +26,16 @@ export function sortFrontmatter(
     if (indexB !== -1) return 1;
     return 0;
   });
+}
+
+export function parseReviewItemFrontmatter(
+  frontmatter: Record<string, string | string[]>,
+) {
+  return Object.fromEntries(
+    Object.entries(frontmatter).filter(
+      ([key]) => key !== "date" && key !== "tags",
+    ),
+  );
 }
 
 export function getDomainFromURL(url: string) {

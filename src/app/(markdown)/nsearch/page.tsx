@@ -1,9 +1,8 @@
-import Search, { SearchSkeleton } from "@/features/(markdown)/components/search";
+import Search, {
+  SearchSkeleton,
+} from "@/features/(markdown)/components/search";
 import { Suspense } from "react";
-import {
-  getStudyNotesTree,
-  searchStudyNotes,
-} from "@/features/(markdown)/lib/data";
+import { getMDTree, searchStudyNotes } from "@/features/(markdown)/lib/data";
 import { CategoryTree, NoteMeta } from "@/types";
 import Link from "next/link";
 
@@ -34,7 +33,7 @@ export default async function Page(props: {
   const params = await props.searchParams;
   const query = params?.query || "";
 
-  const tree = getStudyNotesTree();
+  const tree = getMDTree("study-notes");
   const { matchedCategories, matchedNotes } = searchStudyNotes(tree, query);
 
   return (
