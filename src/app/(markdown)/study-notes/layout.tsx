@@ -14,7 +14,7 @@ export default function StudyNotesLayout({
     <div
       className={cn(
         d2Coding.className,
-        "flex space-x-4 border-y border-gray-500 mb-16",
+        "flex space-x-4 border-y border-default mb-16",
       )}
     >
       <NoteNav tree={tree} />

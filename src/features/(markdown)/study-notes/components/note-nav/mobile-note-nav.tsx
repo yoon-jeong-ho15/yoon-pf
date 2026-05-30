@@ -36,7 +36,7 @@ export default function MobileNoteNav({ tree, navState }: Props) {
       <div className="sticky top-2 ml-2 mt-2">
         <button
           onClick={() => setIsOpen((prev) => !prev)}
-          className="p-1 flex items-center justify-center w-10 h-10 border rounded bg-surface shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="p-1 flex items-center justify-center w-10 h-10 border border-default rounded bg-surface shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           aria-label="Toggle Menu"
         >
           <MenuIcon className="w-5 h-5" />
@@ -60,7 +60,7 @@ export default function MobileNoteNav({ tree, navState }: Props) {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col divide-y bg-white shadow-xl shadow-black/10 border-r border-gray-200"
+              className="fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col divide-y divide-border-muted bg-surface shadow-xl shadow-black/10 border-r border-muted"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex pl-4 items-center ">

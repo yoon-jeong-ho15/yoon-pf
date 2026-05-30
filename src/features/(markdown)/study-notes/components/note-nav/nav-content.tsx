@@ -31,10 +31,10 @@ export default function NavContent({
             key={rootNode.slug.join("/")}
             onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
             className={cn(
-              "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-gray-400",
+              "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-muted",
               activeRootSlug === rootNode.slug.join("/")
-                ? "bg-gray-50 text-black font-bold"
-                : "bg-gray-200 text-slate-500"
+                ? "bg-surface text-foreground font-bold"
+                : "bg-layout-bg text-text-muted"
             )}
           >
             {rootNode.frontmatter.title}
@@ -47,7 +47,7 @@ export default function NavContent({
           categories
         </h3>
         {activeRoot && activeRoot.children.length > 0 ? (
-          <ul className="divide-y divide-gray-100 [&>li]:py-0.5">
+          <ul className="divide-y divide-muted [&>li]:py-0.5">
             {activeRoot.children.map((child) => (
               <CategoryTreeNode
                 key={child.slug.join("/")}
@@ -77,8 +77,8 @@ export default function NavContent({
                     href={noteHref}
                     onClick={onLinkClick}
                     className={cn(
-                      "block px-2 py-0.5 text-sm transition-colors truncate box-border border border-transparent hover:border-y-gray-200 hover:ml-1",
-                      isCurrent && "bg-gray-100 font-medium ml-1"
+                      "block px-2 py-0.5 text-sm transition-colors truncate box-border border border-transparent hover:border-y-muted hover:ml-1",
+                      isCurrent && "bg-hover-bg font-medium ml-1"
                     )}
                   >
                     {note.frontmatter.title}

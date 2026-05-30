@@ -9,7 +9,7 @@ interface Props {
 
 export default function DesktopNoteNav({ tree, navState }: Props) {
   return (
-    <aside className="hidden md:flex flex-col w-62 lg:w-72 bg-surface divide-y divide-gray-400 sticky top-0 max-h-screen border-r border-gray-500">
+    <aside className="hidden md:flex flex-col w-62 lg:w-72 bg-surface divide-y divide-border-muted sticky top-0 max-h-screen border-r border-default">
       <NavContent tree={tree} {...navState} />
     </aside>
   );

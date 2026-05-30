@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 
 const variantStyles = {
   note: {
-    container: "bg-surface border border-gray-500",
-    labelWrapper: "shrink-0 whitespace-pre bg-slate-200 px-1",
-    labelText: "text-blue-800",
+    container: "bg-surface border border-default",
+    labelWrapper: "shrink-0 whitespace-pre bg-tag-bg px-1",
+    labelText: "text-tag-text",
     valueText: "",
   },
   review: {
-    container: "border-b border-gray-400",
+    container: "border-b border-muted",
     labelWrapper: "after:content-[':'] after:ml-1",
     labelText: "",
     valueText: "",

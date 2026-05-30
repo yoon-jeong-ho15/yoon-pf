@@ -16,7 +16,7 @@ export function NavLinks() {
           className="
            flex justify-center items-center 
            h-full my-3 relative z-10 px-5
-           hover:bg-gray-100 transition-colors"
+           hover:bg-hover-bg transition-colors"
         >
           {tab.title}
           {selectedNavTab?.title === tab.title && (

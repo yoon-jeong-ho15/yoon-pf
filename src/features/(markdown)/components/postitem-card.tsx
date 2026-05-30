@@ -8,10 +8,10 @@ export default function PostItemCard({ item }: { item: NoteMeta }) {
 
   return (
     <div
-      className="border border-gray-500 flex flex-col px-2"
+      className="border border-default flex flex-col px-2"
       key={item.slug.join("/")}
     >
-      <div className="text-xs border-b w-fit p-1 pr-4 flex gap-2">
+      <div className="text-xs border-b border-muted w-fit p-1 pr-4 flex gap-2">
         {item.slug.slice(0, -1).map((slugPart, i) => (
           <span
             key={i}
@@ -23,7 +23,7 @@ export default function PostItemCard({ item }: { item: NoteMeta }) {
       </div>
 
       <Link className="" href={`/blogs/${item.slug.join("/")}`}>
-        <div className="p-1 overflow-hidden relative w-full h-78 bg-gray-100 flex items-center justify-center my-2 shadow">
+        <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
           <Image
             src={imgSrc}
             alt="thumbnail"
@@ -33,13 +33,13 @@ export default function PostItemCard({ item }: { item: NoteMeta }) {
         </div>
         <span className="text-2xl font-bold">{item.frontmatter.title}</span>
       </Link>
-      <span className="text-[0.6rem] text-gray-400">
+      <span className="text-[0.6rem] text-muted">
         {item.frontmatter.date}
       </span>
       <div className="text-xs p-3">
         {item.frontmatter.tags?.map((tag, i) => (
           <span
-            className="mr-1 not-last:after:content-[','] bg-neutral-100 rounded border border-neutral-300 px-1"
+            className="mr-1 not-last:after:content-[','] bg-tag-bg rounded border border-muted px-1"
             key={i}
           >
             {tag}

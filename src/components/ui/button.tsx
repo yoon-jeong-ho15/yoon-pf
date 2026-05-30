@@ -15,13 +15,13 @@ export function Button({
   ...props
 }: ButtonProps) {
   let variantStyles =
-    "bg-surface border border-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-300";
+    "bg-surface border border-default hover:bg-hover-bg focus:ring-2 focus:ring-focus-ring";
   if (variant === "outline")
     variantStyles =
-      "bg-transparent border border-gray-300 hover:bg-gray-100 text-gray-900";
+      "bg-transparent border border-muted hover:bg-hover-bg text-foreground";
   if (variant === "ghost")
     variantStyles =
-      "bg-transparent hover:bg-gray-100 text-gray-900 border border-transparent";
+      "bg-transparent hover:bg-hover-bg text-foreground border border-transparent";
 
   let sizeStyles = "h-10 px-4 py-2";
   if (size === "sm") sizeStyles = "h-8 px-3 text-sm";

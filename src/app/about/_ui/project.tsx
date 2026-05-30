@@ -20,7 +20,7 @@ export default function Project({
     <div
       className={cn(
         "my-2 p-1 py-2 rounded",
-        isMain ? "bg-gray-100 outline outline-stone-300" : "hover:bg-gray-100"
+        isMain ? "bg-hover-bg outline outline-muted" : "hover:bg-hover-bg"
       )}
     >
       <div className="flex flex-row mb-2 items-center">
@@ -60,7 +60,7 @@ export default function Project({
         </div>
       </div>
       {stack && (
-        <div className="bg-white rounded w- px-1 py-0.5 border border-stone-400 flex flex-wrap">
+        <div className="bg-surface rounded px-1 py-0.5 border border-muted flex flex-wrap">
           {stack.map((item, i) => {
             if (item in stackData) {
               const data = stackData[item as keyof typeof stackData];
@@ -82,7 +82,7 @@ export default function Project({
         </div>
       )}
       {desc && (
-        <div className="bg-white rounded w-full p-1 border border-stone-400 mt-1">
+        <div className="bg-surface rounded w-full p-1 border border-muted mt-1">
           {desc}
         </div>
       )}
@@ -92,21 +92,21 @@ export default function Project({
 
 const stackData = {
   "Next.js": {
-    style: "text-gray-900 bg-gray-200",
+    style: "text-foreground bg-layout-bg",
   },
   "Next.auth": {
-    style: "text-violet-800 bg-purple-100",
+    style: "text-violet-800 bg-purple-100 dark:text-violet-300 dark:bg-purple-950/40",
   },
   Firebase: {
-    style: "text-red-800 bg-red-100",
+    style: "text-red-800 bg-red-100 dark:text-red-300 dark:bg-red-950/40",
   },
   TailwindCSS: {
-    style: "text-sky-700 bg-sky-100",
+    style: "text-sky-700 bg-sky-100 dark:text-sky-300 dark:bg-sky-950/40",
   },
   Vercel: {
-    style: "text-stone-900 bg-stone-200",
+    style: "text-foreground bg-layout-bg",
   },
   Vite: {
-    style: "text-purple-600 bg-purple-100",
+    style: "text-purple-600 bg-purple-100 dark:text-purple-300 dark:bg-purple-950/40",
   },
 };
