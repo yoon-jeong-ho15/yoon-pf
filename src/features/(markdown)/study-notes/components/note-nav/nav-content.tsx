@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CategoryTree } from "@/types";
-import ScrollableRow from "@/components/ui/scrollable-row";
+import SwipeRow from "@/components/ui/swipe-row";
 import CategoryTreeNode from "./tree-node";
 import { cn } from "@/lib/utils";
 
@@ -25,22 +25,26 @@ export default function NavContent({
 }: NavContentProps) {
   return (
     <>
-      <ScrollableRow className="mt-2 px-1 gap-1">
-        {tree.map((rootNode) => (
-          <button
-            key={rootNode.slug.join("/")}
-            onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
-            className={cn(
-              "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-muted",
-              activeRootSlug === rootNode.slug.join("/")
-                ? "bg-surface text-foreground font-bold"
-                : "bg-layout-bg text-text-muted"
-            )}
-          >
-            {rootNode.frontmatter.title}
-          </button>
-        ))}
-      </ScrollableRow>
+      <div className="relative mt-2">
+        <SwipeRow className="px-6 gap-1" activeSelector='[class*="bg-surface"]'>
+          {tree.map((rootNode) => (
+            <button
+              key={rootNode.slug.join("/")}
+              onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
+              className={cn(
+                "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-b-0 border-muted",
+                activeRootSlug === rootNode.slug.join("/")
+                  ? "bg-surface text-foreground font-bold"
+                  : "bg-layout-bg text-text-muted"
+              )}
+            >
+              {rootNode.frontmatter.title}
+            </button>
+          ))}
+        </SwipeRow>
+        <div className="absolute inset-y-0 left-0 w-8 bg-linear-to-r from-surface to-transparent pointer-events-none z-10"></div>
+        <div className="absolute inset-y-0 right-0 w-8 bg-linear-to-l from-surface to-transparent pointer-events-none z-10"></div>
+      </div>
 
       <div className="flex-1 overflow-y-auto p-2">
         <h3 className="text-xs font-semibold tracking-wider mb-1 underline">

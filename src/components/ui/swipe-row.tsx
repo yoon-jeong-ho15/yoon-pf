@@ -1,9 +1,10 @@
 "use client";
-import { useScroll } from "@/hooks/useScroll";
+import React from "react";
+import { useSwipeScroll } from "@/hooks/useSwipeScroll";
 import { useScrollToActive } from "@/hooks/useScrollToActive";
 import { cn } from "@/lib/utils";
 
-export default function ScrollableRow({
+export default function SwipeRow({
   children,
   className,
   activeSelector,
@@ -12,7 +13,7 @@ export default function ScrollableRow({
   className?: string;
   activeSelector?: string | null;
 }) {
-  const scrollRef = useScroll<HTMLDivElement>();
+  const scrollRef = useSwipeScroll<HTMLDivElement>();
 
   useScrollToActive<HTMLDivElement>(
     activeSelector || null,
@@ -21,7 +22,13 @@ export default function ScrollableRow({
   );
 
   return (
-    <div ref={scrollRef} className={cn("flex overflow-x-hidden", className)}>
+    <div
+      ref={scrollRef}
+      className={cn(
+        "flex overflow-x-hidden select-none cursor-grab active:cursor-grabbing",
+        className,
+      )}
+    >
       {children}
     </div>
   );
