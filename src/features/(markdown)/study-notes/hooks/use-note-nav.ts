@@ -11,11 +11,12 @@ export function useNoteNav(tree: CategoryTree[]) {
 
     const pathParts = pathname.replace(/^\/(?:study-notes\/?)?/, "").split("/");
 
-    if (pathParts[0]) {
-      const matchedRoot = tree.find((t) => t.slug[0] === pathParts[0]);
-      if (matchedRoot) {
-        setActiveRootSlug(matchedRoot.slug.join("/"));
-      }
+    const matchedRoot = pathParts[0] ? tree.find((t) => t.slug[0] === pathParts[0]) : null;
+
+    if (matchedRoot) {
+      setActiveRootSlug(matchedRoot.slug.join("/"));
+    } else if (tree.length > 0) {
+      setActiveRootSlug(tree[0].slug.join("/"));
     }
   }, [pathname, tree]);
 
