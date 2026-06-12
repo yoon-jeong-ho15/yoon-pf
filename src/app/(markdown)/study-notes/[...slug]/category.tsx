@@ -44,7 +44,7 @@ export default function CategoryPage({
               );
             })}
           </div>
-          <div className="flex flex-col bg-surface border border-default items-start gap-1">
+          <div className="flex flex-col bg-surface border border-border-muted rounded items-start gap-1">
             <div className="shrink-0 whitespace-pre bg-tag-bg px-1">
               <span className="text-tag-text">description</span>
             </div>
@@ -54,7 +54,7 @@ export default function CategoryPage({
           </div>
         </div>
 
-        <div className="flex flex-col bg-surface border border-default flex-1 max-w-110 items-start">
+        <div className="flex flex-col bg-surface border border-border-muted rounded flex-1 max-w-110 items-start">
           <div className="shrink-0 whitespace-pre bg-tag-bg px-1">
             <span className="text-tag-text">notes</span>
           </div>

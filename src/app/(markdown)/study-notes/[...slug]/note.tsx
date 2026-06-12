@@ -16,9 +16,9 @@ export default function NotePage({
   const sortedFrontmatter = sortFrontmatter(noteMeta.frontmatter);
 
   return (
-    <div className="flex-1 flex xl:space-x-3 font-medium border-l border-default">
+    <div className="flex-1 flex xl:space-x-3 font-medium border-l">
       <main className="flex-1 flex flex-col min-h-screen bg-surface border-r border-default">
-        <div className="flex flex-col p-5 space-y-2 border-b border-muted pl-18 ">
+        <div className="flex flex-col p-5 space-y-2 border-b border-border-muted pl-18 ">
           {sortedFrontmatter.map(([key, value]) => (
             <FrontmatterItem
               key={key}
