@@ -9,7 +9,7 @@ export default function Navbar() {
     <nav
       className={cn(
         robotoMono.className,
-        "flex justify-between items-center h-13 w-auto text-2xl border-b border-gray-500 font-medium text-shadow-xs/10 md:justify-around bg-surface"
+        "flex justify-between items-center h-13 w-auto text-2xl border-b border-default font-medium text-shadow-xs/10 md:justify-around bg-surface"
       )}
     >
       <NavLinks />

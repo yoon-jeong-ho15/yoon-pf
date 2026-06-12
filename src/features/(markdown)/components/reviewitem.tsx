@@ -11,7 +11,7 @@ export default function ReviewItem({ item }: { item: NoteMeta }) {
   );
 
   return (
-    <div className="flex rounded-lg shadow-lg p-6 border border-gray-300">
+    <div className="flex rounded-lg shadow-lg p-6 border border-muted">
       <div className="relative w-80 h-80 justify-center overflow-hidden">
         <Image
           src={imgSrc}
@@ -33,7 +33,7 @@ export default function ReviewItem({ item }: { item: NoteMeta }) {
                     <a
                       href={itemUrl}
                       target="_blank"
-                      className="font-bold text-slate-600"
+                      className="font-bold text-text-secondary"
                     >
                       {"#"}
                     </a>

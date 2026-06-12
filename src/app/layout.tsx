@@ -40,7 +40,7 @@ export default function RootLayout({
       <body
         className={cn(
           notoSansKr.className,
-          "antialiased flex flex-col max-w-screen min-h-screen overflow-y-scroll relative bg-gray-200"
+          "antialiased flex flex-col max-w-screen min-h-screen overflow-y-scroll relative bg-layout-bg"
         )}
       >
         <Navbar />

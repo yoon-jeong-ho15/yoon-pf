@@ -47,16 +47,16 @@ export default function CategoryTreeNode({
           onClick={onLinkClick}
           className={cn(
             "flex-1 ml-1 p-1 text-sm transition-colors truncate hover:pl-3",
-            isCurrent && "bg-linear-to-r from-gray-200 to-gray-50 italic pl-3"
+            isCurrent && "bg-linear-to-r from-layout-bg to-surface italic pl-3"
           )}
         >
           <span>{node.frontmatter.title}</span>
-          <span className="text-xs text-gray-600 ml-1">{`(${node.notes.length})`}</span>
+          <span className="text-xs text-text-secondary ml-1">{`(${node.notes.length})`}</span>
         </Link>
       </div>
 
       {isExpanded && node.children.length > 0 && (
-        <ul className="ml-2 border-l pl-1 space-y-1">
+        <ul className="ml-2 border-l border-muted pl-1 space-y-1">
           {node.children.map((child) => (
             <CategoryTreeNode
               key={child.slug.join("/")}

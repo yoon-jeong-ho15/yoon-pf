@@ -37,7 +37,7 @@ export function MobileMenu() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="
               relative w-full
-              bg-gray-50 shadow-xl p-5"
+              bg-surface shadow-xl p-5"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col space-y-5">
@@ -49,8 +49,8 @@ export function MobileMenu() {
                     className={cn(
                       "text-2xl text-center py-3 rounded-lg transition-colors",
                       selectedNavTab?.title === tab.title
-                        ? "bg-gray-700 text-gray-200"
-                        : "text-gray-700 hover:bg-gray-200",
+                        ? "bg-foreground text-background"
+                        : "text-foreground hover:bg-hover-bg",
                     )}
                   >
                     {tab.title}

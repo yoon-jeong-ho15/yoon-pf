@@ -14,7 +14,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
     <>
       {parts.map((part, i) =>
         part.toLowerCase() === query.toLowerCase() ? (
-          <span key={i} className="bg-yellow-300/40 px-0.5 rounded-sm">
+          <span key={i} className="bg-highlight-bg px-0.5 rounded-sm">
             {part}
           </span>
         ) : (
@@ -44,8 +44,8 @@ export default async function Page(props: {
         </Suspense>
       </div>
       <div className="flex w-full p-10 gap-8">
-        <div className="w-1/2 h-full bg-surface border border-gray-500 rounded p-4 flex flex-col gap-4">
-          <h3 className="text-xl font-semibold border-b border-gray-600 pb-2">
+        <div className="w-1/2 h-full bg-surface border border-default rounded p-4 flex flex-col gap-4">
+          <h3 className="text-xl font-semibold border-b border-strong pb-2">
             Category Results ({matchedCategories.length})
           </h3>
           {matchedCategories.length > 0 ? (
@@ -55,11 +55,11 @@ export default async function Page(props: {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-400">No categories found.</p>
+            <p className="text-muted">No categories found.</p>
           )}
         </div>
-        <div className="w-1/2 h-full bg-surface border border-gray-500 rounded p-4 flex flex-col gap-4">
-          <h3 className="text-xl font-semibold border-b border-gray-600 pb-2">
+        <div className="w-1/2 h-full bg-surface border border-default rounded p-4 flex flex-col gap-4">
+          <h3 className="text-xl font-semibold border-b border-strong pb-2">
             Note Results ({matchedNotes.length})
           </h3>
           {matchedNotes.length > 0 ? (
@@ -69,7 +69,7 @@ export default async function Page(props: {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-400">No notes found.</p>
+            <p className="text-muted">No notes found.</p>
           )}
         </div>
       </div>
@@ -79,13 +79,13 @@ export default async function Page(props: {
 
 function CategoryItem({ cat, query }: { cat: CategoryTree; query: string }) {
   return (
-    <li className="p-2 border border-gray-700 rounded">
+    <li className="p-2 border border-dark rounded">
       <Link href={`/study-notes/${cat.slug.join("/")}`}>
         <div className="font-medium text-lg">
           <Highlight text={cat.frontmatter.title} query={query} />
         </div>
         {cat.frontmatter.topic && (
-          <div className="text-sm text-gray-400 mt-1">
+          <div className="text-sm text-muted mt-1">
             Topic:{" "}
             <Highlight
               text={
@@ -98,7 +98,7 @@ function CategoryItem({ cat, query }: { cat: CategoryTree; query: string }) {
           </div>
         )}
         {cat.frontmatter.instructor && (
-          <div className="text-sm text-gray-400 mt-1">
+          <div className="text-sm text-muted mt-1">
             Instructor:{" "}
             <Highlight
               text={
@@ -123,7 +123,7 @@ function NoteItem({ note, query }: { note: NoteMeta; query: string }) {
       : undefined;
 
   return (
-    <li className="p-2 border border-gray-700 rounded">
+    <li className="p-2 border border-dark rounded">
       <Link href={`/study-notes/${note.slug.join("/")}`}>
         <div className="font-medium text-lg">
           <Highlight text={note.frontmatter.title} query={query} />
@@ -134,14 +134,14 @@ function NoteItem({ note, query }: { note: NoteMeta; query: string }) {
           {tagsArray.map((tag, tagIdx) => (
             <span
               key={tagIdx}
-              className="text-xs bg-blue-900 text-blue-200 px-2 py-1 rounded-full"
+              className="text-xs bg-badge-bg text-badge-text px-2 py-1 rounded-full"
             >
               #<Highlight text={tag} query={query} />
             </span>
           ))}
         </div>
       )}
-      <div className="text-xs text-gray-400 mt-1">{note.frontmatter.date}</div>
+      <div className="text-xs text-muted mt-1">{note.frontmatter.date}</div>
     </li>
   );
 }

@@ -11,13 +11,39 @@ export function useScrollToActive<T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     if (!ref.current || !selector) return;
 
-    const activeElement = ref.current.querySelector(selector);
-    if (activeElement) {
-      activeElement.scrollIntoView({
-        block: options?.block || "center",
-        inline: options?.inline || "nearest",
-      });
-    }
+    const container = ref.current;
+
+    const scrollToActive = () => {
+      const activeElement = container.querySelector(selector);
+      if (activeElement) {
+        requestAnimationFrame(() => {
+          activeElement.scrollIntoView({
+            block: options?.block || "center",
+            inline: options?.inline || "nearest",
+            behavior: "smooth", // optional, but standard "smooth" or "instant"
+          });
+        });
+      }
+    };
+
+    // Run on initial load
+    scrollToActive();
+
+    // Set up MutationObserver to scroll whenever class/attributes or children change
+    const observer = new MutationObserver(() => {
+      scrollToActive();
+    });
+
+    observer.observe(container, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => {
+      observer.disconnect();
+    };
   }, [selector, options?.block, options?.inline, ref]);
 
   return ref;

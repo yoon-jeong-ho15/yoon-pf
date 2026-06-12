@@ -49,8 +49,8 @@ export default function TableOfContents() {
             <a
               href={`#${heading.id}`}
               className={cn(
-                "block transition-colors hover:text-black",
-                activeId === heading.id ? "font-semibold" : "text-gray-600"
+                "block transition-colors hover:text-foreground",
+                activeId === heading.id ? "font-semibold" : "text-text-secondary"
               )}
             >
               {heading.text}

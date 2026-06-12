@@ -29,7 +29,7 @@ function LinkItem({ url, metaData }: { url: string; metaData?: LinkMetadata }) {
           href={url}
           target="_blank"
           title={metaData?.title || url}
-          className="flex gap-1 rounded-lg py-1 px-1.5 bg-white hover:bg-mist-200 transition-colors items-center cursor-pointer"
+          className="flex gap-1 rounded-lg py-1 px-1.5 bg-surface hover:bg-hover-bg transition-colors items-center cursor-pointer"
         >
           <div className="size-3">
             {" "}
@@ -47,9 +47,9 @@ function LinkItem({ url, metaData }: { url: string; metaData?: LinkMetadata }) {
 
 function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
-    <div className="w-64 bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col overflow-hidden">
+    <div className="w-64 bg-surface border border-muted shadow-xl rounded-lg flex flex-col overflow-hidden">
       {metaData.image && (
-        <div className="w-full h-32 relative overflow-hidden bg-gray-100">
+        <div className="w-full h-32 relative overflow-hidden bg-layout-bg">
           <img
             src={metaData.image}
             alt={metaData.title || "Link preview"}
@@ -62,7 +62,7 @@ function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
           {metaData.title}
         </h4>
         <p className="text-xs line-clamp-2 mb-2">{metaData.description}</p>
-        <div className="text-[10px] truncate text-gray-500">
+        <div className="text-[10px] truncate text-muted">
           {new URL(metaData.url).hostname}
         </div>
       </div>

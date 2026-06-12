@@ -36,10 +36,10 @@ export default function Search({
     >
       <input
         name="query"
-        className="bg-surface border border-gray-500 py-2 px-4 outline-0 ring-0 underline"
+        className="bg-surface border border-default py-2 px-4 outline-0 ring-0 underline"
         defaultValue={searchParams.get("query") || ""}
       />
-      <button className="bg-surface border border-gray-500 border-l-0 p-2">
+      <button className="bg-surface border border-default border-l-0 p-2">
         search
       </button>
     </form>
@@ -49,10 +49,10 @@ export default function Search({
 export function SearchSkeleton({ className = "" }: { className?: string }) {
   return (
     <div className={`${className} flex whitespace-nowrap animate-pulse`}>
-      <div className="border border-gray-500 py-2 px-4 w-[200px] bg-gray-700/30 text-transparent select-none">
+      <div className="border border-default py-2 px-4 w-[200px] bg-skeleton-bg text-transparent select-none">
         &nbsp;
       </div>
-      <div className="border border-gray-500 border-l-0 p-2 w-[66px] bg-gray-600/30 text-transparent select-none">
+      <div className="border border-default border-l-0 p-2 w-[66px] bg-skeleton-bg text-transparent select-none">
         search
       </div>
     </div>
