@@ -6,10 +6,15 @@ import { getMDTree, searchStudyNotes } from "@/features/(markdown)/lib/data";
 import { CategoryTree, NoteMeta } from "@/types";
 import Link from "next/link";
 
+function escapeRegExp(str: string) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function Highlight({ text, query }: { text: string; query: string }) {
   if (!query) return <>{text}</>;
 
-  const parts = text.split(new RegExp(`(${query})`, "gi"));
+  const escapedQuery = escapeRegExp(query);
+  const parts = text.split(new RegExp(`(${escapedQuery})`, "gi"));
   return (
     <>
       {parts.map((part, i) =>

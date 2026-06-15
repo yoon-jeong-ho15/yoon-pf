@@ -31,14 +31,15 @@ export function sortFrontmatter(
 export function parseReviewItemFrontmatter(
   frontmatter: Record<string, string | string[]>,
 ) {
-  return Object.fromEntries(
-    Object.entries(frontmatter).filter(
-      ([key]) => key !== "date" && key !== "tags",
-    ),
-  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { date, tags, ...rest } = frontmatter;
+  return rest;
 }
 
 export function getDomainFromURL(url: string) {
-  const match = url.match(/^(?:https?:\/\/)?([^\/]+)/i);
-  return match ? match[1] : "";
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
 }

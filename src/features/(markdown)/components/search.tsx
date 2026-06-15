@@ -15,9 +15,7 @@ export default function Search({
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const term = formData.get("query")?.toString();
-
-    if (!term || term.trim() === "") return;
+    const term = formData.get("query")?.toString().trim();
 
     const params = new URLSearchParams(searchParams);
     if (term) {

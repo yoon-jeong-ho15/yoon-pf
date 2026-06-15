@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
-import Project from "./_ui/project";
+import Project from "@/features/about/components/project";
 import { d2Coding } from "../fonts";
+import Image from "next/image";
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
       <div className="bg-surface border border-default flex flex-col px-4 py-2">
         <h1 className="text-xl font-black">:: 윤정호 yoon jeong ho</h1>
         <div className="flex w-76 border border-muted p-2">
-          <img src="/s.jpg" alt="portrait" className="w-full" />
+          <Image src="/s.jpg" alt="portrait" width={304} height={304} className="w-full h-auto" />
         </div>
       </div>
       <div className="bg-surface border border-default px-4">

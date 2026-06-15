@@ -13,7 +13,11 @@ export default function Page() {
         <h1 className="w-fit border-b border-default">Recent Post</h1>
         <div className="grid grid-cols-5 p-4 gap-4">
           {blogs.map((blog) => (
-            <PostItemCard key={blog.slug.join("/")} item={blog} />
+            <PostItemCard
+              key={blog.slug.join("/")}
+              item={blog}
+              href={`/blogs/${blog.slug.join("/")}`}
+            />
           ))}
         </div>
       </div>
