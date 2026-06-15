@@ -11,6 +11,9 @@ import {
 
 const ROOT_PATH = Path.join(process.cwd(), "md");
 
+const isValidFile = (file: string) =>
+  !file.startsWith(".") && !file.startsWith("_");
+
 export const getMDTree = cache((type: string): CategoryTree[] => {
   const dirPath = Path.join(ROOT_PATH, type);
 
@@ -18,9 +21,7 @@ export const getMDTree = cache((type: string): CategoryTree[] => {
     return [];
   }
 
-  const files = fs
-    .readdirSync(dirPath)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+  const files = fs.readdirSync(dirPath).filter(isValidFile);
 
   const tree: CategoryTree[] = [];
 
@@ -42,9 +43,7 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
     .split(Path.sep)
     .slice(1);
 
-  const files = fs
-    .readdirSync(dirPath)
-    .filter((file) => !file.startsWith(".") && !file.startsWith("_"));
+  const files = fs.readdirSync(dirPath).filter(isValidFile);
 
   let categoryFrontmatter: CategoryFrontmatter = { title: dirName };
   let categoryDescription: string | undefined = undefined;
@@ -245,29 +244,3 @@ export function searchStudyNotes(
   return { matchedCategories, matchedNotes };
 }
 
-export function getImgSrc(
-  fileName: string,
-  type: "thumbnail" | "item",
-): string {
-  const extensions = [".jpg", ".png", ".webp", ".jpeg", ".gif"];
-  const directories =
-    type === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
-
-  for (const dir of directories) {
-    for (const ext of extensions) {
-      const relativePath = `/${dir}/${fileName}${ext}`;
-      const absolutePath = Path.join(
-        process.cwd(),
-        "public",
-        dir,
-        `${fileName}${ext}`,
-      );
-
-      if (fs.existsSync(absolutePath)) {
-        return relativePath;
-      }
-    }
-  }
-
-  return "/s.jpg"; // default fallback
-}
