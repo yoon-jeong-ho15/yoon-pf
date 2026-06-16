@@ -14,36 +14,59 @@ const ROOT_PATH = Path.join(process.cwd(), "md");
 const isValidFile = (file: string) =>
   !file.startsWith(".") && !file.startsWith("_");
 
-export const getMDTree = cache((type: string): CategoryTree[] => {
+async function resolveThumbnail(
+  fileName: string,
+  priority: "thumbnail" | "item",
+): Promise<string> {
+  const extensions = [".jpg", ".webp", ".png", ".jpeg", ".gif"];
+  const dirs =
+    priority === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
+
+  for (const dir of dirs) {
+    for (const ext of extensions) {
+      const fullPath = Path.join(process.cwd(), "public", dir, `${fileName}${ext}`);
+      try {
+        await fs.promises.stat(fullPath);
+        return `/${dir}/${fileName}${ext}`;
+      } catch {
+        // File does not exist, continue loop
+      }
+    }
+  }
+  return "/s.jpg";
+}
+
+export const getMDTree = cache(async (type: string): Promise<CategoryTree[]> => {
   const dirPath = Path.join(ROOT_PATH, type);
 
-  if (!fs.existsSync(dirPath)) {
+  try {
+    await fs.promises.access(dirPath, fs.constants.F_OK);
+  } catch {
     return [];
   }
 
-  const files = fs.readdirSync(dirPath).filter(isValidFile);
-
+  const files = (await fs.promises.readdir(dirPath)).filter(isValidFile);
   const tree: CategoryTree[] = [];
 
   for (const file of files) {
     const fullPath = Path.join(dirPath, file);
-    const stat = fs.statSync(fullPath);
+    const stat = await fs.promises.stat(fullPath);
 
     if (stat.isDirectory()) {
-      tree.push(parseCategoryDirectory(fullPath));
+      tree.push(await parseCategoryDirectory(fullPath));
     }
   }
 
   return tree;
 });
 
-function parseCategoryDirectory(dirPath: string): CategoryTree {
+async function parseCategoryDirectory(dirPath: string): Promise<CategoryTree> {
   const dirName = Path.basename(dirPath);
   const currentSlug = Path.relative(ROOT_PATH, dirPath)
     .split(Path.sep)
     .slice(1);
 
-  const files = fs.readdirSync(dirPath).filter(isValidFile);
+  const files = (await fs.promises.readdir(dirPath)).filter(isValidFile);
 
   let categoryFrontmatter: CategoryFrontmatter = { title: dirName };
   let categoryDescription: string | undefined = undefined;
@@ -53,12 +76,12 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
 
   for (const file of files) {
     const fullPath = Path.join(dirPath, file);
-    const stat = fs.statSync(fullPath);
+    const stat = await fs.promises.stat(fullPath);
 
     if (stat.isDirectory()) {
-      children.push(parseCategoryDirectory(fullPath));
+      children.push(await parseCategoryDirectory(fullPath));
     } else if (file.endsWith(".md")) {
-      const fileContent = fs.readFileSync(fullPath, "utf8");
+      const fileContent = await fs.promises.readFile(fullPath, "utf8");
       const { data, content } = matter(fileContent);
 
       if (file === "index.md") {
@@ -70,6 +93,10 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
           .split(Path.sep)
           .slice(1);
 
+        const fileName = slug[slug.length - 1];
+        const thumbnail = await resolveThumbnail(fileName, "thumbnail");
+        const itemImage = await resolveThumbnail(fileName, "item");
+
         notes.push({
           frontmatter: {
             ...data,
@@ -79,6 +106,8 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
                 : String(data.date || ""),
           } as NoteFrontmatter,
           slug,
+          thumbnail,
+          itemImage,
         });
       }
     }
@@ -101,13 +130,25 @@ function parseCategoryDirectory(dirPath: string): CategoryTree {
   };
 }
 
-export function getPostBodyBySlug(type: string, slug: string[]): string | null {
+export async function getPostBodyBySlug(
+  type: string,
+  slug: string[],
+): Promise<string | null> {
   const fullPath = Path.join(ROOT_PATH, type, ...slug) + ".md";
-  if (fs.existsSync(fullPath)) {
-    const { content } = matter(fs.readFileSync(fullPath, "utf8"));
-    return content;
+
+  // Safe path traversal check
+  if (!fullPath.startsWith(ROOT_PATH)) {
+    console.warn(`Prevented directory traversal attempt: ${fullPath}`);
+    return null;
   }
-  return null;
+
+  try {
+    const content = await fs.promises.readFile(fullPath, "utf8");
+    const parsed = matter(content);
+    return parsed.content;
+  } catch {
+    return null;
+  }
 }
 
 export function getAllTreeSlugs(tree: CategoryTree[]): string[][] {
@@ -243,4 +284,3 @@ export function searchStudyNotes(
 
   return { matchedCategories, matchedNotes };
 }
-

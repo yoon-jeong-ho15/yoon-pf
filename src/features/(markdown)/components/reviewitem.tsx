@@ -4,7 +4,6 @@ import { FrontmatterItem } from "@/components/ui/frontmatter";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
 
 export default function ReviewItem({ item }: { item: NoteMeta }) {
-  const fileName = item.slug[item.slug.length - 1];
   const sortedFrontmatter = sortFrontmatter(
     parseReviewItemFrontmatter(item.frontmatter),
   );
@@ -13,8 +12,7 @@ export default function ReviewItem({ item }: { item: NoteMeta }) {
     <div className="flex rounded-lg shadow-lg p-6 border border-muted">
       <div className="relative w-80 h-80 justify-center overflow-hidden">
         <ImageWithFallback
-          fileName={fileName}
-          type="item"
+          src={item.itemImage || "/s.jpg"}
           alt="thumbnail"
           fill={true}
           className="object-contain"

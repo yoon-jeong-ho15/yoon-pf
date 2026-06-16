@@ -3,59 +3,33 @@
 import React, { useState, useEffect } from "react";
 import Image, { ImageProps } from "next/image";
 
-export interface ImageWithFallbackProps extends Omit<ImageProps, "src"> {
-  fileName: string;
-  type: "thumbnail" | "item";
+export interface ImageWithFallbackProps extends ImageProps {
   fallbackSrc?: string;
 }
 
-function getSources(
-  fileName: string,
-  type: "thumbnail" | "item",
-  fallbackSrc: string,
-) {
-  const extensions = [".jpg", ".webp", ".png", ".jpeg", ".gif"];
-  const dirs =
-    type === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
-  const sources: string[] = [];
-  for (const dir of dirs) {
-    for (const ext of extensions) {
-      sources.push(`/${dir}/${fileName}${ext}`);
-    }
-  }
-  sources.push(fallbackSrc);
-  return sources;
-}
-
 export default function ImageWithFallback({
-  fileName,
-  type,
+  src,
   fallbackSrc = "/s.jpg",
   alt,
   className,
   ...props
 }: ImageWithFallbackProps) {
-  // Re-generate list only when type or fileName changes
-  const sources = React.useMemo(
-    () => getSources(fileName, type, fallbackSrc),
-    [fileName, type, fallbackSrc],
-  );
-  const [srcIndex, setSrcIndex] = useState(0);
+  const [imgSrc, setImgSrc] = useState<ImageProps["src"]>(src);
 
-  // Reset index if the target file info changes
+  // Sync imgSrc if the parent-provided src changes
   useEffect(() => {
-    setSrcIndex(0);
-  }, [fileName, type]);
+    setImgSrc(src);
+  }, [src]);
 
   const handleError = () => {
-    if (srcIndex < sources.length - 1) {
-      setSrcIndex((prev) => prev + 1);
+    if (imgSrc !== fallbackSrc) {
+      setImgSrc(fallbackSrc);
     }
   };
 
   return (
     <Image
-      src={sources[srcIndex]}
+      src={imgSrc}
       alt={alt}
       onError={handleError}
       className={className}

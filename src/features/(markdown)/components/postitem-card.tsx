@@ -9,8 +9,6 @@ export default function PostItemCard({
   item: NoteMeta;
   href: string;
 }) {
-  const fileName = item.slug[item.slug.length - 1];
-
   return (
     <div
       className="border border-default flex flex-col px-2"
@@ -30,8 +28,7 @@ export default function PostItemCard({
       <Link className="" href={href}>
         <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
           <ImageWithFallback
-            fileName={fileName}
-            type="thumbnail"
+            src={item.thumbnail || "/s.jpg"}
             alt="thumbnail"
             fill={true}
             className="object-cover hover:scale-105 transition-all duration-300"

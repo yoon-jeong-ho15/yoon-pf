@@ -31,6 +31,8 @@ export type Blog = {
 export type NoteMeta = {
   frontmatter: NoteFrontmatter;
   slug: string[];
+  thumbnail?: string;
+  itemImage?: string;
 };
 
 export type CategoryTree = {
