@@ -11,11 +11,14 @@ export function useNoteNav(tree: CategoryTree[]) {
 
     const pathParts = pathname.replace(/^\/(?:study-notes\/?)?/, "").split("/");
 
-    if (pathParts[0]) {
-      const matchedRoot = tree.find((t) => t.slug[0] === pathParts[0]);
-      if (matchedRoot) {
-        setActiveRootSlug(matchedRoot.slug.join("/"));
-      }
+    const matchedRoot = pathParts[0]
+      ? tree.find((t) => t.slug[0] === pathParts[0])
+      : null;
+
+    if (matchedRoot) {
+      setActiveRootSlug(matchedRoot.slug.join("/"));
+    } else if (tree.length > 0) {
+      setActiveRootSlug(tree[0].slug.join("/"));
     }
   }, [pathname, tree]);
 
@@ -24,6 +27,7 @@ export function useNoteNav(tree: CategoryTree[]) {
   let currentCategoryNode: CategoryTree | null = null;
   if (pathname) {
     const searchSlug = pathname.replace(/^\/study-notes\/?/, "");
+
     const findNode = (nodes: CategoryTree[]): CategoryTree | null => {
       for (const node of nodes) {
         if (node.slug.join("/") === searchSlug) return node;
@@ -32,21 +36,21 @@ export function useNoteNav(tree: CategoryTree[]) {
       }
       return null;
     };
-    currentCategoryNode = findNode(tree);
-  }
 
-  if (!currentCategoryNode && pathname) {
-    const searchSlug = pathname.replace(/^\/study-notes\/?/, "");
-    const findParentOfNote = (nodes: CategoryTree[]): CategoryTree | null => {
-      for (const node of nodes) {
-        const hasNote = node.notes.some((n) => n.slug.join("/") === searchSlug);
-        if (hasNote) return node;
-        const found = findParentOfNote(node.children);
-        if (found) return found;
-      }
-      return null;
-    };
-    currentCategoryNode = findParentOfNote(tree);
+    currentCategoryNode = findNode(tree);
+
+    if (!currentCategoryNode) {
+      const findParentOfNote = (nodes: CategoryTree[]): CategoryTree | null => {
+        for (const node of nodes) {
+          const hasNote = node.notes.some((n) => n.slug.join("/") === searchSlug);
+          if (hasNote) return node;
+          const found = findParentOfNote(node.children);
+          if (found) return found;
+        }
+        return null;
+      };
+      currentCategoryNode = findParentOfNote(tree);
+    }
   }
 
   const notesToShow = currentCategoryNode

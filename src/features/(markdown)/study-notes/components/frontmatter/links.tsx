@@ -1,55 +1,16 @@
 "use client";
 
-import { AtSymbolIcon } from "@heroicons/react/24/outline";
 import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/components/provider/metadata-provider";
 import { getDomainFromURL } from "@/features/(markdown)/utils/util";
 import { HoverCard } from "@/components/ui/hover-card";
-
-export default function Links({ value }: { value: string[] }) {
-  const metadataMap = useMetadata();
-
-  return (
-    <ul className="flex w-full items-center gap-1">
-      {value.map((url) => {
-        const metaData = metadataMap?.[url];
-        return <LinkItem key={url} url={url} metaData={metaData} />;
-      })}
-    </ul>
-  );
-}
-
-function LinkItem({ url, metaData }: { url: string; metaData?: LinkMetadata }) {
-  return (
-    <li>
-      <HoverCard
-        content={metaData ? <LinkPreview metaData={metaData} /> : null}
-      >
-        <a
-          href={url}
-          target="_blank"
-          title={metaData?.title || url}
-          className="flex gap-1 rounded-lg py-1 px-1.5 bg-surface hover:bg-hover-bg transition-colors items-center cursor-pointer"
-        >
-          <div className="size-3">
-            {" "}
-            {metaData?.icon ? (
-              <img src={metaData.icon} alt={metaData.title || "Link icon"} />
-            ) : (
-              <AtSymbolIcon className="" />
-            )}
-          </div>
-        </a>
-      </HoverCard>
-    </li>
-  );
-}
 
 function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
     <div className="w-64 bg-surface border border-muted shadow-xl rounded-lg flex flex-col overflow-hidden">
       {metaData.image && (
         <div className="w-full h-32 relative overflow-hidden bg-layout-bg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={metaData.image}
             alt={metaData.title || "Link preview"}

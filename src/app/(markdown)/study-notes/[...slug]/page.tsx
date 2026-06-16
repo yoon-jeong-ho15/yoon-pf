@@ -9,7 +9,7 @@ import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
 
 export async function generateStaticParams() {
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
   const slugs = getAllTreeSlugs(tree);
   return slugs.map((slug) => ({
     slug,
@@ -19,6 +19,7 @@ export async function generateStaticParams() {
 import { notFound } from "next/navigation";
 import NotePage from "./note";
 import CategoryPage from "./category";
+import { CategoryTree, NoteMeta } from "@/types";
 
 export default async function Page({
   params,
@@ -27,7 +28,7 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
   const result = getTreeItemBySlug(tree, slug);
 
   if (!result) {
@@ -36,12 +37,22 @@ export default async function Page({
 
   const { type, data } = result;
 
-  const isNote = type === "note";
-  const noteMeta = isNote ? data : null;
-  const categoryNode = isNote ? null : data;
+  let isNote: boolean;
+  let noteMeta: NoteMeta | null;
+  let categoryNode: CategoryTree | null;
+  let content: string = "";
 
-  const noteBody = isNote ? getPostBodyBySlug("study-notes", slug) : null;
-  const content = await markdownToHtml(noteBody || "");
+  if (type === "note") {
+    isNote = true;
+    noteMeta = data as NoteMeta;
+    const noteBody = await getPostBodyBySlug("study-notes", slug);
+    content = await markdownToHtml(noteBody || "");
+    categoryNode = null;
+  } else {
+    isNote = false;
+    noteMeta = null;
+    categoryNode = data as CategoryTree;
+  }
 
   const categoryMetadata = categoryNode
     ? await getLinkMetadataMap(categoryNode.frontmatter)

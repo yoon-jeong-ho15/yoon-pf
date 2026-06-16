@@ -1,11 +1,14 @@
 import { NoteMeta } from "@/types";
 import Link from "next/link";
-import Image from "next/image";
-import { getImgSrc } from "../lib/data";
+import ImageWithFallback from "@/components/ui/image-with-fallback";
 
-export default function PostItemCard({ item }: { item: NoteMeta }) {
-  const imgSrc = getImgSrc(item.slug[item.slug.length - 1], "thumbnail");
-
+export default function PostItemCard({
+  item,
+  href,
+}: {
+  item: NoteMeta;
+  href: string;
+}) {
   return (
     <div
       className="border border-default flex flex-col px-2"
@@ -22,10 +25,10 @@ export default function PostItemCard({ item }: { item: NoteMeta }) {
         ))}
       </div>
 
-      <Link className="" href={`/blogs/${item.slug.join("/")}`}>
+      <Link className="" href={href}>
         <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
-          <Image
-            src={imgSrc}
+          <ImageWithFallback
+            src={item.thumbnail || "/s.jpg"}
             alt="thumbnail"
             fill={true}
             className="object-cover hover:scale-105 transition-all duration-300"

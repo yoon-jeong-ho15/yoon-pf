@@ -41,12 +41,20 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
       isDragging = false;
     };
 
-    const onMouseDown = (e: MouseEvent) => {
-      handleStart(e.clientX);
-    };
-
     const onMouseMove = (e: MouseEvent) => {
       handleMove(e.clientX, e);
+    };
+
+    const onMouseUp = () => {
+      handleEnd();
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    const onMouseDown = (e: MouseEvent) => {
+      handleStart(e.clientX);
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -63,8 +71,6 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
 
     el.addEventListener("wheel", onWheel);
     el.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", handleEnd);
 
     el.addEventListener("touchstart", onTouchStart, { passive: false });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
@@ -74,7 +80,7 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("mouseup", onMouseUp);
 
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);

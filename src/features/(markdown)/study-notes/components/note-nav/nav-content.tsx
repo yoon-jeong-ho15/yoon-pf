@@ -32,7 +32,7 @@ export default function NavContent({
               key={rootNode.slug.join("/")}
               onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
               className={cn(
-                "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border border-muted",
+                "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border",
                 activeRootSlug === rootNode.slug.join("/")
                   ? "bg-surface text-foreground font-bold border-b-transparent"
                   : "bg-layout-bg text-text-muted",
@@ -42,58 +42,57 @@ export default function NavContent({
             </button>
           ))}
         </SwipeRow>
-        {/* <div className="absolute inset-y-0 left-0 w-8 bg-linear-to-r from-surface to-transparent pointer-events-none z-10"></div>
-        <div className="absolute inset-y-0 right-0 w-8 bg-linear-to-l from-surface to-transparent pointer-events-none z-10"></div> */}
       </div>
+      <div className="flex-1 flex flex-col border-y">
+        <div className="flex-1 p-2">
+          <h3 className="text-xs font-semibold tracking-wider mb-1 underline">
+            categories
+          </h3>
+          {activeRoot && activeRoot.children.length > 0 ? (
+            <ul className="divide-y divide-border-muted/80 [&>li]:py-0.5">
+              {activeRoot.children.map((child) => (
+                <CategoryTreeNode
+                  key={child.slug.join("/")}
+                  node={child}
+                  currentPath={pathname}
+                />
+              ))}
+            </ul>
+          ) : (
+            <div className="text-sm italic">null</div>
+          )}
+        </div>
 
-      <div className="flex-1 overflow-y-auto p-2 border-y border-muted">
-        <h3 className="text-xs font-semibold tracking-wider mb-1 underline">
-          categories
-        </h3>
-        {activeRoot && activeRoot.children.length > 0 ? (
-          <ul className="divide-y divide-muted [&>li]:py-0.5">
-            {activeRoot.children.map((child) => (
-              <CategoryTreeNode
-                key={child.slug.join("/")}
-                node={child}
-                currentPath={pathname}
-              />
-            ))}
-          </ul>
-        ) : (
-          <div className="text-sm italic">null</div>
-        )}
-      </div>
+        <div className="flex-1 m-2 p-2 rounded-lg border border-border-muted">
+          <h3 className="text-xs font-semibold tracking-wider mb-1 underline">
+            notes
+          </h3>
+          {notesToShow.length > 0 ? (
+            <ul className="space-y-1 block">
+              {notesToShow.map((note) => {
+                const noteHref = `/study-notes/${note.slug.join("/")}`;
+                const isCurrent = pathname === noteHref;
 
-      <div className="flex-1 overflow-y-auto p-3">
-        <h3 className="text-xs font-semibold tracking-wider mb-1 underline">
-          notes
-        </h3>
-        {notesToShow.length > 0 ? (
-          <ul className="space-y-1 block">
-            {notesToShow.map((note) => {
-              const noteHref = `/study-notes/${note.slug.join("/")}`;
-              const isCurrent = pathname === noteHref;
-
-              return (
-                <li key={note.slug.join("/")}>
-                  <Link
-                    href={noteHref}
-                    onClick={onLinkClick}
-                    className={cn(
-                      "block px-2 py-0.5 text-sm transition-colors truncate box-border border border-transparent hover:border-y-muted hover:ml-1",
-                      isCurrent && "bg-hover-bg font-medium ml-1",
-                    )}
-                  >
-                    {note.frontmatter.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <div className="text-sm italic">null</div>
-        )}
+                return (
+                  <li key={note.slug.join("/")}>
+                    <Link
+                      href={noteHref}
+                      onClick={onLinkClick}
+                      className={cn(
+                        "block px-2 py-0.5 text-sm transition-colors truncate box-border border border-transparent hover:border-y-muted hover:ml-1",
+                        isCurrent && "bg-hover-bg font-medium ml-1",
+                      )}
+                    >
+                      {note.frontmatter.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <div className="text-sm italic">null</div>
+          )}
+        </div>
       </div>
     </>
   );

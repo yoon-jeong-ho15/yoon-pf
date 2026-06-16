@@ -1,10 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export function useScrollspy(
   selector: string,
-  options?: IntersectionObserverInit
+  options?: IntersectionObserverInit,
 ) {
   const [activeId, setActiveId] = useState<string>("");
+  const pathname = usePathname();
+  
+  const optionsRef = useRef(options);
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll(selector));
@@ -15,14 +22,12 @@ export function useScrollspy(
           setActiveId(entry.target.id);
         }
       });
-    }, options || { rootMargin: "0px 0px -80% 0px" });
+    }, optionsRef.current || { rootMargin: "0px 0px -80% 0px" });
 
     elements.forEach((elem) => observer.observe(elem));
 
     return () => observer.disconnect();
-    // We omit options from the dependency array because passing an inline object would trigger an infinite loop.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selector]);
+  }, [selector, pathname]);
 
   return activeId;
 }
