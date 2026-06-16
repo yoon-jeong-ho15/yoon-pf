@@ -1,5 +1,29 @@
 import * as cheerio from "cheerio";
 import type { LinkMetadata } from "@/types";
+import fs from "fs";
+import Path from "path";
+
+const CACHE_PATH = Path.join(
+  process.cwd(),
+  "src/features/(markdown)/lib/metadata-cache.json",
+);
+
+let cache: Record<string, LinkMetadata> = {};
+try {
+  if (fs.existsSync(CACHE_PATH)) {
+    cache = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+  }
+} catch (e) {
+  console.error("Failed to load metadata cache", e);
+}
+
+function saveCache() {
+  try {
+    fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
+  } catch (e) {
+    console.error("Failed to save metadata cache", e);
+  }
+}
 
 export async function getLinkMetadataMap(
   frontmatter: Record<string, string | string[]>,
@@ -8,11 +32,25 @@ export async function getLinkMetadataMap(
   if (!Array.isArray(links)) return {};
 
   const linkMetadataMap: Record<string, LinkMetadata> = {};
+  let cacheUpdated = false;
+
   await Promise.all(
     links.map(async (url: string) => {
-      linkMetadataMap[url] = await getUrlMetadata(url);
+      if (cache[url]) {
+        linkMetadataMap[url] = cache[url];
+      } else {
+        const metadata = await getUrlMetadata(url);
+        linkMetadataMap[url] = metadata;
+        cache[url] = metadata;
+        cacheUpdated = true;
+      }
     }),
   );
+
+  if (cacheUpdated) {
+    saveCache();
+  }
+
   return linkMetadataMap;
 }
 
