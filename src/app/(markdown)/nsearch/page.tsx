@@ -38,7 +38,7 @@ export default async function Page(props: {
   const params = await props.searchParams;
   const query = params?.query || "";
 
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
   const { matchedCategories, matchedNotes } = searchStudyNotes(tree, query);
 
   return (

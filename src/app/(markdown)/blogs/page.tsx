@@ -1,8 +1,8 @@
 import PostItemCard from "@/features/(markdown)/components/postitem-card";
 import { getMDTree, getAllPostFromTree } from "@/features/(markdown)/lib/data";
 
-export default function Page() {
-  const tree = getMDTree("blogs");
+export default async function Page() {
+  const tree = await getMDTree("blogs");
   const blogs = getAllPostFromTree(tree).sort((a, b) =>
     b.frontmatter.date.localeCompare(a.frontmatter.date),
   );

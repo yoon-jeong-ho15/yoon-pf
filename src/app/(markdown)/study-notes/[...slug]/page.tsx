@@ -9,7 +9,7 @@ import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
 
 export async function generateStaticParams() {
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
   const slugs = getAllTreeSlugs(tree);
   return slugs.map((slug) => ({
     slug,
@@ -28,7 +28,7 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
   const result = getTreeItemBySlug(tree, slug);
 
   if (!result) {
@@ -45,7 +45,7 @@ export default async function Page({
   if (type === "note") {
     isNote = true;
     noteMeta = data as NoteMeta;
-    const noteBody = getPostBodyBySlug("study-notes", slug);
+    const noteBody = await getPostBodyBySlug("study-notes", slug);
     content = await markdownToHtml(noteBody || "");
     categoryNode = null;
   } else {

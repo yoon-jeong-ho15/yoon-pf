@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import Project from "@/features/about/components/project";
 import { d2Coding } from "../fonts";
 import Image from "next/image";
+import { MacosCard } from "@/components/ui/macos-card";
 
 export default function Page() {
   return (
@@ -9,38 +10,40 @@ export default function Page() {
       id="about-page"
       className={cn(
         d2Coding.className,
-        "flex flex-col gap-8 px-8 items-start mb-16",
+        "grid grid-cols-3 gap-4 px-8 items-start mb-16 min-h-screen",
       )}
     >
-      <div className="bg-surface border border-default flex flex-col px-4 py-2">
-        <h1 className="text-xl font-black">:: 윤정호 yoon jeong ho</h1>
-        <div className="flex w-76 border border-muted p-2">
+      <MacosCard title="윤정호 yoon jeong ho" randomizePosition containerSelector="#about-page" className="max-w-xs">
+        <div className="flex border border-muted p-2 bg-surface">
           <Image src="/s.jpg" alt="portrait" width={304} height={304} className="w-full h-auto" />
         </div>
-      </div>
-      <div className="bg-surface border border-default px-4">
-        <h1 className="text-xl font-black">:: education</h1>
-        <div className="flex flex-col gap-6 py-4 italic text-sm">
-          <div className="flex flex-col border border-muted p-2">
-            <span>가톨릭대학교 Catholic University of Korea</span>
+      </MacosCard>
+
+      <MacosCard title="education" randomizePosition containerSelector="#about-page">
+        <div className="flex flex-col gap-4 italic text-sm">
+          <div className="flex flex-col border border-muted p-3 bg-surface rounded">
+            <span className="font-semibold not-italic">가톨릭대학교 Catholic University of Korea</span>
             <span>철학과, Department of Philosophy</span>
-            <span>2021.03 - 2023.03</span>
+            <span className="text-xs text-text-muted mt-1">2021.03 - 2023.03</span>
           </div>
-          <div className="flex flex-col border border-muted p-2">
-            <span>
+          <div className="flex flex-col border border-muted p-3 bg-surface rounded">
+            <span className="font-semibold not-italic">
               독학학위제 Bachelor&apos;s Degree Examination for Self-Education
             </span>
             <span>영문학 전공, English major</span>
-            <span>2020.01 - 2021.01</span>
+            <span className="text-xs text-text-muted mt-1">2020.01 - 2021.01</span>
           </div>
         </div>
-      </div>
-      <div className="bg-surface border border-default flex flex-col px-4">
-        <h1 className="text-xl font-black">:: experience</h1>
-        <Project {...yoonPf} />
-        <Project {...realMan} />
-        <Project {...giveHub} />
-      </div>
+      </MacosCard>
+
+      <MacosCard title="experience" randomizePosition containerSelector="#about-page">
+        <div className="flex flex-col gap-1">
+          <Project {...npsToday} />
+          <Project {...yoonPf} />
+          <Project {...realMan} />
+          <Project {...giveHub} />
+        </div>
+      </MacosCard>
     </div>
   );
 }
@@ -63,3 +66,10 @@ const realMan = {
   stack: ["Spring Boot", "Oracle", "Firebase", "MyBatis", "JavaScript", "CSS"],
   desc: "WebSocket을 사용한 실시간 채팅 서비스.",
 };
+
+const npsToday = {
+  title: "NPS Today",
+  github: "https://github.com/yoon-jeong-ho15/nps-today-frontend",
+  link: "https://nps-today.vercel.app",
+  stack: ["React", "PostgreSQL", "TailwindCSS"]
+}

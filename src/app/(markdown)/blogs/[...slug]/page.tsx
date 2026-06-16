@@ -11,7 +11,7 @@ import { NoteMeta } from "@/types";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const tree = getMDTree("blogs");
+  const tree = await getMDTree("blogs");
   const slugs = getAllTreeSlugs(tree);
   return slugs.map((slug) => ({
     slug,
@@ -25,13 +25,13 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const tree = getMDTree("blogs");
+  const tree = await getMDTree("blogs");
   const result = getTreeItemBySlug(tree, slug);
 
   if (!result) return notFound();
 
   const data = result.data as NoteMeta;
-  const body = getPostBodyBySlug("blogs", slug);
+  const body = await getPostBodyBySlug("blogs", slug);
   const content = await markdownToHtml(body || "");
 
   const isReview = data.slug[0] === "review";

@@ -3,12 +3,12 @@ import { getMDTree } from "@/features/(markdown)/lib/data";
 import { d2Coding } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 
-export default function StudyNotesLayout({
+export default async function StudyNotesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const tree = getMDTree("study-notes");
+  const tree = await getMDTree("study-notes");
 
   return (
     <div

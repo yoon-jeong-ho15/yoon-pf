@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useScrollspy } from "@/hooks/useScrollspy";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 interface Heading {
   id: string;
@@ -12,6 +13,7 @@ interface Heading {
 
 export default function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([]);
+  const pathname = usePathname();
   const activeId = useScrollspy(
     "article h1, article h2, article h3, article h4",
     { rootMargin: "0px 0px -80% 0px" }
@@ -33,7 +35,7 @@ export default function TableOfContents() {
       .filter((heading) => heading.id);
 
     setHeadings(newHeadings);
-  }, []);
+  }, [pathname]);
 
   if (headings.length === 0) return null;
 
