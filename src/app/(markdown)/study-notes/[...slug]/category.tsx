@@ -1,18 +1,9 @@
 import { SidebarLink } from "@/features/(markdown)/study-notes/components/frontmatter/links";
 import { sortFrontmatter } from "@/features/(markdown)/utils/util";
-import { CategoryTree, NoteMeta } from "@/types";
+import { CategoryTree } from "@/types";
 import Link from "next/link";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
-
-const getAllNotes = (node: CategoryTree): NoteMeta[] => {
-  let allNotes = [...(node.notes || [])];
-  if (node.children && node.children.length > 0) {
-    node.children.forEach((child) => {
-      allNotes = allNotes.concat(getAllNotes(child));
-    });
-  }
-  return allNotes;
-};
+import { collectNotes } from "@/features/(markdown)/utils/tree-utils";
 
 export default function CategoryPage({
   categoryNode,
@@ -20,7 +11,7 @@ export default function CategoryPage({
   categoryNode: CategoryTree;
 }) {
   const sortedFrontmatter = sortFrontmatter(categoryNode.frontmatter);
-  const allNotes = getAllNotes(categoryNode);
+  const allNotes = collectNotes(categoryNode);
   const hasNotes = allNotes.length > 0;
 
   return (
