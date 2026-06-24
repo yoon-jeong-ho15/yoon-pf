@@ -5,7 +5,7 @@ import Path from "path";
 
 const CACHE_PATH = Path.join(
   process.cwd(),
-  "src/features/(markdown)/lib/metadata-cache.json",
+  ".cache/metadata-cache.json",
 );
 
 let cache: Record<string, LinkMetadata> = {};
@@ -18,7 +18,12 @@ try {
 }
 
 function saveCache() {
+  if (process.env.NODE_ENV === "production") return;
   try {
+    const dir = Path.dirname(CACHE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
   } catch (e) {
     console.error("Failed to save metadata cache", e);
