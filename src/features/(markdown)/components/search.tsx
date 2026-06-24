@@ -34,7 +34,7 @@ export default function Search({
     >
       <input
         name="query"
-        className="bg-surface border border-default py-2 px-4 outline-0 ring-0 underline"
+        className="bg-surface border border-default py-2 px-4 outline-0 ring-0"
         defaultValue={searchParams.get("query") || ""}
       />
       <button className="bg-surface border border-default border-l-0 p-2">

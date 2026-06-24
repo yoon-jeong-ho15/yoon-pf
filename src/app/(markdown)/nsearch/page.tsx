@@ -84,7 +84,7 @@ export default async function Page(props: {
 
 function CategoryItem({ cat, query }: { cat: CategoryTree; query: string }) {
   return (
-    <li className="p-2 border border-dark rounded">
+    <li className="p-2 border border-strong rounded">
       <Link href={`/study-notes/${cat.slug.join("/")}`}>
         <div className="font-medium text-lg">
           <Highlight text={cat.frontmatter.title} query={query} />
@@ -128,7 +128,7 @@ function NoteItem({ note, query }: { note: NoteMeta; query: string }) {
       : undefined;
 
   return (
-    <li className="p-2 border border-dark rounded">
+    <li className="p-2 border border-strong rounded">
       <Link href={`/study-notes/${note.slug.join("/")}`}>
         <div className="font-medium text-lg">
           <Highlight text={note.frontmatter.title} query={query} />

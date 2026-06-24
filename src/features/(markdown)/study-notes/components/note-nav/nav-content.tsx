@@ -49,7 +49,7 @@ export default function NavContent({
             categories
           </h3>
           {activeRoot && activeRoot.children.length > 0 ? (
-            <ul className="divide-y divide-border-muted/80 [&>li]:py-0.5">
+            <ul className="divide-y divide-muted/80 [&>li]:py-0.5">
               {activeRoot.children.map((child) => (
                 <CategoryTreeNode
                   key={child.slug.join("/")}
@@ -63,7 +63,7 @@ export default function NavContent({
           )}
         </div>
 
-        <div className="flex-1 m-2 p-2 rounded-lg border border-border-muted">
+        <div className="flex-1 m-2 p-2 rounded-lg border border-muted">
           <h3 className="text-xs font-semibold tracking-wider mb-1 underline">
             notes
           </h3>

@@ -13,7 +13,6 @@
   --border-muted: var(--color-gray-400);
   --border-default: var(--color-gray-500);
   --border-strong: var(--color-gray-600);
-  --border-dark: var(--color-gray-700);
   
   --text-muted: var(--color-gray-500);
   --text-secondary: var(--color-gray-600);
@@ -43,7 +42,6 @@
     --border-muted: var(--color-neutral-800);
     --border-default: var(--color-neutral-700);
     --border-strong: var(--color-neutral-600);
-    --border-dark: var(--color-neutral-500);
     
     --text-muted: var(--color-neutral-400);
     --text-secondary: var(--color-neutral-300);
@@ -70,10 +68,10 @@
   
   --color-layout-bg: var(--layout-bg);
   
-  --color-border-muted: var(--border-muted);
-  --color-border-default: var(--border-default);
-  --color-border-strong: var(--border-strong);
-  --color-border-dark: var(--border-dark);
+  /* Canonical border colors (generates border-muted, border-default, border-strong) */
+  --color-muted: var(--border-muted);
+  --color-default: var(--border-default);
+  --color-strong: var(--border-strong);
   
   --color-text-muted: var(--text-muted);
   --color-text-secondary: var(--text-secondary);
