@@ -251,3 +251,32 @@ export function searchStudyNotes(
 
   return { matchedCategories, matchedNotes };
 }
+
+export type DetailPageData =
+  | { kind: "note"; meta: NoteMeta; body: string | null }
+  | { kind: "category"; node: CategoryTree };
+
+export async function getDetailPageData(
+  type: string,
+  slug: string[],
+): Promise<DetailPageData | null> {
+  const tree = await getMDTree(type);
+  const result = getTreeItemBySlug(tree, slug);
+
+  if (!result) return null;
+
+  if (result.type === "note") {
+    const body = await getPostBodyBySlug(type, slug);
+    return {
+      kind: "note",
+      meta: result.data as NoteMeta,
+      body,
+    };
+  }
+
+  return {
+    kind: "category",
+    node: result.data as CategoryTree,
+  };
+}
+
