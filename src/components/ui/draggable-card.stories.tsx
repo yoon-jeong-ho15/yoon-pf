@@ -18,7 +18,9 @@ export const Default: Story = {
   args: {
     children: (
       <div className="bg-surface border border-default p-6 w-80 shadow-md">
-        <h2 className="text-lg font-bold mb-2 drag-handle cursor-grab active:cursor-grabbing">:: Drag Me Anywhere</h2>
+        <DraggableCard.Handle>
+          <h2 className="text-lg font-bold mb-2 drag-handle cursor-grab active:cursor-grabbing">:: Drag Me Anywhere</h2>
+        </DraggableCard.Handle>
         <p className="text-sm text-text-secondary">
           Click and hold on the title above to drag this card. Double-click the title to reset it.
         </p>
@@ -29,13 +31,12 @@ export const Default: Story = {
 
 export const CustomHandle: Story = {
   args: {
-    handleSelector: ".drag-handle-custom",
     children: (
       <div className="bg-surface border border-default w-80 shadow-md">
-        <div className="drag-handle-custom bg-layout-bg border-b border-default p-2 cursor-grab active:cursor-grabbing flex justify-between items-center">
+        <DraggableCard.Handle className="bg-layout-bg border-b border-default p-2 cursor-grab active:cursor-grabbing flex justify-between items-center">
           <span className="font-bold text-sm">:: Drag Handle Title</span>
           <span className="text-xs text-text-muted">Drag here</span>
-        </div>
+        </DraggableCard.Handle>
         <div className="p-4">
           <p className="text-sm mb-2">
             This card can only be dragged using the header handle above.
