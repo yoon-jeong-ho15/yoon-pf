@@ -242,17 +242,20 @@ export function DraggableCard({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp} // Triggers pointer up on sudden event cancelations (like window blur)
+        onClick={() => {
+          globalZIndex += 1;
+          setZIndex(globalZIndex);
+        }}
         style={{
           transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
           zIndex: zIndex,
           touchAction: "none", // Critical: prevents mobile devices from scrolling the page while dragging the card
-          transition: isDragging 
-            ? "box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out" 
-            : "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease-out, opacity 0.5s ease-out, scale 0.5s ease-out",
+          transition: isDragging
+            ? "box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out"
+            : "transform 0.2s, box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out",
         }}
         className={cn(
           "will-change-transform select-none",
-          // Apply extra visual feedback (heavy shadow, scale up, slight opacity drop) while dragging
           isDragging ? "shadow-2xl opacity-90 scale-[1.01]" : "",
           className
         )}

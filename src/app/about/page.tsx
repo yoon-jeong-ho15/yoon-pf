@@ -10,7 +10,7 @@ export default function Page() {
       id="about-page"
       className={cn(
         d2Coding.className,
-        "grid grid-cols-3 gap-4 px-8 items-start mb-16 min-h-screen",
+        "flex flex-col lg:grid lg:grid-cols-3 gap-4 px-8 items-start mb-16 min-h-screen",
       )}
     >
       <MacosCard title="윤정호 yoon jeong ho" randomizePosition containerSelector="#about-page" className="max-w-xs">
