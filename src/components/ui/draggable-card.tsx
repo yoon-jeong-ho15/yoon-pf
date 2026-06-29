@@ -54,11 +54,11 @@ export function DraggableCard({
   const [isDragging, setIsDragging] = useState(false);
   // zIndex represents the stack layering level for this individual card.
   const [zIndex, setZIndex] = useState(10);
-  
+
   // 2. Refs
   // Reference to the outermost card element. Essential for computing bounding client rects.
   const cardRef = useRef<HTMLDivElement>(null);
-  
+
   // Store the position in a ref to always have access to the latest values inside callbacks (like window resize events)
   // without needing to re-bind or recreate those event listener functions on every render.
   const positionRef = useRef(position);
@@ -83,7 +83,7 @@ export function DraggableCard({
 
     // Get the card's active screen rectangle
     const rect = cardRef.current.getBoundingClientRect();
-    
+
     // Compute the card's original layout position (top-left offset) without the current translate3d offset applied.
     const origLeft = rect.left - currentPos.x;
     const origTop = rect.top - currentPos.y;
@@ -177,9 +177,8 @@ export function DraggableCard({
     const targetX = dragStartRef.current.initialX + dx;
     const targetY = dragStartRef.current.initialY + dy;
 
-    // Clamp the proposed position within boundaries and update position state
-    const clamped = getClampedPosition(targetX, targetY);
-    setPosition(clamped);
+    // Allow full 1:1 movement outside the container during drag
+    setPosition({ x: targetX, y: targetY });
   };
 
   /**
@@ -191,6 +190,9 @@ export function DraggableCard({
     // Release pointer capture so standard hover/click states resume
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     dragStartRef.current = null;
+
+    // Bounce back if released outside the boundaries
+    setPosition(prevPosition => getClampedPosition(prevPosition.x, prevPosition.y));
   };
 
   /**
@@ -244,9 +246,12 @@ export function DraggableCard({
           transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
           zIndex: zIndex,
           touchAction: "none", // Critical: prevents mobile devices from scrolling the page while dragging the card
+          transition: isDragging 
+            ? "box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out" 
+            : "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease-out, opacity 0.5s ease-out, scale 0.5s ease-out",
         }}
         className={cn(
-          "will-change-transform select-none transition-shadow duration-200 ease-out",
+          "will-change-transform select-none",
           // Apply extra visual feedback (heavy shadow, scale up, slight opacity drop) while dragging
           isDragging ? "shadow-2xl opacity-90 scale-[1.01]" : "",
           className
