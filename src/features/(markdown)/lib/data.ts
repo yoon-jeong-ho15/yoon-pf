@@ -34,7 +34,7 @@ async function resolveThumbnail(
       }
     }
   }
-  return "/s.jpg";
+  return "/empty.png";
 }
 
 export const getMDTree = cache(async (type: string): Promise<CategoryTree[]> => {
