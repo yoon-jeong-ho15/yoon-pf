@@ -1,6 +1,6 @@
 import { NoteMeta } from "@/types";
 import Link from "next/link";
-import ImageWithFallback from "@/components/ui/image-with-fallback";
+import Image from "next/image"
 
 export default function PostItemCard({
   item,
@@ -27,7 +27,7 @@ export default function PostItemCard({
 
       <Link className="" href={href}>
         <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
-          <ImageWithFallback
+          <Image
             src={item.thumbnail || "/s.jpg"}
             alt="thumbnail"
             fill={true}
