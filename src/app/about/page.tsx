@@ -3,8 +3,45 @@ import Project from "@/features/about/components/project";
 import { d2Coding } from "../fonts";
 import Image from "next/image";
 import { MacosCard } from "@/components/ui/macos-card";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
 
-export default function Page() {
+async function getProjects() {
+  try {
+    const projectsDir = path.join(process.cwd(), "md", "projects");
+    const files = await fs.promises.readdir(projectsDir);
+    const projects = await Promise.all(
+      files
+        .filter((f) => f.endsWith(".md"))
+        .map(async (file) => {
+          const filePath = path.join(projectsDir, file);
+          const fileContent = await fs.promises.readFile(filePath, "utf8");
+          const { data, content } = matter(fileContent);
+          const htmlContent = await markdownToHtml(content);
+          return {
+            title: data.title || "",
+            github: data.github || "",
+            link: data.link,
+            about: data.about,
+            stack: data.stack || [],
+            order: data.order || 99,
+            description: data.description || "",
+            htmlContent,
+          };
+        })
+    );
+    return projects.sort((a, b) => a.order - b.order);
+  } catch (error) {
+    console.error("Failed to read project markdown files", error);
+    return [];
+  }
+}
+
+export default async function Page() {
+  const projects = await getProjects();
+
   return (
     <div
       id="about-page"
@@ -38,38 +75,11 @@ export default function Page() {
 
       <MacosCard title="experience" randomizePosition containerSelector="#about-page">
         <div className="flex flex-col gap-1">
-          <Project {...npsToday} />
-          <Project {...yoonPf} />
-          <Project {...realMan} />
-          <Project {...giveHub} />
+          {projects.map((project, idx) => (
+            <Project key={idx} {...project} />
+          ))}
         </div>
       </MacosCard>
     </div>
   );
-}
-
-const yoonPf = {
-  title: "yoon-pf",
-  github: "https://github.com/yoon-jeong-ho15/yoon-pf",
-  stack: ["Next.js", "Next.auth", "TypeScript", "TailwindCSS", "Vercel"],
-};
-
-const giveHub = {
-  title: "Givehub",
-  github: "https://github.com/shpark47/GiveHub",
-  stack: ["Spring Boot", "Oracle", "MyBatis", "JavaScript", "CSS"],
-  desc: "프로젝트 기반 크라우드펀딩 서비스.",
-};
-const realMan = {
-  title: "RealMan",
-  github: "https://github.com/JuHyeong2/RealMan",
-  stack: ["Spring Boot", "Oracle", "Firebase", "MyBatis", "JavaScript", "CSS"],
-  desc: "WebSocket을 사용한 실시간 채팅 서비스.",
-};
-
-const npsToday = {
-  title: "NPS Today",
-  github: "https://github.com/yoon-jeong-ho15/nps-today-frontend",
-  link: "https://nps-today.vercel.app",
-  stack: ["React", "PostgreSQL", "TailwindCSS"]
 }
