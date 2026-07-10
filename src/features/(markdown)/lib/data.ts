@@ -8,6 +8,7 @@ import {
   NoteFrontmatter,
   NoteMeta,
 } from "@/types";
+import { walkTree, collectNotes } from "../utils/tree-utils";
 
 const ROOT_PATH = Path.join(process.cwd(), "md");
 
@@ -33,7 +34,7 @@ async function resolveThumbnail(
       }
     }
   }
-  return "/s.jpg";
+  return "/empty.png";
 }
 
 export const getMDTree = cache(async (type: string): Promise<CategoryTree[]> => {
@@ -154,38 +155,20 @@ export async function getPostBodyBySlug(
 export function getAllTreeSlugs(tree: CategoryTree[]): string[][] {
   const slugs: string[][] = [];
 
-  function traverse(node: CategoryTree) {
+  walkTree(tree, (node) => {
     slugs.push(node.slug);
-    for (const note of node.notes) {
-      slugs.push(note.slug);
+    if (node.notes) {
+      for (const note of node.notes) {
+        slugs.push(note.slug);
+      }
     }
-    for (const child of node.children) {
-      traverse(child);
-    }
-  }
-
-  for (const root of tree) {
-    traverse(root);
-  }
+  });
 
   return slugs;
 }
 
 export function getAllPostFromTree(tree: CategoryTree[]): NoteMeta[] {
-  const posts: NoteMeta[] = [];
-
-  function traverse(node: CategoryTree) {
-    posts.push(...node.notes);
-
-    for (const child of node.children) {
-      traverse(child);
-    }
-  }
-
-  for (const root of tree) {
-    traverse(root);
-  }
-  return posts;
+  return collectNotes(tree);
 }
 
 export function getTreeItemBySlug(
@@ -196,36 +179,26 @@ export function getTreeItemBySlug(
   | { type: "note"; data: NoteMeta }
   | null {
   const targetSlug = slug.join("/");
-
-  function traverse(
-    node: CategoryTree,
-  ):
+  let result:
     | { type: "category"; data: CategoryTree }
     | { type: "note"; data: NoteMeta }
-    | null {
+    | null = null;
+
+  walkTree(tree, (node) => {
     if (node.slug.join("/") === targetSlug) {
-      return { type: "category", data: node };
+      result = { type: "category", data: node };
+      return false; // stop traversal
     }
-
-    const note = node.notes.find((n) => n.slug.join("/") === targetSlug);
-    if (note) {
-      return { type: "note", data: note };
+    if (node.notes) {
+      const note = node.notes.find((n) => n.slug.join("/") === targetSlug);
+      if (note) {
+        result = { type: "note", data: note };
+        return false; // stop traversal
+      }
     }
+  });
 
-    for (const child of node.children) {
-      const found = traverse(child);
-      if (found) return found;
-    }
-
-    return null;
-  }
-
-  for (const root of tree) {
-    const found = traverse(root);
-    if (found) return found;
-  }
-
-  return null;
+  return result;
 }
 
 export function searchStudyNotes(
@@ -250,7 +223,7 @@ export function searchStudyNotes(
     return false;
   };
 
-  const traverse = (node: CategoryTree) => {
+  walkTree(tree, (node) => {
     const catFrontmatter = node.frontmatter;
     const catMatch =
       catFrontmatter.title.toLowerCase().includes(lowerQuery) ||
@@ -262,25 +235,48 @@ export function searchStudyNotes(
       matchedCategories.push(node);
     }
 
-    for (const note of node.notes) {
-      const noteFrontmatter = note.frontmatter;
-      const noteMatch =
-        noteFrontmatter.title.toLowerCase().includes(lowerQuery) ||
-        matchField(noteFrontmatter.tags);
+    if (node.notes) {
+      for (const note of node.notes) {
+        const noteFrontmatter = note.frontmatter;
+        const noteMatch =
+          noteFrontmatter.title.toLowerCase().includes(lowerQuery) ||
+          matchField(noteFrontmatter.tags);
 
-      if (noteMatch) {
-        matchedNotes.push(note);
+        if (noteMatch) {
+          matchedNotes.push(note);
+        }
       }
     }
-
-    for (const child of node.children) {
-      traverse(child);
-    }
-  };
-
-  for (const root of tree) {
-    traverse(root);
-  }
+  });
 
   return { matchedCategories, matchedNotes };
 }
+
+export type DetailPageData =
+  | { kind: "note"; meta: NoteMeta; body: string | null }
+  | { kind: "category"; node: CategoryTree };
+
+export async function getDetailPageData(
+  type: string,
+  slug: string[],
+): Promise<DetailPageData | null> {
+  const tree = await getMDTree(type);
+  const result = getTreeItemBySlug(tree, slug);
+
+  if (!result) return null;
+
+  if (result.type === "note") {
+    const body = await getPostBodyBySlug(type, slug);
+    return {
+      kind: "note",
+      meta: result.data as NoteMeta,
+      body,
+    };
+  }
+
+  return {
+    kind: "category",
+    node: result.data as CategoryTree,
+  };
+}
+

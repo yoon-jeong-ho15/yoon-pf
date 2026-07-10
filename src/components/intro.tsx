@@ -50,7 +50,7 @@ export default function IntroMotion() {
             {line}
             {index === lines.length - 1 && currentLineIndex >= lines.length && (
               <motion.span
-                className="inline-block w-1 h-8 md:h-10 bg-black ml-1"
+                className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1"
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ repeat: Infinity, duration: 0.8 }}
               />
@@ -61,7 +61,7 @@ export default function IntroMotion() {
           <div>
             {displayedText}
             <motion.span
-              className="inline-block w-1 h-8 md:h-10 bg-black ml-1"
+              className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1"
               animate={{ opacity: [0, 1, 0] }}
               transition={{ repeat: Infinity, duration: 0.8 }}
             />

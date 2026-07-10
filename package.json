@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/prefetch-metadata.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src",
@@ -45,6 +46,7 @@
     "@storybook/addon-docs": "^10.2.12",
     "@storybook/addon-vitest": "^10.2.12",
     "@storybook/nextjs-vite": "^10.2.12",
+    "@storybook/test": "^8.6.15",
     "@tailwindcss/postcss": "^4.2.1",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",

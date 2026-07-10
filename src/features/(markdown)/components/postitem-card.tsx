@@ -28,7 +28,7 @@ export default function PostItemCard({
       <Link className="" href={href}>
         <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
           <ImageWithFallback
-            src={item.thumbnail || "/s.jpg"}
+            src={item.thumbnail || "/empty.png"}
             alt="thumbnail"
             fill={true}
             className="object-cover hover:scale-105 transition-all duration-300"

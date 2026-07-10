@@ -2,8 +2,7 @@ import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
 import {
   getMDTree,
   getAllTreeSlugs,
-  getTreeItemBySlug,
-  getPostBodyBySlug,
+  getDetailPageData,
 } from "@/features/(markdown)/lib/data";
 import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
@@ -19,7 +18,6 @@ export async function generateStaticParams() {
 import { notFound } from "next/navigation";
 import NotePage from "./note";
 import CategoryPage from "./category";
-import { CategoryTree, NoteMeta } from "@/types";
 
 export default async function Page({
   params,
@@ -28,38 +26,22 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const tree = await getMDTree("study-notes");
-  const result = getTreeItemBySlug(tree, slug);
+  const data = await getDetailPageData("study-notes", slug);
 
-  if (!result) {
+  if (!data) {
     return notFound();
   }
 
-  const { type, data } = result;
+  let content = "";
+  let noteMetadata = {};
+  let categoryMetadata = {};
 
-  let isNote: boolean;
-  let noteMeta: NoteMeta | null;
-  let categoryNode: CategoryTree | null;
-  let content: string = "";
-
-  if (type === "note") {
-    isNote = true;
-    noteMeta = data as NoteMeta;
-    const noteBody = await getPostBodyBySlug("study-notes", slug);
-    content = await markdownToHtml(noteBody || "");
-    categoryNode = null;
+  if (data.kind === "note") {
+    content = await markdownToHtml(data.body || "");
+    noteMetadata = await getLinkMetadataMap(data.meta.frontmatter);
   } else {
-    isNote = false;
-    noteMeta = null;
-    categoryNode = data as CategoryTree;
+    categoryMetadata = await getLinkMetadataMap(data.node.frontmatter);
   }
-
-  const categoryMetadata = categoryNode
-    ? await getLinkMetadataMap(categoryNode.frontmatter)
-    : {};
-  const noteMetadata = noteMeta
-    ? await getLinkMetadataMap(noteMeta.frontmatter)
-    : {};
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };
 
@@ -70,13 +52,13 @@ export default async function Page({
           flex-row divide-x
           divide-gray-500 "
       >
-        {isNote && noteMeta && (
-          <NotePage noteMeta={noteMeta} content={content} />
-        )}
-        {!isNote && categoryNode && (
-          <CategoryPage categoryNode={categoryNode} />
+        {data.kind === "note" ? (
+          <NotePage noteMeta={data.meta} content={content} />
+        ) : (
+          <CategoryPage categoryNode={data.node} />
         )}
       </div>
     </MetadataProvider>
   );
 }
+
