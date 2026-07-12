@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CategoryTree } from "@/types";
-import SwipeRow from "@/components/ui/swipe-row";
+import SwipeTab from "@/components/ui/swipe-tab";
 import CategoryTreeNode from "./tree-node";
 import { cn } from "@/lib/utils";
 
@@ -26,22 +26,26 @@ export default function NavContent({
   return (
     <>
       <div className="relative mt-2 -mb-px z-10">
-        <SwipeRow className="px-6 gap-1" activeSelector='[class*="bg-surface"]'>
-          {tree.map((rootNode) => (
-            <button
-              key={rootNode.slug.join("/")}
-              onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
-              className={cn(
-                "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border",
-                activeRootSlug === rootNode.slug.join("/")
-                  ? "bg-surface text-foreground font-bold border-b-transparent"
-                  : "bg-layout-bg text-text-muted",
-              )}
-            >
-              {rootNode.frontmatter.title}
-            </button>
-          ))}
-        </SwipeRow>
+        <SwipeTab className="px-6 gap-1">
+          {tree.map((rootNode) => {
+            const isActive = activeRootSlug === rootNode.slug.join("/");
+            return (
+              <SwipeTab.Item
+                key={rootNode.slug.join("/")}
+                active={isActive}
+                onClick={() => setActiveRootSlug(rootNode.slug.join("/"))}
+                className={cn(
+                  "px-3 py-1.5 text-sm font-medium transition-colors shrink-0 rounded-t border",
+                  isActive
+                    ? "bg-surface text-foreground font-bold border-b-transparent"
+                    : "bg-layout-bg text-text-muted",
+                )}
+              >
+                {rootNode.frontmatter.title}
+              </SwipeTab.Item>
+            );
+          })}
+        </SwipeTab>
       </div>
       <div className="flex-1 flex flex-col border-y">
         <div className="flex-1 p-2">
