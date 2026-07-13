@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { CategoryTree } from "@/types";
 import { findNode, findParentCategoryOfNote } from "@/features/(markdown)/utils/tree-utils";
@@ -23,24 +23,28 @@ export function useNoteNav(tree: CategoryTree[]) {
     }
   }, [pathname, tree]);
 
-  const activeRoot = tree.find((t) => t.slug.join("/") === activeRootSlug);
+  const activeRoot = useMemo(() => {
+    return tree.find((t) => t.slug.join("/") === activeRootSlug);
+  }, [tree, activeRootSlug]);
 
-  let currentCategoryNode: CategoryTree | null = null;
-  if (pathname) {
+  const currentCategoryNode = useMemo(() => {
+    if (!pathname) return null;
     const searchSlug = pathname.replace(/^\/study-notes\/?/, "");
 
-    currentCategoryNode = findNode(
+    let node = findNode(
       tree,
-      (node) => node.slug.join("/") === searchSlug,
+      (n) => n.slug.join("/") === searchSlug,
     );
 
-    if (!currentCategoryNode) {
-      currentCategoryNode = findParentCategoryOfNote(
+    if (!node) {
+      node = findParentCategoryOfNote(
         tree,
         (note) => note.slug.join("/") === searchSlug,
       );
     }
-  }
+
+    return node;
+  }, [pathname, tree]);
 
   const notesToShow = currentCategoryNode
     ? currentCategoryNode.notes

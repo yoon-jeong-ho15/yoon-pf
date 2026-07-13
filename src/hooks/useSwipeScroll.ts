@@ -7,16 +7,6 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
     const el = scrollRef.current;
     if (!el) return;
 
-    // Wheel scroll logic (vertical wheel -> horizontal scroll)
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return;
-      e.preventDefault();
-      el.scrollTo({
-        left: el.scrollLeft + e.deltaY,
-        behavior: "instant",
-      });
-    };
-
     // Swipe scroll logic
     let isDragging = false;
     let startX = 0;
@@ -69,7 +59,6 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
       }
     };
 
-    el.addEventListener("wheel", onWheel);
     el.addEventListener("mousedown", onMouseDown);
 
     el.addEventListener("touchstart", onTouchStart, { passive: false });
@@ -77,7 +66,6 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
     el.addEventListener("touchend", handleEnd);
 
     return () => {
-      el.removeEventListener("wheel", onWheel);
       el.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
