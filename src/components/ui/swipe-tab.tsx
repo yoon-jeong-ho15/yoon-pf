@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useEffect, forwardRef, useCallback, useMemo } from "react";
+import React, { createContext, useContext, useRef, useEffect, useCallback, useMemo } from "react";
 import { useSwipeScroll } from "@/hooks/useSwipeScroll";
 import { cn, mergeRefs } from "@/lib/utils";
 
@@ -12,10 +12,10 @@ const SwipeTabContext = createContext<SwipeTabContextType | null>(null);
 
 export interface SwipeTabProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
-const SwipeTabRoot = forwardRef<HTMLDivElement, SwipeTabProps>(
-  ({ children, className, ...props }, ref) => {
+const SwipeTabRoot = ({ children, className, ref, ...props }: SwipeTabProps) => {
     const scrollRef = useSwipeScroll<HTMLDivElement>();
 
     const scrollToElement = useCallback((element: HTMLElement) => {
@@ -60,8 +60,7 @@ const SwipeTabRoot = forwardRef<HTMLDivElement, SwipeTabProps>(
         </div>
       </SwipeTabContext.Provider>
     );
-  }
-);
+};
 
 SwipeTabRoot.displayName = "SwipeTab";
 
@@ -79,10 +78,10 @@ type PolymorphicProps<T extends React.ElementType, Props = {}> = Props &
 interface SwipeTabItemProps extends React.HTMLAttributes<HTMLElement> {
   active?: boolean;
   children?: React.ReactNode;
+  ref?: React.Ref<any>;
 }
 
-const SwipeTabItemInner = forwardRef<HTMLElement, SwipeTabItemProps & AsProp<React.ElementType>>(
-  ({ as, active, children, className, ...props }, ref) => {
+const SwipeTabItemInner = ({ as, active, children, className, ref, ...props }: SwipeTabItemProps & AsProp<React.ElementType>) => {
     const context = useContext(SwipeTabContext);
     const localRef = useRef<HTMLElement>(null);
 
@@ -106,8 +105,7 @@ const SwipeTabItemInner = forwardRef<HTMLElement, SwipeTabItemProps & AsProp<Rea
         {children}
       </Component>
     );
-  }
-);
+};
 
 SwipeTabItemInner.displayName = "SwipeTab.Item";
 
