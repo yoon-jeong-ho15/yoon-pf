@@ -35,12 +35,16 @@ function MobileNoteNav({ tree, navState }: Props) {
 
   useEffect(() => {
     if (isOpen) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
     return () => {
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [isOpen]);
 
@@ -53,6 +57,7 @@ function MobileNoteNav({ tree, navState }: Props) {
           onClick={() => setIsOpen((prev) => !prev)}
           className="p-1 flex items-center justify-center w-10 h-10 border border-default rounded bg-surface shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-focus-ring"
           aria-label="Toggle Menu"
+          aria-expanded={isOpen}
         >
           <MenuIcon className="w-5 h-5" />
         </button>

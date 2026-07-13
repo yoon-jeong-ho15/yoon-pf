@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, { createContext, useContext, useRef, useEffect, forwardRef, useCallback, useMemo } from "react";
 import { useSwipeScroll } from "@/hooks/useSwipeScroll";
-import { cn } from "@/lib/utils";
+import { cn, mergeRefs } from "@/lib/utils";
 
 interface SwipeTabContextType {
   scrollToElement: (element: HTMLElement) => void;
@@ -18,9 +18,7 @@ const SwipeTabRoot = forwardRef<HTMLDivElement, SwipeTabProps>(
   ({ children, className, ...props }, ref) => {
     const scrollRef = useSwipeScroll<HTMLDivElement>();
 
-    useImperativeHandle(ref, () => scrollRef.current!);
-
-    const scrollToElement = (element: HTMLElement) => {
+    const scrollToElement = useCallback((element: HTMLElement) => {
       const container = scrollRef.current;
       if (!container) return;
 
@@ -42,12 +40,16 @@ const SwipeTabRoot = forwardRef<HTMLDivElement, SwipeTabProps>(
           behavior: "smooth",
         });
       });
-    };
+    }, [scrollRef]);
+
+    const contextValue = useMemo(() => ({ scrollToElement }), [scrollToElement]);
 
     return (
-      <SwipeTabContext.Provider value={{ scrollToElement }}>
+      <SwipeTabContext.Provider value={contextValue}>
         <div
-          ref={scrollRef}
+          ref={mergeRefs(scrollRef, ref)}
+          role="tablist"
+          aria-orientation="horizontal"
           className={cn(
             "flex overflow-x-hidden select-none cursor-grab active:cursor-grabbing",
             className,
@@ -84,9 +86,6 @@ const SwipeTabItemInner = forwardRef<HTMLElement, SwipeTabItemProps & AsProp<Rea
     const context = useContext(SwipeTabContext);
     const localRef = useRef<HTMLElement>(null);
 
-    // refs를 병합하여 노출
-    useImperativeHandle(ref, () => localRef.current!);
-
     useEffect(() => {
       if (active && context && localRef.current) {
         context.scrollToElement(localRef.current);
@@ -97,7 +96,10 @@ const SwipeTabItemInner = forwardRef<HTMLElement, SwipeTabItemProps & AsProp<Rea
 
     return (
       <Component
-        ref={localRef as any}
+        ref={mergeRefs(localRef, ref)}
+        role="tab"
+        aria-selected={active}
+        tabIndex={active ? 0 : -1}
         className={cn("shrink-0", className)}
         {...props}
       >
