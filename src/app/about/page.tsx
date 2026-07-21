@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Project from "@/components/about/project";
 import { d2Coding } from "../fonts";
 import Image from "next/image";
-import { MacosCard } from "@/components/ui/macos-card";
+import { MacosCard } from "@/components/about/macos-card";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
