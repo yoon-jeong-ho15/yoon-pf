@@ -1,5 +1,5 @@
-import PostItemCard from "@/features/(markdown)/components/postitem-card";
-import { getMDTree, getAllPostFromTree } from "@/features/(markdown)/lib/data";
+import PostItemCard from "@/components/(markdown)/postitem-card";
+import { getMDTree, getAllPostFromTree } from "@/lib/data";
 
 export default async function Page() {
   const tree = await getMDTree("blogs");

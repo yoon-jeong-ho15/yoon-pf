@@ -4,7 +4,7 @@ github: "https://github.com/yoon-jeong-ho15/nps-today-frontend"
 link: "https://nps-today.vercel.app"
 stack: ["React Router", "TypeScript", "TailwindCSS", "Python", "AWS Lambda", "Supabase"]
 order: 4
-description: "국민연금"
+description: "국민연금 트래커"
 ---
 
 한국투자증권 API를 활용해 코스피 200 종목의 연기금 일별 순매수 흐름을 수집하고, Supabase에 적재한 데이터를 웹에서 시각화하는 금융 데이터 트래킹 서비스입니다. 흩어져 있는 투자자 매매동향 데이터를 자동으로 모아 사용자가 종목별 수급 변화를 빠르게 확인할 수 있도록 구성했습니다.

@@ -1,10 +1,10 @@
-import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
+import { markdownToHtml } from "@/lib/markdown";
 import {
   getMDTree,
   getAllTreeSlugs,
   getDetailPageData,
-} from "@/features/(markdown)/lib/data";
-import { getLinkMetadataMap } from "@/features/(markdown)/lib/metadata";
+} from "@/lib/data";
+import { getLinkMetadataMap } from "@/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
 
 export async function generateStaticParams() {

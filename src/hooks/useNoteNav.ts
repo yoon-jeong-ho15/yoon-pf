@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { CategoryTree } from "@/types";
-import { findNode, findParentCategoryOfNote } from "@/features/(markdown)/utils/tree-utils";
+import { findNode, findParentCategoryOfNote } from "@/utils/tree-utils";
 
 export function useNoteNav(tree: CategoryTree[]) {
   const pathname = usePathname();

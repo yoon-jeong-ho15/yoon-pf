@@ -1,5 +1,5 @@
 import { NoteMeta } from "@/types";
-import { sortFrontmatter, parseReviewItemFrontmatter } from "../utils/util";
+import { sortFrontmatter, parseReviewItemFrontmatter } from "../../utils/util";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
 

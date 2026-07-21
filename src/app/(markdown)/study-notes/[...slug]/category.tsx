@@ -1,9 +1,9 @@
-import { SidebarLink } from "@/features/(markdown)/study-notes/components/frontmatter/links";
-import { sortFrontmatter } from "@/features/(markdown)/utils/util";
+import { SidebarLink } from "@/components/(markdown)/links";
+import { sortFrontmatter } from "@/utils/util";
 import { CategoryTree } from "@/types";
 import Link from "next/link";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
-import { collectNotes } from "@/features/(markdown)/utils/tree-utils";
+import { collectNotes } from "@/utils/tree-utils";
 
 export default function CategoryPage({
   categoryNode,

@@ -1,7 +1,7 @@
 "use client";
 
 import { CategoryTree } from "@/types";
-import { useNoteNav } from "../../hooks/use-note-nav";
+import { useNoteNav } from "../../../hooks/useNoteNav";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect } from "react";
 import NavContent from "./nav-content";
@@ -81,7 +81,7 @@ function MobileNoteNav({ tree, navState }: Props) {
               exit={{ x: "-100%", opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col bg-surface shadow-xl shadow-black/10 border-r border-muted"
-              // onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
             >
               <div className="flex pl-4 items-center ">
                 <button onClick={closeMenu} className="p-1 h-10 w-10">
