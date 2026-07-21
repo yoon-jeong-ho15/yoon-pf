@@ -2,7 +2,7 @@
 
 import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/components/provider/metadata-provider";
-import { getDomainFromURL } from "@/utils/util";
+import { getDomainFromURL } from "@/lib/frontmatter";
 import { HoverCard } from "@/components/ui/hover-card";
 
 function LinkPreview({ metaData }: { metaData: LinkMetadata }) {

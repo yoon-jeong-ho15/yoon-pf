@@ -16,7 +16,6 @@ export default function ImageWithFallback({
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState<ImageProps["src"]>(src);
 
-  // Sync imgSrc if the parent-provided src changes
   useEffect(() => {
     setImgSrc(src);
   }, [src]);

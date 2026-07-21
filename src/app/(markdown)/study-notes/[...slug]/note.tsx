@@ -1,5 +1,5 @@
 import TopButton from "@/components/top-button";
-import { sortFrontmatter } from "@/utils/util";
+import { sortFrontmatter } from "@/lib/frontmatter";
 import { NoteMeta } from "@/types";
 
 import TableOfContents from "@/components/(markdown)/table-of-contents";

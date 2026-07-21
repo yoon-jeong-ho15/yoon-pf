@@ -17,7 +17,7 @@ export default function CategoryTreeNode({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const href = `/study-notes/${node.slug.join("/")}`;
-  const isCurrent = currentPath?.includes(href);
+  const isCurrent = currentPath === href || currentPath?.startsWith(href + "/");
 
   useEffect(() => {
     if (isCurrent) {

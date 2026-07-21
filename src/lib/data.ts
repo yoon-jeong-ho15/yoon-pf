@@ -8,7 +8,7 @@ import {
   NoteFrontmatter,
   NoteMeta,
 } from "@/types";
-import { walkTree, collectNotes } from "../utils/tree-utils";
+import { walkTree, collectNotes } from "@/lib/tree";
 
 const ROOT_PATH = Path.join(process.cwd(), "md");
 

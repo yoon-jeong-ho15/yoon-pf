@@ -1,7 +1,7 @@
 "use client";
 
 import { CategoryTree } from "@/types";
-import { useNoteNav } from "../../../hooks/useNoteNav";
+import { useNoteNav } from "../../hooks/useNoteNav";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect } from "react";
 import NavContent from "./nav-content";
