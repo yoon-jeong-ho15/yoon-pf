@@ -11,7 +11,7 @@ export default async function Page() {
     <div className="flex-1 flex flex-col items-start min-h-screen p-4">
       <div className="bg-surface border border-default w-full p-2">
         <h1 className="w-fit border-b border-default">Recent Post</h1>
-        <div className="grid grid-cols-5 p-4 gap-4">
+        <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 p-4 gap-4">
           {blogs.map((blog) => (
             <PostItemCard
               key={blog.slug.join("/")}

@@ -14,7 +14,7 @@ export default function PostItemCard({
       className="border border-default flex flex-col px-2"
       key={item.slug.join("/")}
     >
-      <div className="text-xs border-b border-muted w-fit p-1 pr-4 flex gap-2">
+      <div className="text-xs border-b border-muted w-fit p-1 pr-4 flex gap-2 text-muted">
         {item.slug.slice(0, -1).map((slugPart, i) => (
           <span
             key={i}
@@ -42,7 +42,7 @@ export default function PostItemCard({
       <div className="text-xs p-3">
         {item.frontmatter.tags?.map((tag, i) => (
           <span
-            className="mr-1 not-last:after:content-[','] bg-tag-bg rounded border border-muted px-1"
+            className="mr-1 not-last:after:content-[','] bg-tag-bg rounded bg-muted shadow px-1"
             key={i}
           >
             {tag}
