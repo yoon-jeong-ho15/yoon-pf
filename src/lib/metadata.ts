@@ -2,27 +2,17 @@ import * as cheerio from "cheerio";
 import type { LinkMetadata } from "@/types";
 import fs from "fs";
 import Path from "path";
+import bundledMetadataCache from "@/data/metadata-cache.json";
 
 const CACHE_PATH = Path.join(
   process.cwd(),
-  ".cache/metadata-cache.json",
+  "src/data/metadata-cache.json",
 );
 
-let cachePromise: Promise<Record<string, LinkMetadata>> | null = null;
-
-async function loadCache(): Promise<Record<string, LinkMetadata>> {
-  if (!cachePromise) {
-    cachePromise = (async () => {
-      try {
-        const data = await fs.promises.readFile(CACHE_PATH, "utf8");
-        return JSON.parse(data);
-      } catch {
-        return {};
-      }
-    })();
-  }
-  return cachePromise;
-}
+// Memory cache initialized with statically bundled build cache
+const inMemoryCache: Record<string, LinkMetadata> = {
+  ...(bundledMetadataCache as Record<string, LinkMetadata>),
+};
 
 async function saveCache(cache: Record<string, LinkMetadata>) {
   if (process.env.NODE_ENV === "production") return;
@@ -41,25 +31,24 @@ export async function getLinkMetadataMap(
   const links = frontmatter.link || [];
   if (!Array.isArray(links)) return {};
 
-  const cache = await loadCache();
   const linkMetadataMap: Record<string, LinkMetadata> = {};
   let cacheUpdated = false;
 
   await Promise.all(
     links.map(async (url: string) => {
-      if (cache[url]) {
-        linkMetadataMap[url] = cache[url];
+      if (inMemoryCache[url]) {
+        linkMetadataMap[url] = inMemoryCache[url];
       } else {
         const metadata = await getUrlMetadata(url);
         linkMetadataMap[url] = metadata;
-        cache[url] = metadata;
+        inMemoryCache[url] = metadata;
         cacheUpdated = true;
       }
     }),
   );
 
   if (cacheUpdated) {
-    await saveCache(cache);
+    await saveCache(inMemoryCache);
   }
 
   return linkMetadataMap;
@@ -71,7 +60,7 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       headers: {
         "User-Agent": "Twitterbot/1.0",
       },
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(1500),
     });
 
     if (!res.ok) {
