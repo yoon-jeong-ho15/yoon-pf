@@ -59,8 +59,6 @@ export function useSwipeScroll<T extends HTMLElement = HTMLElement>() {
       }
     };
 
-
-    el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("mousedown", onMouseDown);
 
     el.addEventListener("touchstart", onTouchStart, { passive: false });
