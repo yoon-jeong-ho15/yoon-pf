@@ -311,3 +311,11 @@ export async function getDetailPageData(
   };
 }
 
+export async function generateMarkdownStaticParams(type: string) {
+  const tree = await getMDTree(type);
+  const slugs = getAllTreeSlugs(tree);
+  return slugs.map((slug) => ({
+    slug,
+  }));
+}
+

@@ -1,18 +1,13 @@
 import { markdownToHtml } from "@/lib/markdown";
 import {
-  getMDTree,
-  getAllTreeSlugs,
+  generateMarkdownStaticParams,
   getDetailPageData,
 } from "@/lib/data";
 import { getLinkMetadataMap } from "@/lib/metadata";
 import { MetadataProvider } from "@/components/provider/metadata-provider";
 
 export async function generateStaticParams() {
-  const tree = await getMDTree("study-notes");
-  const slugs = getAllTreeSlugs(tree);
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  return generateMarkdownStaticParams("study-notes");
 }
 
 import { notFound } from "next/navigation";
