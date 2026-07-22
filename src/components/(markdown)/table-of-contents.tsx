@@ -11,19 +11,19 @@ interface Heading {
   level: number;
 }
 
+const HEADING_SELECTOR = "article h1, article h2, article h3, article h4";
+const SCROLLSPY_OPTIONS: IntersectionObserverInit = {
+  rootMargin: "0px 0px -80% 0px",
+};
+
 export default function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const pathname = usePathname();
-  const activeId = useScrollspy(
-    "article h1, article h2, article h3, article h4",
-    { rootMargin: "0px 0px -80% 0px" }
-  );
+  const activeId = useScrollspy(HEADING_SELECTOR, SCROLLSPY_OPTIONS);
 
   useEffect(() => {
     const elements = Array.from(
-      document.querySelectorAll(
-        "article h1, article h2, article h3, article h4",
-      ),
+      document.querySelectorAll<HTMLElement>(HEADING_SELECTOR),
     );
 
     const newHeadings = elements

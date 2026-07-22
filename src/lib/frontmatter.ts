@@ -16,7 +16,7 @@ const FIELD_ORDER = [
 
 export function sortFrontmatter(
   frontmatter: Record<string, string | string[]>,
-) {
+): [string, string | string[]][] {
   return Object.entries(frontmatter).sort(([keyA], [keyB]) => {
     const indexA = FIELD_ORDER.indexOf(keyA);
     const indexB = FIELD_ORDER.indexOf(keyB);
@@ -30,13 +30,12 @@ export function sortFrontmatter(
 
 export function parseReviewItemFrontmatter(
   frontmatter: Record<string, string | string[]>,
-) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { date, tags, ...rest } = frontmatter;
+): Record<string, string | string[]> {
+  const { date: _date, tags: _tags, ...rest } = frontmatter;
   return rest;
 }
 
-export function getDomainFromURL(url: string) {
+export function getDomainFromURL(url: string): string {
   try {
     return new URL(url).hostname;
   } catch {

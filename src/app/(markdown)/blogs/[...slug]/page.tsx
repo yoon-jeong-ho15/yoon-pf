@@ -1,19 +1,14 @@
 import TopButton from "@/components/top-button";
-import ReviewItem from "@/features/(markdown)/components/reviewitem";
+import ReviewItem from "@/components/(markdown)/reviewitem";
 import {
-  getMDTree,
-  getAllTreeSlugs,
+  generateMarkdownStaticParams,
   getDetailPageData,
-} from "@/features/(markdown)/lib/data";
-import { markdownToHtml } from "@/features/(markdown)/lib/markdown";
+} from "@/lib/data";
+import { markdownToHtml } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const tree = await getMDTree("blogs");
-  const slugs = getAllTreeSlugs(tree);
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  return generateMarkdownStaticParams("blogs");
 }
 
 export default async function Page({

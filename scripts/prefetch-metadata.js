@@ -4,8 +4,9 @@ import matter from "gray-matter";
 import * as cheerio from "cheerio";
 
 const MD_DIR = path.join(process.cwd(), "md");
-const CACHE_DIR = path.join(process.cwd(), ".cache");
-const NEW_CACHE_PATH = path.join(CACHE_DIR, "metadata-cache.json");
+const DATA_DIR = path.join(process.cwd(), "src/data");
+const NEW_CACHE_PATH = path.join(DATA_DIR, "metadata-cache.json");
+const LEGACY_CACHE_PATH = path.join(process.cwd(), ".cache/metadata-cache.json");
 const OLD_CACHE_PATH = path.join(
   process.cwd(),
   "src/features/(markdown)/lib/metadata-cache.json",
@@ -120,6 +121,9 @@ async function main() {
   if (fs.existsSync(NEW_CACHE_PATH)) {
     console.log(`[Prefetch] Loading existing cache from ${NEW_CACHE_PATH}`);
     cache = JSON.parse(fs.readFileSync(NEW_CACHE_PATH, "utf8"));
+  } else if (fs.existsSync(LEGACY_CACHE_PATH)) {
+    console.log(`[Prefetch] Migrating cache from legacy cache: ${LEGACY_CACHE_PATH}`);
+    cache = JSON.parse(fs.readFileSync(LEGACY_CACHE_PATH, "utf8"));
   } else if (fs.existsSync(OLD_CACHE_PATH)) {
     console.log(`[Prefetch] Migrating cache from committed src cache: ${OLD_CACHE_PATH}`);
     cache = JSON.parse(fs.readFileSync(OLD_CACHE_PATH, "utf8"));
@@ -138,8 +142,8 @@ async function main() {
   console.log(`[Prefetch] Completed. ${updatedCount} links updated.`);
 
   // 3. Save new cache
-  if (!fs.existsSync(CACHE_DIR)) {
-    fs.mkdirSync(CACHE_DIR, { recursive: true });
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
   }
   fs.writeFileSync(NEW_CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
   console.log(`[Prefetch] Cache successfully saved to ${NEW_CACHE_PATH}`);

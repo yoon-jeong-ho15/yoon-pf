@@ -50,6 +50,7 @@ docs
 etc
 
 gemini.md
+.agent
 
 *storybook.log
 storybook-static

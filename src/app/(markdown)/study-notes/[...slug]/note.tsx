@@ -1,10 +1,10 @@
 import TopButton from "@/components/top-button";
-import { sortFrontmatter } from "@/features/(markdown)/utils/util";
+import { sortFrontmatter } from "@/lib/frontmatter";
 import { NoteMeta } from "@/types";
 
-import TableOfContents from "@/features/(markdown)/components/table-of-contents";
+import TableOfContents from "@/components/(markdown)/table-of-contents";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
-import { SidebarLink } from "@/features/(markdown)/study-notes/components/frontmatter/links";
+import { SidebarLink } from "@/components/(markdown)/links";
 
 export default function NotePage({
   noteMeta,

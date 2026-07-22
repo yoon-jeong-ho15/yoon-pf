@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { MacosCard } from "./macos-card";
+import { MacosCard } from "../about/macos-card";
 import React from "react";
 
 const meta: Meta<typeof MacosCard> = {

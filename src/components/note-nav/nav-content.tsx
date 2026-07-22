@@ -59,6 +59,7 @@ export default function NavContent({
                   key={child.slug.join("/")}
                   node={child}
                   currentPath={pathname}
+                  onLinkClick={onLinkClick}
                 />
               ))}
             </ul>

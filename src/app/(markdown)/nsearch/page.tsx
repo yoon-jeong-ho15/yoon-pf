@@ -1,8 +1,8 @@
 import Search, {
   SearchSkeleton,
-} from "@/features/(markdown)/components/search";
+} from "@/components/(markdown)/search";
 import { Suspense } from "react";
-import { getMDTree, searchStudyNotes } from "@/features/(markdown)/lib/data";
+import { getMDTree, searchStudyNotes } from "@/lib/data";
 import { CategoryTree, NoteMeta } from "@/types";
 import Link from "next/link";
 

@@ -8,29 +8,60 @@ import {
   NoteFrontmatter,
   NoteMeta,
 } from "@/types";
-import { walkTree, collectNotes } from "../utils/tree-utils";
+import { walkTree, collectNotes } from "@/lib/tree";
 
 const ROOT_PATH = Path.join(process.cwd(), "md");
 
 const isValidFile = (file: string) =>
   !file.startsWith(".") && !file.startsWith("_");
 
+let imageCachePromise: Promise<{ thumbnails: Set<string>; item: Set<string> }> | null = null;
+
+async function getImageCache() {
+  if (!imageCachePromise) {
+    imageCachePromise = (async () => {
+      const readDirSet = async (dirName: string) => {
+        try {
+          const files = await fs.promises.readdir(Path.join(process.cwd(), "public", dirName));
+          return new Set(files);
+        } catch {
+          return new Set<string>();
+        }
+      };
+
+      const [thumbnails, item] = await Promise.all([
+        readDirSet("thumbnails"),
+        readDirSet("item"),
+      ]);
+
+      return { thumbnails, item };
+    })();
+  }
+  return imageCachePromise;
+}
+
 async function resolveThumbnail(
   fileName: string,
   priority: "thumbnail" | "item",
 ): Promise<string> {
+  const cache = await getImageCache();
   const extensions = [".jpg", ".webp", ".png", ".jpeg", ".gif"];
-  const dirs =
-    priority === "thumbnail" ? ["thumbnails", "item"] : ["item", "thumbnails"];
+  const checkList =
+    priority === "thumbnail"
+      ? [
+          { dir: "thumbnails", set: cache.thumbnails },
+          { dir: "item", set: cache.item },
+        ]
+      : [
+          { dir: "item", set: cache.item },
+          { dir: "thumbnails", set: cache.thumbnails },
+        ];
 
-  for (const dir of dirs) {
+  for (const { dir, set } of checkList) {
     for (const ext of extensions) {
-      const fullPath = Path.join(process.cwd(), "public", dir, `${fileName}${ext}`);
-      try {
-        await fs.promises.stat(fullPath);
-        return `/${dir}/${fileName}${ext}`;
-      } catch {
-        // File does not exist, continue loop
+      const targetFileName = `${fileName}${ext}`;
+      if (set.has(targetFileName)) {
+        return `/${dir}/${targetFileName}`;
       }
     }
   }
@@ -278,5 +309,13 @@ export async function getDetailPageData(
     kind: "category",
     node: result.data as CategoryTree,
   };
+}
+
+export async function generateMarkdownStaticParams(type: string) {
+  const tree = await getMDTree(type);
+  const slugs = getAllTreeSlugs(tree);
+  return slugs.map((slug) => ({
+    slug,
+  }));
 }
 

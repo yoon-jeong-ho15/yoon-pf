@@ -1,4 +1,4 @@
-import Search, { SearchSkeleton } from "@/features/(markdown)/components/search";
+import Search, { SearchSkeleton } from "@/components/(markdown)/search";
 import { Suspense } from "react";
 
 export default function Page() {
