@@ -1,9 +1,8 @@
 "use client";
 
-import { useNav } from "./useNav";
+import { useNav } from "../../hooks/useNav";
 import { useState } from "react";
-import * as motion from "motion/react-client";
-import { AnimatePresence } from "motion/react";
+import { useEffect } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -11,6 +10,16 @@ import { cn } from "@/lib/utils";
 export function MobileMenu() {
   const { navTabs, selectedNavTab } = useNav();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMounted(true);
+    } else {
+      const timeout = setTimeout(() => setIsMounted(false), 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -20,47 +29,41 @@ export function MobileMenu() {
         </button>
       </div>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden fixed inset-0 top-13 z-50 bg-black/30 overflow-hidden"
-            onClick={() => setIsMenuOpen(false)}
+      {isMounted && (
+        <div
+          className={cn(
+            "md:hidden fixed inset-0 top-13 z-50 bg-black/30 overflow-hidden",
+            isMenuOpen ? "animate-fade-in" : "animate-fade-out"
+          )}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <div
+            className={cn(
+              "relative w-full bg-surface shadow-xl p-5",
+              isMenuOpen ? "animate-slide-down" : "animate-slide-up"
+            )}
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ y: "-100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="
-              relative w-full
-              bg-surface shadow-xl p-5"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex flex-col space-y-5">
-                {navTabs.map((tab) => (
-                  <Link
-                    key={tab.title}
-                    href={tab.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(
-                      "text-2xl text-center py-3 rounded-lg transition-colors",
-                      selectedNavTab?.title === tab.title
-                        ? "bg-foreground text-background"
-                        : "text-foreground hover:bg-hover-bg",
-                    )}
-                  >
-                    {tab.title}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="flex flex-col space-y-5">
+              {navTabs.map((tab) => (
+                <Link
+                  key={tab.title}
+                  href={tab.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={cn(
+                    "text-2xl text-center py-3 rounded-lg transition-colors",
+                    selectedNavTab?.title === tab.title
+                      ? "bg-foreground text-background"
+                      : "text-foreground hover:bg-hover-bg",
+                  )}
+                >
+                  {tab.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+
 import { useEffect, useState } from "react";
 import { robotoMono } from "@/app/fonts";
 import { cn } from "@/lib/utils";
@@ -39,20 +39,15 @@ export default function IntroMotion() {
         robotoMono.className
       )}
     >
-      <motion.div
-        className="text-2xl md:text-4xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+      <div
+        className="text-2xl md:text-4xl animate-fade-in"
       >
         {completedLines.map((line, index) => (
           <div key={index} className="flex">
             {line}
             {index === lines.length - 1 && currentLineIndex >= lines.length && (
-              <motion.span
-                className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1"
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
+              <span
+                className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1 animate-blink"
               />
             )}
           </div>
@@ -60,14 +55,12 @@ export default function IntroMotion() {
         {currentLineIndex < lines.length && (
           <div>
             {displayedText}
-            <motion.span
-              className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1"
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 0.8 }}
+            <span
+              className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1 animate-blink"
             />
           </div>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

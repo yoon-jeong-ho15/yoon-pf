@@ -1,47 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import * as motion from "motion/react-client";
-import { useNav } from "./useNav";
+import { useRef } from "react";
+import { ActiveIndicator } from "../ui/active-indicator";
+import { useNav } from "../../hooks/useNav";
 
 export function NavLinks() {
-  const { navTabs, selectedNavTab } = useNav();
+  const { navTabs, selectedIndex } = useNav();
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   return (
-    <div className="hidden flex-1 md:flex text-xl xl:text-2xl justify-around items-center">
-      {navTabs.map((tab) => (
+    <div className="relative hidden flex-1 md:flex text-xl xl:text-2xl justify-around items-center">
+      {navTabs.map((tab, i) => (
         <Link
           key={tab.title}
           href={tab.href}
+          ref={(el) => { itemRefs.current[i] = el; }}
           className="
            flex justify-center items-center 
-           h-full my-3 relative z-10 px-5
-           hover:bg-hover-bg transition-colors"
+           h-full my-3 relative z-10 px-5"
         >
           {tab.title}
-          {selectedNavTab?.title === tab.title && (
-            <motion.div
-              layoutId="printBrackets"
-              className="
-               flex
-               absolute inset-0 h-full items-center
-               pointer-events-none"
-              transition={{
-                type: "spring",
-                duration: 0.4,
-                bounce: 0.2,
-              }}
-            >
-              <span className="hidden lg:block absolute -left-16 xl:-left-19">
-                print
-              </span>
-              <span>(</span>
-              <div className="flex-1"></div>
-              <span>)</span>
-            </motion.div>
-          )}
         </Link>
       ))}
+      <ActiveIndicator
+        itemRefs={itemRefs}
+        selectedIndex={selectedIndex}
+        className="flex items-center h-full"
+      >
+        <span className="hidden lg:block absolute -left-16 xl:-left-19">
+          print
+        </span>
+        <span>(</span>
+        <div className="flex-1"></div>
+        <span>)</span>
+      </ActiveIndicator>
     </div>
   );
 }
