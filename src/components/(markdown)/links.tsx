@@ -1,7 +1,7 @@
 "use client";
 
 import { LinkMetadata } from "@/types";
-import { useMetadata } from "@/components/provider/metadata-provider";
+import { useMetadata } from "@/provider/metadata-provider";
 import { getDomainFromURL } from "@/lib/frontmatter";
 import { HoverCard } from "@/components/ui/hover-card";
 

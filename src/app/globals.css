@@ -200,6 +200,27 @@ body {
     }
   }
 
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100%); }
+  }
+  @keyframes slideRightIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideRightOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+  }
+
   @keyframes pulse-fast {
     0%,
     100% {
@@ -225,8 +246,32 @@ body {
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out forwards;
+    animation: fadeIn 0.3s ease-in-out forwards;
     animation-delay: var(--delay, 0s);
+  }
+  .animate-fade-out {
+    animation: fadeOut 0.3s ease-in-out forwards;
+  }
+  .animate-slide-down {
+    animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+  }
+  .animate-slide-right-in {
+    animation: slideRightIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+  }
+  .animate-slide-right-out {
+    animation: slideRightOut 0.3s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  .animate-blink {
+    animation: blink 0.8s infinite;
   }
 
   .text-slide-container:hover .animate-text-slide {

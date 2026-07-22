@@ -2,7 +2,6 @@
 
 import { CategoryTree } from "@/types";
 import { useNoteNav } from "../../hooks/useNoteNav";
-import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect } from "react";
 import NavContent from "./nav-content";
 import {
@@ -32,6 +31,16 @@ export default function NoteNav({ tree }: NavigationProps) {
 
 function MobileNoteNav({ tree, navState }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsMounted(true);
+    } else {
+      const timeout = setTimeout(() => setIsMounted(false), 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -63,36 +72,25 @@ function MobileNoteNav({ tree, navState }: Props) {
         </button>
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-y-0 right-0 left-12 z-30 bg-black/40"
-              onClick={closeMenu}
-            />
+      {isMounted && (
+        <>
+          <div
+            className={`fixed inset-y-0 right-0 left-12 z-30 bg-black/40 ${isOpen ? "animate-fade-in" : "animate-fade-out"}`}
+            onClick={closeMenu}
+          />
 
-            <motion.aside
-              initial={{ x: "-100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "-100%", opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col bg-surface shadow-xl shadow-black/10 border-r border-muted"
-            // onClick={(e) => e.stopPropagation()}
-            >
+          <aside
+            className={`fixed top-0 bottom-0 left-0 z-40 w-72 flex flex-col bg-surface shadow-xl shadow-black/10 border-r border-muted ${isOpen ? "animate-slide-right-in" : "animate-slide-right-out"}`}
+          >
               <div className="flex pl-4 items-center ">
                 <button onClick={closeMenu} className="p-1 h-10 w-10">
                   <CloseIcon className="w-5 h-5" />
                 </button>
               </div>
               <NavContent tree={tree} {...navState} onLinkClick={closeMenu} />
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
+          </aside>
+        </>
+      )}
     </div>
   );
 }
