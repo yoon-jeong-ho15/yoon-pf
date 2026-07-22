@@ -8,23 +8,28 @@ const CACHE_PATH = Path.join(
   ".cache/metadata-cache.json",
 );
 
-let cache: Record<string, LinkMetadata> = {};
-try {
-  if (fs.existsSync(CACHE_PATH)) {
-    cache = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+let cachePromise: Promise<Record<string, LinkMetadata>> | null = null;
+
+async function loadCache(): Promise<Record<string, LinkMetadata>> {
+  if (!cachePromise) {
+    cachePromise = (async () => {
+      try {
+        const data = await fs.promises.readFile(CACHE_PATH, "utf8");
+        return JSON.parse(data);
+      } catch {
+        return {};
+      }
+    })();
   }
-} catch (e) {
-  console.error("Failed to load metadata cache", e);
+  return cachePromise;
 }
 
-function saveCache() {
+async function saveCache(cache: Record<string, LinkMetadata>) {
   if (process.env.NODE_ENV === "production") return;
   try {
     const dir = Path.dirname(CACHE_PATH);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
+    await fs.promises.mkdir(dir, { recursive: true });
+    await fs.promises.writeFile(CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
   } catch (e) {
     console.error("Failed to save metadata cache", e);
   }
@@ -36,6 +41,7 @@ export async function getLinkMetadataMap(
   const links = frontmatter.link || [];
   if (!Array.isArray(links)) return {};
 
+  const cache = await loadCache();
   const linkMetadataMap: Record<string, LinkMetadata> = {};
   let cacheUpdated = false;
 
@@ -53,7 +59,7 @@ export async function getLinkMetadataMap(
   );
 
   if (cacheUpdated) {
-    saveCache();
+    await saveCache(cache);
   }
 
   return linkMetadataMap;
