@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { robotoMono } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 
-const lines = ["Hello", "안녕하세요?"];
+const LINES = ["𓆝 𓆟 𓆞 𓆝 𓆟", "Hello!", "안녕하세요?", "저는 윤정호 입니다.", "𓀇 𓀡 𓀄 𓀩 𓀦 𓀔 𓀋"];
 
 export default function IntroMotion() {
   const [completedLines, setCompletedLines] = useState<string[]>([]);
@@ -13,9 +13,9 @@ export default function IntroMotion() {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
-    if (currentLineIndex >= lines.length) return;
+    if (currentLineIndex >= LINES.length) return;
 
-    const currentLine = lines[currentLineIndex];
+    const currentLine = LINES[currentLineIndex];
     let i = 0;
 
     const interval = setInterval(() => {
@@ -27,7 +27,7 @@ export default function IntroMotion() {
         setDisplayedText("");
         setCurrentLineIndex((prev) => prev + 1);
       }
-    }, 80);
+    }, 120);
 
     return () => clearInterval(interval);
   }, [currentLineIndex]);
@@ -40,27 +40,31 @@ export default function IntroMotion() {
       )}
     >
       <div
-        className="text-2xl md:text-4xl animate-fade-in"
+        className="text-2xl md:text-4xl space-y-2"
       >
         {completedLines.map((line, index) => (
-          <div key={index} className="flex">
+          <div key={index} className="flex items-center">
             {line}
-            {index === lines.length - 1 && currentLineIndex >= lines.length && (
-              <span
-                className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1 animate-blink"
-              />
+            {index === LINES.length - 1 && currentLineIndex >= LINES.length && (
+              <Cursor />
             )}
           </div>
         ))}
-        {currentLineIndex < lines.length && (
-          <div>
+        {currentLineIndex < LINES.length && (
+          <div className="flex items-center">
             {displayedText}
-            <span
-              className="inline-block w-1 h-8 md:h-10 bg-foreground ml-1 animate-blink"
-            />
+            <Cursor />
           </div>
         )}
       </div>
     </div>
   );
+}
+
+function Cursor() {
+  return (
+    <span
+      className="w-1 h-8 md:h-10 bg-foreground ml-2 animate-blink"
+    />
+  )
 }
