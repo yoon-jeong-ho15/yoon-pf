@@ -1,7 +1,7 @@
 "use client";
 
 import { LinkMetadata } from "@/types";
-import { useMetadata } from "@/provider/metadata-provider";
+import { useMetadata } from "@/hooks/useMetadata";
 import { getDomainFromURL } from "@/lib/frontmatter";
 import { HoverCard } from "@/components/ui/hover-card";
 
@@ -32,8 +32,7 @@ function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
 }
 
 export function SidebarLink({ url }: { url: string }) {
-  const metadataMap = useMetadata();
-  const metaData = metadataMap?.[url];
+  const metaData = useMetadata(url);
 
   return (
     <span className="relative">

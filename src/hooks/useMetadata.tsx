@@ -19,6 +19,15 @@ export function MetadataProvider({
   );
 }
 
-export function useMetadata() {
-  return useContext(MetadataContext);
+export function useMetadata(): Record<string, LinkMetadata>;
+export function useMetadata(url: string): LinkMetadata | undefined;
+export function useMetadata(
+  url?: string
+): Record<string, LinkMetadata> | LinkMetadata | undefined {
+  const context = useContext(MetadataContext);
+  if (url !== undefined) {
+    return context[url];
+  }
+  return context;
 }
+

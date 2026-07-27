@@ -4,7 +4,7 @@ import {
   getDetailPageData,
 } from "@/lib/data";
 import { getLinkMetadataMap } from "@/lib/metadata";
-import { MetadataProvider } from "@/provider/metadata-provider";
+import { MetadataProvider } from "@/hooks/useMetadata";
 
 export async function generateStaticParams() {
   return generateMarkdownStaticParams("study-notes");
