@@ -8,7 +8,9 @@ import {
   ModalHeader,
   ModalTitle,
   ModalDescription,
+  ModalClose,
 } from "@/components/ui/modal";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Project({
   title,
@@ -70,7 +72,12 @@ export default function Project({
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{title}</ModalTitle>
+          <div className="flex items-center justify-between">
+            <ModalTitle>{title}</ModalTitle>
+            <ModalClose className="p-1 rounded-md text-text-muted hover:text-foreground hover:bg-hover-bg transition-colors">
+              <XMarkIcon className="size-5" />
+            </ModalClose>
+          </div>
           <div className="mt-2 flex gap-2">
             <a
               href={github}
