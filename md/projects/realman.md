@@ -1,7 +1,7 @@
 ---
 title: "RM"
 github: "https://github.com/JuHyeong2/RealMan.git"
-stack: ["Spring Boot", "Oracle DB", "MyBatis", "Firebase", "Amazon S3", "Thymeleaf", "HTML", "CSS", "JavaScript", "WebSocket", "WebRTC"]
+stack: ["SpringBoot", "Oracle DB", "MyBatis", "Firebase", "Amazon S3", "Thymeleaf", "HTML", "CSS", "JavaScript", "WebSocket", "WebRTC"]
 order: 3
 description: "실시간 채팅 웹서비스"
 ---

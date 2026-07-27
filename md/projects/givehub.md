@@ -1,7 +1,7 @@
 ---
 title: "GiveHub 기부허브"
 github: "https://github.com/shpark47/GiveHub.git"
-stack: ["Spring Boot", "Oracle DB", "MyBatis", "Thymeleaf", "HTML", "CSS", "JavaScript"]
+stack: ["SpringBoot", "Oracle DB", "MyBatis", "Thymeleaf", "HTML", "CSS", "JavaScript"]
 order: 2
 description: "크라우드 펀딩 플랫폼"
 ---
