@@ -48,8 +48,6 @@ export function DraggableCard({
   containerSelector,
 }: DraggableCardProps) {
   // 1. Component State
-  // { x, y } represents the current translation offsets (in pixels) relative to the card's original position.
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   // isDragging represents whether the card is currently being actively dragged by the user.
   const [isDragging, setIsDragging] = useState(false);
   // zIndex represents the stack layering level for this individual card.
@@ -59,12 +57,9 @@ export function DraggableCard({
   // Reference to the outermost card element. Essential for computing bounding client rects.
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Store the position in a ref to always have access to the latest values inside callbacks (like window resize events)
-  // without needing to re-bind or recreate those event listener functions on every render.
-  const positionRef = useRef(position);
-  useEffect(() => {
-    positionRef.current = position;
-  }, [position]);
+  // { x, y } represents the current translation offsets (in pixels) relative to the card's original position.
+  // Stored in a ref instead of React state to avoid component re-renders on high-frequency pointer move events.
+  const positionRef = useRef({ x: 0, y: 0 });
 
   // Stores drag start coordinates (startX, startY) and initial card translation offset (initialX, initialY) when dragging begins.
   const dragStartRef = useRef<{
@@ -73,6 +68,17 @@ export function DraggableCard({
     initialX: number;
     initialY: number;
   } | null>(null);
+
+  /**
+   * Directly updates the DOM element's transform style via ref and updates positionRef.
+   * This avoids React state re-renders during high-frequency dragging or animations.
+   */
+  const updateCardPosition = useCallback((x: number, y: number) => {
+    positionRef.current = { x, y };
+    if (cardRef.current) {
+      cardRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
+  }, []);
 
   /**
    * Helper function to clamp the proposed {newX, newY} translations so the card stays within the bounds
@@ -148,6 +154,11 @@ export function DraggableCard({
     globalZIndex += 1;
     setZIndex(globalZIndex);
 
+    // Ensure the transition property excludes transform immediately so dragging starts without delay
+    if (cardRef.current) {
+      cardRef.current.style.transition = "box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out";
+    }
+
     // Record the pointer starting coordinates and the card's current offset position
     dragStartRef.current = {
       startX: e.clientX,
@@ -164,7 +175,7 @@ export function DraggableCard({
 
   /**
    * Pointer move handler attached to the outer card wrapper.
-   * Tracks delta movement from starting coordinates and updates card's position state.
+   * Tracks delta movement from starting coordinates and directly updates DOM style via ref.
    */
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging || !dragStartRef.current) return;
@@ -177,8 +188,8 @@ export function DraggableCard({
     const targetX = dragStartRef.current.initialX + dx;
     const targetY = dragStartRef.current.initialY + dy;
 
-    // Allow full 1:1 movement outside the container during drag
-    setPosition({ x: targetX, y: targetY });
+    // Allow full 1:1 movement outside the container during drag without triggering state re-renders
+    updateCardPosition(targetX, targetY);
   };
 
   /**
@@ -192,29 +203,34 @@ export function DraggableCard({
     dragStartRef.current = null;
 
     // Bounce back if released outside the boundaries
-    setPosition(prevPosition => getClampedPosition(prevPosition.x, prevPosition.y));
+    const currentPos = positionRef.current;
+    const clamped = getClampedPosition(currentPos.x, currentPos.y, currentPos);
+    if (cardRef.current) {
+      cardRef.current.style.transition = "transform 0.2s, box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out";
+    }
+    updateCardPosition(clamped.x, clamped.y);
   };
 
   /**
    * Reset card position to (0, 0) upon double-clicking the drag handle.
    */
   const handleDoubleClick = useCallback(() => {
-    setPosition({ x: 0, y: 0 });
-  }, []);
+    updateCardPosition(0, 0);
+  }, [updateCardPosition]);
 
   // Effect hook: Listens for window resize events to keep the card within viewport bounds.
   useEffect(() => {
     const handleResize = () => {
       const currentPos = positionRef.current;
       const clamped = getClampedPosition(currentPos.x, currentPos.y, currentPos);
-      setPosition(clamped);
+      updateCardPosition(clamped.x, clamped.y);
     };
 
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [getClampedPosition]);
+  }, [getClampedPosition, updateCardPosition]);
 
   // Effect hook: Randomizes position within a specific boundary range when component mounts.
   useEffect(() => {
@@ -222,11 +238,11 @@ export function DraggableCard({
       // Pick random displacement values in range X: [-100, 100], Y: [-80, 80]
       const randomX = Math.floor(Math.random() * 200) - 100;
       const randomY = Math.floor(Math.random() * 160) - 80;
-      // Clamp the random position so it is fully visible, then set state
+      // Clamp the random position so it is fully visible, then update via ref
       const clamped = getClampedPosition(randomX, randomY, { x: 0, y: 0 });
-      setPosition(clamped);
+      updateCardPosition(clamped.x, clamped.y);
     }
-  }, [randomizePosition, getClampedPosition]);
+  }, [randomizePosition, getClampedPosition, updateCardPosition]);
 
   // Memoize context value to prevent unnecessary re-renders of DraggableCardHandle subcomponents.
   const contextValue = React.useMemo(() => ({
@@ -247,7 +263,7 @@ export function DraggableCard({
           setZIndex(globalZIndex);
         }}
         style={{
-          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+          transform: `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0)`,
           zIndex: zIndex,
           touchAction: "none", // Critical: prevents mobile devices from scrolling the page while dragging the card
           transition: isDragging
