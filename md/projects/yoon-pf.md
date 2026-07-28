@@ -1,6 +1,7 @@
 ---
 title: "yoon-pf"
 github: "https://github.com/yoon-jeong-ho15/yoon-pf.git"
+link: "https://yoonjeongho.site"
 stack: ["Next.js", "TypeScript", "TailwindCSS", "Storybook", "remark", "rehype"]
 order: 1
 description: "자체 개발 블로그 엔진 & 포트폴리오"
