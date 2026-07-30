@@ -51,30 +51,44 @@ export default async function Page() {
       )}
     >
       <MacosCard title="윤정호 yoon jeong ho" randomizePosition containerSelector="#about-page" className="max-w-xs">
-        <div className="flex border border-muted p-2 bg-surface">
-          <Image src="/s.jpg" alt="portrait" width={304} height={304} className="w-full h-auto" />
+        <div className="flex p-1 bg-surface">
+          <Image src="/s.jpg" alt="portrait" width={304} height={304} className="w-full h-auto rounded-sm object-cover" />
         </div>
       </MacosCard>
 
       <MacosCard title="education" randomizePosition containerSelector="#about-page">
-        <div className="flex flex-col gap-4 italic text-sm">
-          <div className="flex flex-col border border-muted p-3 bg-surface rounded">
-            <span className="font-semibold not-italic">가톨릭대학교 Catholic University of Korea</span>
-            <span>철학과, Department of Philosophy</span>
-            <span className="text-xs text-text-muted mt-1">2021.03 - 2023.03</span>
+        <div className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col border border-muted/60 p-4 bg-surface rounded-md shadow-sm transition-colors hover:border-muted">
+            <span className="font-semibold text-base mb-0.5">가톨릭대학교 Catholic University of Korea</span>
+            <span className="text-text-secondary">철학과, Department of Philosophy</span>
+            <span className="text-xs text-text-muted mt-2 font-mono">2021.03 - 2023.03</span>
           </div>
-          <div className="flex flex-col border border-muted p-3 bg-surface rounded">
-            <span className="font-semibold not-italic">
+          <div className="flex flex-col border border-muted/60 p-4 bg-surface rounded-md shadow-sm transition-colors hover:border-muted">
+            <span className="font-semibold text-base mb-0.5">
               독학학위제 Bachelor&apos;s Degree Examination for Self-Education
             </span>
-            <span>영문학 전공, English major</span>
-            <span className="text-xs text-text-muted mt-1">2020.01 - 2021.01</span>
+            <span className="text-text-secondary">영문학 전공, English major</span>
+            <span className="text-xs text-text-muted mt-2 font-mono">2020.01 - 2021.01</span>
           </div>
         </div>
       </MacosCard>
 
       <MacosCard title="experience" randomizePosition containerSelector="#about-page">
         <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-end gap-3.5 p-1 mb-1 text-xs text-text-muted border-b border-muted/40">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span>current</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-green-600" />
+              <span>service</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-yellow-500" />
+              <span>archived</span>
+            </div>
+          </div>
           {projects.map((project, idx) => (
             <Project key={idx} {...project} />
           ))}

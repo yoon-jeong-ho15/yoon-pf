@@ -8,13 +8,14 @@ import {
   ModalHeader,
   ModalTitle,
   ModalDescription,
+  ModalClose,
 } from "@/components/ui/modal";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Project({
   title,
   github,
   link,
-  about,
   stack,
   description,
   htmlContent,
@@ -22,43 +23,47 @@ export default function Project({
   title: string;
   github: string;
   link?: string;
-  about?: string;
   stack?: string[];
   description?: string;
   htmlContent?: string;
 }) {
-  const isMain = title === "yoon-pf";
+  const isOnService = title === "yoon-pf" || title === "NPS Today";
+  const isCurrent = title === "yoon-pf"
   return (
     <Modal>
       <ModalTrigger asChild>
         <div
           className={cn(
-            "my-2 p-3 rounded cursor-pointer transition-colors flex flex-col gap-2",
-            isMain ? "bg-hover-bg outline outline-muted" : "hover:bg-hover-bg"
+            "my-1 p-3 rounded-md cursor-pointer transition-all flex flex-col gap-1.5 border border-transparent",
+            isCurrent
+              ? "bg-hover-bg border-muted shadow-sm"
+              : "hover:bg-hover-bg hover:border-muted/50 hover:shadow-sm"
           )}
         >
-          <div className="flex flex-row items-center">
-            {isMain && (
-              <div className="rounded-full w-2 h-2 mr-2 bg-blue-500 animate-pulse-fast"></div>
-            )}
-            <span className="font-semibold text-lg">{title}</span>
+          <div className="flex flex-row items-center gap-2">
+            {isCurrent ? (
+              <div className="rounded-full w-2 h-2 bg-blue-500 animate-pulse-fast"></div>
+            ) : (isOnService ? (
+              <div className="rounded-full w-2 h-2 bg-green-600 animate-pulse-fast"></div>)
+              : (<div className="rounded-full w-2 h-2 bg-yellow-500 animate-pulse-fast"></div>))}
+            <span className="font-bold text-base tracking-tight">{title}</span>
           </div>
           {description && (
-            <p className="text-sm text-text-muted">{description}</p>
+            <p className="text-sm text-text-secondary leading-snug">{description}</p>
           )}
           {stack && (
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-1">
               {stack.map((item, i) => {
                 if (item in stackData) {
                   const data = stackData[item as keyof typeof stackData];
                   return (
-                    <span key={i} className={cn("px-1.5 py-0.5 text-[10px] rounded font-medium border border-muted", data.style)}>
+                    <span key={i} className={cn("px-2 py-0.5 text-[10px] rounded-md font-semibold border border-transparent", data.style)}>
                       {item}
                     </span>
                   );
                 } else {
                   return (
-                    <span key={i} className="px-1.5 py-0.5 text-[10px] bg-surface text-foreground rounded font-medium border border-muted">
+                    <span key={i} className="px-2 py-0.5 text-[10px] bg-surface text-text-secondary rounded-md font-semibold border border-muted/50">
                       {item}
                     </span>
                   );
@@ -69,14 +74,19 @@ export default function Project({
         </div>
       </ModalTrigger>
       <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{title}</ModalTitle>
-          <div className="mt-2 flex gap-2">
+        <ModalHeader className="flex border-b border-muted pb-4">
+          <div className="flex items-center justify-between">
+            <ModalTitle>{title}</ModalTitle>
+            <ModalClose className="p-1 rounded-md text-text-muted hover:text-foreground hover:bg-hover-bg">
+              <XMarkIcon className="size-5" />
+            </ModalClose>
+          </div>
+          <div className="mt-2 flex gap-2 text-blue-600 text-xs">
             <a
               href={github}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 text-sm border-blue-500 border px-2 py-1 rounded-lg hover:bg-amber-200 transition-colors"
+              className="border-blue-500 border px-2 py-1 rounded-lg hover:bg-amber-200"
             >
               github
             </a>
@@ -85,27 +95,17 @@ export default function Project({
                 href={link}
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-600 text-sm border-blue-500 border px-2 py-1 rounded-lg hover:bg-teal-100 transition-colors"
+                className="border-blue-500 border px-2 py-1 rounded-lg hover:bg-teal-100"
               >
                 link
               </a>
             )}
-            {about && (
-              <a
-                href={about}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-600 text-sm border-blue-500 border px-2 py-1 rounded-lg hover:bg-lime-200 transition-colors"
-              >
-                about
-              </a>
-            )}
+
           </div>
         </ModalHeader>
 
         {stack && (
-          <div className="mb-4">
-            <h3 className="font-semibold text-sm mb-2 text-text-muted">Tech Stack</h3>
+          <div className="mb-4 border-b border-muted pb-4">
             <div className="flex flex-wrap gap-2">
               {stack.map((item, i) => {
                 if (item in stackData) {
@@ -127,7 +127,6 @@ export default function Project({
           </div>
         )}
 
-        <h3 className="font-semibold text-sm mb-2 text-text-muted">Description</h3>
         {htmlContent ? (
           <ModalDescription className="text-sm text-foreground leading-relaxed prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-ul:my-2 prose-li:my-0.5">
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
@@ -155,10 +154,13 @@ const stackData = {
   JavaScript: {
     style: "text-yellow-700 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-950/40",
   },
-  Springboot: {
+  SpringBoot: {
     style: "text-lime-700 bg-lime-100 dark:text-lime-300 dark:bg-lime-950/40",
   },
   TailwindCSS: {
     style: "text-sky-700 bg-sky-100 dark:text-sky-300 dark:bg-sky-950/40",
   },
+  Storybook: {
+    style: "text-pink-700 bg-pink-100 dark:text-pink-300 dark:bg-pink-950/40"
+  }
 };
