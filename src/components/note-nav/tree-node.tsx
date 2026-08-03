@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { CategoryTree } from "@/types";
 import { cn } from "@/lib/utils";
+import { getTotalNoteCount } from "@/lib/tree";
 
 export default function CategoryTreeNode({
   node,
@@ -24,6 +25,8 @@ export default function CategoryTreeNode({
       setIsExpanded(true);
     }
   }, [isCurrent]);
+
+  const totalNotes = getTotalNoteCount(node);
 
   return (
     <li className="select-none">
@@ -51,7 +54,7 @@ export default function CategoryTreeNode({
           )}
         >
           <span>{node.frontmatter.title}</span>
-          <span className="text-xs text-text-secondary ml-1">{`(${node.notes.length})`}</span>
+          <span className="text-xs text-text-secondary ml-1">{`(${totalNotes})`}</span>
         </Link>
       </div>
 
