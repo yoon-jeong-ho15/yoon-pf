@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import * as cheerio from "cheerio";
 
 const MD_DIR = path.join(process.cwd(), "md");
-const DATA_DIR = path.join(process.cwd(), "src/data");
+const DATA_DIR = path.join(process.cwd(), "src/cache");
 const NEW_CACHE_PATH = path.join(DATA_DIR, "metadata-cache.json");
 const LEGACY_CACHE_PATH = path.join(process.cwd(), ".cache/metadata-cache.json");
 const OLD_CACHE_PATH = path.join(
@@ -104,10 +104,11 @@ async function getUrlMetadata(url) {
       description,
       image,
       icon,
+      fetchedAt: Date.now(),
     };
   } catch (error) {
     console.error(`[Prefetch] Failed to fetch metadata for ${url}:`, error.message);
-    return { url, title: url };
+    return { url, title: url, fetchedAt: Date.now() };
   }
 }
 
@@ -129,11 +130,21 @@ async function main() {
     cache = JSON.parse(fs.readFileSync(OLD_CACHE_PATH, "utf8"));
   }
 
-  // 2. Resolve missing metadata
+  // 2. Resolve missing or expired metadata
   let updatedCount = 0;
+  const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7일 (밀리초 단위)
+  const now = Date.now();
+
   for (const url of allLinks) {
-    if (!cache[url]) {
-      console.log(`[Prefetch] Cache miss: Fetching metadata for ${url}`);
+    const cachedData = cache[url];
+    const isExpired = cachedData && (!cachedData.fetchedAt || (now - cachedData.fetchedAt > CACHE_TTL));
+
+    if (!cachedData || isExpired) {
+      if (isExpired) {
+        console.log(`[Prefetch] Cache expired: Refetching metadata for ${url}`);
+      } else {
+        console.log(`[Prefetch] Cache miss: Fetching metadata for ${url}`);
+      }
       cache[url] = await getUrlMetadata(url);
       updatedCount++;
     }

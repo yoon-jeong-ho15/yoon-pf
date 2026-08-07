@@ -20,17 +20,17 @@ export default function CategoryPage({
         <div className="flex flex-col space-y-12 w-1/3 min-w-54">
           <div className="space-y-2">
             {sortedFrontmatter.map(([key, value]) => {
+              const renderers: Record<string, (val: string) => React.ReactNode> = {
+                link: (itemUrl) => <SidebarLink url={itemUrl} />,
+              };
               return (
                 <FrontmatterItem
                   key={key}
                   label={key}
                   value={value as string | string[]}
                   variant="note"
-                  renderCustomValue={
-                    key === "link"
-                      ? (itemUrl) => <SidebarLink url={itemUrl} />
-                      : undefined
-                  }
+                  layout={key === "link" ? "col" : "auto"}
+                  renderCustomValue={renderers[key]}
                 />
               );
             })}

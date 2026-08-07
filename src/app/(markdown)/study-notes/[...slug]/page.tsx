@@ -33,9 +33,9 @@ export default async function Page({
 
   if (data.kind === "note") {
     content = await markdownToHtml(data.body || "");
-    noteMetadata = await getLinkMetadataMap(data.meta.frontmatter);
+    noteMetadata = await getLinkMetadataMap(data.meta.frontmatter.link);
   } else {
-    categoryMetadata = await getLinkMetadataMap(data.node.frontmatter);
+    categoryMetadata = await getLinkMetadataMap(data.node.frontmatter.link);
   }
 
   const allMetadata = { ...categoryMetadata, ...noteMetadata };

@@ -4,14 +4,14 @@ import { useState, useRef, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
-interface HoverCardProps {
+interface HoverPopupCardProps {
   children: ReactNode;
   content: ReactNode;
   className?: string;
   as?: React.ElementType;
 }
 
-export function HoverCard({ children, content, className = "", as: Component = "span" }: HoverCardProps) {
+export function HoverPopupCard({ children, content, className = "", as: Component = "span" }: HoverPopupCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
   const wrapperRef = useRef<HTMLElement>(null);
