@@ -2,11 +2,11 @@ import * as cheerio from "cheerio";
 import type { LinkMetadata } from "@/types";
 import fs from "fs";
 import Path from "path";
-import bundledMetadataCache from "@/data/metadata-cache.json";
+import bundledMetadataCache from "@/cache/metadata-cache.json";
 
 const CACHE_PATH = Path.join(
   process.cwd(),
-  "src/data/metadata-cache.json",
+  "src/cache/metadata-cache.json",
 );
 
 // Memory cache initialized with statically bundled build cache
@@ -26,16 +26,16 @@ async function saveCache(cache: Record<string, LinkMetadata>) {
 }
 
 export async function getLinkMetadataMap(
-  frontmatter: Record<string, string | string[]>,
+  links?: string | string[],
 ): Promise<Record<string, LinkMetadata>> {
-  const links = frontmatter.link || [];
-  if (!Array.isArray(links)) return {};
+  if (!links) return {};
+  const linksArray = Array.isArray(links) ? links : [links];
 
   const linkMetadataMap: Record<string, LinkMetadata> = {};
   let cacheUpdated = false;
 
   await Promise.all(
-    links.map(async (url: string) => {
+    linksArray.map(async (url: string) => {
       if (inMemoryCache[url]) {
         linkMetadataMap[url] = inMemoryCache[url];
       } else {

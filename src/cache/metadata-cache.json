@@ -425,5 +425,12 @@
   "http://www.kocw.net/home/cview.do?mty=p&kemId=446042": {
     "url": "http://www.kocw.net/home/cview.do?mty=p&kemId=446042",
     "title": "RISS 시스템 점검 안내"
+  },
+  "http://www.kocw.net/home/search/kemView.do?kemId=1278171": {
+    "url": "http://www.kocw.net/home/search/kemView.do?kemId=1278171",
+    "title": "알고리즘",
+    "description": "컴퓨터를 이용한 문제 해결 방법에 대해 이해하고, 효과적인 방법들의 예를 살펴보며, 실제로 주어지는 문제를 적용하는데 활용할 수 있다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1278171.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico"
   }
 }

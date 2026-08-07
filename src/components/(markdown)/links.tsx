@@ -3,7 +3,7 @@
 import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/hooks/useMetadata";
 import { getDomainFromURL } from "@/lib/frontmatter";
-import { HoverCard } from "@/components/ui/hover-card";
+import { HoverPopupCard } from "@/components/ui/hover-popup-card";
 
 function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
@@ -36,13 +36,13 @@ export function SidebarLink({ url }: { url: string }) {
 
   return (
     <span className="relative">
-      <HoverCard
+      <HoverPopupCard
         content={metaData ? <LinkPreview metaData={metaData} /> : null}
       >
         <a href={url} className="hover:underline" target="_blank">
           {`${getDomainFromURL(url)}`}
         </a>
-      </HoverCard>
+      </HoverPopupCard>
     </span>
   );
 }
