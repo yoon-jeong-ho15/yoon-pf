@@ -106,9 +106,10 @@ export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
       description,
       image,
       icon,
+      fetchedAt: Date.now(),
     };
   } catch (error) {
     console.error(`Failed to fetch metadata for ${url}`, error);
-    return { url, title: url };
+    return { url, title: url, fetchedAt: Date.now() };
   }
 }

@@ -49,4 +49,5 @@ export type LinkMetadata = {
   description?: string;
   image?: string;
   icon?: string;
+  fetchedAt?: number;
 };

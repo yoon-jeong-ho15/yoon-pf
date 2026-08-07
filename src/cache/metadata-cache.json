@@ -4,433 +4,547 @@
     "title": "React",
     "description": "React is the library for web and native user interfaces. Build user interfaces out of individual pieces called components written in JavaScript. React is designed to let you seamlessly combine components written by independent people, teams, and organizations.",
     "image": "https://react.dev/images/og-home.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337150
   },
   "https://react.dev/learn": {
     "url": "https://react.dev/learn",
     "title": "Quick Start – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337936
   },
   "https://react.dev/reference/react": {
     "url": "https://react.dev/reference/react",
     "title": "React Reference Overview – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/reference-react.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337121
   },
   "https://www.radix-ui.com/primitives/docs/components/tabs": {
     "url": "https://www.radix-ui.com/primitives/docs/components/tabs",
     "title": "Tabs – Radix Primitives",
     "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
     "image": "https://radix-ui.com/primitives/opengraph-image.png?opengraph-image.0rn7txzeny89p.png",
-    "icon": "https://www.radix-ui.com/favicon.png"
+    "icon": "https://www.radix-ui.com/favicon.png",
+    "fetchedAt": 1786080338081
   },
   "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=290399512": {
     "url": "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=290399512",
     "title": "식탁 위의 고백들 | 에세이&  | 이혜미",
     "description": "이혜미 시인의 첫 에세이집. 저자는 아보카도, 달래, 당근, 토마토 등 식재료에 관한 글부터 파스타, 스테이크, 치즈, 스프와 스튜 등의 본격적인 요리, 그리고 달콤한 디저트를 만드는 과정과 그에 따르는 폭넓은 ...",
     "image": "https://image.aladin.co.kr/product/29039/95/cover500/8936479040_1.jpg",
-    "icon": "https://image.aladin.co.kr/img/home/aladin.ico"
+    "icon": "https://image.aladin.co.kr/img/home/aladin.ico",
+    "fetchedAt": 1786080294468
   },
   "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=337633173": {
     "url": "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=337633173",
     "title": "여행의 이유 (개정증보판) | 김영하",
     "description": "2019년 출간 직후 독자들의 열렬한 호응 속에 읽혀온 김영하 산문 『여행의 이유』 개정증보판이 복복서가에서 출간된다. 코로나 팬데믹 이후 우리의 일상에서 여행이란 과연 어떤 것이었는지, 김영하만의 현란하면...",
     "image": "https://image.aladin.co.kr/product/33763/31/cover500/s332036339_1.jpg",
-    "icon": "https://image.aladin.co.kr/img/home/aladin.ico"
+    "icon": "https://image.aladin.co.kr/img/home/aladin.ico",
+    "fetchedAt": 1786080295146
   },
   "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=356409037": {
     "url": "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=356409037",
     "title": "뇌를 이기는 습관 | 코널 코완.데이비드 키퍼",
     "description": "임상심리학자인 코널 코완과 내과의학박사인 데이비드 키퍼가 40년간의 의학적 교류 끝에 완성한 이 책은 타고난 신경전달물질의 불균형(도파민 부족 혹은 세로토닌 부족)이 어떻게 서로 다른 행동 패턴과 스트레스...",
     "image": "https://image.aladin.co.kr/product/35640/90/cover500/k072036608_1.jpg",
-    "icon": "https://image.aladin.co.kr/img/home/aladin.ico"
+    "icon": "https://image.aladin.co.kr/img/home/aladin.ico",
+    "fetchedAt": 1786080296718
   },
   "https://pedia.watcha.com/ko/contents/mOAkrNQ": {
     "url": "https://pedia.watcha.com/ko/contents/mOAkrNQ",
     "title": "28년 후 (2025) - 왓챠피디아",
     "description": "28일 후 시작, 28주 후 전염, 28년 후 진화...\n태어나 처음 마주한 바이러스에 감염된 세상,\n충격을 넘어선 극강의 공포가 밀려온다!\n\n28년 전 생물학 무기 연구소에서 세상을 재앙으로 몰아넣은 바이러스가 유출된 후, 일부 생존자들이 모여 철저히 격리된 채 살아가는 섬 ‘홀리 아일랜드’. 이곳에서 태어나 한 번도 섬 밖을 나가 본 적 없는 소년 ‘스파이크’는 어느 날 섬을 떠나 본토에 발을 들이게 되고 난생처음 바이러스에 잠식된 세상을 마주하게 된다. 변이된 바이러스는 10,228일의 시간 동안 감염자들을 더욱 충격적으로 진화시켰고 ‘스파이크’는 그 실체를 목격하며 극강의 공포에 휩싸이게 되는데...\n\n대니 보일 감독 X 알렉스 가랜드 각본 X 킬리언 머피 제작\n장르를 재정의한 좀비물의 바이블! 그 강렬한 귀환을 함께하라!",
-    "image": "https://an2-img.amz.wtchn.net/image/v2/cgvwL4EZl4118jvyL90kJQ.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpVNU1EVTRNRGd4TnpZeE56TXpOVFFpZlEuLXJ2Nkh2eGFMbmdSRWtzTmpUZTZOS1EwREFPLVlhcjFyU0hHLVdjT1E4QQ==",
-    "icon": "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20width='36'%20height='36'%20viewBox='0%200%2036%2036'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0)'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3crect%20x='-14.3999'%20y='-14.3999'%20width='64.8'%20height='64.8'%20fill='%23FF0558'/%3e%3cpath%20d='M19.1522%2017.6338H17.007V27.5997H19.1522C20.3614%2027.5997%2021.161%2027.1165%2021.551%2026.2306C21.7851%2025.7072%2021.8436%2025.224%2021.8436%2022.6067C21.8436%2020.0095%2021.7851%2019.5263%2021.551%2019.0028C21.161%2018.117%2020.3614%2017.6338%2019.1522%2017.6338ZM20.3614%2025.6669C20.1664%2026.1501%2019.7568%2026.4118%2019.0352%2026.4118H18.2746V18.8216H19.0352C19.7568%2018.8216%2020.1664%2019.0834%2020.3614%2019.5666C20.5174%2019.9088%2020.5564%2020.2108%2020.5564%2022.6268C20.5564%2025.0226%2020.5174%2025.3246%2020.3614%2025.6669Z'%20fill='white'/%3e%3cpath%20d='M28.8252%2017.6338H26.8945L25.1002%2027.5997H26.3679L26.6799%2025.5864H29.0202L29.3518%2027.5997H30.5999L28.8252%2017.6338ZM26.875%2024.4589L27.8306%2018.6807H27.8696L28.8252%2024.4589H26.875Z'%20fill='white'/%3e%3cpath%20d='M24.1832%2017.6338H22.9156V27.5997H24.1832V17.6338Z'%20fill='white'/%3e%3cpath%20d='M9.32326%2017.6338H7.02197V27.5997H8.27013V22.9489H9.32326C10.2984%2022.9489%2010.9225%2022.6671%2011.1955%2022.0429C11.332%2021.6805%2011.371%2021.3987%2011.371%2020.2914C11.371%2019.184%2011.332%2018.882%2011.1955%2018.5599C10.9225%2017.9157%2010.2984%2017.6338%209.32326%2017.6338ZM10.0058%2021.3181C9.86932%2021.6805%209.53778%2021.7611%209.01122%2021.7611H8.27013V18.7411H9.01122C9.53778%2018.7411%209.86932%2018.8418%2010.0058%2019.184C10.0838%2019.3652%2010.1034%2019.4659%2010.1034%2020.2511C10.1034%2021.0161%2010.0838%2021.1571%2010.0058%2021.3181Z'%20fill='white'/%3e%3cpath%20d='M12.2874%2027.5997H15.8368V26.4118H13.555V22.9087H15.7783V21.7208H13.555V18.8216H15.8368V17.6338H12.2874V27.5997Z'%20fill='white'/%3e%3cpath%20d='M24.3592%2012.2587H23.4238V10.0171H22.2101V15.7074H23.4238V13.4428H24.3592V15.7074H25.573V10.0171H24.3592V12.2587Z'%20fill='white'/%3e%3cpath%20d='M15.1725%2011.2012H16.1524V15.7074H17.3662V11.2012H18.2904V10.0171H15.1725V11.2012Z'%20fill='white'/%3e%3cpath%20d='M12.7339%2010.0171L11.754%2015.7074H12.9343L13.0668%2014.7877H14.1848L14.3151%2015.7074H15.5066L14.5155%2010.0171H12.7339ZM13.216%2013.7531L13.5579%2011.3851H13.7027L14.0384%2013.7531H13.216Z'%20fill='white'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.644%208.3999L10.2807%2013.8432L10.1831%2013.8485L9.31914%209.99743H8.25158L7.60526%2013.9877L7.46673%2013.9952L6.88807%209.99743H5.3999L6.75381%2015.9488L8.26726%2015.8458L8.75966%2012.1517L8.90407%2012.1437L9.56342%2015.7565L11.012%2015.6573L12.1623%208.3999H10.644Z'%20fill='white'/%3e%3cpath%20d='M20.1612%209.95964C19.07%209.95964%2018.5466%2010.5689%2018.5466%2011.5115V14.2129C18.5466%2015.1556%2019.07%2015.7648%2020.1612%2015.7648C21.2525%2015.7648%2021.7758%2015.1556%2021.7758%2014.2129V13.2358H20.5621V14.3279C20.5621%2014.6268%2020.4507%2014.7302%2020.1612%2014.7302C19.8717%2014.7302%2019.7603%2014.6268%2019.7603%2014.3279V11.3966C19.7603%2011.0977%2019.8717%2010.9942%2020.1612%2010.9942C20.4507%2010.9942%2020.5621%2011.0977%2020.5621%2011.3966V12.0403H21.7758V11.5115C21.7758%2010.5689%2021.2525%209.95964%2020.1612%209.95964Z'%20fill='white'/%3e%3cpath%20d='M26.8423%2010.0171L25.8624%2015.7074H27.0428L27.1753%2014.7877H28.2933L28.4236%2015.7074H29.615L28.624%2010.0171H26.8423ZM27.3245%2013.7531L27.6664%2011.3851H27.8111L28.1468%2013.7531H27.3245Z'%20fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e"
+    "image": "https://an2-img.amz.wtchn.net/image/v2/ffiNowk30wEAhIdu1YqLsA.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpJd05EazNNRGswT1RjNU5EZ3hOamNpZlEud2dnX1RabTE3eUJEMG80RjVJeFQ5RG80OW55cFlIVjF3bmlRVGQtUGxHUQ==",
+    "icon": "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20width='36'%20height='36'%20viewBox='0%200%2036%2036'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0)'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3crect%20x='-14.3999'%20y='-14.3999'%20width='64.8'%20height='64.8'%20fill='%23FF0558'/%3e%3cpath%20d='M19.1522%2017.6338H17.007V27.5997H19.1522C20.3614%2027.5997%2021.161%2027.1165%2021.551%2026.2306C21.7851%2025.7072%2021.8436%2025.224%2021.8436%2022.6067C21.8436%2020.0095%2021.7851%2019.5263%2021.551%2019.0028C21.161%2018.117%2020.3614%2017.6338%2019.1522%2017.6338ZM20.3614%2025.6669C20.1664%2026.1501%2019.7568%2026.4118%2019.0352%2026.4118H18.2746V18.8216H19.0352C19.7568%2018.8216%2020.1664%2019.0834%2020.3614%2019.5666C20.5174%2019.9088%2020.5564%2020.2108%2020.5564%2022.6268C20.5564%2025.0226%2020.5174%2025.3246%2020.3614%2025.6669Z'%20fill='white'/%3e%3cpath%20d='M28.8252%2017.6338H26.8945L25.1002%2027.5997H26.3679L26.6799%2025.5864H29.0202L29.3518%2027.5997H30.5999L28.8252%2017.6338ZM26.875%2024.4589L27.8306%2018.6807H27.8696L28.8252%2024.4589H26.875Z'%20fill='white'/%3e%3cpath%20d='M24.1832%2017.6338H22.9156V27.5997H24.1832V17.6338Z'%20fill='white'/%3e%3cpath%20d='M9.32326%2017.6338H7.02197V27.5997H8.27013V22.9489H9.32326C10.2984%2022.9489%2010.9225%2022.6671%2011.1955%2022.0429C11.332%2021.6805%2011.371%2021.3987%2011.371%2020.2914C11.371%2019.184%2011.332%2018.882%2011.1955%2018.5599C10.9225%2017.9157%2010.2984%2017.6338%209.32326%2017.6338ZM10.0058%2021.3181C9.86932%2021.6805%209.53778%2021.7611%209.01122%2021.7611H8.27013V18.7411H9.01122C9.53778%2018.7411%209.86932%2018.8418%2010.0058%2019.184C10.0838%2019.3652%2010.1034%2019.4659%2010.1034%2020.2511C10.1034%2021.0161%2010.0838%2021.1571%2010.0058%2021.3181Z'%20fill='white'/%3e%3cpath%20d='M12.2874%2027.5997H15.8368V26.4118H13.555V22.9087H15.7783V21.7208H13.555V18.8216H15.8368V17.6338H12.2874V27.5997Z'%20fill='white'/%3e%3cpath%20d='M24.3592%2012.2587H23.4238V10.0171H22.2101V15.7074H23.4238V13.4428H24.3592V15.7074H25.573V10.0171H24.3592V12.2587Z'%20fill='white'/%3e%3cpath%20d='M15.1725%2011.2012H16.1524V15.7074H17.3662V11.2012H18.2904V10.0171H15.1725V11.2012Z'%20fill='white'/%3e%3cpath%20d='M12.7339%2010.0171L11.754%2015.7074H12.9343L13.0668%2014.7877H14.1848L14.3151%2015.7074H15.5066L14.5155%2010.0171H12.7339ZM13.216%2013.7531L13.5579%2011.3851H13.7027L14.0384%2013.7531H13.216Z'%20fill='white'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.644%208.3999L10.2807%2013.8432L10.1831%2013.8485L9.31914%209.99743H8.25158L7.60526%2013.9877L7.46673%2013.9952L6.88807%209.99743H5.3999L6.75381%2015.9488L8.26726%2015.8458L8.75966%2012.1517L8.90407%2012.1437L9.56342%2015.7565L11.012%2015.6573L12.1623%208.3999H10.644Z'%20fill='white'/%3e%3cpath%20d='M20.1612%209.95964C19.07%209.95964%2018.5466%2010.5689%2018.5466%2011.5115V14.2129C18.5466%2015.1556%2019.07%2015.7648%2020.1612%2015.7648C21.2525%2015.7648%2021.7758%2015.1556%2021.7758%2014.2129V13.2358H20.5621V14.3279C20.5621%2014.6268%2020.4507%2014.7302%2020.1612%2014.7302C19.8717%2014.7302%2019.7603%2014.6268%2019.7603%2014.3279V11.3966C19.7603%2011.0977%2019.8717%2010.9942%2020.1612%2010.9942C20.4507%2010.9942%2020.5621%2011.0977%2020.5621%2011.3966V12.0403H21.7758V11.5115C21.7758%2010.5689%2021.2525%209.95964%2020.1612%209.95964Z'%20fill='white'/%3e%3cpath%20d='M26.8423%2010.0171L25.8624%2015.7074H27.0428L27.1753%2014.7877H28.2933L28.4236%2015.7074H29.615L28.624%2010.0171H26.8423ZM27.3245%2013.7531L27.6664%2011.3851H27.8111L28.1468%2013.7531H27.3245Z'%20fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e",
+    "fetchedAt": 1786080297378
   },
   "https://pedia.watcha.com/ko/contents/mOkL1Vj": {
     "url": "https://pedia.watcha.com/ko/contents/mOkL1Vj",
     "title": "서부 전선 이상 없다 (2022) - 왓챠피디아",
     "description": "제1차 세계대전 당시 서부전선에서 싸운 독일군 청년의 강렬한 이야기. 젊은 사병과 전우들은 참호 속에서 사투를 벌이며, 처음 전쟁에 대해 느꼈던 환상과 도취감이 어떻게 절망과 공포로 변해가는지를 생생하게 체험한다.",
-    "image": "https://an2-img.amz.wtchn.net/image/v2/L_-Z8pSz0OhJz0jLq0FA8w.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk5qSTNORFEyTWprNU9UZ3hORFkzTkRJaWZRLnhTX244NEF5Zzd1SGpJR2hMbVdRVWpGUWRDOGx0d3FON2lNZWRhNllJVVk=",
-    "icon": "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20width='36'%20height='36'%20viewBox='0%200%2036%2036'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0)'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3crect%20x='-14.3999'%20y='-14.3999'%20width='64.8'%20height='64.8'%20fill='%23FF0558'/%3e%3cpath%20d='M19.1522%2017.6338H17.007V27.5997H19.1522C20.3614%2027.5997%2021.161%2027.1165%2021.551%2026.2306C21.7851%2025.7072%2021.8436%2025.224%2021.8436%2022.6067C21.8436%2020.0095%2021.7851%2019.5263%2021.551%2019.0028C21.161%2018.117%2020.3614%2017.6338%2019.1522%2017.6338ZM20.3614%2025.6669C20.1664%2026.1501%2019.7568%2026.4118%2019.0352%2026.4118H18.2746V18.8216H19.0352C19.7568%2018.8216%2020.1664%2019.0834%2020.3614%2019.5666C20.5174%2019.9088%2020.5564%2020.2108%2020.5564%2022.6268C20.5564%2025.0226%2020.5174%2025.3246%2020.3614%2025.6669Z'%20fill='white'/%3e%3cpath%20d='M28.8252%2017.6338H26.8945L25.1002%2027.5997H26.3679L26.6799%2025.5864H29.0202L29.3518%2027.5997H30.5999L28.8252%2017.6338ZM26.875%2024.4589L27.8306%2018.6807H27.8696L28.8252%2024.4589H26.875Z'%20fill='white'/%3e%3cpath%20d='M24.1832%2017.6338H22.9156V27.5997H24.1832V17.6338Z'%20fill='white'/%3e%3cpath%20d='M9.32326%2017.6338H7.02197V27.5997H8.27013V22.9489H9.32326C10.2984%2022.9489%2010.9225%2022.6671%2011.1955%2022.0429C11.332%2021.6805%2011.371%2021.3987%2011.371%2020.2914C11.371%2019.184%2011.332%2018.882%2011.1955%2018.5599C10.9225%2017.9157%2010.2984%2017.6338%209.32326%2017.6338ZM10.0058%2021.3181C9.86932%2021.6805%209.53778%2021.7611%209.01122%2021.7611H8.27013V18.7411H9.01122C9.53778%2018.7411%209.86932%2018.8418%2010.0058%2019.184C10.0838%2019.3652%2010.1034%2019.4659%2010.1034%2020.2511C10.1034%2021.0161%2010.0838%2021.1571%2010.0058%2021.3181Z'%20fill='white'/%3e%3cpath%20d='M12.2874%2027.5997H15.8368V26.4118H13.555V22.9087H15.7783V21.7208H13.555V18.8216H15.8368V17.6338H12.2874V27.5997Z'%20fill='white'/%3e%3cpath%20d='M24.3592%2012.2587H23.4238V10.0171H22.2101V15.7074H23.4238V13.4428H24.3592V15.7074H25.573V10.0171H24.3592V12.2587Z'%20fill='white'/%3e%3cpath%20d='M15.1725%2011.2012H16.1524V15.7074H17.3662V11.2012H18.2904V10.0171H15.1725V11.2012Z'%20fill='white'/%3e%3cpath%20d='M12.7339%2010.0171L11.754%2015.7074H12.9343L13.0668%2014.7877H14.1848L14.3151%2015.7074H15.5066L14.5155%2010.0171H12.7339ZM13.216%2013.7531L13.5579%2011.3851H13.7027L14.0384%2013.7531H13.216Z'%20fill='white'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.644%208.3999L10.2807%2013.8432L10.1831%2013.8485L9.31914%209.99743H8.25158L7.60526%2013.9877L7.46673%2013.9952L6.88807%209.99743H5.3999L6.75381%2015.9488L8.26726%2015.8458L8.75966%2012.1517L8.90407%2012.1437L9.56342%2015.7565L11.012%2015.6573L12.1623%208.3999H10.644Z'%20fill='white'/%3e%3cpath%20d='M20.1612%209.95964C19.07%209.95964%2018.5466%2010.5689%2018.5466%2011.5115V14.2129C18.5466%2015.1556%2019.07%2015.7648%2020.1612%2015.7648C21.2525%2015.7648%2021.7758%2015.1556%2021.7758%2014.2129V13.2358H20.5621V14.3279C20.5621%2014.6268%2020.4507%2014.7302%2020.1612%2014.7302C19.8717%2014.7302%2019.7603%2014.6268%2019.7603%2014.3279V11.3966C19.7603%2011.0977%2019.8717%2010.9942%2020.1612%2010.9942C20.4507%2010.9942%2020.5621%2011.0977%2020.5621%2011.3966V12.0403H21.7758V11.5115C21.7758%2010.5689%2021.2525%209.95964%2020.1612%209.95964Z'%20fill='white'/%3e%3cpath%20d='M26.8423%2010.0171L25.8624%2015.7074H27.0428L27.1753%2014.7877H28.2933L28.4236%2015.7074H29.615L28.624%2010.0171H26.8423ZM27.3245%2013.7531L27.6664%2011.3851H27.8111L28.1468%2013.7531H27.3245Z'%20fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e"
+    "image": "https://an2-img.amz.wtchn.net/image/v2/HSGFAk6lLrbZjBPzBS3wiw.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk5qY3lNRE16TmpnMk1qUTFORFl6TURNaWZRLkxyV1VJdTZBZktjNVBaWVdJa3RsdHRXc3JkOXRKVnViSjdQcGRlNHpvQXM=",
+    "icon": "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20width='36'%20height='36'%20viewBox='0%200%2036%2036'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0)'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3crect%20x='-14.3999'%20y='-14.3999'%20width='64.8'%20height='64.8'%20fill='%23FF0558'/%3e%3cpath%20d='M19.1522%2017.6338H17.007V27.5997H19.1522C20.3614%2027.5997%2021.161%2027.1165%2021.551%2026.2306C21.7851%2025.7072%2021.8436%2025.224%2021.8436%2022.6067C21.8436%2020.0095%2021.7851%2019.5263%2021.551%2019.0028C21.161%2018.117%2020.3614%2017.6338%2019.1522%2017.6338ZM20.3614%2025.6669C20.1664%2026.1501%2019.7568%2026.4118%2019.0352%2026.4118H18.2746V18.8216H19.0352C19.7568%2018.8216%2020.1664%2019.0834%2020.3614%2019.5666C20.5174%2019.9088%2020.5564%2020.2108%2020.5564%2022.6268C20.5564%2025.0226%2020.5174%2025.3246%2020.3614%2025.6669Z'%20fill='white'/%3e%3cpath%20d='M28.8252%2017.6338H26.8945L25.1002%2027.5997H26.3679L26.6799%2025.5864H29.0202L29.3518%2027.5997H30.5999L28.8252%2017.6338ZM26.875%2024.4589L27.8306%2018.6807H27.8696L28.8252%2024.4589H26.875Z'%20fill='white'/%3e%3cpath%20d='M24.1832%2017.6338H22.9156V27.5997H24.1832V17.6338Z'%20fill='white'/%3e%3cpath%20d='M9.32326%2017.6338H7.02197V27.5997H8.27013V22.9489H9.32326C10.2984%2022.9489%2010.9225%2022.6671%2011.1955%2022.0429C11.332%2021.6805%2011.371%2021.3987%2011.371%2020.2914C11.371%2019.184%2011.332%2018.882%2011.1955%2018.5599C10.9225%2017.9157%2010.2984%2017.6338%209.32326%2017.6338ZM10.0058%2021.3181C9.86932%2021.6805%209.53778%2021.7611%209.01122%2021.7611H8.27013V18.7411H9.01122C9.53778%2018.7411%209.86932%2018.8418%2010.0058%2019.184C10.0838%2019.3652%2010.1034%2019.4659%2010.1034%2020.2511C10.1034%2021.0161%2010.0838%2021.1571%2010.0058%2021.3181Z'%20fill='white'/%3e%3cpath%20d='M12.2874%2027.5997H15.8368V26.4118H13.555V22.9087H15.7783V21.7208H13.555V18.8216H15.8368V17.6338H12.2874V27.5997Z'%20fill='white'/%3e%3cpath%20d='M24.3592%2012.2587H23.4238V10.0171H22.2101V15.7074H23.4238V13.4428H24.3592V15.7074H25.573V10.0171H24.3592V12.2587Z'%20fill='white'/%3e%3cpath%20d='M15.1725%2011.2012H16.1524V15.7074H17.3662V11.2012H18.2904V10.0171H15.1725V11.2012Z'%20fill='white'/%3e%3cpath%20d='M12.7339%2010.0171L11.754%2015.7074H12.9343L13.0668%2014.7877H14.1848L14.3151%2015.7074H15.5066L14.5155%2010.0171H12.7339ZM13.216%2013.7531L13.5579%2011.3851H13.7027L14.0384%2013.7531H13.216Z'%20fill='white'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M10.644%208.3999L10.2807%2013.8432L10.1831%2013.8485L9.31914%209.99743H8.25158L7.60526%2013.9877L7.46673%2013.9952L6.88807%209.99743H5.3999L6.75381%2015.9488L8.26726%2015.8458L8.75966%2012.1517L8.90407%2012.1437L9.56342%2015.7565L11.012%2015.6573L12.1623%208.3999H10.644Z'%20fill='white'/%3e%3cpath%20d='M20.1612%209.95964C19.07%209.95964%2018.5466%2010.5689%2018.5466%2011.5115V14.2129C18.5466%2015.1556%2019.07%2015.7648%2020.1612%2015.7648C21.2525%2015.7648%2021.7758%2015.1556%2021.7758%2014.2129V13.2358H20.5621V14.3279C20.5621%2014.6268%2020.4507%2014.7302%2020.1612%2014.7302C19.8717%2014.7302%2019.7603%2014.6268%2019.7603%2014.3279V11.3966C19.7603%2011.0977%2019.8717%2010.9942%2020.1612%2010.9942C20.4507%2010.9942%2020.5621%2011.0977%2020.5621%2011.3966V12.0403H21.7758V11.5115C21.7758%2010.5689%2021.2525%209.95964%2020.1612%209.95964Z'%20fill='white'/%3e%3cpath%20d='M26.8423%2010.0171L25.8624%2015.7074H27.0428L27.1753%2014.7877H28.2933L28.4236%2015.7074H29.615L28.624%2010.0171H26.8423ZM27.3245%2013.7531L27.6664%2011.3851H27.8111L28.1468%2013.7531H27.3245Z'%20fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0'%3e%3crect%20width='36'%20height='36'%20rx='8'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e",
+    "fetchedAt": 1786080297882
   },
   "https://nps-today.vercel.app": {
     "url": "https://nps-today.vercel.app",
     "title": "NPS today - 국민연금 코스피 거래 동향",
-    "description": "국민연금공단(NPS)의 코스피 주식 거래 동향 및 기업별 매매 분석 대시보드"
+    "description": "국민연금공단(NPS)의 코스피 주식 거래 동향 및 기업별 매매 분석 대시보드",
+    "fetchedAt": 1786080299913
   },
   "http://www.kocw.net/home/cview.do?cid=9431c3f618da8265": {
     "url": "http://www.kocw.net/home/cview.do?cid=9431c3f618da8265",
-    "title": "RISS 시스템 점검 안내"
+    "title": "컴퓨터그래픽스",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1268467.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080300583
   },
   "https://dis.dankook.ac.kr/lectures/cg17/": {
     "url": "https://dis.dankook.ac.kr/lectures/cg17/",
-    "title": "Computer Graphics 2017 – Just another Kyoung Shin Park's Lectures Sites site"
+    "title": "Computer Graphics 2017 – Just another Kyoung Shin Park's Lectures Sites site",
+    "fetchedAt": 1786080300854
   },
   "https://introtcs.org/public/index.html": {
     "url": "https://introtcs.org/public/index.html",
     "title": "Introduction to Theoretical Computer Science: index",
     "description": "Textbook on Theoretical Computer Science by Boaz Barak",
     "image": "https://introtcs.org/public/icons/cover.png",
-    "icon": "https://introtcs.org/public/icons/favicon.ico"
+    "icon": "https://introtcs.org/public/icons/favicon.ico",
+    "fetchedAt": 1786080302213
   },
   "http://www.kocw.net/home/cview.do?cid=9ccf38317df98fa2": {
     "url": "http://www.kocw.net/home/cview.do?cid=9ccf38317df98fa2",
-    "title": "RISS 시스템 점검 안내"
+    "title": "자료구조",
+    "description": "효율적인 데이타 처리를 위해서, 컴퓨터 프로그래머로서 기본적으로 습득하여야 하는 기초 사양들중의 하나로, 이 강좌에서는 효율적인 데이타 처리 방법을 위한 여러가지 자료구조의 사용방법과 그 효율성의 차이, 응용에 따른 서로 다른 자료구조들의 특성을 분석하고 실습한다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1190355.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080302477
   },
   "http://www.kocw.net/home/cview.do?cid=6b984f376cfb8f70": {
     "url": "http://www.kocw.net/home/cview.do?cid=6b984f376cfb8f70",
-    "title": "RISS 시스템 점검 안내"
+    "title": "컴퓨터네트워크",
+    "description": "본 강의에서는 인터넷 내부의 동작을 이해하는데 초점을 둔다. 인터넷의 기본이 되는 다양한 컴퓨터네트워크 프로토콜을 응용계층으로부터 시작하여 링크계층까지 Top-down방식으로 소개한다. 이를 바탕으로 인터넷의 프로토콜을 실제 구현하기 위한 socket프로그램을 작성한다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1312397.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080302626
   },
   "https://product.kyobobook.co.kr/detail/S000003015330": {
     "url": "https://product.kyobobook.co.kr/detail/S000003015330",
     "title": "The Conquest of Happiness - 교보문고",
     "description": "“Should be read by every parent, teacher, minister, and Congressman in the land.”-The Atlantic",
-    "image": "https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9780871406736.jpg?t=2974388",
-    "icon": "https://contents.kyobobook.co.kr/resources/fo/images/favicon/kyobo.ico"
+    "image": "https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9780871406736.jpg?t=2976800",
+    "icon": "https://contents.kyobobook.co.kr/resources/fo/images/favicon/kyobo.ico",
+    "fetchedAt": 1786080303617
   },
   "https://product.kyobobook.co.kr/detail/S000000813819": {
     "url": "https://product.kyobobook.co.kr/detail/S000000813819",
     "title": "행복의 정복 - 교보문고",
     "description": "활발한 사회활동을 펼친 20세기의 지성으로 유명한 러셀이 쓴 단 한 권의 행복론. 행복이란 끊임없이 쟁취해야 하는 것이라는 러셀의 목소리를 담은 이 책은, 행복 자체를 회의하게 만들 정도로 불쾌한 인간의 여러 속성들을 적나라하게 파헤치면서도, 인간에 대한 신뢰와...",
-    "image": "https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788956025513.jpg?t=2974388",
-    "icon": "https://contents.kyobobook.co.kr/resources/fo/images/favicon/kyobo.ico"
+    "image": "https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788956025513.jpg?t=2976800",
+    "icon": "https://contents.kyobobook.co.kr/resources/fo/images/favicon/kyobo.ico",
+    "fetchedAt": 1786080304126
   },
   "https://www.holybooks.com/wp-content/uploads/The-Conquest-of-Happiness-by-Bertrand-Russell.pdf": {
     "url": "https://www.holybooks.com/wp-content/uploads/The-Conquest-of-Happiness-by-Bertrand-Russell.pdf",
-    "title": "https://www.holybooks.com/wp-content/uploads/The-Conquest-of-Happiness-by-Bertrand-Russell.pdf"
+    "title": "https://www.holybooks.com/wp-content/uploads/The-Conquest-of-Happiness-by-Bertrand-Russell.pdf",
+    "fetchedAt": 1786080306528
   },
   "https://www.amazon.com/Noonday-Demon-Atlas-Depression/dp/1501123882": {
     "url": "https://www.amazon.com/Noonday-Demon-Atlas-Depression/dp/1501123882",
     "title": "The Noonday Demon: An Atlas of Depression",
     "description": "The Noonday Demon: An Atlas of Depression [Solomon, Andrew] on Amazon.com. *FREE* shipping on qualifying offers. The Noonday Demon: An Atlas of Depression",
-    "image": "https://m.media-amazon.com/images/I/91WzRtuLP3L.jpg_BO30,255,255,255_UF750,750_SR1910,1000,0,C_QL100_.jpg"
+    "image": "https://m.media-amazon.com/images/I/91WzRtuLP3L.jpg_BO30,255,255,255_UF750,750_SR1910,1000,0,C_QL100_.jpg",
+    "fetchedAt": 1786080308995
   },
   "http://www.kocw.net/home/cview.do?cid=fd1effcf1b97c8e3": {
     "url": "http://www.kocw.net/home/cview.do?cid=fd1effcf1b97c8e3",
-    "title": "RISS 시스템 점검 안내"
+    "title": "실용영문법1",
+    "description": "이 과목은 실용 영어문법을 이해하고 습득하여 영어로 말하기, 쓰기, 듣기, 및 읽기의 모든 언어기능의 총체적 향상을 도모하는데에 필요한 문법적기초를 쌓는데에 근본목표를 두고있다. 고급 영어 구사자가 되는데에 필요한 실용적인 문법과 표현을 집중적으로 학습한다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1268206.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080309242
   },
   "https://www.npr.org/2026/02/17/nx-s1-5715992/how-to-shift-your-emotions": {
     "url": "https://www.npr.org/2026/02/17/nx-s1-5715992/how-to-shift-your-emotions",
-    "title": "https://www.npr.org/2026/02/17/nx-s1-5715992/how-to-shift-your-emotions"
+    "title": "https://www.npr.org/2026/02/17/nx-s1-5715992/how-to-shift-your-emotions",
+    "fetchedAt": 1786080314246
   },
   "https://www.npr.org/transcripts/nx-s1-5718419": {
     "url": "https://www.npr.org/transcripts/nx-s1-5718419",
-    "title": "https://www.npr.org/transcripts/nx-s1-5718419"
+    "title": "https://www.npr.org/transcripts/nx-s1-5718419",
+    "fetchedAt": 1786080319247
   },
   "https://www.npr.org/2026/03/17/nx-s1-5749561/good-vibes-only-the-science-behind-optimism-and-manifestation": {
     "url": "https://www.npr.org/2026/03/17/nx-s1-5749561/good-vibes-only-the-science-behind-optimism-and-manifestation",
-    "title": "https://www.npr.org/2026/03/17/nx-s1-5749561/good-vibes-only-the-science-behind-optimism-and-manifestation"
+    "title": "https://www.npr.org/2026/03/17/nx-s1-5749561/good-vibes-only-the-science-behind-optimism-and-manifestation",
+    "fetchedAt": 1786080324249
   },
   "https://www.npr.org/2026/03/23/nx-s1-5754506/the-key-to-happiness-know-thyself-says-gretchen-rubin": {
     "url": "https://www.npr.org/2026/03/23/nx-s1-5754506/the-key-to-happiness-know-thyself-says-gretchen-rubin",
-    "title": "https://www.npr.org/2026/03/23/nx-s1-5754506/the-key-to-happiness-know-thyself-says-gretchen-rubin"
+    "title": "https://www.npr.org/2026/03/23/nx-s1-5754506/the-key-to-happiness-know-thyself-says-gretchen-rubin",
+    "fetchedAt": 1786080329252
   },
   "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/video_galleries/video-lectures/": {
     "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/video_galleries/video-lectures/",
     "title": "Video Lectures | Mathematics for Computer Science | Electrical Engineering and Computer Science | MIT OpenCourseWare",
     "description": "This section provide video lectures on mathematics for computer science.",
-    "image": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/42ba5c4fb2e9df43aa8b2bc0566b459f_6-042jf10.jpg"
+    "image": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/42ba5c4fb2e9df43aa8b2bc0566b459f_6-042jf10.jpg",
+    "fetchedAt": 1786080329521
   },
   "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/resources/mit6_042js15_textbook/": {
     "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/resources/mit6_042js15_textbook/",
     "title": "Mathematics for Computer Science textbook | Mathematics for Computer Science | Electrical Engineering and Computer Science | MIT OpenCourseWare",
     "description": "MIT OpenCourseWare is a web based publication of virtually all MIT course content. OCW is open and available to the world and is a permanent MIT activity",
-    "image": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6-042js15.jpeg"
+    "image": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6-042js15.jpeg",
+    "fetchedAt": 1786080329537
   },
   "http://kocw.net/home/search/kemView.do?kemId=1432351": {
     "url": "http://kocw.net/home/search/kemView.do?kemId=1432351",
-    "title": "RISS 시스템 점검 안내"
+    "title": "집합론",
+    "description": "현대 수학을 이해하기 위한 기초 논리, 명제와 추론, 함수와 관계,  가부번 집합과 비가산집합 등의 무한 집합, 기수 등의 내용으로 구성된다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1432351.jpg",
+    "icon": "http://kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080329933
   },
   "https://www.youtube.com/watch?v=Q-vIhRFXVWM&list=PLhA7rnOc58_z-NGTLpKdEW2DUL8t_tlRe": {
     "url": "https://www.youtube.com/watch?v=Q-vIhRFXVWM&list=PLhA7rnOc58_z-NGTLpKdEW2DUL8t_tlRe",
     "title": "집합론 소개, 집합론이란?",
     "description": "충북대학교 수학과 이석종 교수의 강의홈페이지 https://sjlee2301.github.io/집합론 교재: 이석종,...",
     "image": "https://i.ytimg.com/vi/Q-vIhRFXVWM/maxresdefault.jpg",
-    "icon": "https://www.youtube.com/s/desktop/e2e75771/img/favicon_32x32.png"
+    "icon": "https://www.youtube.com/s/desktop/fdbedb11/img/favicon_32x32.png",
+    "fetchedAt": 1786080331189
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/submit-button.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/submit-button.html",
     "title": "같이 실행되지 않는 코드 분리하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080331521
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/login-start-page.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/login-start-page.html",
     "title": "구현 상세 추상화하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080331938
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/use-page-state-readability.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/use-page-state-readability.html",
     "title": "로직 종류에 따라 합쳐진 함수 쪼개기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080331972
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/condition-name.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/condition-name.html",
     "title": "복잡한 조건에 이름 붙이기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080331996
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/magic-number-readability.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/magic-number-readability.html",
     "title": "매직 넘버에 이름 붙이기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080332371
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/ternary-operator.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/ternary-operator.html",
     "title": "삼항 연산자 단순하게 하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080332398
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/comparison-order.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/comparison-order.html",
     "title": "왼쪽에서 오른쪽으로 읽히게 하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080332687
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/http.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/http.html",
     "title": "이름 겹치지 않게 관리하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080333194
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/magic-number-cohesion.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/magic-number-cohesion.html",
     "title": "매직 넘버 없애기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080334234
   },
   "https://frontend-fundamentals.com/code-quality/code/examples/form-fields.html": {
     "url": "https://frontend-fundamentals.com/code-quality/code/examples/form-fields.html",
     "title": "폼의 응집도 생각하기",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080334593
   },
   "https://frontend-fundamentals.com/code-quality/": {
     "url": "https://frontend-fundamentals.com/code-quality/",
     "title": "Frontend Fundamentals",
     "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
     "image": "https://static.toss.im/illusts/ff-meta.png",
-    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico"
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080334975
   },
   "https://www.inflearn.com/course/%EC%8B%A4%EB%AC%B4%EC%A0%81%EC%9A%A9-%ED%94%84%EB%9F%B0%ED%8A%B8%EC%97%94%EB%93%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-1%EB%B6%80": {
     "url": "https://www.inflearn.com/course/%EC%8B%A4%EB%AC%B4%EC%A0%81%EC%9A%A9-%ED%94%84%EB%9F%B0%ED%8A%B8%EC%97%94%EB%93%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-1%EB%B6%80",
     "title": "실무에 바로 적용하는 프런트엔드 테스트 - 1부. 테스트 기초: 단위・통합 테스트| 코드 조커, 오프 - 인프런 강의",
     "description": "코드 조커, 오프 | 이 강의를 통해 전반적인 프런트엔드 테스트 종류를 파악하고, 상황에 맞는 적절한 테스트 선택을 통해 신뢰감 있는 테스트를 작성하는 방법을 배웁니다., 🎊 이벤트 🎊&nbsp;1부 30% 쿠폰 받아가세요!📌 링크&nbsp;&nbsp;(77,000 ",
     "image": "https://cdn.inflearn.com/public/courses/331149/cover/5ca0e3ac-9341-4d3f-8358-a1bfc8efad1b/331149.png",
-    "icon": "https://cdn.inflearn.com/dist/favicon.ico"
+    "icon": "https://cdn.inflearn.com/dist/favicon.ico",
+    "fetchedAt": 1786080335286
   },
   "https://github.com/vercel-labs/agent-skills": {
     "url": "https://github.com/vercel-labs/agent-skills",
     "title": "GitHub - vercel-labs/agent-skills: Vercel's official collection of agent skills",
     "description": "Vercel's official collection of agent skills. Contribute to vercel-labs/agent-skills development by creating an account on GitHub.",
-    "image": "https://opengraph.githubassets.com/d0e7bdf4f40836d8342c96b0323f76125db72944c857b53350e96de94695ddd3/vercel-labs/agent-skills",
-    "icon": "https://github.githubassets.com/favicons/favicon.svg"
+    "image": "https://opengraph.githubassets.com/cd956087a0e502c1561216e99360446d7041340d4b04c101cfc5c7e2c6cfabe9/vercel-labs/agent-skills",
+    "icon": "https://github.githubassets.com/favicons/favicon.svg",
+    "fetchedAt": 1786080336018
   },
   "https://school.programmers.co.kr/learn/courses/30/lessons/155652": {
     "url": "https://school.programmers.co.kr/learn/courses/30/lessons/155652",
     "title": "코딩테스트 연습 - 둘만의 암호",
     "description": "알고리즘 문제 연습 카카오톡 친구해요! 프로그래머스 교육 카카오 채널을 만들었어요. 여기를 눌러, 친구 추가를 해주세요. 신규 교육 과정 소식은 물론 다양한 이벤트 소식을 가장 먼저 알려드립니다.",
     "image": "https://image.freepik.com/free-vector/landing-page-template-for-a-website_23-2147782747.jpg",
-    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png"
+    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png",
+    "fetchedAt": 1786080336188
   },
   "https://school.programmers.co.kr/learn/courses/30/lessons/133499": {
     "url": "https://school.programmers.co.kr/learn/courses/30/lessons/133499",
     "title": "코딩테스트 연습 - 옹알이 (2)",
     "description": "알고리즘 문제 연습 카카오톡 친구해요! 프로그래머스 교육 카카오 채널을 만들었어요. 여기를 눌러, 친구 추가를 해주세요. 신규 교육 과정 소식은 물론 다양한 이벤트 소식을 가장 먼저 알려드립니다.",
     "image": "https://image.freepik.com/free-vector/landing-page-template-for-a-website_23-2147782747.jpg",
-    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png"
+    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png",
+    "fetchedAt": 1786080336327
   },
   "https://school.programmers.co.kr/learn/courses/30/lessons/87390": {
     "url": "https://school.programmers.co.kr/learn/courses/30/lessons/87390",
     "title": "코딩테스트 연습 - n^2 배열 자르기",
     "description": "알고리즘 문제 연습 카카오톡 친구해요! 프로그래머스 교육 카카오 채널을 만들었어요. 여기를 눌러, 친구 추가를 해주세요. 신규 교육 과정 소식은 물론 다양한 이벤트 소식을 가장 먼저 알려드립니다.",
     "image": "https://image.freepik.com/free-vector/landing-page-template-for-a-website_23-2147782747.jpg",
-    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png"
+    "icon": "https://school.programmers.co.kr/assets/icons/favicon-ec61d910396b5fc4d7418ea44281693172c34e31d437d074f9ab5470523990fb.png",
+    "fetchedAt": 1786080336465
   },
   "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview": {
     "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
     "title": "Prompt engineering overview",
-    "description": "Learn when prompt engineering is the right solution, and find Claude prompting techniques, Console prompting tools, and interactive tutorials.",
+    "description": "Learn when prompt engineering is the right solution, and find Claude prompting techniques and interactive tutorials.",
     "image": "https://platform.claude.com/docs/og?locale=en&path=build-with-claude/prompt-engineering/overview&design-rev=1",
-    "icon": "https://platform.claude.com/favicon.ico"
+    "icon": "https://platform.claude.com/favicon.ico",
+    "fetchedAt": 1786080336953
   },
   "https://react.dev/reference/react-dom/createPortal": {
     "url": "https://react.dev/reference/react-dom/createPortal",
     "title": "createPortal – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/reference-react-dom-createPortal.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337094
   },
   "https://react.dev/learn/reacting-to-input-with-state": {
     "url": "https://react.dev/learn/reacting-to-input-with-state",
     "title": "Reacting to Input with State – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-reacting-to-input-with-state.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337183
   },
   "https://react.dev/learn/choosing-the-state-structure": {
     "url": "https://react.dev/learn/choosing-the-state-structure",
     "title": "Choosing the State Structure – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-choosing-the-state-structure.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337231
   },
   "https://react.dev/learn/sharing-state-between-components": {
     "url": "https://react.dev/learn/sharing-state-between-components",
     "title": "Sharing State Between Components – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-sharing-state-between-components.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337268
   },
   "https://react.dev/learn/preserving-and-resetting-state": {
     "url": "https://react.dev/learn/preserving-and-resetting-state",
     "title": "Preserving and Resetting State – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-preserving-and-resetting-state.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337301
   },
   "https://react.dev/learn/extracting-state-logic-into-a-reducer": {
     "url": "https://react.dev/learn/extracting-state-logic-into-a-reducer",
     "title": "Extracting State Logic into a Reducer – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-extracting-state-logic-into-a-reducer.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337334
   },
   "https://react.dev/learn/passing-data-deeply-with-context": {
     "url": "https://react.dev/learn/passing-data-deeply-with-context",
     "title": "Passing Data Deeply with Context – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-passing-data-deeply-with-context.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337361
   },
   "https://react.dev/learn/scaling-up-with-reducer-and-context": {
     "url": "https://react.dev/learn/scaling-up-with-reducer-and-context",
     "title": "Scaling Up with Reducer and Context – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-scaling-up-with-reducer-and-context.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337604
   },
   "https://react.dev/learn/referencing-values-with-refs": {
     "url": "https://react.dev/learn/referencing-values-with-refs",
     "title": "Referencing Values with Refs – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-referencing-values-with-refs.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337632
   },
   "https://react.dev/learn/manipulating-the-dom-with-refs": {
     "url": "https://react.dev/learn/manipulating-the-dom-with-refs",
     "title": "Manipulating the DOM with Refs – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-manipulating-the-dom-with-refs.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337673
   },
   "https://react.dev/learn/synchronizing-with-effects": {
     "url": "https://react.dev/learn/synchronizing-with-effects",
     "title": "Synchronizing with Effects – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-synchronizing-with-effects.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337721
   },
   "https://react.dev/learn/you-might-not-need-an-effect": {
     "url": "https://react.dev/learn/you-might-not-need-an-effect",
     "title": "You Might Not Need an Effect – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-you-might-not-need-an-effect.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337760
   },
   "https://react.dev/learn/lifecycle-of-reactive-effects": {
     "url": "https://react.dev/learn/lifecycle-of-reactive-effects",
     "title": "Lifecycle of Reactive Effects – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-lifecycle-of-reactive-effects.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337793
   },
   "https://react.dev/learn/separating-events-from-effects": {
     "url": "https://react.dev/learn/separating-events-from-effects",
     "title": "Separating Events from Effects – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-separating-events-from-effects.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337831
   },
   "https://react.dev/learn/removing-effect-dependencies": {
     "url": "https://react.dev/learn/removing-effect-dependencies",
     "title": "Removing Effect Dependencies – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-removing-effect-dependencies.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337871
   },
   "https://react.dev/learn/reusing-logic-with-custom-hooks": {
     "url": "https://react.dev/learn/reusing-logic-with-custom-hooks",
     "title": "Reusing Logic with Custom Hooks – React",
     "description": "The library for web and native user interfaces",
     "image": "https://react.dev/images/og/learn-reusing-logic-with-custom-hooks.png",
-    "icon": "https://react.dev/favicon-32x32.png"
+    "icon": "https://react.dev/favicon-32x32.png",
+    "fetchedAt": 1786080337912
   },
   "https://storybook.js.org/tutorials/intro-to-storybook/react/en/get-started/": {
     "url": "https://storybook.js.org/tutorials/intro-to-storybook/react/en/get-started/",
     "title": "Storybook for React tutorial",
     "description": "Set up Storybook in your development environment",
     "image": "https://storybook.js.org/tutorials/intro-to-storybook/opengraph-cover.jpg",
-    "icon": "https://storybook.js.org/tutorials/icon-storybook.png"
+    "icon": "https://storybook.js.org/tutorials/icon-storybook.png",
+    "fetchedAt": 1786080339107
   },
   "https://www.inflearn.com/course/ux-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D-%EC%9D%B8%ED%94%84%EB%9F%B0-%EC%98%A4%EB%A6%AC%EC%A7%80%EB%84%90": {
     "url": "https://www.inflearn.com/course/ux-%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B8%B0%ED%9A%8D-%EC%9D%B8%ED%94%84%EB%9F%B0-%EC%98%A4%EB%A6%AC%EC%A7%80%EB%84%90",
     "title": "UX/UI 시작하기 : UX 서비스 기획 (Inflearn Original)| 인프런 - 인프런 강의",
     "description": "인프런 | 이 강의에서는 IT/테크 분야에서 서비스를 기획하기 위한 서비스 기획 및 디자인 방법론, 그리고 서비스 기획자가 갖춰야 하는 여러 가지 소프트 스킬을 살펴봅니다. 끝으로 인공지능(AI) 음성인식 서비스를 사례로 서비스 분석까지 진행해 보는 입문자를 위한 UX 서",
     "image": "https://cdn.inflearn.com/public/courses/326442/cover/9d0dd9bb-676d-4955-be52-f533ba423d88",
-    "icon": "https://cdn.inflearn.com/dist/favicon.ico"
+    "icon": "https://cdn.inflearn.com/dist/favicon.ico",
+    "fetchedAt": 1786080339310
   },
   "https://brave.com/": {
     "url": "https://brave.com/",
     "title": "The browser that puts you first | Brave",
     "description": "The Brave browser is a fast, private and secure web browser for PC, Mac and mobile. Download now to enjoy a faster ad-free browsing experience that saves data and battery life by blocking tracking software.",
     "image": "https://brave.com/home-assets/images/brave-home-og.png",
-    "icon": "https://brave.com/favicon.ico"
+    "icon": "https://brave.com/favicon.ico",
+    "fetchedAt": 1786080339355
   },
   "https://dalba.co.kr/": {
     "url": "https://dalba.co.kr/",
     "title": "달바부티크",
     "description": "프리미엄 비건 뷰티, 달바",
-    "icon": "https://dalba.co.kr/data/skin/front/dalba2/img/favicon/android-icon-192x192.png"
+    "icon": "https://dalba.co.kr/data/skin/front/dalba2/img/favicon/android-icon-192x192.png",
+    "fetchedAt": 1786080339755
   },
   "https://kiosk-magazine.com/": {
     "url": "https://kiosk-magazine.com/",
     "title": "KIOSK - 에디토리얼 라이프스타일 매거진",
     "description": "No results found.",
     "image": "https://kiosk-magazine.com/wp-content/uploads/2026/01/OG.png",
-    "icon": "https://kiosk-magazine.com/wp-content/uploads/2026/01/cropped-favicon-32x32.jpg"
+    "icon": "https://kiosk-magazine.com/wp-content/uploads/2026/01/cropped-favicon-32x32.jpg",
+    "fetchedAt": 1786080339948
   },
   "http://www.kocw.net/home/cview.do?mty=p&kemId=446042": {
     "url": "http://www.kocw.net/home/cview.do?mty=p&kemId=446042",
-    "title": "RISS 시스템 점검 안내"
+    "title": "영미문학 비평이론",
+    "description": "본 과목은 현대문학이론에 대한 개괄적 소개를 목적으로 한다. 문학이론은 문학 텍스트를 설명, 분석 혹은 평가하는 다양한 방법론 혹은 패러다임들을 의미한다. 멀게는 러시아 형식주의, 신비평에서 본격적으로 시작된 현대문학이론은 1960년대 구조주의 이후 가히 이론의 백가쟁명의 시대라 할만큼 괄목할만한 발전을 이룩한다. 이제 이론의 개입이 없는 텍스트 해석을 우리는 상상할 수 없다. 또한 현대문학이론은 문학텍스트만이 아니라 영화를 포함한 다양한 문화텍스트의 분석으로 그 영역이 점점 확대되고 있다. 본 과목을 통하여 학생들은 사물을 바라보는 다양한 시각들을 훈련하게 될 것이고, 다양한 문학 이론들에 대한 섭렵을 통하여 비판적, 반성적 사유라는 인문학 정신의 핵심을 만나게 될 것이다.",
+    "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t446042.jpg",
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080340231
   },
   "http://www.kocw.net/home/search/kemView.do?kemId=1278171": {
     "url": "http://www.kocw.net/home/search/kemView.do?kemId=1278171",
     "title": "알고리즘",
     "description": "컴퓨터를 이용한 문제 해결 방법에 대해 이해하고, 효과적인 방법들의 예를 살펴보며, 실제로 주어지는 문제를 적용하는데 활용할 수 있다.",
     "image": "http://www.kocw.net/home/common/contents/thumbnail/07/t1278171.jpg",
-    "icon": "http://www.kocw.net/home/images/favicon.ico"
+    "icon": "http://www.kocw.net/home/images/favicon.ico",
+    "fetchedAt": 1786080300361
+  },
+  "https://yoonjeongho.site": {
+    "url": "https://yoonjeongho.site",
+    "title": "https://yoonjeongho.site",
+    "fetchedAt": 1786080299963
+  },
+  "https://frontend-fundamentals.com/code-quality/code/examples/use-user.html": {
+    "url": "https://frontend-fundamentals.com/code-quality/code/examples/use-user.html",
+    "title": "같은 종류의 함수는 반환 타입 통일하기",
+    "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
+    "image": "https://static.toss.im/illusts/ff-meta.png",
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080333568
+  },
+  "https://frontend-fundamentals.com/code-quality/code/examples/hidden-logic.html": {
+    "url": "https://frontend-fundamentals.com/code-quality/code/examples/hidden-logic.html",
+    "title": "숨은 로직 드러내기",
+    "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
+    "image": "https://static.toss.im/illusts/ff-meta.png",
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080333910
+  },
+  "https://frontend-fundamentals.com/code-quality/code/examples/use-page-state-coupling.html": {
+    "url": "https://frontend-fundamentals.com/code-quality/code/examples/use-page-state-coupling.html",
+    "title": "책임을 하나씩 관리하기",
+    "description": "변경하기 쉬운 프론트엔드 코드를 위한 지침서",
+    "image": "https://static.toss.im/illusts/ff-meta.png",
+    "icon": "https://frontend-fundamentals.com/code-quality/images/favicon.ico",
+    "fetchedAt": 1786080334942
   }
 }
