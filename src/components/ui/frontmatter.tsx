@@ -21,6 +21,7 @@ export interface FrontmatterItemProps extends React.HTMLAttributes<HTMLDivElemen
   label: string;
   value: string | string[];
   variant: "note" | "review";
+  layout?: "row" | "col" | "auto";
   renderCustomValue?: (value: string) => React.ReactNode;
 }
 
@@ -28,22 +29,22 @@ export function FrontmatterItem({
   label,
   value,
   variant,
+  layout = "auto",
   renderCustomValue,
   ...props
 }: FrontmatterItemProps) {
   const items = Array.isArray(value) ? value : [value];
   const styles = variantStyles[variant];
 
-  const renderAsArray =
-    Array.isArray(value) &&
-    variant !== "review" &&
-    (label.toLowerCase() === "link" || items.length > 1);
+  const renderAsCol =
+    layout === "col" ||
+    (layout === "auto" && variant !== "review" && items.length > 1);
 
   return (
     <div
       className={cn(
         "flex font-medium",
-        renderAsArray
+        renderAsCol
           ? "flex-col items-start gap-1"
           : "flex-row items-start gap-2",
         styles.container,
@@ -57,7 +58,7 @@ export function FrontmatterItem({
       <div
         className={cn(
           "flex",
-          renderAsArray ? "flex-col gap-1 pl-4" : "flex-wrap gap-x-2 gap-y-1",
+          renderAsCol ? "flex-col gap-1 pl-4" : "flex-wrap gap-x-2 gap-y-1",
         )}
       >
         {items.map((item) => {
