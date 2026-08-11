@@ -2,7 +2,7 @@ import { markdownToHtml } from "@/lib/markdown";
 import {
   generateMarkdownStaticParams,
   getDetailPageData,
-} from "@/lib/data";
+} from "@/lib/posts";
 import { getLinkMetadataMap } from "@/lib/metadata";
 import { MetadataProvider } from "@/hooks/useMetadata";
 

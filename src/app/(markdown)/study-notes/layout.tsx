@@ -1,5 +1,5 @@
 import NoteNav from "@/components/note-nav/note-nav";
-import { getMDTree } from "@/lib/data";
+import { getMDTree } from "@/lib/markdown-tree";
 import { d2Coding } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 

@@ -3,7 +3,7 @@ import ReviewItem from "@/components/(markdown)/reviewitem";
 import {
   generateMarkdownStaticParams,
   getDetailPageData,
-} from "@/lib/data";
+} from "@/lib/posts";
 import { markdownToHtml } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import { MetadataProvider } from "@/hooks/useMetadata";
