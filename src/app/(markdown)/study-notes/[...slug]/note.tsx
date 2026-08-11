@@ -4,7 +4,7 @@ import { NoteMeta } from "@/types";
 
 import TableOfContents from "@/components/(markdown)/table-of-contents";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
-import { SidebarLink } from "@/components/(markdown)/links";
+import { FRONTMATTER_RENDERERS } from "@/lib/frontmatter-renderers";
 
 export default function NotePage({
   noteMeta,
@@ -19,21 +19,16 @@ export default function NotePage({
     <div className="flex-1 flex xl:space-x-3 font-medium border-l">
       <main className="flex-1 flex flex-col min-h-screen bg-surface border-r border-default">
         <div className="flex flex-col p-5 space-y-2 border-b border-muted pl-18 ">
-          {sortedFrontmatter.map(([key, value]) => {
-            const renderers: Record<string, (val: string) => React.ReactNode> = {
-              link: (itemUrl) => <SidebarLink url={itemUrl} />,
-            };
-            return (
-              <FrontmatterItem
-                key={key}
-                label={key}
-                value={value as string | string[]}
-                variant="note"
-                layout={key === "link" ? "col" : "auto"}
-                renderCustomValue={renderers[key]}
-              />
-            );
-          })}
+          {sortedFrontmatter.map(([key, value]) => (
+            <FrontmatterItem
+              key={key}
+              label={key}
+              value={value as string | string[]}
+              variant="note"
+              layout={key === "link" ? "col" : "auto"}
+              renderCustomValue={FRONTMATTER_RENDERERS[key]}
+            />
+          ))}
         </div>
         <article
           className="prose dark:prose-invert my-8 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl xl:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
