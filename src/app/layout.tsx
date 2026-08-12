@@ -3,6 +3,7 @@ import "./globals.css";
 import { notoSansKr } from "./fonts";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -43,11 +44,16 @@ export default function RootLayout({
           "antialiased flex flex-col max-w-screen min-h-screen overflow-y-scroll relative bg-layout-bg"
         )}
       >
-        <Navbar />
-        <div id="main-layout" className={cn("flex flex-col flex-1 mt-4")}>
-          {children}
-        </div>
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div>
+            <Navbar />
+          </div>
+
+          <div id="main-layout" className={cn("flex flex-col flex-1 mt-4")}>
+            {children}
+          </div>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
