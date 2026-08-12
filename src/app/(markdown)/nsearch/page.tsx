@@ -2,7 +2,8 @@ import Search, {
   SearchSkeleton,
 } from "@/components/(markdown)/search";
 import { Suspense } from "react";
-import { getMDTree, searchStudyNotes } from "@/lib/data";
+import { getMDTree } from "@/lib/markdown-tree";
+import { searchStudyNotes } from "@/lib/search";
 import { CategoryTree, NoteMeta } from "@/types";
 import Link from "next/link";
 

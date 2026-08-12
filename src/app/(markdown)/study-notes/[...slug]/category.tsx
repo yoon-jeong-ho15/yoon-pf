@@ -1,4 +1,4 @@
-import { SidebarLink } from "@/components/(markdown)/links";
+import { FRONTMATTER_RENDERERS } from "@/lib/frontmatter-renderers";
 import { sortFrontmatter } from "@/lib/frontmatter";
 import { CategoryTree } from "@/types";
 import Link from "next/link";
@@ -19,21 +19,16 @@ export default function CategoryPage({
       <div className="flex flex-1 space-x-6 mt-14 md:mt-0">
         <div className="flex flex-col space-y-12 w-1/3 min-w-54">
           <div className="space-y-2">
-            {sortedFrontmatter.map(([key, value]) => {
-              const renderers: Record<string, (val: string) => React.ReactNode> = {
-                link: (itemUrl) => <SidebarLink url={itemUrl} />,
-              };
-              return (
-                <FrontmatterItem
-                  key={key}
-                  label={key}
-                  value={value as string | string[]}
-                  variant="note"
-                  layout={key === "link" ? "col" : "auto"}
-                  renderCustomValue={renderers[key]}
-                />
-              );
-            })}
+            {sortedFrontmatter.map(([key, value]) => (
+              <FrontmatterItem
+                key={key}
+                label={key}
+                value={value as string | string[]}
+                variant="note"
+                layout={key === "link" ? "col" : "auto"}
+                renderCustomValue={FRONTMATTER_RENDERERS[key]}
+              />
+            ))}
           </div>
           <div className="flex flex-col bg-surface border border-muted rounded items-start gap-1">
             <div className="shrink-0 whitespace-pre bg-tag-bg px-1">

@@ -3,11 +3,13 @@ import ReviewItem from "@/components/(markdown)/reviewitem";
 import {
   generateMarkdownStaticParams,
   getDetailPageData,
-} from "@/lib/data";
+} from "@/lib/posts";
 import { markdownToHtml } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import { MetadataProvider } from "@/hooks/useMetadata";
 import { getLinkMetadataMap } from "@/lib/metadata";
+import ThoughtPage from "./thought";
+import ReviewPage from "./review";
 
 export async function generateStaticParams() {
   return generateMarkdownStaticParams("blogs");
@@ -31,22 +33,8 @@ export default async function Page({
 
   return (
     <MetadataProvider metadataMap={metadataMap}>
-      <div className="flex-1 flex items-start min-h-screen p-4 mb-16">
-        <main className="flex-1 flex flex-col min-h-screen bg-surface border border-default w-full gap-6 py-6">
-          <div className="flex justify-center gap-14 items-end">
-            <div className="text-5xl font-bold">{meta.frontmatter.title}</div>
-            <div className="text-xs text-muted">{meta.frontmatter.date}</div>
-          </div>
-          <div className="flex justify-center">
-            {isReview && <ReviewItem item={meta} />}
-          </div>
-          <article
-            className="prose dark:prose-invert my-8 text-sm max-w-[90dvw] md:max-w-xl lg:max-w-2xl xl:text-base xl:max-w-3xl mx-auto px-4 2xl:px-0"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-          <TopButton />
-        </main>
-      </div>
+      {isReview ? <ReviewPage meta={meta} content={content} />
+        : <ThoughtPage meta={meta} content={content} />}
     </MetadataProvider>
   );
 }

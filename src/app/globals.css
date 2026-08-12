@@ -31,34 +31,32 @@
   --skeleton-bg: rgba(75, 85, 99, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-neutral-950);
-    --foreground: var(--color-neutral-200);
-    --surface: var(--color-neutral-900);
+:root.dark {
+  --background: var(--color-neutral-950);
+  --foreground: var(--color-neutral-200);
+  --surface: var(--color-neutral-900);
 
-    --layout-bg: var(--color-neutral-950);
+  --layout-bg: var(--color-neutral-950);
 
-    --border-muted: var(--color-neutral-800);
-    --border-default: var(--color-neutral-700);
-    --border-strong: var(--color-neutral-600);
+  --border-muted: var(--color-neutral-800);
+  --border-default: var(--color-neutral-700);
+  --border-strong: var(--color-neutral-600);
 
-    --text-muted: var(--color-neutral-400);
-    --text-secondary: var(--color-neutral-300);
+  --text-muted: var(--color-neutral-400);
+  --text-secondary: var(--color-neutral-300);
 
-    --tag-bg: var(--color-neutral-800);
-    --tag-text: var(--color-blue-400);
+  --tag-bg: var(--color-neutral-800);
+  --tag-text: var(--color-blue-400);
 
-    --highlight-bg: rgba(234, 179, 8, 0.4);
+  --highlight-bg: rgba(234, 179, 8, 0.4);
 
-    --hover-bg: var(--color-neutral-800);
-    --focus-ring: var(--color-neutral-700);
+  --hover-bg: var(--color-neutral-800);
+  --focus-ring: var(--color-neutral-700);
 
-    --badge-bg: var(--color-blue-950);
-    --badge-text: var(--color-blue-200);
+  --badge-bg: var(--color-blue-950);
+  --badge-text: var(--color-blue-200);
 
-    --skeleton-bg: rgba(156, 163, 175, 0.2);
-  }
+  --skeleton-bg: rgba(156, 163, 175, 0.2);
 }
 
 @theme {
@@ -92,6 +90,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+
+@custom-variant dark (&:is(.dark *));
 
 body {
   background: var(--background);
