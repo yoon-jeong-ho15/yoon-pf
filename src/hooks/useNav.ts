@@ -9,6 +9,7 @@ export const NAV_TABS: NavTab[] = [
   { title: "home", href: "/" },
   { title: "about", href: "/about" },
   { title: "blogs", href: "/blogs" },
+  { title: "works", href: "/works" },
 ];
 
 export function useNav() {
@@ -18,6 +19,7 @@ export function useNav() {
     if (pathname === "/") return NAV_TABS[0];
     if (pathname.startsWith("/about")) return NAV_TABS[1];
     if (pathname.startsWith("/blogs")) return NAV_TABS[2];
+    if (pathname.startsWith("/works")) return NAV_TABS[3];
     return undefined;
   }
 
