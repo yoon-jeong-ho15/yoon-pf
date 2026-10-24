@@ -1,4 +1,4 @@
-export type MD_TYPE = "blogs" | "study-notes";
+export type MD_TYPE = "blogs";
 
 export type CategoryFrontmatter = {
   title: string;

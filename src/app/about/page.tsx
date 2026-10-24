@@ -1,47 +1,10 @@
 import { cn } from "@/lib/utils";
-import Project from "@/components/about/project";
 import { d2Coding } from "../fonts";
 import Image from "next/image";
 import { MacosCard } from "@/components/about/macos-card";
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-import { markdownToHtml } from "@/lib/markdown";
+import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 
-async function getProjects() {
-  try {
-    const projectsDir = path.join(process.cwd(), "md", "projects");
-    const files = await fs.promises.readdir(projectsDir);
-    const projects = await Promise.all(
-      files
-        .filter((f) => f.endsWith(".md"))
-        .map(async (file) => {
-          const filePath = path.join(projectsDir, file);
-          const fileContent = await fs.promises.readFile(filePath, "utf8");
-          const { data, content } = matter(fileContent);
-          const htmlContent = await markdownToHtml(content);
-          return {
-            title: data.title || "",
-            github: data.github || "",
-            link: data.link,
-            about: data.about,
-            stack: data.stack || [],
-            order: data.order || 99,
-            description: data.description || "",
-            htmlContent,
-          };
-        })
-    );
-    return projects.sort((a, b) => a.order - b.order);
-  } catch (error) {
-    console.error("Failed to read project markdown files", error);
-    return [];
-  }
-}
-
-export default async function Page() {
-  const projects = await getProjects();
-
+export default function Page() {
   return (
     <div
       id="about-page"
@@ -73,25 +36,32 @@ export default async function Page() {
         </div>
       </MacosCard>
 
-      <MacosCard title="experience" randomizePosition containerSelector="#about-page">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center justify-end gap-3.5 p-1 mb-1 text-xs text-text-muted border-b border-muted/40">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span>current</span>
+      <MacosCard title="contact" randomizePosition containerSelector="#about-page">
+        <div className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col border border-muted/60 p-4 bg-surface rounded-md shadow-sm transition-colors hover:border-muted">
+            <div className="flex items-center gap-2 mb-1 text-text-secondary">
+              <EnvelopeIcon className="size-4" />
+              <span className="text-xs uppercase tracking-wider font-semibold">Email</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-green-600" />
-              <span>service</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-yellow-500" />
-              <span>archived</span>
-            </div>
+            <a
+              href="mailto:yoonjeongho33@gmail.com"
+              className="font-semibold text-base text-foreground hover:underline break-all"
+            >
+              yoonjeongho33@gmail.com
+            </a>
           </div>
-          {projects.map((project, idx) => (
-            <Project key={idx} {...project} />
-          ))}
+          <div className="flex flex-col border border-muted/60 p-4 bg-surface rounded-md shadow-sm transition-colors hover:border-muted">
+            <div className="flex items-center gap-2 mb-1 text-text-secondary">
+              <PhoneIcon className="size-4" />
+              <span className="text-xs uppercase tracking-wider font-semibold">Phone</span>
+            </div>
+            <a
+              href="tel:010-4021-0069"
+              className="font-semibold text-base text-foreground hover:underline font-mono"
+            >
+              010-4021-0069
+            </a>
+          </div>
         </div>
       </MacosCard>
     </div>

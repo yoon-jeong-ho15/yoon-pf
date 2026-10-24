@@ -23,41 +23,6 @@ export function walkTree(
   }
 }
 
-export function findNode(
-  tree: CategoryTree[],
-  predicate: (node: CategoryTree) => boolean,
-): CategoryTree | null {
-  let matchedNode: CategoryTree | null = null;
-
-  walkTree(tree, (node) => {
-    if (predicate(node)) {
-      matchedNode = node;
-      return false;
-    }
-  });
-
-  return matchedNode;
-}
-
-export function findParentCategoryOfNote(
-  tree: CategoryTree[],
-  predicate: (note: NoteMeta) => boolean,
-): CategoryTree | null {
-  let matchedNode: CategoryTree | null = null;
-
-  walkTree(tree, (node) => {
-    if (node.notes) {
-      const hasNote = node.notes.some(predicate);
-      if (hasNote) {
-        matchedNode = node;
-        return false;
-      }
-    }
-  });
-
-  return matchedNode;
-}
-
 export function collectNotes(tree: CategoryTree[] | CategoryTree): NoteMeta[] {
   const notes: NoteMeta[] = [];
 
@@ -68,15 +33,5 @@ export function collectNotes(tree: CategoryTree[] | CategoryTree): NoteMeta[] {
   });
 
   return notes;
-}
-
-export function getTotalNoteCount(node: CategoryTree): number {
-  let count = node.notes?.length || 0;
-  if (node.children) {
-    for (const child of node.children) {
-      count += getTotalNoteCount(child);
-    }
-  }
-  return count;
 }
 
