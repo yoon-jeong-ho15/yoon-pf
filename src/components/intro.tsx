@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { robotoMono } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 
-const LINES = ["𓆝 𓆟 𓆞 𓆝 𓆟", "Hello!", "안녕하세요?", "저는 윤정호 입니다.", "𓀇 𓀡 𓀄 𓀩 𓀦 𓀔 𓀋"];
+const LINES = ["𓆝 𓆟 𓆞 𓆝 𓆟", "안녕하세요?", "저는 윤정호입니다.", "𓀇 𓀡 𓀄 𓀩 𓀦 𓀔 𓀋"];
 
 export default function IntroMotion() {
   const [completedLines, setCompletedLines] = useState<string[]>([]);
@@ -27,7 +27,7 @@ export default function IntroMotion() {
         setDisplayedText("");
         setCurrentLineIndex((prev) => prev + 1);
       }
-    }, 120);
+    }, 90);
 
     return () => clearInterval(interval);
   }, [currentLineIndex]);
