@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface ActiveIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,38 +15,52 @@ export function ActiveIndicator({
   children,
   ...props
 }: ActiveIndicatorProps) {
-  const [left, setLeft] = useState(0);
-  const [width, setWidth] = useState(0);
-  const [opacity, setOpacity] = useState(0);
+  const [position, setPosition] = useState<{
+    left: number;
+    width: number;
+  } | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updatePosition = () => {
       const selectedEl = itemRefs.current[selectedIndex];
 
       if (selectedEl) {
-        setLeft(selectedEl.offsetLeft);
-        setWidth(selectedEl.offsetWidth);
-        setOpacity(1);
+        setPosition({
+          left: selectedEl.offsetLeft,
+          width: selectedEl.offsetWidth,
+        });
       } else {
-        setOpacity(0);
+        setPosition(null);
       }
     };
 
     updatePosition();
 
+    // Font loading and container changes can move links without a window resize.
+    const observer = new ResizeObserver(updatePosition);
+    itemRefs.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+    const parent = itemRefs.current.find((item) => item)?.parentElement;
+    if (parent) observer.observe(parent);
+
     window.addEventListener("resize", updatePosition);
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", updatePosition);
     };
   }, [selectedIndex, itemRefs]);
 
+  // Mount at the measured position so the first paint does not animate from zero.
+  if (!position) return null;
+
   return (
     <div
       className={cn(
-        "absolute pointer-events-none transition-all duration-400 ease-out",
+        "absolute pointer-events-none transition-[left,width] duration-400 ease-out",
         className
       )}
-      style={{ left, width, opacity }}
+      style={position}
       {...props}
     >
       {children}
