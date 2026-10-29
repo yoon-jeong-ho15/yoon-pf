@@ -20,7 +20,15 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Works categories
+
+- `/works` lists the available categories.
+- `/works/image` contains image and graphic work; `/works/web` contains web projects.
+- To add a category, append its `slug`, `title`, and `description` to `WORK_CATEGORIES` in `src/data/works.ts`. The overview, navigation, and category route are generated from that list.
+- To add work, append an item to `WORKS` with the matching `category` slug, `title`, `image`, and optional `year`.
+- Web projects also require a `description`, a `features` list, and a `url`. Use a landscape thumbnail; the card displays it at 16:9 and links to the live site.
+
+## Next.js resources
 
 To learn more about Next.js, take a look at the following resources:
 

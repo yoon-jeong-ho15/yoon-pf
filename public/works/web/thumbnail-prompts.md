@@ -1,0 +1,12 @@
+# Web project thumbnails
+
+Generated with the built-in image_gen tool. Final generation prompts:
+
+## flashcards
+
+Use case: stylized-concept. Asset type: polished portfolio project thumbnail, landscape 16:9 composition. Create an original editorial 3D illustration for "FlashCards", a personal flashcard learning web app. A small floating stack of beautiful thick white question-and-answer cards, one card mid-flip, subtly curved arrows suggesting spaced repetition, and a tiny green completion tick on a card. Fine printed lines suggest knowledge without legible body text. Soft paper and matte ceramic materials, refined rounded edges, understated shadows, warm off-white studio background, dark charcoal details with restrained sage green accents. Product-design editorial art direction, clean and quiet, tactile and sophisticated. The cards are the hero in the center-right, generous whitespace, all essential content within central 75 percent for flexible thumbnail cropping. Text: only "FlashCards" in precise dark modern sans-serif, prominent in upper-left. Not a screenshot, no browser chrome, no complex UI, no people, no additional words, no watermark. Premium cohesive series of web project covers.
+
+## nps-today
+
+Use case: stylized-concept. Asset type: polished portfolio project thumbnail, landscape 16:9 composition. Create an original editorial 3D illustration for "NPS Today", a Korean National Pension stock-trading data tracker. A sculptural arrangement of short matte bars in both directions around a thin baseline and a smooth translucent ribbon linking small data points, conveying observation of buying and selling over time. A floating rounded white data tile with a tiny abstract calendar grid completes the scene. No coins or currency symbols, no promise of profits, neutral analytical data illustration. Soft paper and matte ceramic materials, refined rounded edges, understated shadows, warm off-white studio background, dark charcoal details with restrained cool blue accents. Product-design editorial art direction, clean and quiet, tactile and sophisticated. The data sculpture is the hero in the center-right, generous whitespace, all essential content within central 75 percent for flexible thumbnail cropping. Text: only "NPS Today" in precise dark modern sans-serif, prominent in upper-left. Not a screenshot, no browser chrome, no complex UI, no people, no additional words, no watermark. Premium cohesive series of web project covers.
+
