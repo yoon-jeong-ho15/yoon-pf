@@ -265,7 +265,6 @@ export function DraggableCard({
         style={{
           transform: `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0)`,
           zIndex: zIndex,
-          touchAction: "none", // Critical: prevents mobile devices from scrolling the page while dragging the card
           transition: isDragging
             ? "box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out"
             : "transform 0.2s, box-shadow 0.2s ease-out, opacity 0.2s ease-out, scale 0.2s ease-out",
@@ -299,7 +298,7 @@ export function DraggableCardHandle({ children, className, ...props }: Draggable
     <div
       onPointerDown={handlePointerDown}
       onDoubleClick={handleDoubleClick}
-      className={cn("cursor-grab active:cursor-grabbing select-none", className)} // Changes cursor style on hover/drag
+      className={cn("touch-none cursor-grab active:cursor-grabbing select-none", className)} // Changes cursor style on hover/drag
       {...props}
     >
       {children}
