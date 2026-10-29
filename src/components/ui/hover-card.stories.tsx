@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { HoverCard } from "./hover-card";
+import { HoverPopupCard } from "./hover-popup-card";
 import { expect, within, userEvent } from "@storybook/test";
 
-const meta: Meta<typeof HoverCard> = {
+const meta: Meta<typeof HoverPopupCard> = {
   title: "UI/HoverCard",
-  component: HoverCard,
+  component: HoverPopupCard,
   parameters: {
     layout: "centered",
   },
@@ -21,7 +21,7 @@ const meta: Meta<typeof HoverCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof HoverCard>;
+type Story = StoryObj<typeof HoverPopupCard>;
 
 export const Default: Story = {
   args: {

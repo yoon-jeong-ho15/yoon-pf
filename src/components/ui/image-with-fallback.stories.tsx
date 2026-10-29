@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ImageWithFallback from "./image-with-fallback";
-import { expect, within } from "@storybook/test";
+import { expect, fireEvent, fn, waitFor, within } from "storybook/test";
 
 const meta: Meta<typeof ImageWithFallback> = {
   title: "UI/ImageWithFallback",
@@ -21,8 +21,8 @@ type Story = StoryObj<typeof ImageWithFallback>;
 
 export const DefaultValid: Story = {
   args: {
-    src: "https://placehold.co/400x300/png",
-    fallbackSrc: "/s.jpg", // The default fallback from the component
+    src: "/s.jpg",
+    fallbackSrc: "/empty.png",
     alt: "A valid placeholder image",
     width: 400,
     height: 300,
@@ -33,26 +33,26 @@ export const DefaultValid: Story = {
     const img = canvas.getByRole("img", { name: /valid placeholder/i });
     await expect(img).toBeInTheDocument();
     await expect(img).toHaveAttribute("src");
-    // Next/Image optimizes src, but we can check if it exists
   },
 };
 
 export const FallbackTriggered: Story = {
   args: {
-    // Intentionally invalid URL to trigger onError
-    src: "https://invalid-domain.com/broken-image.jpg",
-    fallbackSrc: "https://placehold.co/400x300/e74c3c/ffffff.png?text=Fallback+Image",
+    src: "/missing-fallback-test-image.png",
+    fallbackSrc: "/empty.png",
     alt: "Broken image triggering fallback",
+    unoptimized: true,
+    onError: fn(),
     width: 400,
     height: 300,
     className: "rounded-lg shadow-md border-2 border-red-500",
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const img = canvas.getByRole("img", { name: /triggering fallback/i });
     await expect(img).toBeInTheDocument();
-    // In a real browser, the onError would fire and change the src.
-    // Storybook test runner might not perfectly simulate the asynchronous image load error
-    // within the short tick, but the component logic is covered visually.
+    fireEvent.error(img);
+    await waitFor(() => expect(new URL((img as HTMLImageElement).src).pathname).toBe("/empty.png"));
+    await expect(args.onError).toHaveBeenCalled();
   },
 };

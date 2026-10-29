@@ -11,6 +11,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const FocusRestoration: Story = {
+  args: { children: null },
   render: () => (
     <>
       <button type="button">Background action</button>
