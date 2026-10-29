@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import "katex/dist/katex.css";
 @import "highlight.js/styles/atom-one-light.css";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: var(--color-gray-100);

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import React, { createContext, useContext, useState, useEffect, useRef, useId, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 interface ModalContextType {
+  titleId: string;
   isOpen: boolean;
   open: () => void;
   close: () => void;
@@ -22,11 +22,12 @@ export function useModal() {
 
 export function Modal({ children, defaultOpen = false }: { children: React.ReactNode; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const titleId = useId();
+  const open = useCallback(() => setIsOpen(true), []);
+  const close = useCallback(() => setIsOpen(false), []);
 
   return (
-    <ModalContext.Provider value={{ isOpen, open, close }}>
+    <ModalContext.Provider value={{ isOpen, open, close, titleId }}>
       {children}
     </ModalContext.Provider>
   );
@@ -40,10 +41,8 @@ export function ModalTrigger({ children, asChild, className }: { children: React
     const child = children as React.ReactElement<{ onClick?: React.MouseEventHandler, className?: string }>;
     return React.cloneElement(child, {
       onClick: (e: React.MouseEvent) => {
-        open();
-        if (child.props.onClick) {
-          child.props.onClick(e);
-        }
+        child.props.onClick?.(e);
+        if (!e.defaultPrevented) open();
       },
       className: cn(child.props.className, className),
     });
@@ -56,58 +55,73 @@ export function ModalTrigger({ children, asChild, className }: { children: React
   );
 }
 
-export function ModalContent({ children, className }: { children: React.ReactNode; className?: string }) {
-  const { isOpen, close } = useModal();
-  const [mounted, setMounted] = useState(false);
+interface ModalDialogProps extends React.AriaAttributes {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  className?: string;
+  bodyClassName?: string;
+}
+
+// Native modal dialogs make the background inert, contain keyboard focus,
+// and restore focus to the opener when closed.
+export function ModalDialog({
+  isOpen,
+  onClose,
+  children,
+  className = "max-w-lg max-h-[90vh] border-muted",
+  bodyClassName = "p-6",
+  ...ariaProps
+}: ModalDialogProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    const dialog = dialogRef.current;
+    if (!isOpen || !dialog) return;
 
-  // Effect hook: Prevents body scrolling while modal is active and binds 'Escape' key handler to close modal
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalOverflow = document.body.style.overflow;
+    dialog.showModal();
     document.body.style.overflow = "hidden";
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
     return () => {
-      document.body.style.overflow = originalStyle;
-      window.removeEventListener("keydown", handleKeyDown);
+      dialog.close();
+      document.body.style.overflow = originalOverflow;
     };
-  }, [isOpen, close]);
+  }, [isOpen]);
 
-  if (!isOpen || !mounted) return null;
-
-  // Teleport the modal DOM nodes directly into document.body to break out of parent stacking contexts
-  return createPortal(
-    <div className="fixed inset-0 z-999 flex items-center justify-center p-4">
-      {/* Backdrop overlay: dark semi-transparent layer with blur effect; closes modal on click */}
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
-        onClick={close}
-        aria-hidden="true"
-      />
-      {/* Modal Dialog Container: main card content container with entrance animation and ARIA attributes */}
+  return (
+    <dialog
+      ref={dialogRef}
+      tabIndex={-1}
+      aria-modal="true"
+      {...ariaProps}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-transparent p-4 text-foreground open:flex items-center justify-center backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+    >
+      <div className="fixed inset-0" onClick={onClose} aria-hidden="true" />
       <div
         className={cn(
-          "relative z-999 bg-surface rounded-lg shadow-xl border border-muted w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200",
-          className
+          "relative bg-surface rounded-lg shadow-xl border w-full flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200",
+          className,
         )}
-        role="dialog"
-        aria-modal="true"
       >
-        <div className="overflow-y-auto scrollbar-minimal p-6 flex-1 min-h-0">
+        <div className={cn("overflow-y-auto scrollbar-minimal flex-1 min-h-0", bodyClassName)}>
           {children}
         </div>
       </div>
-    </div>,
-    document.body
+    </dialog>
+  );
+}
+
+export function ModalContent({ children, className }: { children: React.ReactNode; className?: string }) {
+  const { isOpen, close, titleId } = useModal();
+  return (
+    <ModalDialog isOpen={isOpen} onClose={close} aria-labelledby={titleId} className={className}>
+      {isOpen && children}
+    </ModalDialog>
   );
 }
 
@@ -116,7 +130,8 @@ export function ModalHeader({ children, className }: { children: React.ReactNode
 }
 
 export function ModalTitle({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <h2 className={cn("text-lg font-semibold tracking-tight text-foreground", className)}>{children}</h2>;
+  const { titleId } = useModal();
+  return <h2 id={titleId} className={cn("text-lg font-semibold tracking-tight text-foreground", className)}>{children}</h2>;
 }
 
 export function ModalDescription({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -131,10 +146,8 @@ export function ModalClose({ children, asChild, className }: { children: React.R
     const child = children as React.ReactElement<{ onClick?: React.MouseEventHandler, className?: string }>;
     return React.cloneElement(child, {
       onClick: (e: React.MouseEvent) => {
-        close();
-        if (child.props.onClick) {
-          child.props.onClick(e);
-        }
+        child.props.onClick?.(e);
+        if (!e.defaultPrevented) close();
       },
       className: cn(child.props.className, className),
     });

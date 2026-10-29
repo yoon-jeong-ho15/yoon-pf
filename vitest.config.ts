@@ -20,6 +20,20 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        test: {
+          name: "components",
+          alias: { "next/link": path.resolve(dirname, "src/test/next-link.tsx") },
+          include: ["src/**/*.test.tsx"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: "chromium" }],
+          },
+        },
+      },
+      {
+        extends: true,
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest

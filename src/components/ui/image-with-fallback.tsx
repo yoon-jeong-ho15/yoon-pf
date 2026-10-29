@@ -12,6 +12,7 @@ export default function ImageWithFallback({
   fallbackSrc = "/empty.png",
   alt,
   className,
+  onError,
   ...props
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState<ImageProps["src"]>(src);
@@ -20,10 +21,11 @@ export default function ImageWithFallback({
     setImgSrc(src);
   }, [src]);
 
-  const handleError = () => {
+  const handleError: React.ReactEventHandler<HTMLImageElement> = (event) => {
     if (imgSrc !== fallbackSrc) {
       setImgSrc(fallbackSrc);
     }
+    onError?.(event);
   };
 
   return (
