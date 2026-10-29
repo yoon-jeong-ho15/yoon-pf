@@ -1,14 +1,15 @@
 "use client";
 
 import { useNav } from "../../hooks/useNav";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function MobileMenu() {
   const { navTabs, selectedNavTab } = useNav();
+  const menuId = useId();
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -22,26 +23,55 @@ export function MobileMenu() {
   }, [isMenuOpen]);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    if (!isMenuOpen) return;
+
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    if (desktopQuery.matches) {
+      setIsMenuOpen(false);
+      return;
     }
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleBreakpointChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsMenuOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    desktopQuery.addEventListener("change", handleBreakpointChange);
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
+      desktopQuery.removeEventListener("change", handleBreakpointChange);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMenuOpen]);
 
   return (
     <>
       <div className="">
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className="p-2"
+          aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+          aria-expanded={isMenuOpen}
+          aria-controls={menuId}
+        >
           <Bars3Icon className="size-6" />
         </button>
       </div>
 
       {isMounted && (
         <div
+          id={menuId}
+          inert={!isMenuOpen}
           className={cn(
             "md:hidden fixed inset-0 top-13 z-50 bg-black/30 overflow-hidden",
             isMenuOpen ? "animate-fade-in" : "animate-fade-out"
