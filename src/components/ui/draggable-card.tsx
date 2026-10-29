@@ -290,14 +290,20 @@ interface DraggableCardHandleProps extends React.HTMLAttributes<HTMLDivElement> 
  * Subcomponent DraggableCardHandle acts as the click-and-drag trigger.
  * Connects to pointer/double-click handlers supplied by DraggableCard context.
  */
-export function DraggableCardHandle({ children, className, ...props }: DraggableCardHandleProps) {
+export function DraggableCardHandle({ children, className, onPointerDown, onDoubleClick, ...props }: DraggableCardHandleProps) {
   // Retrieve the pointer event handlers from the context
   const { handlePointerDown, handleDoubleClick } = useDraggableCard();
 
   return (
     <div
-      onPointerDown={handlePointerDown}
-      onDoubleClick={handleDoubleClick}
+      onPointerDown={(event) => {
+        onPointerDown?.(event);
+        if (!event.defaultPrevented) handlePointerDown(event);
+      }}
+      onDoubleClick={(event) => {
+        onDoubleClick?.(event);
+        if (!event.defaultPrevented) handleDoubleClick(event);
+      }}
       className={cn("touch-none cursor-grab active:cursor-grabbing select-none", className)} // Changes cursor style on hover/drag
       {...props}
     >

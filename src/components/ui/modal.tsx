@@ -41,10 +41,8 @@ export function ModalTrigger({ children, asChild, className }: { children: React
     const child = children as React.ReactElement<{ onClick?: React.MouseEventHandler, className?: string }>;
     return React.cloneElement(child, {
       onClick: (e: React.MouseEvent) => {
-        open();
-        if (child.props.onClick) {
-          child.props.onClick(e);
-        }
+        child.props.onClick?.(e);
+        if (!e.defaultPrevented) open();
       },
       className: cn(child.props.className, className),
     });
@@ -148,10 +146,8 @@ export function ModalClose({ children, asChild, className }: { children: React.R
     const child = children as React.ReactElement<{ onClick?: React.MouseEventHandler, className?: string }>;
     return React.cloneElement(child, {
       onClick: (e: React.MouseEvent) => {
-        close();
-        if (child.props.onClick) {
-          child.props.onClick(e);
-        }
+        child.props.onClick?.(e);
+        if (!e.defaultPrevented) close();
       },
       className: cn(child.props.className, className),
     });

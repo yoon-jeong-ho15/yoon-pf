@@ -31,6 +31,7 @@ export function FrontmatterItem({
   variant,
   layout = "auto",
   renderCustomValue,
+  className,
   ...props
 }: FrontmatterItemProps) {
   const items = Array.isArray(value) ? value : [value];
@@ -48,6 +49,7 @@ export function FrontmatterItem({
           ? "flex-col items-start gap-1"
           : "flex-row items-start gap-2",
         styles.container,
+        className,
       )}
       {...props}
     >
