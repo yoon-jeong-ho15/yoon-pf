@@ -1,4 +1,3 @@
-import TopButton from "@/components/top-button";
 import ReviewItem from "@/components/(markdown)/reviewitem";
 import {
   generateMarkdownStaticParams,
@@ -8,8 +7,7 @@ import { markdownToHtml } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import { MetadataProvider } from "@/hooks/useMetadata";
 import { getLinkMetadataMap } from "@/lib/metadata";
-import ThoughtPage from "./thought";
-import ReviewPage from "./review";
+import PostContent from "@/components/(markdown)/post-content";
 
 export async function generateStaticParams() {
   return generateMarkdownStaticParams("blogs");
@@ -33,8 +31,13 @@ export default async function Page({
 
   return (
     <MetadataProvider metadataMap={metadataMap}>
-      {isReview ? <ReviewPage meta={meta} content={content} />
-        : <ThoughtPage meta={meta} content={content} />}
+      <PostContent meta={meta} content={content}>
+        {isReview && (
+          <div className="flex justify-center">
+            <ReviewItem item={meta} />
+          </div>
+        )}
+      </PostContent>
     </MetadataProvider>
   );
 }

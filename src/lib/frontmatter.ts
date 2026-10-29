@@ -31,8 +31,9 @@ export function sortFrontmatter(
 export function parseReviewItemFrontmatter(
   frontmatter: Record<string, string | string[]>,
 ): Record<string, string | string[]> {
-  const { date: _date, tags: _tags, ...rest } = frontmatter;
-  return rest;
+  return Object.fromEntries(
+    Object.entries(frontmatter).filter(([key]) => key !== "date" && key !== "tags"),
+  );
 }
 
 export function getDomainFromURL(url: string): string {
