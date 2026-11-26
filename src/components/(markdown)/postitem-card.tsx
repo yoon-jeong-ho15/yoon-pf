@@ -1,6 +1,7 @@
 import { NoteMeta } from "@/types";
 import Link from "next/link";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
 
 export default function PostItemCard({
   item,
@@ -28,7 +29,7 @@ export default function PostItemCard({
       <Link className="" href={href}>
         <div className="p-1 overflow-hidden relative w-full h-78 bg-layout-bg flex items-center justify-center my-2 shadow">
           <ImageWithFallback
-            src={item.thumbnail || "/empty.png"}
+            src={item.thumbnail || DEFAULT_IMAGE_FALLBACK}
             alt="thumbnail"
             fill={true}
             className="object-cover hover:scale-105 transition-all duration-300"

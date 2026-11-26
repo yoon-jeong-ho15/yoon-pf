@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, fn, waitFor, within } from "storybook/test";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
 import ImageWithFallback from "./image-with-fallback";
-import { expect, fireEvent, fn, waitFor, within } from "storybook/test";
 
 const meta: Meta<typeof ImageWithFallback> = {
   title: "UI/ImageWithFallback",
@@ -22,7 +23,6 @@ type Story = StoryObj<typeof ImageWithFallback>;
 export const DefaultValid: Story = {
   args: {
     src: "/s.jpg",
-    fallbackSrc: "/empty.png",
     alt: "A valid placeholder image",
     width: 400,
     height: 300,
@@ -39,7 +39,6 @@ export const DefaultValid: Story = {
 export const FallbackTriggered: Story = {
   args: {
     src: "/missing-fallback-test-image.png",
-    fallbackSrc: "/empty.png",
     alt: "Broken image triggering fallback",
     unoptimized: true,
     onError: fn(),
@@ -49,10 +48,16 @@ export const FallbackTriggered: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const img = canvas.getByRole("img", { name: /triggering fallback/i });
-    await expect(img).toBeInTheDocument();
-    fireEvent.error(img);
-    await waitFor(() => expect(new URL((img as HTMLImageElement).src).pathname).toBe("/empty.png"));
+    const img = canvas.getByRole<HTMLImageElement>("img", {
+      name: /triggering fallback/i,
+    });
+    const fallbackUrl = new URL(DEFAULT_IMAGE_FALLBACK, img.baseURI).href;
+
+    await waitFor(async () => {
+      await expect(img.currentSrc).toBe(fallbackUrl);
+      await expect(img.complete).toBe(true);
+      await expect(img.naturalWidth).toBeGreaterThan(0);
+    });
     await expect(args.onError).toHaveBeenCalled();
   },
 };

@@ -3,6 +3,7 @@ import { sortFrontmatter, parseReviewItemFrontmatter } from "@/lib/frontmatter";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
 import { FRONTMATTER_RENDERERS } from "@/lib/frontmatter-renderers";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
 
 export default function ReviewItem({ item }: { item: NoteMeta }) {
   const sortedFrontmatter = sortFrontmatter(
@@ -13,7 +14,7 @@ export default function ReviewItem({ item }: { item: NoteMeta }) {
     <div className="flex rounded-lg shadow-lg p-6 border border-muted">
       <div className="relative w-80 h-80 justify-center overflow-hidden">
         <ImageWithFallback
-          src={item.itemImage || "/empty.png"}
+          src={item.itemImage || DEFAULT_IMAGE_FALLBACK}
           alt="thumbnail"
           fill={true}
           className="object-contain"

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image, { ImageProps } from "next/image";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
 
 export interface ImageWithFallbackProps extends ImageProps {
   fallbackSrc?: string;
@@ -9,7 +10,7 @@ export interface ImageWithFallbackProps extends ImageProps {
 
 export default function ImageWithFallback({
   src,
-  fallbackSrc = "/empty.png",
+  fallbackSrc = DEFAULT_IMAGE_FALLBACK,
   alt,
   className,
   onError,
