@@ -26,7 +26,7 @@ export default function ReviewItem({ item }: { item: NoteMeta }) {
             <FrontmatterItem
               key={key}
               label={key}
-              value={value as string | string[]}
+              value={typeof value === "number" ? String(value) : value}
               variant="review"
               layout={key === "link" ? "col" : "auto"}
               renderCustomValue={FRONTMATTER_RENDERERS[key]}

@@ -1,20 +1,21 @@
 export type MD_TYPE = "blogs";
 
-export type CategoryFrontmatter = {
+type MarkdownFrontmatter = {
   title: string;
   link?: string[];
+  tags?: string[];
+};
+
+export type CategoryFrontmatter = MarkdownFrontmatter & {
   topic?: string[];
   instructor?: string[];
   chapter?: string;
   provide?: string[];
 };
 
-export type NoteFrontmatter = {
-  title: string;
+export type NoteFrontmatter = MarkdownFrontmatter & {
   date: string;
-  order?: string;
-  link?: string[];
-  tags?: string[];
+  order?: string | number;
 };
 
 export type BlogFrontmatter = {

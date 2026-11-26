@@ -21,6 +21,13 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "unit",
+          include: ["src/**/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "components",
           alias: { "next/link": path.resolve(dirname, "src/test/next-link.tsx") },
           include: ["src/**/*.test.tsx"],
