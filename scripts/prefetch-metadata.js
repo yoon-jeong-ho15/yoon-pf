@@ -112,15 +112,21 @@ export async function prefetchMetadata({
         now,
       });
 
-      if (resolution.updated && resolution.cached) {
-        cache[url] = resolution.cached;
-        updatedCount++;
-      } else if (!resolution.ok) {
-        failedCount++;
-        console.error(
-          `[Prefetch] Failed to fetch metadata for ${url}:`,
-          resolution.failure?.error ?? "Unknown error",
-        );
+      switch (resolution.kind) {
+        case "cached":
+          break;
+        case "refreshed":
+          cache[url] = resolution.metadata;
+          updatedCount++;
+          break;
+        case "stale":
+        case "failed":
+          failedCount++;
+          console.error(
+            `[Prefetch] Failed to fetch metadata for ${url}:`,
+            resolution.failure.error,
+          );
+          break;
       }
     }
   }

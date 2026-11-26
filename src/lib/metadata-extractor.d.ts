@@ -30,13 +30,25 @@ export type ResolveMetadataOptions = FetchUrlMetadataOptions & {
   ttlMs?: number;
 };
 
-export type MetadataResolution = {
-  ok: boolean;
-  updated: boolean;
-  metadata: LinkMetadata;
-  cached: LinkMetadata | undefined;
-  failure?: MetadataFetchFailure;
-};
+export type MetadataResolution =
+  | {
+      kind: "cached";
+      metadata: LinkMetadata;
+    }
+  | {
+      kind: "refreshed";
+      metadata: LinkMetadata;
+    }
+  | {
+      kind: "stale";
+      metadata: LinkMetadata;
+      failure: MetadataFetchFailure;
+    }
+  | {
+      kind: "failed";
+      metadata: LinkMetadata;
+      failure: MetadataFetchFailure;
+    };
 
 export function extractMetadataFromHtml(
   url: string,

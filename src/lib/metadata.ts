@@ -84,14 +84,20 @@ export async function getLinkMetadataMap(
 
       linkMetadataMap[url] = resolution.metadata;
 
-      if (resolution.updated && resolution.cached) {
-        cache[url] = resolution.cached;
-        cacheUpdated = true;
-      } else if (!resolution.ok && resolution.failure) {
-        console.error(
-          `Failed to fetch metadata for ${url}:`,
-          resolution.failure.error,
-        );
+      switch (resolution.kind) {
+        case "cached":
+          break;
+        case "refreshed":
+          cache[url] = resolution.metadata;
+          cacheUpdated = true;
+          break;
+        case "stale":
+        case "failed":
+          console.error(
+            `Failed to fetch metadata for ${url}:`,
+            resolution.failure.error,
+          );
+          break;
       }
     }),
   );

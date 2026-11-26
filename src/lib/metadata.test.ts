@@ -9,6 +9,7 @@ import {
   SERVER_FETCH_TIMEOUT_MS,
   extractMetadataFromHtml,
   fetchUrlMetadata,
+  resolveMetadataEntry,
 } from "./metadata-extractor.js";
 import { getLinkMetadataMap, getUrlMetadata } from "./metadata";
 import { prefetchMetadata } from "../../scripts/prefetch-metadata.js";
@@ -420,6 +421,82 @@ describe("metadata extraction and caching", () => {
     expect(result).toEqual({
       url: FIXTURE_URL,
       title: FIXTURE_URL,
+    });
+  });
+
+  test("resolveMetadataEntry returns discriminated union results for cached, refreshed, stale, and failed outcomes", async () => {
+    const baseNow = 1_795_300_000_000;
+    const validEntry: LinkMetadata = {
+      url: FIXTURE_URL,
+      title: "Valid Cached Title",
+      fetchedAt: baseNow,
+    };
+
+    // 1. Fresh cache hit -> kind: "cached" without fetching
+    const unusedFetch: typeof fetch = vi.fn();
+    const cachedResult = await resolveMetadataEntry(FIXTURE_URL, validEntry, {
+      fetchFn: unusedFetch,
+      now: () => baseNow + 1000,
+    });
+    expect(unusedFetch).not.toHaveBeenCalled();
+    expect(cachedResult).toEqual({
+      kind: "cached",
+      metadata: validEntry,
+    });
+
+    // 2. Initial miss or expired cache with successful fetch -> kind: "refreshed"
+    const successFetch: typeof fetch = vi.fn(
+      async () => new Response(FIXTURE_HTML, { status: 200 }),
+    );
+    const refreshedResult = await resolveMetadataEntry(FIXTURE_URL, undefined, {
+      fetchFn: successFetch,
+      now: () => baseNow + 2000,
+    });
+    expect(refreshedResult).toEqual({
+      kind: "refreshed",
+      metadata: {
+        url: FIXTURE_URL,
+        title: "Fixture OG Title",
+        description: "Fixture page description",
+        image: "https://example.com/images/cover.png",
+        icon: "https://example.com/favicon.ico",
+        fetchedAt: baseNow + 2000,
+      },
+    });
+
+    // 3. Expired cache with failed refresh -> kind: "stale" preserving cached entry
+    const failingFetch: typeof fetch = vi.fn(
+      async () => new Response("Bad Gateway", { status: 502 }),
+    );
+    const staleResult = await resolveMetadataEntry(FIXTURE_URL, validEntry, {
+      fetchFn: failingFetch,
+      now: () => baseNow + DEFAULT_CACHE_TTL_MS + 1,
+    });
+    expect(staleResult).toEqual({
+      kind: "stale",
+      metadata: validEntry,
+      failure: {
+        ok: false,
+        reason: "http",
+        status: 502,
+        error: "HTTP 502",
+      },
+    });
+
+    // 4. Initial lookup failure -> kind: "failed" with URL fallback
+    const failedResult = await resolveMetadataEntry(FIXTURE_URL, undefined, {
+      fetchFn: failingFetch,
+      now: () => baseNow + 3000,
+    });
+    expect(failedResult).toEqual({
+      kind: "failed",
+      metadata: { url: FIXTURE_URL, title: FIXTURE_URL },
+      failure: {
+        ok: false,
+        reason: "http",
+        status: 502,
+        error: "HTTP 502",
+      },
     });
   });
 });

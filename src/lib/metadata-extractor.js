@@ -166,9 +166,10 @@ export async function fetchUrlMetadata(url, options = {}) {
 
 /**
  * Resolves metadata for a URL against an optional existing cache entry.
- * - Fresh cache hits are returned without fetching.
- * - Refresh failures preserve the last valid cached entry and its success timestamp.
- * - Initial lookup failures return a URL fallback for display without caching it.
+ * - Fresh cache hits return `kind: "cached"` without fetching.
+ * - Successful fetches return `kind: "refreshed"` with the new metadata entry.
+ * - Refresh failures return `kind: "stale"` preserving the last valid cached entry.
+ * - Initial lookup failures return `kind: "failed"` with a URL display fallback.
  */
 export async function resolveMetadataEntry(url, cachedEntry, options = {}) {
   const {
@@ -182,10 +183,8 @@ export async function resolveMetadataEntry(url, cachedEntry, options = {}) {
 
   if (cachedEntry && !isMetadataExpired(cachedEntry, currentTime, ttlMs)) {
     return {
-      ok: true,
-      updated: false,
+      kind: "cached",
       metadata: cachedEntry,
-      cached: cachedEntry,
     };
   }
 
@@ -193,28 +192,22 @@ export async function resolveMetadataEntry(url, cachedEntry, options = {}) {
 
   if (result.ok) {
     return {
-      ok: true,
-      updated: true,
+      kind: "refreshed",
       metadata: result.metadata,
-      cached: result.metadata,
     };
   }
 
   if (cachedEntry) {
     return {
-      ok: false,
-      updated: false,
+      kind: "stale",
       metadata: cachedEntry,
-      cached: cachedEntry,
       failure: result,
     };
   }
 
   return {
-    ok: false,
-    updated: false,
+    kind: "failed",
     metadata: { url, title: url },
-    cached: undefined,
     failure: result,
   };
 }
