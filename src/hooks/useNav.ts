@@ -12,25 +12,35 @@ export const NAV_TABS: NavTab[] = [
   { title: "works", href: "/works" },
 ];
 
-export function useNav() {
-  const pathname = usePathname();
-
-  function getSelectedNavTab() {
-    if (pathname === "/") return NAV_TABS[0];
-    if (pathname.startsWith("/about")) return NAV_TABS[1];
-    if (pathname.startsWith("/blogs")) return NAV_TABS[2];
-    if (pathname.startsWith("/works")) return NAV_TABS[3];
-    return undefined;
+export function isNavTabActive(pathname: string, href: string): boolean {
+  if (href === "/") {
+    return pathname === "/";
   }
 
-  const selectedNavTab = getSelectedNavTab();
-  const selectedIndex = NAV_TABS.findIndex(
-    (t) => t.title === selectedNavTab?.title
+  const normalizedHref = href.endsWith("/") ? href.slice(0, -1) : href;
+  return (
+    pathname === normalizedHref || pathname.startsWith(`${normalizedHref}/`)
   );
+}
+
+export function resolveSelectedNav(
+  pathname: string | null | undefined,
+  navTabs: NavTab[] = NAV_TABS,
+) {
+  const selectedIndex = pathname
+    ? navTabs.findIndex((tab) => isNavTabActive(pathname, tab.href))
+    : -1;
+  const selectedNavTab =
+    selectedIndex === -1 ? undefined : navTabs[selectedIndex];
 
   return {
-    navTabs: NAV_TABS,
+    navTabs,
     selectedNavTab,
     selectedIndex,
   };
+}
+
+export function useNav(navTabs: NavTab[] = NAV_TABS) {
+  const pathname = usePathname();
+  return resolveSelectedNav(pathname, navTabs);
 }

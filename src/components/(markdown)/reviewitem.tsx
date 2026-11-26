@@ -1,34 +1,36 @@
 import { NoteMeta } from "@/types";
-import { sortFrontmatter, parseReviewItemFrontmatter } from "@/lib/frontmatter";
 import { FrontmatterItem } from "@/components/ui/frontmatter";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
-import { FRONTMATTER_RENDERERS } from "@/lib/frontmatter-renderers";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
+import { LinkWithPreview } from "@/components/(markdown)/links";
+import { getReviewDisplayFields } from "./review-fields";
 
 export default function ReviewItem({ item }: { item: NoteMeta }) {
-  const sortedFrontmatter = sortFrontmatter(
-    parseReviewItemFrontmatter(item.frontmatter),
-  );
+  const displayFields = getReviewDisplayFields(item.frontmatter);
 
   return (
     <div className="flex rounded-lg shadow-lg p-6 border border-muted">
       <div className="relative w-80 h-80 justify-center overflow-hidden">
         <ImageWithFallback
-          src={item.itemImage || "/empty.png"}
+          src={item.itemImage || DEFAULT_IMAGE_FALLBACK}
           alt="thumbnail"
           fill={true}
           className="object-contain"
         />
       </div>
       <div className="flex flex-col justify-center space-y-7 min-w-80">
-        {sortedFrontmatter.map(([key, value]) => {
+        {displayFields.map(({ key, value }) => {
+          const isLinkField = key === "link";
           return (
             <FrontmatterItem
               key={key}
               label={key}
-              value={value as string | string[]}
+              value={value}
               variant="review"
-              layout={key === "link" ? "col" : "auto"}
-              renderCustomValue={FRONTMATTER_RENDERERS[key]}
+              layout={isLinkField ? "col" : "auto"}
+              renderCustomValue={
+                isLinkField ? (url) => <LinkWithPreview url={url} /> : undefined
+              }
             />
           );
         })}

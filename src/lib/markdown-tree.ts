@@ -5,9 +5,12 @@ import { cache } from "react";
 import {
   CategoryFrontmatter,
   CategoryTree,
-  NoteFrontmatter,
   NoteMeta,
 } from "@/types";
+import {
+  normalizeFrontmatter,
+  normalizeNoteFrontmatter,
+} from "@/lib/frontmatter";
 import { resolveThumbnail } from "@/lib/image-resolver";
 
 const ROOT_PATH = Path.join(process.cwd(), "md");
@@ -15,8 +18,11 @@ const ROOT_PATH = Path.join(process.cwd(), "md");
 const isValidFile = (file: string) =>
   !file.startsWith(".") && !file.startsWith("_");
 
-export const getMDTree = cache(async (type: string): Promise<CategoryTree[]> => {
-  const dirPath = Path.join(ROOT_PATH, type);
+export const getMDTree = cache(async (
+  type: string,
+  rootPath = ROOT_PATH,
+): Promise<CategoryTree[]> => {
+  const dirPath = Path.join(rootPath, type);
 
   try {
     await fs.promises.access(dirPath, fs.constants.F_OK);
@@ -32,16 +38,19 @@ export const getMDTree = cache(async (type: string): Promise<CategoryTree[]> => 
     const stat = await fs.promises.stat(fullPath);
 
     if (stat.isDirectory()) {
-      tree.push(await parseCategoryDirectory(fullPath));
+      tree.push(await parseCategoryDirectory(fullPath, rootPath));
     }
   }
 
   return tree;
 });
 
-async function parseCategoryDirectory(dirPath: string): Promise<CategoryTree> {
+async function parseCategoryDirectory(
+  dirPath: string,
+  rootPath: string,
+): Promise<CategoryTree> {
   const dirName = Path.basename(dirPath);
-  const currentSlug = Path.relative(ROOT_PATH, dirPath)
+  const currentSlug = Path.relative(rootPath, dirPath)
     .split(Path.sep)
     .slice(1);
 
@@ -58,16 +67,16 @@ async function parseCategoryDirectory(dirPath: string): Promise<CategoryTree> {
     const stat = await fs.promises.stat(fullPath);
 
     if (stat.isDirectory()) {
-      children.push(await parseCategoryDirectory(fullPath));
+      children.push(await parseCategoryDirectory(fullPath, rootPath));
     } else if (file.endsWith(".md")) {
       const fileContent = await fs.promises.readFile(fullPath, "utf8");
       const { data, content } = matter(fileContent);
 
       if (file === "index.md") {
-        categoryFrontmatter = data as CategoryFrontmatter;
+        categoryFrontmatter = normalizeFrontmatter(data, dirName);
         categoryDescription = content;
       } else {
-        const slug = Path.relative(ROOT_PATH, fullPath)
+        const slug = Path.relative(rootPath, fullPath)
           .replace(/\.md$/, "")
           .split(Path.sep)
           .slice(1);
@@ -77,13 +86,7 @@ async function parseCategoryDirectory(dirPath: string): Promise<CategoryTree> {
         const itemImage = await resolveThumbnail(fileName, "item");
 
         notes.push({
-          frontmatter: {
-            ...data,
-            date:
-              data.date instanceof Date
-                ? data.date.toISOString().substring(0, 10)
-                : String(data.date || ""),
-          } as NoteFrontmatter,
+          frontmatter: normalizeNoteFrontmatter(data, fileName),
           slug,
           thumbnail,
           itemImage,

@@ -1,7 +1,13 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import matter from "gray-matter";
-import * as cheerio from "cheerio";
+import {
+  BUILD_FETCH_TIMEOUT_MS,
+  DEFAULT_CACHE_TTL_MS,
+  isMetadataExpired,
+  resolveMetadataEntry,
+} from "../src/lib/metadata-extractor.js";
 
 const MD_DIR = path.join(process.cwd(), "md");
 const DATA_DIR = path.join(process.cwd(), "src/cache");
@@ -16,7 +22,7 @@ const OLD_CACHE_PATH = path.join(
 const isValidPath = (name) => !name.startsWith(".") && !name.startsWith("_");
 
 // Recursive markdown scanner
-function scanMarkdownFiles(dir, allLinks = new Set()) {
+export function scanMarkdownFiles(dir, allLinks = new Set()) {
   if (!fs.existsSync(dir)) return allLinks;
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -33,11 +39,11 @@ function scanMarkdownFiles(dir, allLinks = new Set()) {
         const { data } = matter(fileContent);
         const links = data.link;
 
-        if (typeof links === "string") {
+        if (typeof links === "string" && links.trim()) {
           allLinks.add(links.trim());
         } else if (Array.isArray(links)) {
           links.forEach((l) => {
-            if (typeof l === "string") {
+            if (typeof l === "string" && l.trim()) {
               allLinks.add(l.trim());
             }
           });
@@ -51,116 +57,108 @@ function scanMarkdownFiles(dir, allLinks = new Set()) {
   return allLinks;
 }
 
-// Fetch helper from src/features/(markdown)/lib/metadata.ts
-async function getUrlMetadata(url) {
-  try {
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "Twitterbot/1.0",
-      },
-      signal: AbortSignal.timeout(5000),
-    });
-
-    if (!res.ok) {
-      return { url, title: url };
-    }
-
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    const title =
-      $('meta[property="og:title"]').attr("content") ||
-      $("title").text() ||
-      url;
-
-    const description =
-      $('meta[property="description"]').attr("content") ||
-      $('meta[name="description"]').attr("content") ||
-      $('meta[property="og:description"]').attr("content") ||
-      $('meta[name="og:description"]').attr("content");
-
-    let image =
-      $('meta[property="image"]').attr("content") ||
-      $('meta[name="image"]').attr("content") ||
-      $('meta[property="og:image"]').attr("content") ||
-      $('meta[name="og:image"]').attr("content");
-
-    let icon =
-      $('link[rel="icon"]').attr("href") ||
-      $('link[rel="shortcut icon"]').attr("href") ||
-      $('link[rel="apple-touch-icon"]').attr("href");
-
-    if (image && !image.startsWith("http") && !image.startsWith("//")) {
-      image = new URL(image, url).href;
-    }
-
-    if (icon && !icon.startsWith("http") && !icon.startsWith("//")) {
-      icon = new URL(icon, url).href;
-    }
-
-    return {
-      url,
-      title,
-      description,
-      image,
-      icon,
-      fetchedAt: Date.now(),
-    };
-  } catch (error) {
-    console.error(`[Prefetch] Failed to fetch metadata for ${url}:`, error.message);
-    return { url, title: url, fetchedAt: Date.now() };
+function loadExistingCache(cachePath, legacyCachePath, oldCachePath) {
+  if (fs.existsSync(cachePath)) {
+    console.log(`[Prefetch] Loading existing cache from ${cachePath}`);
+    return JSON.parse(fs.readFileSync(cachePath, "utf8"));
   }
+  if (legacyCachePath && fs.existsSync(legacyCachePath)) {
+    console.log(`[Prefetch] Migrating cache from legacy cache: ${legacyCachePath}`);
+    return JSON.parse(fs.readFileSync(legacyCachePath, "utf8"));
+  }
+  if (oldCachePath && fs.existsSync(oldCachePath)) {
+    console.log(`[Prefetch] Migrating cache from committed src cache: ${oldCachePath}`);
+    return JSON.parse(fs.readFileSync(oldCachePath, "utf8"));
+  }
+  return {};
 }
 
-async function main() {
+export async function prefetchMetadata({
+  mdDir = MD_DIR,
+  cachePath = NEW_CACHE_PATH,
+  legacyCachePath = LEGACY_CACHE_PATH,
+  oldCachePath = OLD_CACHE_PATH,
+  ttlMs = DEFAULT_CACHE_TTL_MS,
+  timeoutMs = BUILD_FETCH_TIMEOUT_MS,
+  fetchFn = globalThis.fetch,
+  now = Date.now,
+} = {}) {
   console.log("[Prefetch] Scanning markdown files for external links...");
-  const allLinks = scanMarkdownFiles(MD_DIR);
+  const allLinks = scanMarkdownFiles(mdDir);
   console.log(`[Prefetch] Found ${allLinks.size} unique links.`);
 
   // 1. Load existing cache
-  let cache = {};
-  if (fs.existsSync(NEW_CACHE_PATH)) {
-    console.log(`[Prefetch] Loading existing cache from ${NEW_CACHE_PATH}`);
-    cache = JSON.parse(fs.readFileSync(NEW_CACHE_PATH, "utf8"));
-  } else if (fs.existsSync(LEGACY_CACHE_PATH)) {
-    console.log(`[Prefetch] Migrating cache from legacy cache: ${LEGACY_CACHE_PATH}`);
-    cache = JSON.parse(fs.readFileSync(LEGACY_CACHE_PATH, "utf8"));
-  } else if (fs.existsSync(OLD_CACHE_PATH)) {
-    console.log(`[Prefetch] Migrating cache from committed src cache: ${OLD_CACHE_PATH}`);
-    cache = JSON.parse(fs.readFileSync(OLD_CACHE_PATH, "utf8"));
-  }
+  const cache = loadExistingCache(cachePath, legacyCachePath, oldCachePath);
 
   // 2. Resolve missing or expired metadata
   let updatedCount = 0;
-  const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7일 (밀리초 단위)
-  const now = Date.now();
+  let failedCount = 0;
 
   for (const url of allLinks) {
     const cachedData = cache[url];
-    const isExpired = cachedData && (!cachedData.fetchedAt || (now - cachedData.fetchedAt > CACHE_TTL));
+    const expired = isMetadataExpired(cachedData, now(), ttlMs);
 
-    if (!cachedData || isExpired) {
-      if (isExpired) {
+    if (!cachedData || expired) {
+      if (expired && cachedData) {
         console.log(`[Prefetch] Cache expired: Refetching metadata for ${url}`);
       } else {
         console.log(`[Prefetch] Cache miss: Fetching metadata for ${url}`);
       }
-      cache[url] = await getUrlMetadata(url);
-      updatedCount++;
+
+      const resolution = await resolveMetadataEntry(url, cachedData, {
+        timeoutMs,
+        ttlMs,
+        fetchFn,
+        now,
+      });
+
+      switch (resolution.kind) {
+        case "cached":
+          break;
+        case "refreshed":
+          cache[url] = resolution.metadata;
+          updatedCount++;
+          break;
+        case "stale":
+        case "failed":
+          failedCount++;
+          console.error(
+            `[Prefetch] Failed to fetch metadata for ${url}:`,
+            resolution.failure.error,
+          );
+          break;
+      }
     }
   }
 
   console.log(`[Prefetch] Completed. ${updatedCount} links updated.`);
 
   // 3. Save new cache
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  const cacheDir = path.dirname(cachePath);
+  if (!fs.existsSync(cacheDir)) {
+    fs.mkdirSync(cacheDir, { recursive: true });
   }
-  fs.writeFileSync(NEW_CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
-  console.log(`[Prefetch] Cache successfully saved to ${NEW_CACHE_PATH}`);
+  fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), "utf8");
+  console.log(`[Prefetch] Cache successfully saved to ${cachePath}`);
+
+  return { cache, updatedCount, failedCount, totalLinks: allLinks.size };
 }
 
-main().catch((err) => {
-  console.error("[Prefetch] Fatal error during prefetch:", err);
-  process.exit(1);
-});
+const isDirectExecution = (() => {
+  if (!process.argv[1]) return false;
+  try {
+    return (
+      fs.realpathSync(process.argv[1]) ===
+      fs.realpathSync(fileURLToPath(import.meta.url))
+    );
+  } catch {
+    return path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  }
+})();
+
+if (isDirectExecution) {
+  prefetchMetadata().catch((err) => {
+    console.error("[Prefetch] Fatal error during prefetch:", err);
+    process.exit(1);
+  });
+}

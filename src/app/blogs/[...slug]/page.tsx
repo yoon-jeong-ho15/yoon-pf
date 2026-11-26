@@ -22,10 +22,10 @@ export default async function Page({
 
   const data = await getDetailPageData("blogs", slug);
 
-  if (!data || data.kind !== "note") return notFound();
+  if (!data) return notFound();
 
   const { meta, body } = data;
-  const content = await markdownToHtml(body || "");
+  const content = await markdownToHtml(body);
   const metadataMap = await getLinkMetadataMap(meta.frontmatter.link);
   const isReview = meta.slug[0] === "review";
 

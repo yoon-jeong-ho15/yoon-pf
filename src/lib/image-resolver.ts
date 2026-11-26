@@ -1,5 +1,6 @@
 import fs from "fs";
 import Path from "path";
+import { DEFAULT_IMAGE_FALLBACK } from "@/lib/image-fallback";
 
 let imageCachePromise: Promise<{ thumbnails: Set<string>; item: Set<string> }> | null = null;
 
@@ -51,5 +52,5 @@ export async function resolveThumbnail(
       }
     }
   }
-  return "/empty.png";
+  return DEFAULT_IMAGE_FALLBACK;
 }

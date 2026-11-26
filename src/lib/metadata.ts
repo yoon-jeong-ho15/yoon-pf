@@ -1,8 +1,13 @@
-import * as cheerio from "cheerio";
-import type { LinkMetadata } from "@/types";
 import fs from "fs";
 import Path from "path";
 import bundledMetadataCache from "@/cache/metadata-cache.json";
+import type { LinkMetadata } from "@/types";
+import {
+  DEFAULT_CACHE_TTL_MS,
+  SERVER_FETCH_TIMEOUT_MS,
+  fetchUrlMetadata,
+  resolveMetadataEntry,
+} from "./metadata-extractor.js";
 
 const CACHE_PATH = Path.join(
   process.cwd(),
@@ -14,12 +19,31 @@ const inMemoryCache: Record<string, LinkMetadata> = {
   ...(bundledMetadataCache as Record<string, LinkMetadata>),
 };
 
-async function saveCache(cache: Record<string, LinkMetadata>) {
+export type GetLinkMetadataMapOptions = {
+  cache?: Record<string, LinkMetadata>;
+  cachePath?: string;
+  persist?: boolean;
+  timeoutMs?: number;
+  ttlMs?: number;
+  fetchFn?: typeof fetch;
+  now?: () => number;
+};
+
+export type GetUrlMetadataOptions = {
+  timeoutMs?: number;
+  fetchFn?: typeof fetch;
+  now?: () => number;
+};
+
+async function saveCache(
+  cache: Record<string, LinkMetadata>,
+  cachePath = CACHE_PATH,
+) {
   if (process.env.NODE_ENV === "production") return;
   try {
-    const dir = Path.dirname(CACHE_PATH);
+    const dir = Path.dirname(cachePath);
     await fs.promises.mkdir(dir, { recursive: true });
-    await fs.promises.writeFile(CACHE_PATH, JSON.stringify(cache, null, 2), "utf8");
+    await fs.promises.writeFile(cachePath, JSON.stringify(cache, null, 2), "utf8");
   } catch (e) {
     console.error("Failed to save metadata cache", e);
   }
@@ -27,89 +51,78 @@ async function saveCache(cache: Record<string, LinkMetadata>) {
 
 export async function getLinkMetadataMap(
   links?: string | string[],
+  options: GetLinkMetadataMapOptions = {},
 ): Promise<Record<string, LinkMetadata>> {
   if (!links) return {};
-  const linksArray = Array.isArray(links) ? links : [links];
+  const rawLinks = Array.isArray(links) ? links : [links];
+  const uniqueLinks = Array.from(new Set(rawLinks.filter(Boolean)));
+
+  const cache = options.cache ?? inMemoryCache;
+  const cachePath = options.cachePath ?? CACHE_PATH;
+  const timeoutMs = options.timeoutMs ?? SERVER_FETCH_TIMEOUT_MS;
+  const ttlMs = options.ttlMs ?? DEFAULT_CACHE_TTL_MS;
+  const fetchFn = options.fetchFn ?? globalThis.fetch;
+  const now = options.now ?? Date.now;
+  const shouldPersist =
+    options.persist ??
+    (options.cachePath !== undefined
+      ? process.env.NODE_ENV !== "production"
+      : process.env.NODE_ENV !== "production" &&
+        process.env.NODE_ENV !== "test");
 
   const linkMetadataMap: Record<string, LinkMetadata> = {};
   let cacheUpdated = false;
 
   await Promise.all(
-    linksArray.map(async (url: string) => {
-      if (inMemoryCache[url]) {
-        linkMetadataMap[url] = inMemoryCache[url];
-      } else {
-        const metadata = await getUrlMetadata(url);
-        linkMetadataMap[url] = metadata;
-        inMemoryCache[url] = metadata;
-        cacheUpdated = true;
+    uniqueLinks.map(async (url: string) => {
+      const resolution = await resolveMetadataEntry(url, cache[url], {
+        timeoutMs,
+        ttlMs,
+        fetchFn,
+        now,
+      });
+
+      linkMetadataMap[url] = resolution.metadata;
+
+      switch (resolution.kind) {
+        case "cached":
+          break;
+        case "refreshed":
+          cache[url] = resolution.metadata;
+          cacheUpdated = true;
+          break;
+        case "stale":
+        case "failed":
+          console.error(
+            `Failed to fetch metadata for ${url}:`,
+            resolution.failure.error,
+          );
+          break;
       }
     }),
   );
 
-  if (cacheUpdated) {
-    await saveCache(inMemoryCache);
+  if (cacheUpdated && shouldPersist) {
+    await saveCache(cache, cachePath);
   }
 
   return linkMetadataMap;
 }
 
-export async function getUrlMetadata(url: string): Promise<LinkMetadata> {
-  try {
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "Twitterbot/1.0",
-      },
-      signal: AbortSignal.timeout(1500),
-    });
+export async function getUrlMetadata(
+  url: string,
+  options: GetUrlMetadataOptions = {},
+): Promise<LinkMetadata> {
+  const result = await fetchUrlMetadata(url, {
+    timeoutMs: options.timeoutMs ?? SERVER_FETCH_TIMEOUT_MS,
+    fetchFn: options.fetchFn ?? globalThis.fetch,
+    now: options.now ?? Date.now,
+  });
 
-    if (!res.ok) {
-      return { url, title: url };
-    }
-
-    const html = await res.text();
-    const $ = cheerio.load(html);
-
-    const title =
-      $('meta[property="og:title"]').attr("content") ||
-      $("title").text() ||
-      url;
-
-    const description =
-      $('meta[property="description"]').attr("content") ||
-      $('meta[name="description"]').attr("content") ||
-      $('meta[property="og:description"]').attr("content") ||
-      $('meta[name="og:description"]').attr("content");
-
-    let image =
-      $('meta[property="image"]').attr("content") ||
-      $('meta[name="image"]').attr("content") ||
-      $('meta[property="og:image"]').attr("content") ||
-      $('meta[name="og:image"]').attr("content");
-
-    let icon =
-      $('link[rel="icon"]').attr("href") ||
-      $('link[rel="shortcut icon"]').attr("href") ||
-      $('link[rel="apple-touch-icon"]').attr("href");
-
-    if (image && !image.startsWith("http") && !image.startsWith("//")) {
-      image = new URL(image, url).href;
-    }
-
-    if (icon && !icon.startsWith("http") && !icon.startsWith("//")) {
-      icon = new URL(icon, url).href;
-    }
-
-    return {
-      url,
-      title,
-      description,
-      image,
-      icon,
-      fetchedAt: Date.now(),
-    };
-  } catch (error) {
-    console.error(`Failed to fetch metadata for ${url}`, error);
-    return { url, title: url, fetchedAt: Date.now() };
+  if (result.ok) {
+    return result.metadata;
   }
+
+  console.error(`Failed to fetch metadata for ${url}:`, result.error);
+  return { url, title: url };
 }
