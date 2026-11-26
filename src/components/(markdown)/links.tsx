@@ -20,11 +20,13 @@ function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
       )}
       <div className="p-3">
         <h4 className="font-bold text-sm line-clamp-2 leading-tight mb-1">
-          {metaData.title}
+          {metaData.title || metaData.url}
         </h4>
-        <p className="text-xs line-clamp-2 mb-2">{metaData.description}</p>
+        {metaData.description && (
+          <p className="text-xs line-clamp-2 mb-2">{metaData.description}</p>
+        )}
         <div className="text-[10px] truncate text-muted">
-          {new URL(metaData.url).hostname}
+          {getDomainFromURL(metaData.url) || metaData.url}
         </div>
       </div>
     </div>
@@ -40,7 +42,7 @@ export function SidebarLink({ url }: { url: string }) {
         content={metaData ? <LinkPreview metaData={metaData} /> : null}
       >
         <a href={url} className="hover:underline" target="_blank">
-          {`${getDomainFromURL(url)}`}
+          {getDomainFromURL(url) || url}
         </a>
       </HoverPopupCard>
     </span>
