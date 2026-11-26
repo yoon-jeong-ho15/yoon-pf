@@ -91,6 +91,86 @@ test("mobile menu closes on Escape and restores focus", async () => {
   await expect.poll(() => document.body.style.overflow).toBe(originalOverflow);
 });
 
+test("mobile menu transitions open -> closing -> closed on overlay animationend and ignores child animationend", async () => {
+  await page.viewport(390, 844);
+  await render(<MobileMenu />);
+
+  const openTrigger = page.getByRole("button", { name: "메뉴 열기" });
+  const menuId = openTrigger.element().getAttribute("aria-controls")!;
+  expect(menuId).toBeTruthy();
+  expect(document.getElementById(menuId)).toBeNull();
+
+  await openTrigger.click();
+  const overlay = document.getElementById(menuId) as HTMLElement;
+  expect(overlay).not.toBeNull();
+  expect(overlay.inert).toBe(false);
+  await expect.element(page.getByRole("button", { name: "메뉴 닫기" })).toHaveAttribute("aria-expanded", "true");
+
+  // Trigger close via backdrop click -> enters "closing" state.
+  overlay.click();
+  await expect.element(page.getByRole("button", { name: "메뉴 열기" })).toHaveAttribute("aria-expanded", "false");
+  expect(document.getElementById(menuId)).toBe(overlay);
+  expect(overlay.inert).toBe(true);
+  expect(overlay.classList.contains("animate-fade-out")).toBe(true);
+
+  // Inner panel's bubbled animationend must not prematurely unmount the overlay.
+  const panel = overlay.firstElementChild as HTMLElement;
+  panel.dispatchEvent(new AnimationEvent("animationend", { animationName: "slideUp", bubbles: true }));
+  expect(document.getElementById(menuId)).toBe(overlay);
+
+  // Overlay unmounts once its own fadeOut animation completes.
+  await expect.poll(() => document.getElementById(menuId)).toBeNull();
+});
+
+test("mobile menu stays open when reopened while closing even if a stale fadeOut animationend fires", async () => {
+  await page.viewport(390, 844);
+  await render(<MobileMenu />);
+
+  const trigger = page.getByRole("button", { name: "메뉴 열기" });
+  const menuId = trigger.element().getAttribute("aria-controls")!;
+
+  await trigger.click();
+  const overlay = document.getElementById(menuId) as HTMLElement;
+  overlay.click();
+  await expect.poll(() => overlay.inert).toBe(true);
+
+  // Reopen while closing.
+  await page.getByRole("button", { name: "메뉴 열기" }).click();
+  await expect.element(page.getByRole("button", { name: "메뉴 닫기" })).toHaveAttribute("aria-expanded", "true");
+  expect(overlay.inert).toBe(false);
+  expect(overlay.classList.contains("animate-fade-in")).toBe(true);
+
+  // A stale fadeOut end event from the earlier close cycle must not close the reopened menu.
+  overlay.dispatchEvent(new AnimationEvent("animationend", { animationName: "fadeOut" }));
+  expect(document.getElementById(menuId)).toBe(overlay);
+  await expect.element(page.getByRole("button", { name: "메뉴 닫기" })).toHaveAttribute("aria-expanded", "true");
+});
+
+test("mobile menu closes immediately when animation is omitted via desktop resize or disabled animation", async () => {
+  await page.viewport(390, 844);
+  await render(<MobileMenu />);
+
+  const trigger = page.getByRole("button", { name: "메뉴 열기" });
+  const menuId = trigger.element().getAttribute("aria-controls")!;
+
+  // Closing and then switching to desktop unmounts even though md:hidden omits the CSS animation.
+  await trigger.click();
+  const overlay = document.getElementById(menuId) as HTMLElement;
+  overlay.click();
+  await expect.poll(() => overlay.inert).toBe(true);
+
+  await page.viewport(1024, 768);
+  await expect.poll(() => document.getElementById(menuId)).toBeNull();
+
+  // Closing when animation is explicitly omitted (animation-name: none) also unmounts immediately.
+  await page.viewport(390, 844);
+  await page.getByRole("button", { name: "메뉴 열기" }).click();
+  const reopenedOverlay = document.getElementById(menuId) as HTMLElement;
+  reopenedOverlay.style.animationName = "none";
+  reopenedOverlay.click();
+  await expect.poll(() => document.getElementById(menuId)).toBeNull();
+});
+
 test("frontmatter preserves its layout when given a custom class", async () => {
   await render(<FrontmatterItem label="title" value="Example" variant="review" className="custom-style" />);
   expect(host?.firstElementChild?.classList.contains("custom-style")).toBe(true);
