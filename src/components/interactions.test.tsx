@@ -1,7 +1,7 @@
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, expect, test, vi } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { cdp, page, userEvent } from "vitest/browser";
 import { Modal, ModalClose, ModalContent, ModalTitle, ModalTrigger } from "./ui/modal";
 import { MobileMenu } from "./navbar/mobile-menu";
 import { FrontmatterItem } from "./ui/frontmatter";
@@ -119,4 +119,168 @@ test("drag handles compose consumer events and leave card bodies scrollable", as
   expect(onDoubleClick).toHaveBeenCalledOnce();
   expect(onPointerDown).toHaveBeenCalled();
   expect(body.parentElement?.style.transform).toBe("translate3d(0px, 0px, 0px)");
+});
+
+test("allows dragging outside container bounds without re-rendering on pointermove, returns inside on release, and resets on double-click", async () => {
+  const onRender = vi.fn();
+  function RenderProbe() {
+    onRender();
+    return <span>Card body</span>;
+  }
+
+  await render(
+    <div id="drag-boundary" style={{ width: "320px", height: "220px", padding: "16px", position: "relative" }}>
+      <DraggableCard containerSelector="#drag-boundary" className="w-[140px]">
+        <DraggableCard.Handle>Bounded handle</DraggableCard.Handle>
+        <RenderProbe />
+      </DraggableCard>
+    </div>,
+  );
+
+  const handle = page.getByText("Bounded handle").element() as HTMLElement;
+  const card = handle.parentElement as HTMLElement;
+  const boundary = document.getElementById("drag-boundary") as HTMLElement;
+  const boundaryRect = boundary.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+
+  const frameRect = window.frameElement?.getBoundingClientRect();
+  const frameOffsetX = frameRect?.left ?? 0;
+  const frameOffsetY = frameRect?.top ?? 0;
+
+  const startX = frameOffsetX + handleRect.left + handleRect.width / 2;
+  const startY = frameOffsetY + handleRect.top + handleRect.height / 2;
+  const targetX = startX + 360;
+  const targetY = startY + 280;
+
+  const session = cdp();
+  const rendersBeforeDrag = onRender.mock.calls.length;
+
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mousePressed",
+    x: startX,
+    y: startY,
+    button: "left",
+    buttons: 1,
+    clickCount: 1,
+  });
+
+  await expect.poll(() => onRender.mock.calls.length).toBe(rendersBeforeDrag + 1);
+  const rendersAfterPointerDown = onRender.mock.calls.length;
+
+  for (const step of [0.3, 0.6, 1]) {
+    await session.send("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      x: startX + (targetX - startX) * step,
+      y: startY + (targetY - startY) * step,
+      button: "left",
+      buttons: 1,
+    });
+  }
+
+  // Card moves freely outside the container while dragging without triggering React re-renders.
+  const midDragRect = card.getBoundingClientRect();
+  expect(midDragRect.right).toBeGreaterThan(boundaryRect.right);
+  expect(midDragRect.bottom).toBeGreaterThan(boundaryRect.bottom);
+  expect(onRender.mock.calls.length).toBe(rendersAfterPointerDown);
+
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mouseReleased",
+    x: targetX,
+    y: targetY,
+    button: "left",
+    buttons: 0,
+    clickCount: 1,
+  });
+
+  // Card returns inside the container boundary once released.
+  await expect.poll(() => {
+    const releasedRect = card.getBoundingClientRect();
+    return (
+      releasedRect.left >= boundaryRect.left - 1 &&
+      releasedRect.right <= boundaryRect.right + 1 &&
+      releasedRect.top >= boundaryRect.top - 1 &&
+      releasedRect.bottom <= boundaryRect.bottom + 1
+    );
+  }).toBe(true);
+
+  const rendersAfterRelease = onRender.mock.calls.length;
+  await page.getByText("Bounded handle").dblClick();
+  expect(card.style.transform).toBe("translate3d(0px, 0px, 0px)");
+  expect(onRender.mock.calls.length).toBe(rendersAfterRelease);
+});
+
+test("DraggableCard.Handle respects preventDefault and ignores secondary clicks and interactive children", async () => {
+  const preventedPointerDown = vi.fn((e: React.PointerEvent) => e.preventDefault());
+  const preventedDoubleClick = vi.fn((e: React.MouseEvent) => e.preventDefault());
+
+  await render(
+    <div style={{ display: "flex", flexDirection: "column", gap: "80px" }}>
+      <DraggableCard>
+        <DraggableCard.Handle onPointerDown={preventedPointerDown}>Prevented drag</DraggableCard.Handle>
+        <p>Card A</p>
+      </DraggableCard>
+
+      <DraggableCard>
+        <DraggableCard.Handle onDoubleClick={preventedDoubleClick}>
+          Interactive handle <button type="button">Child action</button>
+        </DraggableCard.Handle>
+        <p>Card B</p>
+      </DraggableCard>
+
+      <div>Remote target</div>
+    </div>,
+  );
+
+  const cardA = page.getByText("Card A").element().parentElement as HTMLElement;
+  const cardB = page.getByText("Card B").element().parentElement as HTMLElement;
+
+  // preventDefault on handle's onPointerDown cancels dragging.
+  await userEvent.dragAndDrop(page.getByText("Prevented drag"), page.getByText("Remote target"));
+  expect(preventedPointerDown).toHaveBeenCalled();
+  expect(cardA.style.transform).toBe("translate3d(0px, 0px, 0px)");
+
+  // Dragging from an interactive child inside the handle does not move the card.
+  await userEvent.dragAndDrop(page.getByRole("button", { name: "Child action" }), page.getByText("Remote target"));
+  expect(cardB.style.transform).toBe("translate3d(0px, 0px, 0px)");
+
+  // Secondary (right) mouse button drag on the handle does not move the card.
+  const handleB = page.getByText("Interactive handle").element() as HTMLElement;
+  const handleBRect = handleB.getBoundingClientRect();
+  const frameRect = window.frameElement?.getBoundingClientRect();
+  const rightStartX = (frameRect?.left ?? 0) + handleBRect.left + handleBRect.width / 2;
+  const rightStartY = (frameRect?.top ?? 0) + handleBRect.top + handleBRect.height / 2;
+  const session = cdp();
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mousePressed",
+    x: rightStartX,
+    y: rightStartY,
+    button: "right",
+    buttons: 2,
+    clickCount: 1,
+  });
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mouseMoved",
+    x: rightStartX + 120,
+    y: rightStartY + 80,
+    button: "right",
+    buttons: 2,
+  });
+  await session.send("Input.dispatchMouseEvent", {
+    type: "mouseReleased",
+    x: rightStartX + 120,
+    y: rightStartY + 80,
+    button: "right",
+    buttons: 0,
+    clickCount: 1,
+  });
+  expect(cardB.style.transform).toBe("translate3d(0px, 0px, 0px)");
+
+  // Dragging from the handle itself moves the card, and preventDefault on onDoubleClick blocks reset.
+  await userEvent.dragAndDrop(page.getByText("Interactive handle"), page.getByText("Remote target"));
+  const movedTransform = cardB.style.transform;
+  expect(movedTransform).not.toBe("translate3d(0px, 0px, 0px)");
+
+  await page.getByText("Interactive handle").dblClick();
+  expect(preventedDoubleClick).toHaveBeenCalledOnce();
+  expect(cardB.style.transform).toBe(movedTransform);
 });
