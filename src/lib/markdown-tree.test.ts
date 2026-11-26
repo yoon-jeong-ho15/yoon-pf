@@ -2,7 +2,6 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
-import { parseReviewItemFrontmatter } from "./frontmatter";
 import { getMDTree } from "./markdown-tree";
 
 test("normalizes frontmatter when reading categories and notes", async () => {
@@ -67,12 +66,6 @@ test("normalizes frontmatter when reading categories and notes", async () => {
       title: "alpha",
       order: 10,
       date: "2024.01.03",
-    });
-    expect(parseReviewItemFrontmatter(first.frontmatter)).toEqual({
-      title: "zulu",
-      order: 2,
-      link: links,
-      author: "Octavia Butler",
     });
   } finally {
     await rm(root, { recursive: true, force: true });

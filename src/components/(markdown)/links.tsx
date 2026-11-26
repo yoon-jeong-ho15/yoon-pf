@@ -2,8 +2,15 @@
 
 import { LinkMetadata } from "@/types";
 import { useMetadata } from "@/hooks/useMetadata";
-import { getDomainFromURL } from "@/lib/frontmatter";
 import { HoverPopupCard } from "@/components/ui/hover-popup-card";
+
+function getDomainFromURL(url: string): string {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
+}
 
 function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   return (
@@ -33,7 +40,7 @@ function LinkPreview({ metaData }: { metaData: LinkMetadata }) {
   );
 }
 
-export function SidebarLink({ url }: { url: string }) {
+export function LinkWithPreview({ url }: { url: string }) {
   const metaData = useMetadata(url);
 
   return (

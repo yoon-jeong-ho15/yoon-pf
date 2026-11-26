@@ -6,6 +6,8 @@ import { Modal, ModalClose, ModalContent, ModalTitle, ModalTrigger } from "./ui/
 import { MobileMenu } from "./navbar/mobile-menu";
 import { FrontmatterItem } from "./ui/frontmatter";
 import { DraggableCard } from "./ui/draggable-card";
+import ReviewItem from "./(markdown)/reviewitem";
+import { MetadataProvider } from "@/hooks/useMetadata";
 import "@/app/globals.css";
 
 vi.mock("next/navigation", () => ({ usePathname: () => "/" }));
@@ -176,6 +178,59 @@ test("frontmatter preserves its layout when given a custom class", async () => {
   expect(host?.firstElementChild?.classList.contains("custom-style")).toBe(true);
   expect(host?.firstElementChild?.classList.contains("flex")).toBe(true);
   expect(host?.firstElementChild?.classList.contains("border-b")).toBe(true);
+});
+
+test("review item preserves field ordering, arbitrary extra fields, vertical link layout, and link preview behavior", async () => {
+  const linkUrl = "https://example.com/books/kindred";
+  await render(
+    <MetadataProvider
+      metadataMap={{
+        [linkUrl]: {
+          url: linkUrl,
+          title: "Kindred Preview Title",
+          description: "Preview description text",
+        },
+      }}
+    >
+      <ReviewItem
+        item={{
+          slug: ["review", "kindred"],
+          itemImage: "/android-chrome-192x192.png",
+          frontmatter: {
+            link: [linkUrl],
+            tags: ["fiction"],
+            date: "2024-01-02",
+            order: 2,
+            author: "Octavia Butler",
+            title: "Kindred",
+            customNote: "Annotated copy",
+          } as unknown as Parameters<typeof ReviewItem>[0]["item"]["frontmatter"],
+        }}
+      />
+    </MetadataProvider>,
+  );
+
+  // Hidden fields are not rendered; known fields keep canonical order and trailing extra fields appear.
+  const fieldContainer = host?.querySelector(".space-y-7") as HTMLElement;
+  const renderedLabels = Array.from(fieldContainer.children).map(
+    (row) => row.firstElementChild?.textContent,
+  );
+  expect(renderedLabels).toEqual(["title", "author", "order", "link", "customNote"]);
+  expect(fieldContainer.textContent).not.toContain("2024-01-02");
+  expect(fieldContainer.textContent).not.toContain("fiction");
+  expect(fieldContainer.textContent).toContain("Annotated copy");
+
+  // Link field uses vertical column layout and renders hoverable domain link with preview popup.
+  const linkRow = fieldContainer.children[3] as HTMLElement;
+  expect(linkRow.classList.contains("flex-col")).toBe(true);
+
+  const link = page.getByRole("link", { name: "example.com" });
+  await expect.element(link).toBeVisible();
+  expect(link.element().getAttribute("href")).toBe(linkUrl);
+
+  await link.hover();
+  await expect.element(page.getByText("Kindred Preview Title")).toBeVisible();
+  await expect.element(page.getByText("Preview description text")).toBeVisible();
 });
 
 test("drag handles compose consumer events and leave card bodies scrollable", async () => {
